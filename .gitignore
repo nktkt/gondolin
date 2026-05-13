@@ -96,3 +96,12 @@ Miniconda3-*.sh
 # Sources live in `blueprint/src/`; CI rebuilds outputs and deploys via GitHub Pages.
 blueprint/print/
 blueprint/web/
+
+# docs-site build artifacts and wrangler local state
+/docs-site/.next
+/docs-site/out
+/docs-site/.open-next
+/docs-site/node_modules
+/docs-site/.wrangler
+/docs-site/cloudflare-env.d.ts
+/.wrangler

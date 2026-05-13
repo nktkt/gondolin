@@ -1,0 +1,80 @@
+---
+title: "Third-Party Notices"
+description: "Dataset provenance, optional third-party code, and release hygiene for TorchLean."
+---
+
+# Third-Party Notices
+
+TorchLean is MIT-licensed; see `LICENSE`. Third-party components, datasets, generated
+fixtures, and optional local assets may be licensed under different terms.
+
+The short version: the repository builds without downloading real datasets. Large or
+external data lives under the ignored `data/` directory and should not be included in
+source releases unless a separate data release audits the licenses and citations.
+
+## Local Data Policy
+
+The root `data/` directory is intentionally ignored by git. It is a local workspace
+for downloaded public datasets, Hugging Face caches, tokenizer files, training logs,
+plots, and other generated artifacts. `lake build` and CI do not download real
+datasets.
+
+To recreate the commonly used real-data cache:
+
+```bash
+python3 -m pip install numpy scipy pyarrow
+python3 scripts/datasets/download_example_data.py --all
+python3 scripts/datasets/download_wikitext.py \
+  --config wikitext-2-raw-v1 --split train \
+  --output data/real/text/wikitext2_train.txt
+python3 NN/Examples/Data/prepare_fno1d_burgers.py --download --out-dir data/real/fno
+```
+
+The default `--cifar10` exports a small interactive subset (200 train, 100 test). Use
+`--cifar10-limit-train -1 --cifar10-limit-test -1` for the full 50k/10k split.
+
+## Downloaded Dataset Sources
+
+These assets are not redistributed by TorchLean. Users download them into `data/`
+when they want to run examples on real data.
+
+| Asset | Source | Provenance note |
+| --- | --- | --- |
+| CIFAR-10 | `cs.toronto.edu/~kriz/cifar-10-python.tar.gz` | Krizhevsky/Nair/Hinton dataset; the downloader verifies MD5. |
+| Tiny Shakespeare | `karpathy/char-rnn` GitHub raw | Public text corpus popularized by `char-rnn`. |
+| TinyStories valid | Hugging Face `roneneldan/TinyStories` | Eldan/Li synthetic stories corpus; see dataset card. |
+| WikiText | Hugging Face `Salesforce/wikitext` | CC BY-SA 3.0 / GFDL; see dataset card. |
+| GPT-2 tokenizer files | Hugging Face `openai-community/gpt2` | `vocab.json`, `merges.txt`; see model card. |
+| 1D Burgers FNO | Hugging Face `kks32/sciml-dataset` | Public SciML FNO Burgers operator-learning data. |
+| Viscous Burgers PINN | `AdrianDario10/Burgers_Equation1D` | Classic Raissi et al. viscous Burgers reference data. |
+
+## Bundled Demo Fixtures
+
+The repository includes small generated fixtures so tutorials and tests run without
+network access:
+
+| Fixture | Path | Origin |
+| --- | --- | --- |
+| Toy regression CSV/NPY | `NN/Examples/Data/toy_regression*` | Synthetic; MIT. |
+| Toy CIFAR-10-like NPY | `NN/Examples/Data/toy_cifar10like_*` | Synthetic; MIT. |
+| Robustness digits JSON | `NN/Examples/Verification/Robustness/digits_*.json` | Derived from scikit-learn's `load_digits` (BSD-3-Clause). |
+
+## Optional Third-Party Code
+
+- `Two-Stage_Neural_Controller_Training/` is gitignored and not part of the public
+  library release unless a separate release bundle includes it. If you check it out,
+  see its own `LICENSE`. The subtree also vendors `alphabetaCROWN`; see its license.
+
+## Release Checklist
+
+Before publishing a release or dataset bundle:
+
+1. Do not include the root `data/` directory unless the release is explicitly a data
+   release and every included asset has been audited.
+2. Preserve upstream license files and citation metadata for any redistributed
+   external asset.
+3. Prefer shipping scripts and checksums over downloaded archives.
+4. Keep generated logs, plots, and caches out of source releases.
+
+If you believe a third-party component is missing attribution or licensing
+information, please open an issue or pull request.

@@ -1,0 +1,40 @@
+---
+title: "FP32"
+description: "TorchLean's proof-oriented model of float32 rounding."
+---
+
+# FP32
+
+`NN.Floats.FP32` is TorchLean's proof-oriented model of float32 rounding. It is used
+for theorem statements and compositional error arguments.
+
+- The scalar type is `Gondlin.Floats.FP32` (an `NF ...` rounded-real value).
+- It is finite-only, with no NaNs or infinities. Use it when you want clean error
+  bounds and stability proofs.
+- For an executable IEEE-754 binary32 backend, use `Gondlin.Floats.IEEE754.IEEE32Exec`
+  (re-exported as `Gondlin.Floats.IEEE32Exec`) via `NN/Floats/Float32.lean`.
+
+## Files
+
+- `Core.lean` — the canonical binary32 configuration (`fexp32`, `rnd32`) and the
+  `FP32` type alias.
+- `Notation.lean` — aliases over `ℝ` for the model (`round32`, `ulp32`, `eps32`).
+- `Error.lean` — per-op absolute error bounds (ULP/2-style statements).
+- `RuntimeApprox.lean` — restates the error bounds using the generic tolerance
+  relation `≈[t]`.
+
+Interval enclosures live in `NN/Floats/Interval/FP32.lean` (imported by
+`NN.Floats.FP32`).
+
+## When To Reach For FP32
+
+Use `FP32` when the statement you want to prove is naturally phrased as "real
+arithmetic followed by a rounding step". The model composes cleanly with
+`NeuralFloat`/`NF` error bounds and is the right semantic target when you want to
+describe what a float32 computation **means** without worrying about NaN/Inf
+propagation.
+
+When you need to actually execute the computation inside Lean — including correct
+NaN/Inf/signed-zero behavior — use `IEEE32Exec` instead. The bridge theorems under
+`NN/Floats/IEEEExec/BridgeFP32*.lean` connect the two views on the finite, no-overflow
+path.

@@ -1,0 +1,42 @@
+---
+title: "Spec Core"
+description: "Shapes, scalar contexts, and the shape-indexed tensor datatype that the spec layer builds on."
+---
+
+# Spec Core
+
+`NN.Spec.Core` defines the spec-level core of TorchLean: shapes, scalar contexts, and
+a shape-indexed tensor type with the minimal operations the project wants to reason
+about — and, for executable scalar backends, also run.
+
+## Files By Theme
+
+- `context.lean` — the `Context` typeclass for scalar backends: algebraic ops,
+  comparisons, casts.
+- `scalar.lean` — small scalar helpers and instances used across the spec layer.
+- `shape.lean` — the `Shape` datatype, axis validity, well-formedness, and broadcasting
+  evidence (`CanBroadcastTo`).
+- `tensor/` — the core tensor datatype, its basic constructors and accessors, and
+  linear-algebra primitives.
+- `tensor.lean` — umbrella import for the core tensor API (`tensor/Core`,
+  `tensor/Constructors`, `tensor/Linalg`).
+- `tensor_ops.lean` — elementwise maps and pointwise tensor operations (no reductions).
+- `tensor_reduction_shape.lean` — reductions, reshape/flatten/unflatten, and other
+  shape-changing helpers.
+- `sequence.lean` — sequence helpers for common time and sequence axis patterns.
+- `tensor_array.lean` — array-backed representations and helpers used by runtime
+  backends.
+- `tensor_grad.lean` — gradient helpers, such as gradient-clipping specs.
+- `utils.lean` — small glue utilities (casting maps, `*_like` constructors,
+  list ↔ tensor helpers, pretty printing).
+
+## What This Layer Is For
+
+The point of `NN.Spec.Core` is to provide one tensor language that can be reused at
+three different scalar instances: `Float` (for execution), `Interval` (for verification),
+and `ℝ` (for proofs). All three reuse the same shape arithmetic, broadcasting evidence,
+reductions, and constructor APIs.
+
+If you are looking for model and layer APIs, those live one directory up under
+`NN/Spec/Layers` and `NN/Spec/Models`, and are typically built using the primitives
+introduced here.

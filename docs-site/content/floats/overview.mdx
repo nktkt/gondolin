@@ -1,0 +1,65 @@
+---
+title: "Floats Overview"
+description: "TorchLean's floating-point backends and the theory that connects them."
+---
+
+# Floats Overview
+
+`NN/Floats` contains TorchLean's floating-point backends and the theory that connects
+them:
+
+- `FP32/` — a proof-oriented, finite float32 model based on rounding over `ℝ`.
+- `NeuralFloat/` — generic rounding over `ℝ` (`NeuralRadix`, `NF`, rounding, ULPs,
+  and error bounds).
+- `IEEEExec/` — an executable IEEE-754 binary32 kernel (`IEEE32Exec`) plus bridge
+  theorems to `FP32`.
+- `Interval/` — interval and enclosure utilities, including quantized intervals over
+  `ℝ` and executable endpoint intervals.
+- `Arb/` — an external Arb/FLINT oracle backend (python-flint) for ball and interval
+  enclosures.
+
+To pull the whole float chapter, `import NN.Entrypoint.Floats`. If you only want a
+single float32 name to depend on, `import NN.Floats.Float32`. Executable examples
+that exercise this infrastructure live under `NN/Examples/`.
+
+## The Three Float32 Views
+
+TorchLean uses three complementary notions of float32. They have different strengths,
+and the bridge files let us move between them without blurring the trust boundary.
+
+### 1. `IEEE32Exec` — Executable IEEE-754 Binary32
+
+Values are 32-bit encodings; operations are pure Lean code over those bits. This is
+what lets models execute inside Lean without relying on opaque runtime float calls,
+and lets us prove theorems about the kernel itself (NaN/Inf propagation, signed
+zeros, etc.).
+
+### 2. `FP32` — Finite Real Rounded Float32 Model
+
+Float32 computation is modeled as real arithmetic followed by a float32 rounding
+operator. It is finite-only, with no NaNs or infinities, which keeps many error-analysis
+statements manageable. Most error-bound theorems are naturally stated this way.
+
+### 3. `NeuralFloat` / `NF` — Generic Format And Error Analysis
+
+This layer abstracts over radix, precision, and exponent range. Reusable facts about
+rounding, ULPs, and relative or absolute error bounds live here. `FP32` is the
+binary32-specialized instance of this generic layer.
+
+## How The Bridge Layers Fit Together
+
+`IEEE32Exec` is executable; `FP32` and `NF` are aimed at proofs. The bridge files
+connect them:
+
+- `IEEEExec/BridgeFP32.lean` — core refinement theorems on the finite/no-overflow path.
+- `IEEEExec/BridgeFP32Total.lean` — total wrappers combining NaN/Inf propagation with
+  the finite refinement theorems, phrased using `toReal?`.
+- `IEEEExec/BridgeFP32Expr.lean` — a compact scalar AST and a whole-expression
+  refinement theorem.
+- `IEEEExec/BridgeERealTotal.lean` — an `EReal`-valued semantics that distinguishes
+  `+∞` and `-∞`.
+- `IEEEExec/BridgeInitFloat32.lean` — an assumption-based bridge from Lean's runtime
+  `Init.Float32` to `IEEE32Exec`, at the bit level.
+
+Background references: IEEE 754-2019; Goldberg (1991); Higham (2002), *Accuracy and
+Stability of Numerical Algorithms*; Flocq (Boldo–Melquiond, 2011).

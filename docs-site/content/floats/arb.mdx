@@ -1,0 +1,77 @@
+---
+title: "Arb Oracle"
+description: "External Arb/FLINT ball arithmetic backend for rigorous interval enclosures."
+---
+
+# Arb Oracle
+
+`NN/Floats/Arb` integrates Arb ball arithmetic, through `python-flint` and FLINT/Arb,
+as an external oracle callable from Lean.
+
+## What You Get
+
+- **Rigorous enclosures.** Arb tracks a real value as a ball `m ± r` that contains
+  the true value according to Arb's interval arithmetic.
+- **Configurable precision.** You control the working precision in bits. Higher
+  precision often tightens bounds, at higher compute cost.
+
+## Trust Model
+
+This backend is **not** kernel-reducible and should be treated as untrusted by default:
+
+- Lean calls a Python process.
+- The Python process calls Arb/FLINT.
+- The result is a JSON payload that can be checked or inspected by Lean code.
+
+If you want semantics defined inside Lean, use TorchLean's native float backends
+instead — `IEEE32Exec` (executable bit-level float32) or `FP32`/`NF` (proof-oriented
+rounding over `ℝ`).
+
+## Installation
+
+Install `python-flint` into the Python you will run from Lean:
+
+```bash
+python3 -m pip install -U python-flint
+```
+
+Wheels exist for common CPython versions on Linux. If your default `python3` lacks
+wheels, use a different Python and point Lean at it with `GONDLIN_ARB_PY`.
+
+## Running
+
+Lean wrappers call `NN/Floats/Arb/arb_oracle.py` through `IO.Process`. Select the
+Python executable with `GONDLIN_ARB_PY`; otherwise the wrapper uses `python3`.
+
+## Supported Functions
+
+The oracle script supports the unary functions `tanh`, `exp`, `log`, `sqrt`, `sin`,
+`cos`, and `sigmoid`. For monotone functions we use endpoint evaluation plus union
+for a tight enclosure on `[lo, hi]`. For others we fall back to evaluating on the
+convex-hull ball.
+
+## Beyond Unary: Expression / MLP Requests
+
+A small JSON request format (`--request <file.json>`) supports two more kinds:
+
+- `kind = "expr"` — evaluate a safe, whitelisted expression AST over Arb balls.
+- `kind = "mlp"` — evaluate a simple MLP given weights/biases/activations using ball
+  arithmetic.
+
+These modes are intended for exploratory checks and certificate generation. They can
+produce useful enclosures but may be looser than dedicated neural-network bound
+methods because repeated variables introduce dependency effects.
+
+## Integration Strategy
+
+Two main ways to integrate Arb into verification pipelines:
+
+1. **Certificate oracle (recommended).** Compute bounds externally (Python/Arb),
+   emit a structured certificate, and check it in Lean — small trusted checker, large
+   untrusted solver.
+2. **Hybrid primitive oracle.** During IBP/CROWN propagation, call Arb only for
+   expensive nonlinearities (e.g. `tanh/exp/log`) while keeping linear algebra in
+   Lean. Per-node process calls can be slow unless queries are batched.
+
+This API provides the oracle call and JSON parsing. A full NN backend also requires a
+certificate shape and a declared set of supported graph ops.

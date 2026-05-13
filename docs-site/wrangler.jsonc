@@ -1,0 +1,43 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+
+  // Worker name as it appears in the Cloudflare dashboard.
+  "name": "torchlean-docs",
+
+  // The docs site is a Next.js static export (`output: "export"`), so the
+  // Worker is asset-only: Cloudflare serves the prerendered HTML directly
+  // and we keep a tiny inline `main` only to map clean URLs (`/docs/x`)
+  // onto the underlying static file (`/docs/x.html`).
+  "main": "worker/index.ts",
+
+  // Cloudflare account that owns this Worker.
+  "account_id": "5159da6be2aecc4c0842efadc9d4fbff",
+
+  // Compatibility date pins runtime behaviour. Keep this recent.
+  "compatibility_date": "2026-04-01",
+  "compatibility_flags": ["nodejs_compat"],
+
+  // Static assets emitted by `next build` (output: "export") live in `out/`.
+  // `not_found_handling: "404-page"` lets Workers serve `out/404.html` for
+  // unknown routes; `html_handling: "auto-trailing-slash"` makes Workers
+  // map `/foo` to `out/foo.html` automatically.
+  "assets": {
+    "directory": "out",
+    "binding": "ASSETS",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  },
+
+  // Custom-domain routes for the apex and the www subdomain.
+  // The zone must be on this Cloudflare account; `custom_domain: true`
+  // tells Workers to manage the hostname end-to-end (no Worker Route).
+  "routes": [
+    { "pattern": "torchlean.org", "custom_domain": true },
+    { "pattern": "www.torchlean.org", "custom_domain": true }
+  ],
+
+  // Workers Observability (logs, traces, metrics) in the dashboard.
+  "observability": {
+    "enabled": true
+  }
+}

@@ -1,0 +1,90 @@
+---
+title: "Trust Boundaries"
+description: "Inventory of Lean axioms, Prop-valued contracts, CUDA/FFI code, oracle backends, and artifact-checking conventions."
+---
+
+# Trust Boundaries
+
+TorchLean uses Lean to state and check mathematical claims about neural-network
+artifacts. Some parts of the system are inside Lean's proof kernel; others are
+executable tools, native runtimes, or external producers whose outputs may be checked
+by Lean.
+
+This page records the assumptions that matter for correctness claims.
+
+## How To Read This
+
+| Layer | Example | How to read it |
+| --- | --- | --- |
+| Lean theorem | graph semantics, autograd correctness | checked by Lean |
+| Executable checker | certificate parser, shape checker | checked by code/tests |
+| Prop-valued contract | runtime Float32 agreement | assumption supplied by caller |
+| FFI/native runtime | CUDA kernels, cuBLAS, cuFFT | external implementation path |
+| External producer | Python, Julia, Arb, alpha-beta-CROWN | produces artifacts Lean may check |
+
+## Lean Axioms
+
+- `NN/MLTheory/CROWN/Lyapunov/Oracle.lean` — `crown_oracle` assumes an external CROWN
+  checker has produced a `CrownOracleWitness lyap cert`; given that witness, the
+  certificate soundly bounds `V` and `Vdot` over the stated region.
+- `NN/Runtime/Autograd/Engine/Cuda/Trusted.lean` — `instNonemptyBuffer` assumes the
+  external CUDA/stub runtime can construct values of the opaque `Cuda.Buffer` type.
+
+`scripts/checks/repo_lint.py` allowlists these exact axiom names. New axioms must be
+added deliberately and documented here.
+
+Inspect theorem dependencies with:
+
+```lean
+#print axioms Runtime.Autograd.Cuda.instNonemptyBuffer
+#print axioms NN.MLTheory.CROWN.Lyapunov.crown_oracle
+```
+
+## Prop-Valued Contracts
+
+Some declarations are `class ... : Prop` or `structure ... : Prop` rather than
+axioms. A theorem using one is conditional on the caller supplying the fields.
+Important examples:
+
+- `Gondlin.Floats.IEEE754.Float32Bridge.RuntimeFloat32MatchesIEEE32Exec` — runtime
+  contract that Lean `Float32` primitives match the executable IEEE32 model bit-for-bit.
+- `NN.MLTheory.CROWN.CrownTransferSound` — transfer-rule soundness for graph-CROWN
+  certificate theorems where backends or oracles supply the relaxation.
+- `NN.MLTheory.Proofs.Approximation.FloatInterval.OpsExact.Sound` — local operation-level
+  exact interval soundness contract for finite IEEE32 interval arithmetic.
+
+## CUDA Runtime
+
+- Files under `csrc/cuda/` are trusted FFI code. Lean checks shape metadata around
+  calls, but kernel memory safety, launch behavior, and numerical behavior are
+  outside Lean's proof kernel.
+- CUDA buffer finalizers free device memory through `cudaFree`. Safe for the current
+  default-stream runtime; future async/graph backends must revisit ordering.
+- GPU matmul has explicit FP32 (`cublasSgemmStridedBatched`) and FP64 (`cublasDgemm`)
+  paths selected via `GpuMatmulPrecision`.
+- Several CUDA backward/reduction paths use `atomicAdd`. These are mathematically
+  standard but not bit-deterministic across schedules because float32 addition is
+  not associative.
+- Opt-in deterministic reductions replace the `atomicAdd` paths with fixed-order
+  algorithms (slower, bit-stable across runs on the same GPU). Enable from Lean or
+  via `GONDLIN_CUDA_DETERMINISTIC_REDUCTIONS=1`.
+
+## Executable Floating Point
+
+- `NN/Floats/IEEEExec/` proves and implements a deterministic IEEE-style executable
+  model for many core operations.
+- Transcendental functions such as `exp`, `log`, and `tanh` are deterministic
+  approximations unless a file states a stronger theorem.
+
+## External Numeric Oracles
+
+- CROWN/Lyapunov certificate generation is an external evidence producer when used
+  through the oracle-backed workflow. Lean isolates the assumption behind
+  `crown_oracle`.
+- The Arb / `python-flint` integration under `NN/Floats/Arb/` is an external
+  subprocess backend; an Arb response is an oracle result unless the certificate is
+  independently checked in Lean.
+- PyTorch import/export scripts and Julia helpers under `NN/Runtime/External/` follow
+  the same "untrusted producer, Lean checker" pattern. Lean does not trust an
+  external fitting process or optimizer merely because the subprocess returned
+  successfully.

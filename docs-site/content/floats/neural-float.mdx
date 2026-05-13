@@ -1,0 +1,35 @@
+---
+title: "NeuralFloat"
+description: "Generic rounded arithmetic over the reals: formats, rounding modes, and reusable error bounds."
+---
+
+# NeuralFloat
+
+`NN.Floats.NeuralFloat` provides the generic rounded arithmetic over `ℝ` that much of
+TorchLean builds on. It holds the shared definitions for precision, rounding, and
+error without committing to a particular executable kernel.
+
+## Files
+
+- `Core.lean` — core datatypes (radix plus Flocq-style rounding scaffolding) and the
+  `NeuralFloat` record.
+- `Metadata.lean` — TorchLean metadata: training phase, named precisions, mixed-precision
+  presets.
+- `Formats.lean` — Flocq-style exponent functions and format predicates (FIX/FLX/FLT).
+- `Rounding.lean` — rounding modes and `neural_round` validation classes.
+- `NF.lean` — `NF` ("neural float") as a rounded scalar type with `Context` instances.
+- `NNOps.lean` — a small library of rounded scalar functions used by NN specs, built
+  on `neural_round`.
+- `Conversion.lean` — conversion helpers with lightweight error metadata.
+- `ErrorBounds.lean` — small reusable error-bound lemmas for composing proofs.
+
+## Why This Layer Exists
+
+One set of theorems should apply to multiple precisions and training phases. The
+`NF` type abstracts over radix, precision, and exponent range so that reasoning
+patterns can be reused for float32 and other formats. `FP32` is the binary32
+specialization of this generic layer.
+
+For executable, bit-level IEEE-754 float32 behavior — NaN, Inf, signed zero — see
+`NN/Floats/IEEEExec/`. For interval and enclosure tools that sit between rounded-real
+models and bit-level kernels, see `NN/Floats/Interval/`.

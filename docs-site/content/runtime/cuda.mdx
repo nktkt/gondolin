@@ -1,0 +1,78 @@
+---
+title: "CUDA Runtime"
+description: "TorchLean's trusted native runtime boundary for CUDA and CPU stub builds."
+---
+
+# CUDA Runtime
+
+`csrc/cuda/` is TorchLean's trusted native runtime boundary for CUDA and CPU stub
+builds. Lean checks shapes and dispatches to these symbols, but memory safety, kernel
+launch behavior, and float32 arithmetic are outside Lean's kernel.
+
+## Layout
+
+- `common/` — shared Lean runtime helpers, CUDA error checking, cuBLAS helpers, RNG
+  helpers, and environment parsing for deterministic reductions.
+- `tensor/` — `Cuda.Buffer` allocation, finalization, host/device copies, scalar
+  elementwise kernels, reductions, and seeded RNG buffers.
+- `kernels/` — tensor views, broadcast/reduce, gather/scatter, matmul/bmm, and
+  indexing kernels.
+- `conv_pool/` — convolution, transposed convolution, max, average, and smooth-max
+  pooling, plus their backward passes.
+- `blas/` — double-precision GEMM bridge backed by cuBLAS, plus its portable CPU stub.
+
+Each CUDA implementation has a matching `_stub.c` file with the same exported
+symbols. Stubs are used by default so `lake build` works without a CUDA toolkit:
+
+```bash
+lake build -R -K cuda=true -K cuda_home=/usr/local/cuda
+```
+
+## CUDA Graph Status
+
+TorchLean's current CUDA path is **eager**: each autograd step records a Lean runtime
+tape and dispatches individual CUDA buffer ops. This moves the expensive math to the
+GPU, but it is **not** CUDA Graph capture/replay.
+
+Current memory policy:
+
+- trainable parameters are cached as persistent device mirrors across eager CUDA steps,
+- optimizer steps can update those mirrors directly on device,
+- forward scratch buffers retained only for backward are listed on tape nodes and
+  explicitly released after the step,
+- overwritten dense-gradient buffers are explicitly released during accumulation,
+- the native allocator exposes a collection hook used after large training steps.
+
+This reduces accidental lifetime extension from Lean external object finalizers, but
+it does not turn eager execution into a static CUDA graph. Until a CUDA-Graph backend
+is added, `--backend compiled` should be read as TorchLean's proof/SSA graph backend,
+**not** as CUDA Graph execution.
+
+For a CUDA training smoke test:
+
+```bash
+lake exe gondlin gpt_adder --steps 500 --log-every 100
+```
+
+## Sanitizer Harness
+
+The Lean-driven CUDA suite can run under NVIDIA Compute Sanitizer:
+
+```bash
+scripts/checks/cuda_sanitize_tests.sh
+scripts/checks/cuda_sanitize_tests.sh --all-tools
+```
+
+The default tool is `memcheck`; `--all-tools` adds `racecheck`, `initcheck`, and
+`synccheck`. These runs are slower and require a real CUDA installation, so they sit
+outside ordinary `lake test`.
+
+## CUDA Test Matrix
+
+The CUDA regression suite under `NN/Tests/Runtime/Cuda` compares the Lean CPU eager
+tape against the CUDA eager tape on small deterministic examples. With CPU stubs the
+same externs are exercised on ordinary CI; with `-K cuda=true` they exercise real
+CUDA/cuBLAS/cuFFT. Coverage includes softmax, elementwise ops, LayerNorm, BatchNorm,
+multi-head attention, conv/pool, transposed conv, gather/scatter, deterministic
+reductions, selective scan, positional encoding, matmul/bmm, FFT, views, and a stress
+suite.

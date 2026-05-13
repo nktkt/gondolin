@@ -1,0 +1,77 @@
+---
+title: "Verification Examples"
+description: "Small verification fixtures and wrapper modules used by the unified verification CLI."
+---
+
+# Verification Examples
+
+`NN/Examples/Verification` contains the small verification fixtures and wrapper modules
+used by TorchLean's unified verification CLI. Reusable verification code lives under
+`NN/Verification/*`; these fixtures are the small assets and wrappers that keep
+`lake exe verify` reproducible without pulling in large benchmark dumps.
+
+## What To Run
+
+```bash
+lake exe verify -- all
+lake exe verify -- digits --eps=0.02 --max=360
+lake exe verify -- margin-cert
+lake exe verify -- gondlin-robustness
+lake exe verify -- gondlin-crown-ops
+lake exe verify -- spline-cert
+```
+
+- `all` runs the fast certificate checkers that are safe for routine regression checks.
+- `digits` loads the bundled sklearn digits weights and test set, compiles the linear
+  classifier through the verifier bridge, and reports IBP/CROWN certified accuracy.
+- `margin-cert` checks the exported digits logit margin certificate.
+- `gondlin-robustness` builds a compact classifier, compiles it to verifier IR, and
+  checks the margin with IBP, forward affine CROWN, and backward objective CROWN.
+- `gondlin-crown-ops` exercises nonlinear verifier ops such as softmax and MSE loss
+  on compact graphs.
+- `spline-cert` checks an exact rational piecewise-polynomial certificate. With
+  `--regen`, Julia is used only as an untrusted producer; Lean checks the regenerated
+  JSON payload.
+
+## Workflow Tiers
+
+- **Native verification.** `Gondlin/*` and `Robustness/GondlinRobustness.lean` build
+  models, compile them to verifier IR, and run bound propagation directly without an
+  external verifier exporter.
+- **Exporter-backed verification.** `LiRPA/*` and `VNNComp/*` include example wrappers.
+  `AbCrown/*`, `ODE/*`, and `PINN/*` hold bundled artifacts consumed by the CLI under
+  `NN/Verification`. External tools may produce candidate JSON artifacts, but Lean
+  still parses and checks them before accepting.
+- **Certificate checkers.** `LiRPA/*`, `AbCrown/*`, `Robustness/VerifyMarginCert.lean`,
+  and `Splines/PiecewiseLinearVerify.lean` parse external artifacts and recompute the
+  certificate condition inside Lean.
+- **Data-backed robustness.** `lake exe verify -- digits` runs
+  `NN.Verification.Robustness.Digits`, which loads exported sklearn digits weights
+  and test data stored in `Robustness/`.
+- **ODE/PINN workflows.** `ODE/*` and `PINN/*` hold compact certificate/dataset
+  assets; the checker implementations live under `NN.Verification.ODE` and
+  `NN.Verification.PINN`.
+
+## Trust Boundaries
+
+External tools may produce JSON, weights, alpha slopes, or candidate bounds. Those
+artifacts are not trusted. A workflow is **checked** only when Lean parses the
+artifact, validates shapes, and recomputes the relevant predicate or bound.
+
+Some JSON checkers compare decimal-serialized floating-point values with an explicit
+tolerance. That is an artifact-format check, **not** a theorem that the external
+producer is sound. For the theorem path, use `NN.Entrypoint.Verification`, which
+states checker-style soundness over the Lean graph semantics once the local
+certificate hypotheses are discharged.
+
+## Asset Catalog
+
+```bash
+python3 scripts/verification/regenerate_assets.py --list
+python3 scripts/verification/regenerate_assets.py --group digits --run
+python3 scripts/verification/regenerate_assets.py --group lirpa --run
+```
+
+Small checker fixtures stay in git when they keep CLI checks offline and reproducible
+with one command. Larger benchmark assets (VNN-COMP exports, controller weight dumps)
+live under `_external/` or are passed to the checker explicitly.

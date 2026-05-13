@@ -1,0 +1,95 @@
+---
+title: "Model Examples"
+description: "Runnable training scripts across supervised, vision, sequence, generative, operator-learning, and RL workloads."
+---
+
+# Model Examples
+
+`NN/Examples/Models` contains TorchLean's runnable model examples. The files read like
+ordinary training scripts: instantiate a model, prepare a loader or token stream, fit
+for several updates or epochs, and optionally write a training curve.
+
+## Directory Map
+
+| Directory | Contents |
+| --- | --- |
+| `Common/` | shared real-data helpers used by several examples |
+| `Supervised/` | MLP tabular regression and LSTM forecasting |
+| `Vision/` | CNN, ResNet, and ViT image classifiers |
+| `Sequence/` | RNN/LSTM checks, Transformer blocks, GPT-style models, Mamba, GPT-adder |
+| `Generative/` | autoencoder, MAE, VAE, VQ-VAE, GAN, and diffusion examples |
+| `Operators/` | FNO and operator-learning examples |
+| `RL/` | DQN and PPO examples |
+| `Runner.lean` | shared `lake exe gondlin ...` dispatcher |
+
+## Data Preparation
+
+Most examples use datasets prepared outside Lean and loaded through `NN.API.Data`:
+
+```bash
+python3 scripts/datasets/download_example_data.py --auto-mpg --cifar10 --tiny-shakespeare
+python3 scripts/datasets/download_example_data.py --household-power --household-power-windows 512
+```
+
+For custom image folders or tensor archives, convert once to `.npy` with
+`scripts/datasets/gondlin_data_convert.py`, then pass `--x` and `--y` to the relevant
+command.
+
+## Training Curves
+
+Most trainers accept `--log PATH`. The log is a `TrainLog` JSON file with metric names,
+steps, values, and run metadata. Plot saved logs with:
+
+```bash
+python3 scripts/datasets/plot_trainlog.py data/model_zoo/*.json --out-dir plots/model_zoo
+```
+
+These logs are the right source for website plots. Samples and printed predictions
+are useful qualitative checks, but learning claims should point to the loss or
+accuracy curve.
+
+## Supervised And Vision
+
+```bash
+lake exe -K cuda=true gondlin mlp --cuda --epochs 100 --lr 0.003 \
+  --log data/model_zoo/mlp_trainlog.json
+
+lake exe -K cuda=true gondlin cnn --cuda --fast-kernels --n-total 2000 \
+  --epochs 25 --lr 0.001 --log data/model_zoo/cnn_trainlog.json
+
+lake exe -K cuda=true gondlin resnet --cuda --fast-kernels --n-total 2000 \
+  --epochs 15 --lr 0.001 --log data/model_zoo/resnet_trainlog.json
+
+lake exe -K cuda=true gondlin vit --cuda --fast-kernels --n-total 2000 \
+  --epochs 10 --lr 0.001 --log data/model_zoo/vit_trainlog.json
+```
+
+## Text
+
+Text models read a corpus, tokenize it, and build causal language-model windows with
+shifted targets. The shared helpers live in `NN.API.Text`.
+
+```bash
+lake exe -K cuda=true gondlin mamba --cuda --fast-kernels --tiny-shakespeare \
+  --steps 2000 --windows 384 --lr 0.004 --prompt "ROMEO:" --generate 260
+
+lake exe -K cuda=true gondlin gpt2 --cuda --fast-kernels --tiny-shakespeare \
+  --steps 300 --windows 32 --lr 0.001 --prompt "ROMEO:" --generate 220
+```
+
+`gpt2` here is a compact GPT-style causal Transformer, **not** a pretrained OpenAI
+checkpoint.
+
+## Generative, Operator, And RL
+
+```bash
+lake exe -K cuda=true gondlin diffusion --cuda --fast-kernels \
+  --dataset cifar10 --n-total 800 --steps 200 --T 100
+
+lake exe -K cuda=true gondlin fno1d_burgers --cuda --steps 200 \
+  --log data/model_zoo/fno1d_burgers_trainlog.json
+
+lake exe gondlin mae --steps 25
+lake exe gondlin gpt_adder --steps 1000 --a 7 --b 8
+lake exe gondlin ppo_gridworld --updates 200
+```

@@ -1,0 +1,70 @@
+---
+title: "Quickstart"
+description: "Clone, build, and run your first TorchLean example."
+---
+
+# Quickstart
+
+TorchLean (the `Gondlin` Lake package) builds with the Lean toolchain pinned in
+`lean-toolchain` (currently `leanprover/lean4:v4.29.0`).
+
+## Clone and Build
+
+```bash
+git clone https://github.com/nktkt/gondlin.git
+cd gondlin
+lake build
+lake exe gondlin mlp --cpu --steps 10
+```
+
+That trains a small MLP for ten steps on CPU and prints the loss curve. The default
+build uses CPU stubs for the CUDA boundary, so no GPU is required.
+
+## First Things To Try
+
+Discover the curated CLIs:
+
+```bash
+lake exe gondlin --help
+lake exe verify --help
+lake exe verify -- gondlin-ibp
+```
+
+`lake exe gondlin <name>` dispatches into the runnable example registry. `lake exe verify -- <tool>`
+dispatches into the verification CLI registry — `gondlin-ibp` runs interval bound
+propagation against a compact in-repo classifier.
+
+## Build the Maintained Example Surface
+
+```bash
+lake build NN.Examples.Zoo
+```
+
+The default `lake build` target is curated and does not compile every example. Lake
+will pull the modules a specific command needs when you run it.
+
+## First Quickstart Examples
+
+Five files form the recommended path through `NN/Examples/Quickstart`:
+
+| Step | File | Command |
+| --- | --- | --- |
+| 1 | `TensorBasics.lean` | `lake exe gondlin quickstart_tensors` |
+| 2 | `Widgets.lean` | open the file in the editor; run `#tensor_view` |
+| 3 | `AutogradBasics.lean` | `lake exe gondlin quickstart_autograd --dtype float --backend eager` |
+| 4 | `SimpleMlpTrain.lean` | `lake exe gondlin quickstart_mlp --steps 200 --dtype float --backend compiled` |
+| 5 | `Proofs.lean` | `lake build NN.Examples.Quickstart.Proofs` |
+
+## Scalar Constraints
+
+Quickstart files are polymorphic in a scalar `α`:
+
+```lean
+def buildDataset {α : Type} [Semantics.Scalar α] [Runtime.Scalar α] := ...
+```
+
+- `Semantics.Scalar α` lets the model and loss do their mathematical operations over `α`.
+- `Runtime.Scalar α` lets examples inject host `Float` literals into the selected backend.
+
+That split is what lets the same tutorial run with `--dtype float`, `--dtype float32`,
+or other runtime scalar backends.

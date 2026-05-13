@@ -1,0 +1,60 @@
+---
+title: "Repository Map"
+description: "Top-level directory layout of the TorchLean (Gondlin) source tree."
+---
+
+# Repository Map
+
+TorchLean's source tree is organized so that specifications, executable code, proofs,
+and verification tooling stay in separate directories with explicit dependencies between
+them.
+
+## Top-Level Directories
+
+- `NN/API` — public facade for model, tensor, data, and training workflows.
+- `NN/Spec` — mathematical tensor, layer, model, and dynamical-system definitions.
+- `NN/Runtime` — executable autograd, optimizers, training loops, CUDA boundary,
+  PyTorch import/export, and RL runtime support.
+- `NN/IR` and `NN/GraphSpec` — graph IR, graph semantics, and typed architecture
+  descriptions.
+- `NN/Proofs` — tensor algebra, autograd correctness, analytic derivatives,
+  runtime approximation, and bridge proofs.
+- `NN/Floats` — finite-precision models, IEEE-style executable semantics,
+  NeuralFloat formats, and error-bound infrastructure.
+- `NN/MLTheory` — learning theory, robustness, CROWN/LiRPA, generative
+  objectives, optimization theory, and related proof layers.
+- `NN/Verification` — certificate checkers and CLI workflows.
+- `NN/Examples` — quickstarts, model zoo commands, widgets, verification
+  fixtures, and interoperability demos.
+- `blueprint/GondlinBlueprint/Guide` — source for the public guide.
+- `home_page` — project website sources.
+
+## Layering Direction
+
+In broad terms the dependency arrows point downward:
+
+```
+NN.API           — public facade
+NN.Examples      — runnable demos and tests
+NN.Verification  — certificate checkers, CLIs
+NN.MLTheory      — learning theory, CROWN, robustness
+NN.Proofs        — autograd/runtime/bridge proofs
+NN.Runtime       — executable autograd, optim, CUDA, PyTorch
+NN.IR / GraphSpec— op-tagged graph, typed authoring DSL
+NN.Spec          — pure tensor and layer reference definitions
+NN.Floats        — finite-precision semantics
+```
+
+`NN.API`, `NN.Examples`, `NN.Verification`, and `NN.MLTheory` import downward;
+`NN.Spec` and `NN.Floats` are the wide low-level foundations.
+
+## Correctness And Boundaries
+
+Lean proofs, executable checkers, Lake builds, tests, and the explicit
+trust-boundary documentation are the source of truth for what is proved, checked,
+or assumed. For the conventions, see:
+
+- `TRUST_BOUNDARIES.md` — Lean axioms, Prop contracts, CUDA/FFI, oracle paths.
+- `AI_USAGE.md` — where AI assistance was used and how it was checked.
+- `THIRD_PARTY_NOTICES.md` — dataset and third-party provenance.
+- `CONTRIBUTING.md` — PR conventions and operator-addition workflow.

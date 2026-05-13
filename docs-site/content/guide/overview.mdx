@@ -1,0 +1,58 @@
+---
+title: "Overview"
+description: "What TorchLean is and where it fits between modern ML workflows and formal reasoning."
+---
+
+# Overview
+
+TorchLean (codename `Gondlin`) is a Lean 4 framework for writing, running, inspecting,
+and verifying neural-network programs. It connects typed tensor and layer
+specifications, runnable training examples, a graph IR with semantics, floating-point
+contracts, CUDA trust boundaries, and artifacts that Lean checkers can inspect.
+
+## What TorchLean Gives You
+
+A single project that holds:
+
+- typed tensors and a PyTorch-style model API,
+- a shared graph IR with denotational semantics,
+- runtime and autograd support (eager and compiled, with CUDA on opt-in),
+- finite-precision semantics over IEEE-754 binary32 and rounded-real models,
+- certificate checkers for CROWN/LiRPA, IBP, ODE corridors, PINNs, and splines,
+- example commands across supervised, vision, sequence, generative, operator-learning,
+  and reinforcement-learning workloads.
+
+## Where It Fits
+
+The project lives between ML software people already use and the proof artifacts they
+want to trust. Models can be executed, lowered, inspected, imported from PyTorch-style
+pipelines, and checked against explicit mathematical contracts — without leaving the
+language they are defined in.
+
+The surface borrows PyTorch conventions where that makes model code easier to read.
+For the Python ecosystem, see the [PyTorch documentation](https://pytorch.org/docs/stable/index.html);
+for Lean itself, start with the [Lean documentation](https://lean-lang.org/documentation/).
+
+## Reading Path
+
+- **Quickstart** — build the repo and run the first example.
+- **API surface** — the stable `NN.API.*` doorways.
+- **Architecture** — `NN.Spec`, `NN.IR`, runtime, and dependency maps.
+- **Floats** — IEEE-754 executable kernel, rounded-real models, intervals, and Arb.
+- **Verification** — CROWN/LiRPA, IBP, certificate checkers, and ML theory.
+- **Examples** — quickstarts, the model zoo, and verification fixtures.
+- **Governance** — trust boundaries, AI usage, third-party notices, and contributing.
+
+## Citation
+
+```bibtex
+@misc{george2026gondlinformalizingneuralnetworks,
+      title={Gondlin: Formalizing Neural Networks in Lean},
+      author={Robert Joseph George and Jennifer Cruden and Xiangru Zhong and Huan Zhang and Anima Anandkumar},
+      year={2026},
+      eprint={2602.22631},
+      archivePrefix={arXiv},
+      primaryClass={cs.MS},
+      url={https://arxiv.org/abs/2602.22631},
+}
+```

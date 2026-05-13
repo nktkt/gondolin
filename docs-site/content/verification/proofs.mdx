@@ -1,0 +1,49 @@
+---
+title: "Proofs"
+description: "TorchLean's proof library connecting spec, IR, runtime, and verification."
+---
+
+# Proofs
+
+`NN/Proofs` is TorchLean's proof library. The proofs here connect:
+
+- spec-layer definitions (`NN/Spec/*`),
+- IR semantics (`NN/IR/*`),
+- runtime execution models (`NN/Runtime/*`),
+- and verification tooling (`NN/Verification/*`).
+
+## Entry Points
+
+- `NN/Entrypoint/Proofs.lean` — the curated umbrella import. Use this to pull in the
+  maintained proof surface.
+- `NN/Proofs/Autograd/Overview.lean` — orientation for the autograd proof stack.
+
+## What Lives In `NN.Proofs`
+
+The directory is organized by which subsystem each proof connects to:
+
+- **Tensor algebra** — equational facts about shape, broadcasting, and reductions
+  that the spec layer relies on.
+- **Autograd correctness** — soundness of the reverse-mode tape against the
+  derivative spec defined under `NN/Spec/Autograd/*`.
+- **Analytic derivatives** — proofs that selected layer forward/VJP specs match the
+  intended analytic gradient.
+- **Runtime approximation** — error envelopes between the executable runtime
+  (`Float`, `IEEE32Exec`) and the reference `ℝ` semantics, under explicit finiteness
+  assumptions.
+- **Bridge proofs** — connectors between IR semantics, compiled execution, and spec
+  semantics, including denotation lemmas for the `IR` notation.
+
+## How To Read A Proof File
+
+Most files are structured as:
+
+1. A docstring naming the theorem being proved and the relevant trust boundary.
+2. Named intermediate lemmas, kept small enough to maintain.
+3. The headline theorem, usually phrased over `Spec.Tensor α` for a generic scalar
+   `α` that the caller instantiates.
+
+When a proof depends on an external runtime contract (e.g. the runtime `Float32`
+agreeing with `IEEE32Exec` at the bit level), that dependency is named explicitly
+rather than hidden inside a tactic. See `TRUST_BOUNDARIES.md` for the project's
+inventory of Lean axioms and `Prop`-valued contracts.

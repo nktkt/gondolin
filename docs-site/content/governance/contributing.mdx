@@ -1,0 +1,117 @@
+---
+title: "Contributing"
+description: "How to contribute to TorchLean: build, test, and add operators across the spec/runtime/proof boundary."
+---
+
+# Contributing
+
+Thanks for helping improve TorchLean. Good contributions usually improve one of four
+areas:
+
+- make a mathematical definition or theorem clearer,
+- add a useful operator, verifier fragment, backend hook, or example,
+- improve tests, docs, or website walkthroughs,
+- make a trust boundary easier to inspect.
+
+If you are not sure where a change belongs, open an issue or draft PR. Small, concrete
+PRs are much easier to review than one large branch that touches every layer at once.
+
+## First Build
+
+TorchLean is pinned by `lean-toolchain`. From a fresh checkout:
+
+```bash
+lake update
+lake build
+lake test
+```
+
+Common targets:
+
+```bash
+lake build NN.Library
+DISABLE_EQUATIONS=1 lake build NN:docs
+lake exe verify -- list
+```
+
+`import NN` is the everyday user facade. `import NN.Library` is the broad library
+umbrella for specs, runtime, verification, and proofs, while still excluding
+executables and tests.
+
+## Tests, Examples, and Verification
+
+```bash
+lake exe nn_tests_suite
+
+lake env lean --run NN/Examples/Quickstart/TensorBasics.lean
+lake exe gondlin mlp --cpu --steps 10
+
+lake exe verify -- list
+lake exe verify -- gondlin-ibp
+```
+
+When you add behavior, add at least one stabilizer: a theorem, a test, a small
+runnable example, or a guide/API note.
+
+## Trust Boundaries
+
+TorchLean keeps three categories separate:
+
+- Lean-checked definitions and theorems,
+- executable Lean code and tests,
+- external producers or runtimes (CUDA, Python, solvers, datasets, generated
+  certificates).
+
+When a contribution crosses one of those boundaries, name it plainly. Do not imply
+that a CUDA kernel, Python script, checkpoint, dataset, or external certificate
+producer is trusted merely because Lean checks the consumer side.
+
+Relevant files: `TRUST_BOUNDARIES.md`, `THIRD_PARTY_NOTICES.md`,
+`NN/Examples/Verification/*`, `scripts/verification/*`, `csrc/cuda/*`.
+
+## Adding An Operator
+
+The safest extension path starts at the semantics and works outward. Typical order:
+
+1. Add the mathematical definition under `NN/Spec/Core/*` or `NN/Spec/Layers/*`.
+2. If training or reverse-mode execution needs gradients, add forward and VJP under
+   `NN/Spec/Autograd/*`.
+3. If it is a graph primitive, extend `NN.IR.OpKind` and the denotation in
+   `NN/IR/Semantics.lean`.
+4. Update shape inference/checking in `NN/IR/Infer.lean` and related contract files.
+5. Add runtime support under `NN/Runtime/*` when execution needs it.
+6. If a verifier must reason about the operator, add propagation rules or certificate
+   expectations under `NN/Verification/*` or `NN/MLTheory/*`.
+7. Add a test or runnable example.
+
+If an operator is intentionally only for execution or only for verification, document
+that boundary instead of quietly slipping it into the shared semantics layer.
+
+## Style And Proof Hygiene
+
+TorchLean aims to keep `NN/` free of `sorry`:
+
+```bash
+python3 scripts/checks/repo_lint.py
+```
+
+Project conventions:
+
+- Prefer small modules with minimal imports.
+- Add docstrings for user-facing definitions, structures, and theorems.
+- Split expensive proofs into named lemmas instead of relying on huge `simp` or
+  `aesop` calls.
+- Keep executable demos and proof code separate when they have different trust
+  assumptions.
+- Avoid introducing axioms. If one is unavoidable, quarantine and document it.
+
+## PR Checklist
+
+- `lake build` succeeds from a clean checkout.
+- Relevant tests, examples, or theorem checks were added.
+- User-facing changes include docstrings and, when useful, guide notes.
+- Trust boundaries are named rather than hidden.
+- No new `sorry` appears in `NN/`.
+
+For general Lean/proof questions, the Lean community Zulip is often the fastest
+place to ask: [leanprover.zulipchat.com](https://leanprover.zulipchat.com/).

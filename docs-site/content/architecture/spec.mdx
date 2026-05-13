@@ -1,0 +1,62 @@
+---
+title: "Spec Layer"
+description: "Reference definitions of tensors, ops, layers, and models shared across execution, verification, and proofs."
+---
+
+# Spec Layer
+
+`NN/Spec` is TorchLean's specification layer. It holds the reference definitions of
+tensors, ops, layers, and models that the rest of the project reuses for:
+
+- **execution** — instantiating scalars as `Float`, `IEEE32Exec`, or other backends,
+- **verification** — instantiating scalars as `Interval` for bound propagation,
+- **proofs** — instantiating scalars as `ℝ`.
+
+The practical goal is to avoid a gap between the network we run and the network we
+reason about: define it once, then reuse the same definition everywhere.
+
+This layout mirrors the Gondlin paper (`arXiv:2602.22631`): focused `NN.Spec.*` modules,
+runtime entrypoints, and verification entrypoints stay separate but are kept aligned by
+building on the same core semantics. The public spec doorway is `NN.Entrypoint.Spec`,
+or `import NN` / `import NN.Library` for downstream users.
+
+## How To Navigate
+
+### `Core/`
+
+The shape-indexed tensor foundation:
+
+- `shape.lean` — type-level tensor shapes and broadcast/axis utilities.
+- `tensor/Core.lean` — the `Spec.Tensor` datatype (a pure tensor representation).
+- `tensor_ops.lean`, `tensor_reduction_shape.lean` — elementwise ops and reductions.
+- `context.lean` — `Context α`, the numeric backend interface (arithmetic, order,
+  `exp`, `tanh`, etc.).
+
+### `Layers/`
+
+Forward and backward specs for common NN layers: linear, attention, convolution,
+pooling, normalization, embedding, dropout, loss, recurrent, GCN, and selective-scan.
+
+### `Autograd/`
+
+Spec-level reverse-mode building blocks (`OpSpec`) used by the runtime AD wrappers.
+
+### `Module/`
+
+Thin wrappers that package layer specs as modules with export metadata.
+
+### `Models/`
+
+Model compositions: MLP, CNN, Transformer, ResNet, Seq2Seq, and friends.
+
+### `NN/Examples/`
+
+Executable examples that exercise the specs.
+
+## Terminology
+
+- **spec** = pure reference definitions (this folder).
+- **runtime** = tape/graph execution, compilation, and training loops
+  (`NN/Runtime/*` and `NN.Entrypoint.Runtime`).
+- **verification** = sound bound propagation and certificate checking
+  (`NN/Verification/*` and `NN.Entrypoint.Verification`).

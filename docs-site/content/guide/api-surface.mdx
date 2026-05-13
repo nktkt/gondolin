@@ -1,0 +1,69 @@
+---
+title: "API Surface"
+description: "Stable public imports for downstream projects and the PyTorch-style facade."
+---
+
+# API Surface
+
+`NN/API` collects TorchLean's public API modules. The goal is to give users a small,
+stable set of imports whose names stay fixed even when runtime or spec internals move.
+
+## Recommended Imports
+
+```lean
+import NN                 -- the ordinary public surface for most users
+import NN.API.Public      -- PyTorch-style facade: NN.API.nn, NN.API.optim, NN.API.train, ...
+import NN.API.Runtime     -- lower-level runtime surface (NN.API.Gondlin.*)
+import NN.Library         -- broad umbrella: spec, IR, proof, verification, examples, widgets
+```
+
+The design goal is to keep the public surface discoverable while letting internal
+runtime modules under `NN/Runtime/*` evolve without asking users to chase imports.
+
+## Use TorchLean From Another Lean Project
+
+The `Gondlin` package is an ordinary Lake dependency. You can depend on the Git repo:
+
+```lean
+require Gondlin from git "https://github.com/nktkt/gondlin.git" @ "main"
+```
+
+Then run:
+
+```bash
+lake update
+lake exe cache get
+lake build
+```
+
+Most downstream model and training files should start from the public facade:
+
+```lean
+import NN.API.Public
+```
+
+Use the broader umbrella when you want the maintained specification, IR, proof,
+verification, examples, and widget surface:
+
+```lean
+import NN.Library
+```
+
+For local development against a checkout, use a path dependency instead:
+
+```lean
+require Gondlin from "../gondlin"
+```
+
+## Surface Reference For Examples
+
+| Surface | Use |
+| --- | --- |
+| `NN.API.Public` | PyTorch-style `API.nn`, `API.train`, `API.optim`, `API.Data`, sample helpers. |
+| `NN.Tensor.API` | Typed tensor constructors and printing. |
+| `NN.API.Runtime` | Advanced runtime/session access. |
+| `NN.Entrypoint.Verification` | Verification APIs and theorem-level surfaces. |
+| `NN.Verification.CLI` | The `lake exe verify` registry. |
+
+Examples should prefer these facade modules over reaching into individual
+`NN.Runtime.*` or `NN.Spec.*` files.
