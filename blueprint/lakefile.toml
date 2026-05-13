@@ -1,0 +1,23 @@
+name = "gondlin-blueprint"
+defaultTargets = ["GondlinBlueprint", "blueprint-gen"]
+
+[[require]]
+name = "verso"
+git = "https://github.com/leanprover/verso"
+rev = "v4.29.0"
+
+[[require]]
+name = "VersoBlueprint"
+git = "https://github.com/leanprover/verso-blueprint"
+rev = "v4.29.0"
+
+[[require]]
+name = "Gondlin"
+path = ".."
+
+[[lean_lib]]
+name = "GondlinBlueprint"
+
+[[lean_exe]]
+name = "blueprint-gen"
+root = "GondlinBlueprintMain"
