@@ -39,13 +39,23 @@ lake build NN.Examples.Zoo
 
 ## Documentation
 
-- Project site: <https://nktkt.github.io/gondlin/>
-- Guide: <https://nktkt.github.io/gondlin/blueprint/>
-- API reference: <https://nktkt.github.io/gondlin/docs/>
+The hosted docs site is not deployed for this private repository; browse the
+in-repo sources instead:
 
-Detailed tutorials, verification chapters, model walkthroughs, CUDA notes, and
-API-level reference material live in the guide and generated docs rather than
-in this README.
+- Project website source: [`home_page/`](home_page/) (Jekyll; preview locally
+  with `bundle exec jekyll serve` from that directory).
+- Guide source: [`blueprint/GondlinBlueprint/Guide/`](blueprint/GondlinBlueprint/Guide/)
+  (Verso-Blueprint; build locally with `cd blueprint && lake build blueprint-gen`).
+- API reference: generate locally with `lake build NN:docs`; output lands under
+  `.lake/build/doc/`.
+- Trust and correctness notes: [`TRUST_BOUNDARIES.md`](TRUST_BOUNDARIES.md),
+  [`AI_USAGE.md`](AI_USAGE.md), [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md),
+  [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
+If GitHub Pages is enabled for this repository in the future, the published URLs
+will be `https://nktkt.github.io/gondlin/` for the site,
+`https://nktkt.github.io/gondlin/blueprint/` for the guide, and
+`https://nktkt.github.io/gondlin/docs/` for the API reference.
 
 ## Use Gondlin From Another Lean Project
 

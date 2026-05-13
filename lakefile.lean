@@ -51,7 +51,7 @@ package Gondlin where
   version := v!"0.1.0"
   description := "Neural network specification, execution, and verification in Lean 4."
   keywords := #["machine-learning", "neural-networks", "verification", "autograd", "cuda"]
-  homepage := "https://nktkt.github.io/gondlin/"
+  homepage := "https://github.com/nktkt/gondlin"
   license := "MIT"
   readmeFile := "README.md"
   testDriver := "nn_tests_suite"
