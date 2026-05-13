@@ -40,6 +40,9 @@ private def nativeLinkArgs : Array String :=
     ]
   else if Platform.isWindows then
     #[]
+  else if Platform.isOSX then
+    -- macOS keeps libm in libSystem; passing `-lm` confuses Lean's bundled `ld64.lld`.
+    #[]
   else
     -- CPU stubs call functions from `math.h`; Linux keeps these in `libm`.
     #["-lm"]
