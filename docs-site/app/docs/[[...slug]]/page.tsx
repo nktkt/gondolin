@@ -6,10 +6,14 @@ import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
 import { loadDoc } from "@/lib/mdx";
+import { extractToc } from "@/lib/toc";
 import { allDocSlugs } from "@/lib/navigation";
 import { mdxComponents } from "@/components/site/mdx-components";
 import { siteConfig } from "@/lib/site-config";
 import Pager from "@/components/site/pager";
+import Toc from "@/components/site/toc";
+import Breadcrumbs from "@/components/site/breadcrumbs";
+import DocFooterMeta from "@/components/site/doc-footer-meta";
 
 const DEFAULT_SLUG = "guide/overview";
 
@@ -54,38 +58,48 @@ export default async function DocPage({
     notFound();
   }
 
+  const toc = extractToc(doc.source);
+
   return (
-    <article className="w-full">
-      <header className="mb-8">
-        <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground">
-          {doc.frontmatter.title}
-        </h1>
-        {doc.frontmatter.description ? (
-          <p className="mt-2 text-muted-foreground text-lg">
-            {doc.frontmatter.description}
-          </p>
-        ) : null}
-      </header>
+    <div className="flex gap-10">
+      <article className="min-w-0 flex-1 max-w-3xl">
+        <Breadcrumbs slug={slug} />
 
-      <div className="docs-prose">
-        <MDXRemote
-          source={doc.source}
-          components={mdxComponents}
-          options={{
-            mdxOptions: {
-              remarkPlugins: [remarkGfm],
-              rehypePlugins: [
-                rehypeSlug,
-                [rehypeAutolinkHeadings, { behavior: "wrap" }],
-              ],
-            },
-          }}
-        />
-      </div>
+        <header className="mt-4 mb-8">
+          <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground">
+            {doc.frontmatter.title}
+          </h1>
+          {doc.frontmatter.description ? (
+            <p className="mt-2 text-muted-foreground text-lg">
+              {doc.frontmatter.description}
+            </p>
+          ) : null}
+        </header>
 
-      <div className="mt-12">
-        <Pager slug={slug} />
-      </div>
-    </article>
+        <div className="docs-prose">
+          <MDXRemote
+            source={doc.source}
+            components={mdxComponents}
+            options={{
+              mdxOptions: {
+                remarkPlugins: [remarkGfm],
+                rehypePlugins: [
+                  rehypeSlug,
+                  [rehypeAutolinkHeadings, { behavior: "wrap" }],
+                ],
+              },
+            }}
+          />
+        </div>
+
+        <DocFooterMeta slug={slug} />
+
+        <div className="mt-12">
+          <Pager slug={slug} />
+        </div>
+      </article>
+
+      <Toc entries={toc} />
+    </div>
   );
 }

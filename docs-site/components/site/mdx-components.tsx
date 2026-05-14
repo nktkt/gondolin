@@ -1,4 +1,5 @@
 import type { MDXComponents } from "mdx/types";
+import { isValidElement, type ReactElement } from "react";
 import type {
   AnchorHTMLAttributes,
   HTMLAttributes,
@@ -9,6 +10,7 @@ import type {
 } from "react";
 
 import { cn } from "@/lib/utils";
+import { CodeBlock } from "@/components/site/code-block";
 
 type HeadingProps = HTMLAttributes<HTMLHeadingElement>;
 
@@ -158,7 +160,7 @@ function InlineCode({ className, ...rest }: HTMLAttributes<HTMLElement>) {
   );
 }
 
-function Pre({ className, ...rest }: HTMLAttributes<HTMLPreElement>) {
+function PlainPre({ className, ...rest }: HTMLAttributes<HTMLPreElement>) {
   return (
     <pre
       className={cn(
@@ -168,6 +170,41 @@ function Pre({ className, ...rest }: HTMLAttributes<HTMLPreElement>) {
       {...rest}
     />
   );
+}
+
+type CodeChildProps = {
+  className?: string;
+  children?: unknown;
+};
+
+// With next-mdx-remote/rsc, `pre`'s children is a single
+// <code className="language-xxx">{rawString}</code> element. We extract the
+// raw code + language and hand it to the Shiki-backed CodeBlock instead of
+// rendering the original <code> child (so InlineCode never wraps block code).
+async function MdxPre({
+  children,
+  ...rest
+}: HTMLAttributes<HTMLPreElement>) {
+  if (!isValidElement(children)) {
+    return <PlainPre {...rest}>{children}</PlainPre>;
+  }
+
+  const codeProps = (children as ReactElement<CodeChildProps>).props;
+  const rawChildren = codeProps?.children;
+
+  if (rawChildren == null) {
+    return <PlainPre {...rest}>{children}</PlainPre>;
+  }
+
+  const rawCode = (
+    typeof rawChildren === "string" ? rawChildren : String(rawChildren)
+  ).replace(/\n$/, "");
+
+  const className = codeProps?.className ?? "";
+  const match = /language-([\w-]+)/.exec(className);
+  const lang = match ? match[1] : "text";
+
+  return <CodeBlock code={rawCode} lang={lang} />;
 }
 
 function Table({ className, ...rest }: TableHTMLAttributes<HTMLTableElement>) {
@@ -260,7 +297,7 @@ export const mdxComponents: MDXComponents = {
   ol: OrderedList,
   li: ListItem,
   code: InlineCode,
-  pre: Pre,
+  pre: MdxPre,
   table: Table,
   thead: THead,
   tr: TR,

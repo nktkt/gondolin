@@ -5,6 +5,7 @@ import { AnimatedSection } from "@/components/site/animated-section";
 import { CodePreview } from "@/components/site/code-preview";
 import { FeatureGrid } from "@/components/site/feature-grid";
 import { Hero } from "@/components/site/hero";
+import { LayersDiagram } from "@/components/site/layers-diagram";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { siteConfig } from "@/lib/site-config";
@@ -16,6 +17,12 @@ export default function Home() {
 
       <AnimatedSection className="border-t border-border/60 bg-muted/20">
         <FeatureGrid />
+      </AnimatedSection>
+
+      <AnimatedSection className="border-t border-border/60">
+        <div className="mx-auto max-w-screen-xl px-6">
+          <LayersDiagram />
+        </div>
       </AnimatedSection>
 
       <AnimatedSection className="border-t border-border/60">

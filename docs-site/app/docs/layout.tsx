@@ -7,7 +7,7 @@ export default function DocsLayout({ children }: { children: ReactNode }) {
   return (
     <div className="mx-auto max-w-screen-2xl px-4 lg:px-6 flex gap-6">
       <Sidebar />
-      <div className="min-w-0 flex-1 py-8 lg:py-12 max-w-3xl">
+      <div className="min-w-0 flex-1 py-8 lg:py-12">
         <MobileDocsNav />
         {children}
       </div>
