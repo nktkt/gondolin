@@ -24,8 +24,14 @@ function resolveSlug(slugParam: string[] | undefined): string {
 
 type PageParams = { slug?: string[] };
 
+// `architecture/graphs` is served by a dedicated interactive route
+// (app/docs/architecture/graphs/page.tsx), not from MDX content.
+const EXPLICIT_ROUTE_SLUGS = new Set(["architecture/graphs"]);
+
 export async function generateStaticParams(): Promise<PageParams[]> {
-  return allDocSlugs().map((slug) => ({ slug: slug.split("/") }));
+  return allDocSlugs()
+    .filter((slug) => !EXPLICIT_ROUTE_SLUGS.has(slug))
+    .map((slug) => ({ slug: slug.split("/") }));
 }
 
 export async function generateMetadata({

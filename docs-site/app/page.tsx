@@ -6,6 +6,7 @@ import { CodePreview } from "@/components/site/code-preview";
 import { FeatureGrid } from "@/components/site/feature-grid";
 import { Hero } from "@/components/site/hero";
 import { LayersDiagram } from "@/components/site/layers-diagram";
+import { Citation } from "@/components/site/citation";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { siteConfig } from "@/lib/site-config";
@@ -84,6 +85,10 @@ export default function Home() {
                 <ExternalLink aria-hidden />
               </Button>
             </div>
+          </div>
+
+          <div className="mt-8">
+            <Citation />
           </div>
 
           <Separator className="my-12" />
