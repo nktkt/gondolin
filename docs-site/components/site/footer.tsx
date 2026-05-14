@@ -32,6 +32,7 @@ const columns: FooterColumn[] = [
       { title: "Guide", href: "/docs/guide/overview" },
       { title: "Verification", href: "/docs/verification/overview" },
       { title: "Examples", href: "/examples" },
+      { title: "API reference", href: "/api/", external: true },
     ],
   },
   {

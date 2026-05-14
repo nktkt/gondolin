@@ -10,6 +10,7 @@ export const siteConfig = {
   navLinks: [
     { title: "Docs", href: "/docs/guide/overview" },
     { title: "Examples", href: "/examples" },
+    { title: "API", href: "/api/", external: true },
     { title: "Verification", href: "/docs/verification/overview" },
     { title: "Trust", href: "/docs/governance/trust-boundaries" },
   ],

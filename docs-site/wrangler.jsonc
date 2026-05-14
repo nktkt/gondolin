@@ -17,15 +17,17 @@
   "compatibility_date": "2026-04-01",
   "compatibility_flags": ["nodejs_compat"],
 
-  // Static assets emitted by `next build` (output: "export") live in `out/`.
-  // `not_found_handling: "404-page"` lets Workers serve `out/404.html` for
-  // unknown routes; `html_handling: "auto-trailing-slash"` makes Workers
-  // map `/foo` to `out/foo.html` automatically.
+  // Static assets emitted by `next build` (output: "export") live in `out/`,
+  // alongside the statically-hosted DocGen4 API reference under `out/api/`.
+  // `html_handling` is "none" so DocGen4's explicit `.html` URLs are served
+  // verbatim (the built-in modes 307-redirect them and break its relative
+  // link graph). The Worker (`worker/index.ts`) instead does the
+  // extensionless -> `.html` mapping that the Next.js clean URLs need.
   "assets": {
     "directory": "out",
     "binding": "ASSETS",
-    "html_handling": "auto-trailing-slash",
-    "not_found_handling": "404-page"
+    "html_handling": "none",
+    "not_found_handling": "none"
   },
 
   // Custom-domain routes for the apex and the www subdomain.

@@ -38,21 +38,36 @@ function NavLinks({
   itemClassName?: string;
   onNavigate?: () => void;
 }) {
+  const itemClasses = cn(
+    "rounded-md px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
+    itemClassName
+  );
+
   return (
     <nav className={cn("flex items-center gap-1", className)}>
-      {siteConfig.navLinks.map((link) => (
-        <Link
-          key={link.href}
-          href={link.href}
-          onClick={onNavigate}
-          className={cn(
-            "rounded-md px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
-            itemClassName
-          )}
-        >
-          {link.title}
-        </Link>
-      ))}
+      {siteConfig.navLinks.map((link) =>
+        "external" in link && link.external ? (
+          // `/api/` is a statically-hosted DocGen4 tree, not a Next.js
+          // route — needs a full-page navigation, not client routing.
+          <a
+            key={link.href}
+            href={link.href}
+            onClick={onNavigate}
+            className={itemClasses}
+          >
+            {link.title}
+          </a>
+        ) : (
+          <Link
+            key={link.href}
+            href={link.href}
+            onClick={onNavigate}
+            className={itemClasses}
+          >
+            {link.title}
+          </Link>
+        )
+      )}
     </nav>
   );
 }
