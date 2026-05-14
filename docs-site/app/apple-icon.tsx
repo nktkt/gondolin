@@ -9,6 +9,10 @@ export const size = {
 };
 export const contentType = "image/png";
 
+/**
+ * Apple touch icon — same lambda-as-graph mark as the favicon, scaled up
+ * with a little more breathing room and a hairline border.
+ */
 export default function AppleIcon() {
   return new ImageResponse(
     (
@@ -19,8 +23,8 @@ export default function AppleIcon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#020617",
-          padding: 22,
+          background: "#09090b",
+          padding: 18,
         }}
       >
         <div
@@ -30,25 +34,28 @@ export default function AppleIcon() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            background: "linear-gradient(135deg, #1e293b 0%, #020617 100%)",
-            borderRadius: 36,
+            background: "linear-gradient(145deg, #27272a 0%, #09090b 100%)",
+            borderRadius: 40,
             border: "2px solid rgba(148, 163, 184, 0.18)",
           }}
         >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: 104,
-              fontWeight: 700,
-              color: "#f1f5f9",
-              lineHeight: 1,
-              marginTop: -6,
-            }}
-          >
-            λ
-          </div>
+          <svg width="116" height="116" viewBox="0 0 100 100" fill="none">
+            <path
+              d="M37 22 L76 80"
+              stroke="#fafafa"
+              strokeWidth="10"
+              strokeLinecap="round"
+            />
+            <path
+              d="M51 43 L24 80"
+              stroke="#fafafa"
+              strokeWidth="10"
+              strokeLinecap="round"
+            />
+            <circle cx="37" cy="22" r="9" fill="#fafafa" />
+            <circle cx="76" cy="80" r="9" fill="#fafafa" />
+            <circle cx="24" cy="80" r="9" fill="#fafafa" />
+          </svg>
         </div>
       </div>
     ),

@@ -9,6 +9,10 @@ export const size = {
 };
 export const contentType = "image/png";
 
+/**
+ * TorchLean favicon: a lambda drawn as a 3-node graph — the Lean "λ"
+ * meeting the neural-network motif. Monochrome, to match the site brand.
+ */
 export default function Icon() {
   return new ImageResponse(
     (
@@ -19,25 +23,27 @@ export default function Icon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "linear-gradient(135deg, #1e293b 0%, #020617 100%)",
+          background: "linear-gradient(145deg, #27272a 0%, #09090b 100%)",
           borderRadius: 7,
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: 22,
-            fontWeight: 700,
-            color: "#f1f5f9",
-            lineHeight: 1,
-            // Nudge the lambda to sit optically centered.
-            marginTop: -1,
-          }}
-        >
-          λ
-        </div>
+        <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
+          <path
+            d="M37 22 L76 80"
+            stroke="#fafafa"
+            strokeWidth="11"
+            strokeLinecap="round"
+          />
+          <path
+            d="M51 43 L24 80"
+            stroke="#fafafa"
+            strokeWidth="11"
+            strokeLinecap="round"
+          />
+          <circle cx="37" cy="22" r="9.5" fill="#fafafa" />
+          <circle cx="76" cy="80" r="9.5" fill="#fafafa" />
+          <circle cx="24" cy="80" r="9.5" fill="#fafafa" />
+        </svg>
       </div>
     ),
     {

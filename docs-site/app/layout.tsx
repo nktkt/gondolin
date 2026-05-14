@@ -62,9 +62,8 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     images: [siteConfig.ogImage],
   },
-  icons: {
-    icon: "/favicon.ico",
-  },
+  // `icons` is intentionally omitted: Next.js auto-wires the file-based
+  // `app/icon.tsx` and `app/apple-icon.tsx` metadata routes.
 };
 
 export default function RootLayout({
