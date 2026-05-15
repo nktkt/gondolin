@@ -23,8 +23,6 @@ version bumps, though significant changes will be noted here.
 ## [Unreleased]
 
 ### Added
-- `ROADMAP.md` committing the 2026–2029 plan in a phase-by-phase format with explicit exit
-  criteria per phase.
 - 10 Python hygiene checks under `scripts/checks/`: `check_case_collisions`,
   `trust_boundaries_check`, `proof_debt`, `api_surface`, `docs_link_check`, `docstring_coverage`,
   `lake_manifest_audit`, `lean_toolchain_pin`, `ci_workflow_lint`, `lean_imports_audit`.

@@ -25,8 +25,8 @@ enforced by `if`/`then` blocks at the top level (the discriminator is `kind`).
 
 The Lean side will read this format via a (future) `NN.Verification.Cert.v1`
 module; the four currently-shipping verifier families will migrate to v1 with
-backward-compatible readers for the v0 ad-hoc formats — see
-[ROADMAP.md Phase 3.1](../ROADMAP.md) for context.
+backward-compatible readers for the v0 ad-hoc formats. Migration sequencing is
+tracked in the private `nktkt/gondlin-docs` companion repository.
 
 ## Validating a certificate
 
