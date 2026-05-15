@@ -1,0 +1,100 @@
+name: Nightly
+
+# Runs heavier / network-dependent diagnostics that are not appropriate for the
+# per-PR critical path:
+#   1. A JSON snapshot of `proof_debt.py` for trend analysis.
+#   2. The docs link check with `--fetch` enabled (catches broken external links).
+#   3. A placeholder dependency-freshness audit (`lake_manifest_audit.py`) whose
+#      script may not yet exist; the job is tolerant via `|| true`.
+#
+# Schedule: 03:00 UTC daily. Manual runs via `workflow_dispatch`.
+on:
+  schedule:
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  proof_debt_baseline:
+    name: Proof debt JSON baseline
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run proof-debt scan (JSON)
+        run: python3 scripts/checks/proof_debt.py --format json > proof-debt.json
+
+      - name: Upload proof-debt artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: proof-debt-${{ github.run_id }}
+          path: proof-debt.json
+          retention-days: 90
+          if-no-files-found: error
+
+  docs_link_check_with_fetch:
+    name: Docs link check (with --fetch)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run docs link check with external fetch
+        # Transient 5xx / DNS hiccups from third-party hosts must not fail the
+        # nightly. We capture stdout+stderr to a log artifact so reviewers can
+        # still see what broke.
+        run: |
+          python3 scripts/checks/docs_link_check.py --fetch > docs-link-report.log 2>&1 || true
+
+      - name: Upload docs link report
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs-link-report-${{ github.run_id }}
+          path: docs-link-report.log
+          retention-days: 90
+          if-no-files-found: warn
+
+  dependency_freshness:
+    name: Dependency freshness (lake manifest audit)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run lake manifest audit (JSON)
+        # Placeholder: `lake_manifest_audit.py` may not exist yet. We keep this
+        # step non-fatal so the nightly continues to produce the other artifacts
+        # until the audit script lands.
+        run: |
+          python3 scripts/checks/lake_manifest_audit.py --json > manifest-audit.json || \
+            echo '{"status":"script-missing","note":"lake_manifest_audit.py is not yet implemented"}' > manifest-audit.json
+
+      - name: Upload manifest audit artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: manifest-audit-${{ github.run_id }}
+          path: manifest-audit.json
+          retention-days: 90
+          if-no-files-found: warn

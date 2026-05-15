@@ -1,0 +1,193 @@
+schema_version = "1"
+generated_from = "TRUST_BOUNDARIES.md"
+
+# This file is a machine-readable mirror of TRUST_BOUNDARIES.md. The
+# `scripts/checks/trust_boundaries_check.py` validator keeps it consistent with
+# the prose document and with the `ALLOWED_AXIOMS` dict in
+# `scripts/checks/repo_lint.py`. Edits to any one of those three locations must
+# be reflected in the others.
+
+# ---------------------------------------------------------------------------
+# Lean Axioms
+# ---------------------------------------------------------------------------
+# Kernel-level assumptions. Each axiom must be allowlisted in repo_lint.py and
+# named here with a one-sentence rationale.
+
+[[axiom]]
+name = "crown_oracle"
+file = "NN/MLTheory/CROWN/Lyapunov/Oracle.lean"
+rationale = "External CROWN checker produces a `CrownOracleWitness` for a Lyapunov certificate; given the witness, the certificate soundly bounds V and Vdot over the stated region."
+
+[[axiom]]
+name = "instNonemptyBuffer"
+file = "NN/Runtime/Autograd/Engine/Cuda/Trusted.lean"
+rationale = "The external CUDA/stub runtime can construct values of the opaque `Cuda.Buffer` type."
+
+# ---------------------------------------------------------------------------
+# Prop-Valued Contracts
+# ---------------------------------------------------------------------------
+# Not kernel axioms by themselves: theorems using one are conditional on the
+# caller supplying the fields. Listed so that public docs make those
+# assumptions visible.
+
+[[prop_contract]]
+name = "Gondlin.Floats.IEEE754.Float32Bridge.RuntimeFloat32MatchesIEEE32Exec"
+purpose = "Runtime Float32 primitives match the executable IEEE32 model at the bit level."
+
+[[prop_contract]]
+name = "NN.MLTheory.CROWN.CrownTransferSound"
+purpose = "Transfer-rule soundness for graph-CROWN certificate theorems under backend/oracle-dependent relaxations."
+
+[[prop_contract]]
+name = "NN.MLTheory.Proofs.Approximation.FloatInterval.OpsExact.Sound"
+purpose = "Local operation-level exact interval soundness for finite IEEE32 interval arithmetic."
+
+# ---------------------------------------------------------------------------
+# Opaque Non-FFI Declarations
+# ---------------------------------------------------------------------------
+# Lean-side opaques that are not FFI but still part of the trust surface.
+
+[[opaque_non_ffi]]
+name = "NN.MLTheory.CROWN.Lyapunov.CrownOracleWitness"
+purpose = "Abstract witness type for the external Lyapunov oracle."
+
+[[opaque_non_ffi]]
+name = "NN.MLTheory.CROWN.betaAt"
+purpose = "Executable wrapper around a length-checked beta-phase array lookup; keeps the checker executable without exposing brittle `Array.get!` internals to every proof."
+
+# ---------------------------------------------------------------------------
+# CUDA Runtime
+# ---------------------------------------------------------------------------
+
+[cuda]
+trust_kind = "ffi"
+source_root = "csrc/cuda/"
+notes = """
+Files under `csrc/cuda/` are trusted FFI code. Lean checks shape metadata
+around calls, but kernel memory safety, launch behavior, and numerical
+behavior are outside Lean's proof kernel. CUDA buffers store float32 and Lean
+`Float` values are converted to/from float32 at the buffer boundary in
+`csrc/cuda/tensor/gondlin_cuda_tensor.cu`. Buffer finalizers free device
+memory through `cudaFree`; this is safe under the current default-stream
+runtime where launches and host copies are ordered through the default
+stream. Future user streams or async graph replay would require revisiting
+finalizer/free ordering.
+"""
+
+[[cuda.precision_path]]
+name = "fp32"
+lean_file = "NN/Runtime/Autograd/Engine/Cuda/Kernels.lean"
+backend = "cublasSgemmStridedBatched"
+csrc_file = "csrc/cuda/kernels/gondlin_cuda_kernels.cu"
+
+[[cuda.precision_path]]
+name = "fp64"
+lean_file = "NN/Runtime/Autograd/Engine/Cuda/DGemm.lean"
+backend = "cublasDgemm"
+csrc_file = "csrc/cuda/blas/gondlin_dgemm_cuda.cu"
+
+[cuda.deterministic_reductions]
+description = "Opt-in mode that replaces atomicAdd-based accumulation paths with fixed-order algorithms (slower, bit-stable across runs on the same GPU)."
+lean_enable = "let _ := Runtime.Autograd.Cuda.Buffer.setDeterministicReductionsChecked true"
+env_vars = ["GONDLIN_CUDA_DETERMINISTIC_REDUCTIONS", "GONDLIN_DETERMINISTIC_REDUCTIONS"]
+covers = [
+  "Buffer.reduceSum",
+  "Buffer.reduceMean",
+  "reduceFromBroadcastTo",
+  "reduceSumAxis",
+  "scatterAdd",
+  "scatterAddRows",
+  "max_pool* (2D and N-D)",
+  "avg_pool* (2D and N-D)",
+  "smooth_max_pool* (2D and N-D)",
+]
+does_not_cover = [
+  "RNG nondeterminism (manage seeds/counters explicitly)",
+  "differences across GPU architectures, CUDA toolkit versions, or driver versions",
+  "kernels not on the deterministic-reductions allowlist",
+]
+
+[cuda.max_pooling]
+notes = "Follows Gondlin spec (PyTorch-style -inf padding, ignore padded cells). Backward tie-breaking is Gondlin-spec row-major deterministic when deterministic reductions are enabled; external runtimes may choose different policies."
+
+[cuda.flash_attention]
+spec_file = "NN/Spec/Layers/FlashAttention.lean"
+runtime_file = "NN/Runtime/Autograd/Engine/Cuda/Kernels.lean"
+csrc_file = "csrc/cuda/kernels/gondlin_cuda_kernels.cu"
+denotation = "Over the spec semantics, the fused-operator denotation matches the standard `QK^T -> mask -> softmax -> PV` graph."
+notes = """
+Fused forward/VJP kernels operate over already-split heads and favor clarity
+and correctness over a production clone of Dao-AILab's tiled implementation.
+The Lean equalities are definitional denotation checks, not proofs of a tiled
+online-softmax recurrence. CUDA memory behavior and float32 arithmetic remain
+an FFI trust boundary.
+"""
+references = [
+  "FlashAttention (arXiv:2205.14135)",
+  "FlashAttention-2 (arXiv:2307.08691)",
+  "FlashAttention-3 (arXiv:2407.08608)",
+  "Dao-AILab/flash-attention",
+]
+
+[cuda.attention_mask]
+convention = "Finite big-negative mask-fill `-1000` in the spec and CUDA fused kernels, not PyTorch SDPA's conceptual `-inf` masking."
+notes = "In float32 this normally underflows masked probabilities to zero after max-subtraction; a documented semantic convention rather than a theorem of bit-identical PyTorch masking."
+
+[cuda.kernel_launch]
+notes = "Tensor/view kernels rely on default-stream ordering and host copies for synchronization; conv/pool kernels synchronize explicitly after exported operations for clearer error attribution. Both policies are outside Lean's kernel."
+
+# ---------------------------------------------------------------------------
+# Executable Floating Point
+# ---------------------------------------------------------------------------
+
+[executable_fp]
+model_root = "NN/Floats/IEEEExec/"
+notes = "Proves and implements a deterministic IEEE-style executable model for many core operations."
+
+[[executable_fp.transcendental]]
+name = "exp"
+status = "deterministic approximation"
+
+[[executable_fp.transcendental]]
+name = "log"
+status = "deterministic approximation"
+
+[[executable_fp.transcendental]]
+name = "tanh"
+status = "deterministic approximation"
+
+# ---------------------------------------------------------------------------
+# External Numeric Oracles
+# ---------------------------------------------------------------------------
+
+[[external_oracle]]
+name = "CROWN/Lyapunov certificate generator"
+trust_kind = "oracle"
+isolated_by = "crown_oracle"
+notes = "Lean does not prove that the external CROWN run was complete or correctly implemented."
+
+[[external_oracle]]
+name = "Arb / python-flint"
+trust_kind = "oracle"
+root = "NN/Floats/Arb/"
+notes = "External subprocess backend. Useful for high-quality interval evidence, but Arb responses remain oracle results unless the relevant certificate is independently checked in Lean."
+
+[[external_oracle]]
+name = "PyTorch import/export scripts"
+trust_kind = "external_producer"
+notes = "External producers of weights, examples, or JSON artifacts. Gondlin can parse and replay those artifacts, but PyTorch training itself is not part of Lean's trusted kernel."
+
+[[external_oracle]]
+name = "Julia wrapper"
+trust_kind = "external_producer"
+lean_file = "NN/Runtime/External/Julia.lean"
+env_var = "GONDLIN_JULIA"
+fallback = "julia on PATH"
+producer_scripts = "scripts/verification/splines/"
+fixtures = "NN/Examples/Verification/Splines/"
+notes = "Intended for `untrusted producer, Lean checker` workflows such as the piecewise-polynomial spline certificate workflow. Compiles even when Julia is not installed."
+
+[[external_oracle]]
+name = "Julia spline / PINN artifacts"
+trust_kind = "external_producer"
+notes = "Trusted only after a Lean checker validates the small certificate data: cell domains, polynomial coefficients, interval bounds, and claimed residual inequalities. Lean does not trust Julia's fitting process, optimizer, GPU use, or floating-point arithmetic merely because the subprocess returned successfully."

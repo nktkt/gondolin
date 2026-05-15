@@ -1,6 +1,10 @@
-name: CI (manual build + tests)
+name: CI
 
 on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
     inputs:
       run_slow_proofs:
@@ -14,16 +18,64 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build_and_test:
+  # Lightweight Python-only repository hygiene checks. These run first so a
+  # broken lock file or mismatched trust boundary doesn't waste a 30-minute
+  # Lean build.
+  hygiene:
+    name: Repo hygiene (no Lean)
     runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Case-insensitive path collision check
+        run: python3 scripts/checks/check_case_collisions.py
+
+      - name: Trust boundaries consistency
+        run: python3 scripts/checks/trust_boundaries_check.py
+
+      - name: Proof debt scan (strict)
+        run: python3 scripts/checks/proof_debt.py --strict
+
+      - name: API surface lock check
+        run: python3 scripts/checks/api_surface.py --check
+
+      - name: Docs link check (relative only)
+        run: python3 scripts/checks/docs_link_check.py
+
+      - name: Docstring coverage (NN/API ≥80%)
+        run: python3 scripts/checks/docstring_coverage.py --min-coverage 80
+
+      - name: Lake manifest audit
+        run: python3 scripts/checks/lake_manifest_audit.py
+
+      - name: Lean toolchain pin audit
+        run: python3 scripts/checks/lean_toolchain_pin.py
+
+      - name: CI workflow YAML lint
+        run: python3 scripts/checks/ci_workflow_lint.py
+
+      - name: Lean imports audit (cycles fail; layer violations warn)
+        run: python3 scripts/checks/lean_imports_audit.py
+
+  build_and_test:
+    name: Lean build + tests
+    runs-on: ${{ matrix.os }}
+    needs: hygiene
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Case-insensitive path collision check
-        run: python3 scripts/checks/check_case_collisions.py
 
       - name: Install elan
         run: curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y
@@ -45,6 +97,9 @@ jobs:
 
       - name: Run curated test suite
         run: ~/.elan/bin/lake test
+
+      - name: Verification CLI sanity check
+        run: ~/.elan/bin/lake exe verify -- list
 
   slow_proofs:
     name: CI (slow proofs)
