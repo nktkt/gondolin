@@ -1,0 +1,38 @@
+# EditorConfig for the Gondlin Lean 4 project.
+# See https://editorconfig.org for the spec.
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+# Lean follows the Mathlib convention: 2-space indent.
+[*.lean]
+indent_style = space
+indent_size = 2
+
+# YAML requires space indentation; 2 spaces is the de-facto standard.
+[*.{yml,yaml}]
+indent_style = space
+indent_size = 2
+
+# Python: PEP 8, 4-space indent.
+[*.py]
+indent_style = space
+indent_size = 4
+
+# C / C++ / CUDA sources follow the Gondlin 2-space convention.
+[*.{c,h,cpp,hpp,cu,cuh}]
+indent_style = space
+indent_size = 2
+
+# Markdown: preserve trailing whitespace (two trailing spaces = line break).
+[*.md]
+trim_trailing_whitespace = false
+
+# Makefiles require literal tabs for recipe lines.
+[Makefile]
+indent_style = tab

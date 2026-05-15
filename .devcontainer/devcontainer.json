@@ -1,0 +1,42 @@
+{
+  "name": "Gondlin (Lean 4)",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-22.04",
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": false,
+      "installOhMyZsh": false,
+      "upgradePackages": true,
+      "username": "vscode"
+    },
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.11",
+      "installTools": false
+    }
+  },
+  "workspaceFolder": "/workspaces/gondlin",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/gondlin,type=bind,consistency=cached",
+  "remoteUser": "vscode",
+  "onCreateCommand": "sudo apt-get update && sudo apt-get install -y --no-install-recommends curl git build-essential ca-certificates && sudo rm -rf /var/lib/apt/lists/*",
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "leanprover.lean4",
+        "tamasfe.even-better-toml",
+        "ms-python.python"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "files.eol": "\n"
+      }
+    }
+  },
+  "containerEnv": {
+    "ELAN_HOME": "/home/vscode/.elan",
+    "PATH": "/home/vscode/.elan/bin:${containerEnv:PATH}"
+  },
+  "remoteEnv": {
+    "GONDLIN_CUDA_DETERMINISTIC_REDUCTIONS": "${localEnv:GONDLIN_CUDA_DETERMINISTIC_REDUCTIONS}"
+  },
+  "forwardPorts": []
+}
