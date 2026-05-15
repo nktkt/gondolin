@@ -21,7 +21,8 @@ lake exe gondlin mlp --cpu --steps 10
 ```
 
 Gondlin is pinned by `lean-toolchain` and currently builds with
-`leanprover/lean4:v4.29.0`.
+`leanprover/lean4:v4.29.0`. The current Gondlin package version is `v0.1.0`;
+see [`CHANGELOG.md`](CHANGELOG.md) for release notes.
 
 ## First Things To Try
 

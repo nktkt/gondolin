@@ -176,6 +176,86 @@ Project conventions:
 - Keep executable demos and proof code separate when they have different trust assumptions.
 - Avoid introducing axioms. If one is unavoidable, quarantine and document it.
 
+## Local Checks
+
+Gondlin ships a set of Python-only repository checks under `scripts/checks/`. They have no Lean
+dependency and are cheap to run locally. CI runs all of them in the `hygiene` job before any Lean
+build starts; the `slow_proofs` job is opt-in and only fires via `workflow_dispatch`.
+
+- `proof_debt.py` — counts `sorry`/`admit`/`axiom`/`opaque`; target is zero sorries/admits and only
+  allowlisted axioms.
+
+  ```bash
+  python3 scripts/checks/proof_debt.py --strict
+  ```
+
+- `api_surface.py` — Tier 1 frozen API-surface check; compares the live `NN/API/` facade against
+  `api-surface.lock`.
+
+  ```bash
+  python3 scripts/checks/api_surface.py --check
+  ```
+
+- `trust_boundaries_check.py` — keeps `TRUST_BOUNDARIES.md`, `trust-boundaries.toml`, and
+  `repo_lint.py`'s `ALLOWED_AXIOMS` consistent.
+
+  ```bash
+  python3 scripts/checks/trust_boundaries_check.py
+  ```
+
+- `docs_link_check.py` — validates markdown links across the repository.
+
+  ```bash
+  python3 scripts/checks/docs_link_check.py
+  ```
+
+- `docstring_coverage.py` — measures `/-- ... -/` coverage on the `NN/API/` facade; target is ≥80%.
+
+  ```bash
+  python3 scripts/checks/docstring_coverage.py --min-coverage 80
+  ```
+
+- `lake_manifest_audit.py` — detects drift between `lake-manifest.json` and the `require` lines in
+  `lakefile.lean` (direct deps, pinned revisions, mathlib-is-last invariant).
+
+  ```bash
+  python3 scripts/checks/lake_manifest_audit.py
+  ```
+
+- `lean_toolchain_pin.py` — verifies `lean-toolchain` is well-formed and that the pinned Lean version
+  matches the mathlib/doc-gen4 tag pins in `lakefile.lean` and the manifest.
+
+  ```bash
+  python3 scripts/checks/lean_toolchain_pin.py
+  ```
+
+- `ci_workflow_lint.py` — stdlib-only structural sanity check for `.github/workflows/*.yml`
+  (required top-level keys, step shape, no tabs, `actions/*` version pinning).
+
+  ```bash
+  python3 scripts/checks/ci_workflow_lint.py
+  ```
+
+Run every Python check sequentially and report pass/fail:
+
+```bash
+fail=0; for c in \
+  scripts/checks/proof_debt.py:--strict \
+  scripts/checks/api_surface.py:--check \
+  scripts/checks/trust_boundaries_check.py: \
+  scripts/checks/docs_link_check.py: \
+  scripts/checks/docstring_coverage.py:'--min-coverage 80' \
+  scripts/checks/lake_manifest_audit.py: \
+  scripts/checks/lean_toolchain_pin.py: \
+  scripts/checks/ci_workflow_lint.py: \
+; do s="${c%%:*}"; a="${c#*:}"; printf '== %s %s ==\n' "$s" "$a"; if python3 "$s" $a; then echo "PASS: $s"; else echo "FAIL: $s"; fail=1; fi; done; exit $fail
+```
+
+For environment setup, `.devcontainer/devcontainer.json` provisions a VS Code dev container with the
+pinned Lean toolchain. Developers not using the devcontainer can run `scripts/dev/setup.sh` to
+install elan, pin the toolchain from `lean-toolchain`, warm the Mathlib cache, and self-check the
+repo. `.editorconfig` keeps indentation and line endings uniform across editors.
+
 ## Checking Untrusted Proofs
 
 Gondlin includes a wrapper for `leanprover/comparator`, which can compare a trusted
