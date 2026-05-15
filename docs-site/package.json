@@ -7,8 +7,9 @@
     "build": "next build",
     "start": "next start",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
-    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
-    "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
+    "build:api": "bash ../scripts/docs/build_api_for_site.sh",
+    "deploy": "bash ../scripts/docs/build_api_for_site.sh && opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "upload": "bash ../scripts/docs/build_api_for_site.sh && opennextjs-cloudflare build && opennextjs-cloudflare upload",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv ./cloudflare-env.d.ts"
   },
   "dependencies": {
