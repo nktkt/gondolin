@@ -1,0 +1,33 @@
+{
+  "schema_version": "1",
+  "kind": "robustness",
+  "claim": {
+    "summary": "MNIST digit classifier is robust at sample #42 within an L_inf ball of radius 0.03.",
+    "lean_module": "NN.Examples.Verification.Robustness.DigitsLinearMargin",
+    "model": {
+      "source": "lean",
+      "weights_hash": "sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+    },
+    "input_region": {
+      "radius": 0.03,
+      "norm": "l_inf"
+    },
+    "target_class": 7
+  },
+  "evidence": {
+    "producer": "gondlin-margin-cert@0.4.0",
+    "format": "logit-margin-bounds",
+    "payload": {
+      "lower_margin": 0.142,
+      "upper_runner_up": -0.018
+    }
+  },
+  "checked_by": {
+    "checker": "NN.Examples.Verification.Robustness.VerifyMarginCert",
+    "gondlin_version": "0.4.0-dev",
+    "gondlin_commit": "abc1234",
+    "checked_at": "2026-05-15T12:00:00Z",
+    "ok": true
+  },
+  "notes": "Example certificate used by schemas/README.md; not a real verification result."
+}

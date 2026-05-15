@@ -1,0 +1,282 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gondlin.dev/schemas/certificate-v1.json",
+  "title": "Gondlin Certificate v1",
+  "description": "Common envelope for verifier certificates produced or consumed by `lake exe verify`. See ROADMAP.md Phase 3.1 for the migration plan from per-verifier ad-hoc formats to this unified schema.",
+  "type": "object",
+  "required": ["schema_version", "kind", "claim", "evidence"],
+  "properties": {
+    "schema_version": {
+      "const": "1",
+      "description": "Certificate envelope schema version. Pinned to the string \"1\" for v1."
+    },
+    "kind": {
+      "enum": ["robustness", "ode", "pinn", "geometry3d", "splines"],
+      "description": "Verifier family this certificate targets."
+    },
+    "claim": {
+      "type": "object",
+      "description": "The mathematical statement being certified. Schema depends on `kind`.",
+      "required": ["summary"],
+      "properties": {
+        "summary": {
+          "type": "string",
+          "description": "Human-readable summary."
+        },
+        "lean_module": {
+          "type": "string",
+          "description": "Optional Lean module containing the formal statement."
+        },
+        "model": {
+          "type": "object",
+          "required": ["source", "weights_hash"],
+          "properties": {
+            "source": { "enum": ["lean", "onnx", "pytorch", "stablehlo"] },
+            "weights_hash": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$",
+              "description": "SHA-256 of the serialized weights, prefixed with `sha256:`."
+            }
+          }
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "description": "Producer-supplied evidence; opaque to the envelope.",
+      "required": ["producer", "format", "payload"],
+      "properties": {
+        "producer": {
+          "type": "string",
+          "description": "Name and version of the producer tool, e.g. `alpha-beta-crown@0.6.2`."
+        },
+        "format": {
+          "type": "string",
+          "description": "Evidence format identifier; consumed by the matching Lean checker."
+        },
+        "payload": {
+          "description": "Evidence payload. Structure determined by `format`."
+        }
+      }
+    },
+    "lean_proof_script": {
+      "type": "string",
+      "description": "Optional path (repo-relative) to a Lean `.lean` file that, when checked by Lean, validates the claim using the evidence. Mutually exclusive with relying solely on the executable checker."
+    },
+    "checked_by": {
+      "type": "object",
+      "description": "Independent attestation: which Gondlin checker validated this certificate, when, and at what commit.",
+      "required": ["checker", "gondlin_version", "ok"],
+      "properties": {
+        "checker": { "type": "string" },
+        "gondlin_version": { "type": "string" },
+        "gondlin_commit": { "type": "string" },
+        "checked_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "ok": { "type": "boolean" }
+      }
+    },
+    "notes": { "type": "string" }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": { "kind": { "const": "robustness" } },
+        "required": ["kind"]
+      },
+      "then": {
+        "properties": {
+          "claim": {
+            "type": "object",
+            "required": ["summary", "input_region", "target_class"],
+            "properties": {
+              "input_region": {
+                "type": "object",
+                "required": ["radius", "norm"],
+                "properties": {
+                  "radius": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Perturbation radius around the reference input."
+                  },
+                  "norm": {
+                    "enum": ["l_inf", "l1", "l2"],
+                    "description": "Norm used to define the perturbation ball."
+                  },
+                  "center": {
+                    "description": "Optional reference input (vector or tensor literal)."
+                  }
+                }
+              },
+              "target_class": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Index of the label being certified."
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "kind": { "const": "ode" } },
+        "required": ["kind"]
+      },
+      "then": {
+        "properties": {
+          "claim": {
+            "type": "object",
+            "required": ["summary", "time_horizon", "state_bound"],
+            "properties": {
+              "time_horizon": {
+                "type": "object",
+                "required": ["t_start", "t_end"],
+                "properties": {
+                  "t_start": { "type": "number" },
+                  "t_end": { "type": "number" }
+                },
+                "description": "Closed interval `[t_start, t_end]` over which the solution is bounded."
+              },
+              "state_bound": {
+                "type": "object",
+                "description": "Component-wise enclosure of the state trajectory.",
+                "properties": {
+                  "lower": { "type": "array", "items": { "type": "number" } },
+                  "upper": { "type": "array", "items": { "type": "number" } }
+                },
+                "required": ["lower", "upper"]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "kind": { "const": "pinn" } },
+        "required": ["kind"]
+      },
+      "then": {
+        "properties": {
+          "claim": {
+            "type": "object",
+            "required": ["summary", "pde_class", "domain", "residual_bound"],
+            "properties": {
+              "pde_class": {
+                "type": "string",
+                "description": "Identifier for the PDE family (e.g. `poisson-2d`, `heat-1d`, `burgers-1d`)."
+              },
+              "domain": {
+                "type": "object",
+                "description": "Spatial/temporal domain on which the residual is bounded.",
+                "properties": {
+                  "kind": {
+                    "enum": ["box", "polytope", "ball", "custom"]
+                  },
+                  "bounds": {
+                    "type": "array",
+                    "items": {
+                      "type": "array",
+                      "items": { "type": "number" },
+                      "minItems": 2,
+                      "maxItems": 2
+                    },
+                    "description": "For `box` domains: per-axis `[lo, hi]` pairs."
+                  }
+                },
+                "required": ["kind"]
+              },
+              "residual_bound": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Upper bound on the PDE residual norm on `domain`."
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "kind": { "const": "geometry3d" } },
+        "required": ["kind"]
+      },
+      "then": {
+        "properties": {
+          "claim": {
+            "type": "object",
+            "required": ["summary", "surface_class", "property"],
+            "properties": {
+              "surface_class": {
+                "type": "string",
+                "description": "Identifier for the 3D surface family (e.g. `triangle-mesh`, `nurbs`, `implicit-sdf`)."
+              },
+              "property": {
+                "type": "object",
+                "required": ["name"],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Property identifier (e.g. `camera-box-coverage`, `non-self-intersection`)."
+                  },
+                  "parameters": {
+                    "type": "object",
+                    "description": "Property-specific numeric parameters.",
+                    "additionalProperties": true
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "kind": { "const": "splines" } },
+        "required": ["kind"]
+      },
+      "then": {
+        "properties": {
+          "claim": {
+            "type": "object",
+            "required": ["summary", "cell_domains", "polynomial_degree", "residual_inequality"],
+            "properties": {
+              "cell_domains": {
+                "type": "array",
+                "description": "Piecewise cells covering the domain; each cell is a box `[lo, hi]^d`.",
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": { "type": "number" },
+                    "minItems": 2,
+                    "maxItems": 2
+                  }
+                }
+              },
+              "polynomial_degree": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Maximum total polynomial degree per cell."
+              },
+              "residual_inequality": {
+                "type": "object",
+                "required": ["op", "rhs"],
+                "properties": {
+                  "op": { "enum": ["<=", "<", ">=", ">"] },
+                  "rhs": { "type": "number" }
+                },
+                "description": "The certified inequality on the residual (e.g. `|f - p| <= eps`)."
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
