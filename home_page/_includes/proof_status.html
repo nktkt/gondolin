@@ -1,0 +1,18 @@
+<!-- Auto-generated from _data/proof_status.yml; do not edit by hand. -->
+<div class="proof-status">
+  <h3>Proof Health</h3>
+  <p>Snapshot as of <time>{{ site.data.proof_status.updated_at }}</time>
+    (Gondlin <code>v{{ site.data.proof_status.gondlin_version }}</code>):</p>
+  <ul>
+    <li>Files scanned: {{ site.data.proof_status.summary.files_scanned }}</li>
+    <li><code>sorry</code>: {{ site.data.proof_status.summary.sorry }}</li>
+    <li><code>admit</code>: {{ site.data.proof_status.summary.admit }}</li>
+    <li>Allowed axioms: {{ site.data.proof_status.summary.axiom }}</li>
+    <li>Opaque (non-FFI tracked): {{ site.data.proof_status.summary.opaque }}</li>
+  </ul>
+  {% if site.data.proof_status.healthy %}
+    <p class="status-ok">Status: ✅ healthy</p>
+  {% else %}
+    <p class="status-warn">Status: ⚠️ regression — see <a href="https://github.com/nktkt/gondlin/blob/main/TRUST_BOUNDARIES.md">TRUST_BOUNDARIES.md</a></p>
+  {% endif %}
+</div>
