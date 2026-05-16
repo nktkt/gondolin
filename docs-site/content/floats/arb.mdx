@@ -23,7 +23,7 @@ This backend is **not** kernel-reducible and should be treated as untrusted by d
 - The Python process calls Arb/FLINT.
 - The result is a JSON payload that can be checked or inspected by Lean code.
 
-If you want semantics defined inside Lean, use TorchLean's native float backends
+If you want semantics defined inside Lean, use Gondolin's native float backends
 instead — `IEEE32Exec` (executable bit-level float32) or `FP32`/`NF` (proof-oriented
 rounding over `ℝ`).
 

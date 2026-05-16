@@ -105,7 +105,7 @@ export function CodeStatsPanel({ className }: { className?: string }) {
           Module graph &amp; stats
         </h2>
         <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          A static snapshot of the TorchLean Lean module graph, extracted from
+          A static snapshot of the Gondolin Lean module graph, extracted from
           the repository&apos;s dependency audit. It captures the shape of the
           codebase at audit time &mdash; how many modules and declarations
           exist, how the layers are sized, and which modules sit at the center

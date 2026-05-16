@@ -1,11 +1,11 @@
 ---
 title: "Floats Overview"
-description: "TorchLean's floating-point backends and the theory that connects them."
+description: "Gondolin's floating-point backends and the theory that connects them."
 ---
 
 # Floats Overview
 
-`NN/Floats` contains TorchLean's floating-point backends and the theory that connects
+`NN/Floats` contains Gondolin's floating-point backends and the theory that connects
 them:
 
 - `FP32/` — a proof-oriented, finite float32 model based on rounding over `ℝ`.
@@ -24,7 +24,7 @@ that exercise this infrastructure live under `NN/Examples/`.
 
 ## The Three Float32 Views
 
-TorchLean uses three complementary notions of float32. They have different strengths,
+Gondolin uses three complementary notions of float32. They have different strengths,
 and the bridge files let us move between them without blurring the trust boundary.
 
 ### 1. `IEEE32Exec` — Executable IEEE-754 Binary32

@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const title = "TorchLean — Formalizing Neural Networks in Lean";
+const title = "Gondolin — Formalizing Neural Networks in Lean";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     "neural networks",
     "machine learning",
     "formal verification",
-    "TorchLean",
+    "Gondolin",
     "autograd",
     "tensors",
   ],

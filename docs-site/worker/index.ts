@@ -1,5 +1,5 @@
 /**
- * Cloudflare Worker for the TorchLean docs site.
+ * Cloudflare Worker for the Gondolin docs site.
  *
  * The site is a Next.js static export (`output: "export"`) served from the
  * `ASSETS` binding, plus a statically-hosted DocGen4 API reference under

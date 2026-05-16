@@ -5,7 +5,7 @@ description: "Executable IEEE-754 float32 semantics inside Lean, with bridge the
 
 # IEEE Exec
 
-`NN/Floats/IEEEExec` contains TorchLean's Lean-defined executable model of IEEE-754
+`NN/Floats/IEEEExec` contains Gondolin's Lean-defined executable model of IEEE-754
 binary32, together with bridge theorems that connect runtime execution to proof-oriented
 rounding models over `ℝ`.
 
@@ -37,7 +37,7 @@ The interval *API layer* that uses these results lives in `NN/Floats/Interval/`.
 
 ## Bridge To Proof-Oriented Float Models
 
-TorchLean keeps two float32 views — executable (`IEEE32Exec`) and proof-oriented
+Gondolin keeps two float32 views — executable (`IEEE32Exec`) and proof-oriented
 (`FP32`). Bridge files connect them on the finite, no-overflow path:
 
 - `BridgeFP32.lean` — per-operation refinement lemmas (finite branch).
@@ -53,7 +53,7 @@ TorchLean keeps two float32 views — executable (`IEEE32Exec`) and proof-orient
 ## Trust Boundary
 
 IEEE-754 does not specify bit-level results for transcendentals (`expf`, `logf`, …),
-and platform libm implementations can differ. TorchLean therefore treats:
+and platform libm implementations can differ. Gondolin therefore treats:
 
 - core arithmetic (add/mul/div/sqrt, specials) as the proved executable kernel, and
 - transcendentals as deterministic but **not** IEEE-specified unless you use a

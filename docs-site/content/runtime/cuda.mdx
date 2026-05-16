@@ -1,11 +1,11 @@
 ---
 title: "CUDA Runtime"
-description: "TorchLean's trusted native runtime boundary for CUDA and CPU stub builds."
+description: "Gondolin's trusted native runtime boundary for CUDA and CPU stub builds."
 ---
 
 # CUDA Runtime
 
-`csrc/cuda/` is TorchLean's trusted native runtime boundary for CUDA and CPU stub
+`csrc/cuda/` is Gondolin's trusted native runtime boundary for CUDA and CPU stub
 builds. Lean checks shapes and dispatches to these symbols, but memory safety, kernel
 launch behavior, and float32 arithmetic are outside Lean's kernel.
 
@@ -30,7 +30,7 @@ lake build -R -K cuda=true -K cuda_home=/usr/local/cuda
 
 ## CUDA Graph Status
 
-TorchLean's current CUDA path is **eager**: each autograd step records a Lean runtime
+Gondolin's current CUDA path is **eager**: each autograd step records a Lean runtime
 tape and dispatches individual CUDA buffer ops. This moves the expensive math to the
 GPU, but it is **not** CUDA Graph capture/replay.
 
@@ -45,7 +45,7 @@ Current memory policy:
 
 This reduces accidental lifetime extension from Lean external object finalizers, but
 it does not turn eager execution into a static CUDA graph. Until a CUDA-Graph backend
-is added, `--backend compiled` should be read as TorchLean's proof/SSA graph backend,
+is added, `--backend compiled` should be read as Gondolin's proof/SSA graph backend,
 **not** as CUDA Graph execution.
 
 For a CUDA training smoke test:

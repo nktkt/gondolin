@@ -5,7 +5,7 @@ description: "Stable public imports for downstream projects and the PyTorch-styl
 
 # API Surface
 
-`NN/API` collects TorchLean's public API modules. The goal is to give users a small,
+`NN/API` collects Gondolin's public API modules. The goal is to give users a small,
 stable set of imports whose names stay fixed even when runtime or spec internals move.
 
 ## Recommended Imports
@@ -20,7 +20,7 @@ import NN.Library         -- broad umbrella: spec, IR, proof, verification, exam
 The design goal is to keep the public surface discoverable while letting internal
 runtime modules under `NN/Runtime/*` evolve without asking users to chase imports.
 
-## Use TorchLean From Another Lean Project
+## Use Gondolin From Another Lean Project
 
 The `Gondolin` package is an ordinary Lake dependency. You can depend on the Git repo:
 

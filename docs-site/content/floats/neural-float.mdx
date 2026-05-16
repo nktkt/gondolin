@@ -6,14 +6,14 @@ description: "Generic rounded arithmetic over the reals: formats, rounding modes
 # NeuralFloat
 
 `NN.Floats.NeuralFloat` provides the generic rounded arithmetic over `ℝ` that much of
-TorchLean builds on. It holds the shared definitions for precision, rounding, and
+Gondolin builds on. It holds the shared definitions for precision, rounding, and
 error without committing to a particular executable kernel.
 
 ## Files
 
 - `Core.lean` — core datatypes (radix plus Flocq-style rounding scaffolding) and the
   `NeuralFloat` record.
-- `Metadata.lean` — TorchLean metadata: training phase, named precisions, mixed-precision
+- `Metadata.lean` — Gondolin metadata: training phase, named precisions, mixed-precision
   presets.
 - `Formats.lean` — Flocq-style exponent functions and format predicates (FIX/FLX/FLT).
 - `Rounding.lean` — rounding modes and `neural_round` validation classes.

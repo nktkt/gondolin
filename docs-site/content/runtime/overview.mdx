@@ -5,9 +5,9 @@ description: "The executable layer where typed tensor specs become runnable prog
 
 # Runtime Overview
 
-`NN/Runtime` is TorchLean's executable layer. It is where typed tensor specs become
+`NN/Runtime` is Gondolin's executable layer. It is where typed tensor specs become
 runnable programs, autograd tapes execute, optimizers update parameter lists, and
-optional bridges connect TorchLean to CUDA, PyTorch, Julia, and Gymnasium-style
+optional bridges connect Gondolin to CUDA, PyTorch, Julia, and Gymnasium-style
 environments.
 
 ## Public Imports
@@ -45,7 +45,7 @@ contain implementation modules without creating competing umbrella names.
 
 ## Trust Boundaries
 
-The Lean runtime specifies and executes TorchLean's own tensor and tape semantics.
+The Lean runtime specifies and executes Gondolin's own tensor and tape semantics.
 Native CUDA, PyTorch, Julia, and Gymnasium integrations are **external** trust
 boundaries: their contracts, shape checks, and regression tests live in Lean-facing
 modules, but foreign C, CUDA, Python, and Julia code is not proved correct inside

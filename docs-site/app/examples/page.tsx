@@ -47,7 +47,7 @@ export default function ExamplesPage() {
         </h1>
         <p className="max-w-2xl text-sm text-muted-foreground md:text-base">
           A curated gallery of runnable models, training loops, and verification
-          fixtures shipped with TorchLean. Every entry maps to a single{" "}
+          fixtures shipped with Gondolin. Every entry maps to a single{" "}
           <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">
             lake exe
           </code>{" "}

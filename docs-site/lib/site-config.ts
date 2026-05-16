@@ -1,6 +1,6 @@
 export const siteConfig = {
-  name: "TorchLean",
-  shortName: "TorchLean Docs",
+  name: "Gondolin",
+  shortName: "Gondolin Docs",
   description:
     "Formalizing Neural Networks in Lean. Typed tensors, IR, autograd, verification certificates, and finite-precision semantics — all in Lean 4.",
   url: "https://torchlean.org",

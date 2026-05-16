@@ -1,11 +1,11 @@
 ---
 title: "Contributing"
-description: "How to contribute to TorchLean: build, test, and add operators across the spec/runtime/proof boundary."
+description: "How to contribute to Gondolin: build, test, and add operators across the spec/runtime/proof boundary."
 ---
 
 # Contributing
 
-Thanks for helping improve TorchLean. Good contributions usually improve one of four
+Thanks for helping improve Gondolin. Good contributions usually improve one of four
 areas:
 
 - make a mathematical definition or theorem clearer,
@@ -18,7 +18,7 @@ PRs are much easier to review than one large branch that touches every layer at 
 
 ## First Build
 
-TorchLean is pinned by `lean-toolchain`. From a fresh checkout:
+Gondolin is pinned by `lean-toolchain`. From a fresh checkout:
 
 ```bash
 lake update
@@ -55,7 +55,7 @@ runnable example, or a guide/API note.
 
 ## Trust Boundaries
 
-TorchLean keeps three categories separate:
+Gondolin keeps three categories separate:
 
 - Lean-checked definitions and theorems,
 - executable Lean code and tests,
@@ -89,7 +89,7 @@ that boundary instead of quietly slipping it into the shared semantics layer.
 
 ## Style And Proof Hygiene
 
-TorchLean aims to keep `NN/` free of `sorry`:
+Gondolin aims to keep `NN/` free of `sorry`:
 
 ```bash
 python3 scripts/checks/repo_lint.py

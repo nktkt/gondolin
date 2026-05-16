@@ -48,7 +48,7 @@ const topLevelEntries: SearchEntry[] = [
     "Home",
     "Site",
     "/",
-    "The TorchLean landing page.",
+    "The Gondolin landing page.",
     ["landing", "index", "start"]
   ),
   makeEntry(
@@ -64,7 +64,7 @@ const topLevelEntries: SearchEntry[] = [
     "GitHub repository",
     "External",
     siteConfig.github,
-    "View the TorchLean source on GitHub.",
+    "View the Gondolin source on GitHub.",
     ["source", "code", "repository", "git"],
     true
   ),

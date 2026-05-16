@@ -10,7 +10,7 @@ export const size = {
 export const contentType = "image/png";
 
 /**
- * TorchLean favicon: a lambda drawn as a 3-node graph — the Lean "λ"
+ * Gondolin favicon: a lambda drawn as a 3-node graph — the Lean "λ"
  * meeting the neural-network motif. Monochrome, to match the site brand.
  */
 export default function Icon() {

@@ -4,7 +4,7 @@ import { siteConfig } from "@/lib/site-config";
 // Required for `output: "export"` — generate this image at build time.
 export const dynamic = "force-static";
 
-export const alt = "TorchLean — Formalizing Neural Networks in Lean";
+export const alt = "Gondolin — Formalizing Neural Networks in Lean";
 export const size = {
   width: 1200,
   height: 630,

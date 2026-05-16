@@ -11,7 +11,7 @@ const SLUG = "architecture/graphs";
 export const metadata: Metadata = {
   title: "Module graphs",
   description:
-    "An interactive view of the TorchLean Lean module graph — inter-layer import structure, codebase statistics, and dependency hubs.",
+    "An interactive view of the Gondolin Lean module graph — inter-layer import structure, codebase statistics, and dependency hubs.",
 };
 
 export default function GraphsPage() {

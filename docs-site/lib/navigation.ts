@@ -25,7 +25,7 @@ export const navigation: NavSection[] = [
     title: "Guide",
     category: "guide",
     items: [
-      { slug: "guide/overview", title: "Overview", description: "What TorchLean is and how its layers fit together." },
+      { slug: "guide/overview", title: "Overview", description: "What Gondolin is and how its layers fit together." },
       { slug: "guide/quickstart", title: "Quickstart", description: "Clone, build, and run your first example in minutes." },
       { slug: "guide/api-surface", title: "Public API surface", description: "The recommended import facades." },
     ],
