@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -30,8 +30,8 @@ open Spec
 open Tensor
 open Spec.RL
 
-open Gondlin.Floats
-open Gondlin.Floats.IEEE754
+open Gondolin.Floats
+open Gondolin.Floats.IEEE754
 
 /-!
 ## Checked RL core transforms (IEEE32Exec)
@@ -39,7 +39,7 @@ open Gondlin.Floats.IEEE754
 
 /-- Require that an `IEEE32Exec` value is finite, producing a tagged error on failure. -/
 def requireFinite (label : String) (x : Float32Exec) : Except String Unit :=
-  if Gondlin.Floats.IEEE754.IEEE32Exec.isFinite x = true then
+  if Gondolin.Floats.IEEE754.IEEE32Exec.isFinite x = true then
     .ok ()
   else
     .error s!"RL float32: non-finite IEEE32Exec value at {label}: {x}"
@@ -54,63 +54,63 @@ readable while still producing *precise* error locations when non-finite values 
 
 /-- Checked IEEE32Exec addition. -/
 def checkedAdd (label : String) (x y : Float32Exec) : Except String Float32Exec :=
-  let z := Gondlin.Floats.IEEE754.IEEE32Exec.add x y
+  let z := Gondolin.Floats.IEEE754.IEEE32Exec.add x y
   match requireFinite label z with
   | .ok _ => .ok z
   | .error e => .error e
 
 /-- Checked IEEE32Exec subtraction. -/
 def checkedSub (label : String) (x y : Float32Exec) : Except String Float32Exec :=
-  let z := Gondlin.Floats.IEEE754.IEEE32Exec.sub x y
+  let z := Gondolin.Floats.IEEE754.IEEE32Exec.sub x y
   match requireFinite label z with
   | .ok _ => .ok z
   | .error e => .error e
 
 /-- Checked IEEE32Exec multiplication. -/
 def checkedMul (label : String) (x y : Float32Exec) : Except String Float32Exec :=
-  let z := Gondlin.Floats.IEEE754.IEEE32Exec.mul x y
+  let z := Gondolin.Floats.IEEE754.IEEE32Exec.mul x y
   match requireFinite label z with
   | .ok _ => .ok z
   | .error e => .error e
 
 /-- Checked IEEE32Exec division. -/
 def checkedDiv (label : String) (x y : Float32Exec) : Except String Float32Exec :=
-  let z := Gondlin.Floats.IEEE754.IEEE32Exec.div x y
+  let z := Gondolin.Floats.IEEE754.IEEE32Exec.div x y
   match requireFinite label z with
   | .ok _ => .ok z
   | .error e => .error e
 
 /-- Checked IEEE32Exec exponentiation (base-e). -/
 def checkedExp (label : String) (x : Float32Exec) : Except String Float32Exec :=
-  let z := Gondlin.Floats.IEEE754.IEEE32Exec.exp x
+  let z := Gondolin.Floats.IEEE754.IEEE32Exec.exp x
   match requireFinite label z with
   | .ok _ => .ok z
   | .error e => .error e
 
 /-- Checked IEEE32Exec logarithm (natural log). -/
 def checkedLog (label : String) (x : Float32Exec) : Except String Float32Exec :=
-  let z := Gondlin.Floats.IEEE754.IEEE32Exec.log x
+  let z := Gondolin.Floats.IEEE754.IEEE32Exec.log x
   match requireFinite label z with
   | .ok _ => .ok z
   | .error e => .error e
 
 /-- Checked IEEE32Exec square root. -/
 def checkedSqrt (label : String) (x : Float32Exec) : Except String Float32Exec :=
-  let z := Gondlin.Floats.IEEE754.IEEE32Exec.sqrt x
+  let z := Gondolin.Floats.IEEE754.IEEE32Exec.sqrt x
   match requireFinite label z with
   | .ok _ => .ok z
   | .error e => .error e
 
 /-- Checked IEEE32Exec `min` using IEEE-754 `minimum`. -/
 def checkedMin (label : String) (x y : Float32Exec) : Except String Float32Exec :=
-  let z := Gondlin.Floats.IEEE754.IEEE32Exec.minimum x y
+  let z := Gondolin.Floats.IEEE754.IEEE32Exec.minimum x y
   match requireFinite label z with
   | .ok _ => .ok z
   | .error e => .error e
 
 /-- Checked IEEE32Exec `max` using IEEE-754 `maximum`. -/
 def checkedMax (label : String) (x y : Float32Exec) : Except String Float32Exec :=
-  let z := Gondlin.Floats.IEEE754.IEEE32Exec.maximum x y
+  let z := Gondolin.Floats.IEEE754.IEEE32Exec.maximum x y
   match requireFinite label z with
   | .ok _ => .ok z
   | .error e => .error e
@@ -159,30 +159,30 @@ If `discountedBackupIEEE32ExecChecked` returns `.ok out`, then:
 theorem discountedBackupIEEE32ExecChecked_eq_ok
     (reward gamma bootstrap : Float32Exec) (done : Bool) (out : Float32Exec)
     (h : discountedBackupIEEE32ExecChecked reward gamma bootstrap done = .ok out) :
-    Gondlin.Floats.IEEE754.IEEE32Exec.isFinite
-        (Gondlin.Floats.IEEE754.IEEE32Exec.mul gamma (continueMask (α := Float32Exec) done)) =
+    Gondolin.Floats.IEEE754.IEEE32Exec.isFinite
+        (Gondolin.Floats.IEEE754.IEEE32Exec.mul gamma (continueMask (α := Float32Exec) done)) =
       true ∧
-      Gondlin.Floats.IEEE754.IEEE32Exec.isFinite
-          (Gondlin.Floats.IEEE754.IEEE32Exec.mul
-            (Gondlin.Floats.IEEE754.IEEE32Exec.mul gamma (continueMask (α := Float32Exec) done))
+      Gondolin.Floats.IEEE754.IEEE32Exec.isFinite
+          (Gondolin.Floats.IEEE754.IEEE32Exec.mul
+            (Gondolin.Floats.IEEE754.IEEE32Exec.mul gamma (continueMask (α := Float32Exec) done))
             bootstrap) =
         true ∧
-        Gondlin.Floats.IEEE754.IEEE32Exec.isFinite
-            (Gondlin.Floats.IEEE754.IEEE32Exec.add reward
-              (Gondlin.Floats.IEEE754.IEEE32Exec.mul
-                (Gondlin.Floats.IEEE754.IEEE32Exec.mul gamma
+        Gondolin.Floats.IEEE754.IEEE32Exec.isFinite
+            (Gondolin.Floats.IEEE754.IEEE32Exec.add reward
+              (Gondolin.Floats.IEEE754.IEEE32Exec.mul
+                (Gondolin.Floats.IEEE754.IEEE32Exec.mul gamma
                   (continueMask (α := Float32Exec) done))
                 bootstrap)) =
           true ∧
           out = discountedBackup (α := Float32Exec) reward gamma bootstrap done := by
   -- Abbreviate the intermediate values so we can reason by contradiction on each check.
   set mask : Float32Exec := continueMask (α := Float32Exec) done
-  set t1 : Float32Exec := Gondlin.Floats.IEEE754.IEEE32Exec.mul gamma mask
-  set t2 : Float32Exec := Gondlin.Floats.IEEE754.IEEE32Exec.mul t1 bootstrap
-  set out0 : Float32Exec := Gondlin.Floats.IEEE754.IEEE32Exec.add reward t2
+  set t1 : Float32Exec := Gondolin.Floats.IEEE754.IEEE32Exec.mul gamma mask
+  set t2 : Float32Exec := Gondolin.Floats.IEEE754.IEEE32Exec.mul t1 bootstrap
+  set out0 : Float32Exec := Gondolin.Floats.IEEE754.IEEE32Exec.add reward t2
 
-  have ht1 : Gondlin.Floats.IEEE754.IEEE32Exec.isFinite t1 = true := by
-    cases hft1 : Gondlin.Floats.IEEE754.IEEE32Exec.isFinite t1 with
+  have ht1 : Gondolin.Floats.IEEE754.IEEE32Exec.isFinite t1 = true := by
+    cases hft1 : Gondolin.Floats.IEEE754.IEEE32Exec.isFinite t1 with
     | true =>
         rfl
     | false =>
@@ -193,8 +193,8 @@ theorem discountedBackupIEEE32ExecChecked_eq_ok
           simp [discountedBackupIEEE32ExecChecked, checkedMul, requireFinite, mask, t1, hft1] at h'
         exact this.elim
 
-  have ht2 : Gondlin.Floats.IEEE754.IEEE32Exec.isFinite t2 = true := by
-    cases hft2 : Gondlin.Floats.IEEE754.IEEE32Exec.isFinite t2 with
+  have ht2 : Gondolin.Floats.IEEE754.IEEE32Exec.isFinite t2 = true := by
+    cases hft2 : Gondolin.Floats.IEEE754.IEEE32Exec.isFinite t2 with
     | true =>
         rfl
     | false =>
@@ -203,8 +203,8 @@ theorem discountedBackupIEEE32ExecChecked_eq_ok
           simp [discountedBackupIEEE32ExecChecked, checkedMul, requireFinite, mask, t1, t2, ht1, hft2] at h'
         exact this.elim
 
-  have hout0 : Gondlin.Floats.IEEE754.IEEE32Exec.isFinite out0 = true := by
-    cases hfout : Gondlin.Floats.IEEE754.IEEE32Exec.isFinite out0 with
+  have hout0 : Gondolin.Floats.IEEE754.IEEE32Exec.isFinite out0 = true := by
+    cases hfout : Gondolin.Floats.IEEE754.IEEE32Exec.isFinite out0 with
     | true =>
         rfl
     | false =>

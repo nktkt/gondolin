@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 
 CUDA helpers: shape/broadcast metadata derived from `Spec.Shape` proofs.
 
@@ -10,7 +10,7 @@ In particular, CUDA broadcast kernels operate on explicit runtime arrays:
 - `outDims : Array Nat` (outermost-first)
 - `axisMap : Array Nat` of length `outDims.size`
 
-The `axisMap` encoding matches `csrc/cuda/kernels/gondlin_cuda_kernels.cu`:
+The `axisMap` encoding matches `csrc/cuda/kernels/gondolin_cuda_kernels.cu`:
 - `axisMap[j] = 0` means output axis `j` is an inserted/broadcast axis (input coordinate is `0`)
 - `axisMap[j] = inAxis+1` maps output axis `j` to input axis `inAxis` (0-based), with the `+1`
   sentinel so `0` can be reserved for inserted axes.

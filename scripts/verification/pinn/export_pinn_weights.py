@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Export weights for a PINN-style MLP compatible with Gondlin's PINN CLI importer.
+Export weights for a PINN-style MLP compatible with Gondolin's PINN CLI importer.
 
 Architecture (Sequential):
   layers = [
@@ -54,7 +54,7 @@ def build_model(in_dim: int):
 
 
 def to_json_dict(model: nn.Sequential):
-    """Serialize a sequential PINN model into Gondlin's JSON weight schema."""
+    """Serialize a sequential PINN model into Gondolin's JSON weight schema."""
     sd = model.state_dict()
     def tens(name):
         """Read one state-dict tensor as a nested Python list."""

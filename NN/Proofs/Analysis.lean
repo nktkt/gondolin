@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -17,7 +17,7 @@ public import NN.Proofs.Analysis.Softmax
 /-!
 # Analysis Proofs
 
-Curated import surface for Gondlin's real-analysis and numerics-facing proof utilities.
+Curated import surface for Gondolin's real-analysis and numerics-facing proof utilities.
 
 This is the “math facts about the spec” layer. It should not contain executable CUDA checks,
 empirical approximations, or model examples. A good rule of thumb:
@@ -34,12 +34,12 @@ The split between these files is intentional:
 - `InductiveProperties` carries structural tensor-induction patterns and dimension-lifting lemmas
   that depend on those norm facts.
 - `Softmax`, `Dropout`, and `Normalization` are small layer-specific sanity theorems.
-- `Fft` is pure mathlib `ℂ` DFT algebra with no Gondlin runtime dependency.
-- `FftBridge` is the transport layer from Gondlin runtime FFT twiddle definitions to the exact
+- `Fft` is pure mathlib `ℂ` DFT algebra with no Gondolin runtime dependency.
+- `FftBridge` is the transport layer from Gondolin runtime FFT twiddle definitions to the exact
   `Fft` matrices. Keeping it separate prevents the pure DFT theorem file from importing the runtime
   stack.
 
-Trust boundary: these are Lean theorems about Gondlin specs and mathlib objects. CUDA/cuFFT or
+Trust boundary: these are Lean theorems about Gondolin specs and mathlib objects. CUDA/cuFFT or
 other native fast paths are tested against their contracts elsewhere; they are not proved by this
 module.
 -/

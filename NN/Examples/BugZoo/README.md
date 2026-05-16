@@ -1,7 +1,7 @@
-# Gondlin BugZoo
+# Gondolin BugZoo
 
 BugZoo is a collection of small checked case studies for common neural-network failure modes. Each
-card starts from a real class of bugs, then asks what the corresponding Gondlin contract should be.
+card starts from a real class of bugs, then asks what the corresponding Gondolin contract should be.
 
 Many ML bugs are not crashes. The code still returns tensors, logits, losses, or tokens, but the
 computation no longer means what the user intended. BugZoo turns those cases into small artifacts: a
@@ -10,7 +10,7 @@ compiler-preservation obligation.
 
 ## Why These Bugs Matter
 
-The useful Gondlin point is not "Python cannot run neural nets." Python can run them very well.
+The useful Gondolin point is not "Python cannot run neural nets." Python can run them very well.
 The problem is that many serious ML bugs still return tensors, losses, logits, or tokens.
 They are semantic bugs: the code runs, but it is no longer the math people think they deployed.
 
@@ -46,7 +46,7 @@ They are semantic bugs: the code runs, but it is no longer the math people think
 
 Scope: this BugZoo pass does not verify distributed training
 setups, NCCL/collective semantics, paged attention allocators, mixed quantization, or arbitrary CUDA
-kernels. Those can be separate boundary cards, but they are not part of the checked Gondlin scope
+kernels. Those can be separate boundary cards, but they are not part of the checked Gondolin scope
 shown here.
 
 ## Source Trail
@@ -91,7 +91,7 @@ The case studies are motivated by published bug studies and systems reports:
   [Omni3D #60](https://github.com/facebookresearch/omni3d/issues/60), and
   [BlenderProc #1150](https://github.com/DLR-RM/BlenderProc/issues/1150):
   camera conventions, tensor layouts, and bbox projection checks are a real boundary problem,
-  not a synthetic Gondlin only example.
+  not a synthetic Gondolin only example.
 
 ## Reading guide
 
@@ -99,7 +99,7 @@ BugZoo files should read like small case studies. Each file should answer, in or
 
 - what real bug family is being modeled;
 - what the bad framework side pattern looks like;
-- what exact Gondlin object is the trusted contract;
+- what exact Gondolin object is the trusted contract;
 - what the theorem proves, and what it does not prove.
 
 That keeps the prose explanation close to the checked Lean artifact without claiming more than the

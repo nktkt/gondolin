@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -24,7 +24,7 @@ proofs, and we want to avoid surprising `simp` behavior in unrelated development
 
 @[expose] public section
 
-namespace Gondlin.Floats.Interval
+namespace Gondolin.Floats.Interval
 
 /-- Coercion distributes over `min` for reals embedded into `EReal`. -/
 theorem coe_min (a b : ℝ) : ((min a b : ℝ) : EReal) = min (a : EReal) (b : EReal) := by
@@ -48,4 +48,4 @@ theorem coe_max (a b : ℝ) : ((max a b : ℝ) : EReal) = max (a : EReal) (b : E
       simpa [EReal.coe_le_coe_iff] using h'
     simp [max_eq_left h', max_eq_left hE]
 
-end Gondlin.Floats.Interval
+end Gondolin.Floats.Interval

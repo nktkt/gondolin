@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -20,8 +20,8 @@ This file focuses on demo/training ergonomics:
 - build small `TList`s,
 - run simple SGD loops for `Torch.ScalarTrainer`.
 
-Stateful optimizer loops live in `Runtime.Autograd.Gondlin`, because those depend on
-`Gondlin.Optim`. Keeping that dependency out of this low-level utility module prevents the
+Stateful optimizer loops live in `Runtime.Autograd.Gondolin`, because those depend on
+`Gondolin.Optim`. Keeping that dependency out of this low-level utility module prevents the
 session/ref layer from depending upward on the model/optimizer facade.
 -/
 
@@ -290,7 +290,7 @@ for step in range(steps):
 ```
 
 Note: `ScalarTrainer.step` is the "bundled SGD optimizer" for the trainer. Stateful optimizers
-(Adam, RMSProp, ...) are exposed from `Runtime.Autograd.Gondlin`.
+(Adam, RMSProp, ...) are exposed from `Runtime.Autograd.Gondolin`.
 -/
 def trainCycleSGD
     {α : Type} [ToString α] {paramShapes inputShapes : List Shape}

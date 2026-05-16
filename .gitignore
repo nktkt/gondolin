@@ -36,7 +36,7 @@ NN/Examples/Verification/PINN/checkpoints/
 # generated artifacts should go into these ignored directories or `_external/`.
 NN/Examples/Verification/**/generated/
 NN/Examples/Verification/**/outputs/
-NN/Examples/Verification/TwoStageGondlin/_external/
+NN/Examples/Verification/TwoStageGondolin/_external/
 blueprint/print/*.nfs*
 
 # LaTeX build artifacts (paper/blueprint)
@@ -59,7 +59,7 @@ missfont.log
 verso_manual/.verso/
 verso_manual/.lake/
 
-# Local experiment repos / scratchpads (not part of the public Gondlin library)
+# Local experiment repos / scratchpads (not part of the public Gondolin library)
 /disabled
 testingoblass/
 pdf/

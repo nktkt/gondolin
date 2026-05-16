@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -18,7 +18,7 @@ This is the “loading” half of the PINN PyTorch bridge:
 
 - read a PyTorch-style state dictionary encoded as JSON,
 - parse each weight/bias matrix into a shape-checked `Tensor Float ...` (shape inferred/checked),
-- infer a Gondlin `SequentialPINNArch` from the layer shapes plus optional activation metadata.
+- infer a Gondolin `SequentialPINNArch` from the layer shapes plus optional activation metadata.
 
 The generic JSON helpers (`loadWeights?`, `parseTensor`, `inferMatrixDims`, …) live in
 `NN/Runtime/PyTorch/Import/Core.lean`.
@@ -58,7 +58,7 @@ structure PinnLayer where
   /-- bias. -/
   bias    : Tensor Float (.dim outDim .scalar)
 
-/-- A parsed PINN state dict together with the inferred Gondlin sequential PINN architecture. -/
+/-- A parsed PINN state dict together with the inferred Gondolin sequential PINN architecture. -/
 structure PinnState where
   /-- Inferred sequential fully-connected PINN architecture. -/
   arch   : SequentialPINNArch

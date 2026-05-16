@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -15,7 +15,7 @@ public import NN.Spec.Core.Shape
 /-!
 # Core tensor datatype (`Spec.Tensor`)
 
-This file defines the foundational, shape-indexed tensor type used throughout Gondlin's **spec**
+This file defines the foundational, shape-indexed tensor type used throughout Gondolin's **spec**
 layer:
 
 `Tensor α s`
@@ -248,7 +248,7 @@ Indexing design notes:
 PyTorch analogy:
 - `get_spec t [i,j,k]` is like `t[i,j,k]` but returns `none` instead of throwing.
 - `get t i` is like slicing the first dimension: `t[i]`.
-  (Gondlin also supports Lean’s indexing syntax: `t[i]` elaborates to `Spec.get t i`.)
+  (Gondolin also supports Lean’s indexing syntax: `t[i]` elaborates to `Spec.get t i`.)
 - `get2 A i j` is like `A[i,j]`.
   (And `A[(i, j)]` elaborates to `Spec.get2 A i j` for matrix-shaped scalar tensors.)
 -/

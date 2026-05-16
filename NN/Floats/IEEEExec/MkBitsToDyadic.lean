@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -22,7 +22,7 @@ gives the bridge, interval, and runtime-approximation proofs a shared decoding i
 
 @[expose] public section
 
-namespace Gondlin.Floats.IEEE754
+namespace Gondolin.Floats.IEEE754
 namespace IEEE32Exec
 
 /-! ## `toDyadic? (ofBits (mkBits …))` on the finite path -/
@@ -387,4 +387,4 @@ theorem toDyadic?_ofBits_mkBits_fin (sign : Bool) (exp frac : Nat)
       hfrac_mod]
 
 end IEEE32Exec
-end Gondlin.Floats.IEEE754
+end Gondolin.Floats.IEEE754

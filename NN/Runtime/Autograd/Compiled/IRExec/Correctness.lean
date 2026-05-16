@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -17,7 +17,7 @@ Correctness for the IR → executable SSA graph bridge.
 
 This file collects per-op forward-correctness lemmas for `Runtime.Autograd.Compiled.execGraphOfIR`.
 It is intentionally split out from `NN.Runtime.Autograd.Compiled.IRExec` so that routine builds of
-Gondlin's runtime do not have to import proof internals one file at a time.
+Gondolin's runtime do not have to import proof internals one file at a time.
 
 Reusable helper lemmas live in `NN.Runtime.Autograd.Compiled.IRExec.Correctness.Common`.
 Operator-step lemmas live under `...Correctness.Ops`, grouped by role:

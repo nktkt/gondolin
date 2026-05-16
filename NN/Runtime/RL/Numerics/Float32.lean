@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -15,7 +15,7 @@ public import NN.Runtime.RL.Numerics.Float32.Intervals
 /-!
 # RL Float32 Numeric Checks (Umbrella)
 
-This is the stable import for Gondlin's explicit binary32 RL diagnostics. The implementation is
+This is the stable import for Gondolin's explicit binary32 RL diagnostics. The implementation is
 split by concern:
 
 - `Types`: `IEEE32Exec`/`Interval32` aliases, boundary casts, and checked scalar primitives;

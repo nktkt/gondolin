@@ -1,11 +1,11 @@
 # NeuralFloat (`NN/Floats/NeuralFloat`)
 
-This folder provides the generic rounded arithmetic over `ℝ` that much of Gondlin builds on. It
+This folder provides the generic rounded arithmetic over `ℝ` that much of Gondolin builds on. It
 holds the shared definitions for precision, rounding, and error without committing to a particular
 executable kernel.
 
 - `Core.lean`: core datatypes (radix plus Flocq style rounding scaffolding) and the `NeuralFloat` record.
-- `Metadata.lean`: Gondlin metadata (training phase, named precisions, mixed precision presets).
+- `Metadata.lean`: Gondolin metadata (training phase, named precisions, mixed precision presets).
 - `Formats.lean`: Flocq style exponent functions and format predicates (FIX/FLX/FLT).
 - `Rounding.lean`: rounding modes and `neural_round` validation classes.
 - `NF.lean`: `NF` ("neural float") as a rounded scalar type with `Context` instances.

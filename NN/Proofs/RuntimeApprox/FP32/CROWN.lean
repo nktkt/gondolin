@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -36,7 +36,7 @@ open _root_.Spec.Tensor
 open _root_.Proofs
 open _root_.Proofs.RuntimeApprox
 open _root_.Proofs.RuntimeApprox.NFBackend
-open Gondlin.Floats
+open Gondolin.Floats
 
 noncomputable section
 

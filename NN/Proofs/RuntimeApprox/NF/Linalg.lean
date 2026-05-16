@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -43,12 +43,12 @@ noncomputable section
 
 namespace NFBackend
 
-open Gondlin.Floats
+open Gondolin.Floats
 
 variable {β : NeuralRadix} {fexp : ℤ → ℤ} [NeuralValidExp fexp]
 variable {rnd : ℝ → ℤ} [NeuralValidRndToNearest rnd]
 
-local notation "R" => Gondlin.Floats.NF β fexp rnd
+local notation "R" => Gondolin.Floats.NF β fexp rnd
 
 -- ---------------------------------------------------------------------------
 -- Scalar access helpers (vectors / matrices)
@@ -491,8 +491,8 @@ private theorem approx_dot_finRange {n : Nat}
       abs (toSpec (β := β) (fexp := fexp) (rnd := rnd) (0 : R) - (0 : SpecScalar)) ≤
         neuralUlp β fexp 0 TrainingPhase.forward / 2 := by
     -- `toSpec 0 = roundR 0`, then apply the rounding abs-error bound.
-    simpa [toSpec, Gondlin.Floats.NF.toReal, Gondlin.Floats.NF.ofReal,
-      Gondlin.Floats.NF.roundR,
+    simpa [toSpec, Gondolin.Floats.NF.toReal, Gondolin.Floats.NF.ofReal,
+      Gondolin.Floats.NF.roundR,
       Proofs.RuntimeRoundingApprox.roundR] using
         (Proofs.RuntimeRoundingApprox.roundR_abs_error (β := β) (fexp := fexp) (rnd := rnd) (0 : ℝ))
   simpa [dotBound] using

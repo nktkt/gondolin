@@ -2,7 +2,7 @@
 """
 Trust-boundary consistency checker.
 
-Cross-validates three sources of truth about Gondlin's trust surface:
+Cross-validates three sources of truth about Gondolin's trust surface:
 
   1. `TRUST_BOUNDARIES.md`        - the human-readable trust inventory.
   2. `trust-boundaries.toml`      - the machine-readable mirror of (1).
@@ -248,7 +248,7 @@ def _show_toml() -> None:
 
 def main() -> int:
     """CLI entry point."""
-    ap = argparse.ArgumentParser(description="Validate Gondlin trust-boundary consistency.")
+    ap = argparse.ArgumentParser(description="Validate Gondolin trust-boundary consistency.")
     ap.add_argument("--json", action="store_true", help="Emit a JSON report.")
     ap.add_argument(
         "--show",

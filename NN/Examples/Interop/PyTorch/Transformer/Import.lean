@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -45,7 +45,7 @@ open Json
 -- Transformer Encoder state dict structure (simplified, for one layer)
 /-- Typed view of a single-layer Transformer encoder `state_dict` (Float tensors).
 
-This is the normalized typed view returned by the JSON loader. The loader accepts both Gondlin's
+This is the normalized typed view returned by the JSON loader. The loader accepts both Gondolin's
 explicit keys and the nested PyTorch module keys emitted by the exporter.
 -/
 structure TransformerEncoderStateDict (embedDim headCount hiddenDim : Nat) where

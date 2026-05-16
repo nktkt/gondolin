@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -18,14 +18,14 @@ PyTorch has two different artifacts that people often blur together:
 
 - `state_dict`: tensor values keyed by names; great for weights, but it does **not** describe the
   architecture.
-- `torch.export` / FX graph: a captured tensor program; this is the piece we need before Gondlin
+- `torch.export` / FX graph: a captured tensor program; this is the piece we need before Gondolin
   can run native semantics, verification, or proof-oriented analyses.
 
 The runtime bridge therefore uses a small, explicit JSON format:
 
 ```json
 {
-  "format": "gondlin.ir.v1",
+  "format": "gondolin.ir.v1",
   "input_id": 0,
   "output_id": 4,
   "nodes": [
@@ -36,7 +36,7 @@ The runtime bridge therefore uses a small, explicit JSON format:
 ```
 
 The parser below is deliberately conservative. It accepts only the current `NN.IR.OpKind` subset and
-then runs Gondlin's executable graph validators (`checkWellFormed` and `checkShapes`). That gives
+then runs Gondolin's executable graph validators (`checkWellFormed` and `checkShapes`). That gives
 downstream tools a useful guarantee: if `parseGraph` succeeds, the resulting graph is structurally
 acyclic, id-disciplined, arity-correct, and shape-consistent according to the shared IR inference
 rules.
@@ -55,9 +55,9 @@ open Json
 open Spec
 open NN.IR
 
-/-- A captured PyTorch graph lowered into Gondlin IR plus the designated input/output node ids. -/
+/-- A captured PyTorch graph lowered into Gondolin IR plus the designated input/output node ids. -/
 structure CapturedGraph where
-  /-- Gondlin's checked op-tagged graph. -/
+  /-- Gondolin's checked op-tagged graph. -/
   graph : Graph
   /-- Designated runtime input node id. -/
   inputId : Nat
@@ -66,7 +66,7 @@ structure CapturedGraph where
   deriving Repr
 
 /--
-Shape metadata for a PyTorch/FX value before it has been lowered to Gondlin's tensor-only IR.
+Shape metadata for a PyTorch/FX value before it has been lowered to Gondolin's tensor-only IR.
 
 PyTorch FX nodes may produce non-tensor containers. The most common example is
 `nn.MultiheadAttention`, whose forward result is `(attn_output, attn_weights)`. We keep this
@@ -78,13 +78,13 @@ inductive ValueShape where
   | tuple (items : List Shape)
   deriving Repr, BEq
 
-/-- One raw PyTorch/FX value node from `gondlin.ir.v1` JSON. -/
+/-- One raw PyTorch/FX value node from `gondolin.ir.v1` JSON. -/
 structure CapturedValueNode where
   /-- Raw FX node id from the JSON artifact. -/
   id : Nat
   /-- Raw parent ids. These may refer to tensor values or tuple/container values. -/
   parents : List Nat
-  /-- Stable Gondlin/PyTorch import tag, e.g. `relu`, `matmul`, or `tuple_getitem`. -/
+  /-- Stable Gondolin/PyTorch import tag, e.g. `relu`, `matmul`, or `tuple_getitem`. -/
   kind : String
   /-- Tensor or tuple shape metadata. -/
   valueShape : ValueShape
@@ -143,7 +143,7 @@ def parseNatList (ctx : String) (j : Json) : Except String (List Nat) := do
   let xs ← jsonArray ctx j
   xs.toList.mapM (jsonNat ctx)
 
-/-- Convert a list of dimensions into Gondlin's nested `Shape` representation. -/
+/-- Convert a list of dimensions into Gondolin's nested `Shape` representation. -/
 def shapeOfDims (dims : List Nat) : Shape :=
   dims.foldr Shape.dim Shape.scalar
 
@@ -184,7 +184,7 @@ def parseShapeList (ctx : String) (j : Json) : Except String (List Shape) := do
 /--
 Parse the value-level shape metadata emitted by the Python bridge.
 
-`gondlin.ir.v1` artifacts without `value_kind` are interpreted as tensor-valued nodes with a
+`gondolin.ir.v1` artifacts without `value_kind` are interpreted as tensor-valued nodes with a
 required `shape` field. The explicit form uses `value_kind = "tensor"` or
 `value_kind = "tuple"` explicitly.
 -/
@@ -199,11 +199,11 @@ def parseValueShape (ctx : String) (o : StateDict) : Except String ValueShape :=
   | some bad => typeError s!"{ctx}.value_kind" "string" bad
 
 /--
-Parse a Gondlin IR op kind.
+Parse a Gondolin IR op kind.
 
 The schema uses a stable string tag plus op-specific scalar fields. We intentionally avoid trying
 to parse raw PyTorch operator names here; the Python adapter is responsible for translating
-`torch.ops.aten.*` / FX targets into these Gondlin tags.
+`torch.ops.aten.*` / FX targets into these Gondolin tags.
 -/
 def parseOpKind (ctx : String) (outShape : Shape) (o : StateDict) : Except String OpKind := do
   let tag ← jsonString s!"{ctx}.kind" (← field ctx "kind" o)
@@ -266,7 +266,7 @@ def parseOpKind (ctx : String) (outShape : Shape) (o : StateDict) : Except Strin
   | "swap_first_two" => pure .swap_first_two
   | "transpose3d_last_two" => pure .transpose3dLastTwo
   | "mse_loss" => pure .mseLoss
-  | other => throw s!"PyTorch graph import: {ctx}: unsupported Gondlin IR op kind `{other}`"
+  | other => throw s!"PyTorch graph import: {ctx}: unsupported Gondolin IR op kind `{other}`"
 
 /-- Parse one node object from the graph JSON format. -/
 def parseNode (j : Json) : Except String Node := do
@@ -292,9 +292,9 @@ def parseValueNode (j : Json) : Except String CapturedValueNode := do
 def parseValueGraphUnchecked (j : Json) : Except String CapturedValueGraph := do
   let o ← jsonObject "root" j
   match field? "format" o with
-  | some (.str "gondlin.ir.v1") => pure ()
+  | some (.str "gondolin.ir.v1") => pure ()
   | some (.str other) =>
-      throw s!"PyTorch graph import: unsupported format `{other}` (expected `gondlin.ir.v1`)"
+      throw s!"PyTorch graph import: unsupported format `{other}` (expected `gondolin.ir.v1`)"
   | some bad => typeError "root.format" "string" bad
   | none => pure ()
   let inputId ← natField "root" "input_id" o
@@ -312,10 +312,10 @@ def getValueNode (vg : CapturedValueGraph) (id : Nat) : Except String CapturedVa
   | none => throw s!"PyTorch graph import: raw node id {id} out of bounds"
 
 /--
-Lower a PyTorch/FX value graph to Gondlin's tensor-only IR.
+Lower a PyTorch/FX value graph to Gondolin's tensor-only IR.
 
 Tuple/container nodes are preserved in `CapturedValueGraph`, but they do not become `NN.IR.Node`s.
-Gondlin's verification and execution passes consume the clean tensor DAG, while the import layer
+Gondolin's verification and execution passes consume the clean tensor DAG, while the import layer
 can explain container-valued PyTorch failures without changing their semantics.
 -/
 def lowerValueGraph (vg : CapturedValueGraph) : Except String CapturedGraph := do
@@ -481,8 +481,8 @@ def parseGraphUnchecked (j : Json) : Except String CapturedGraph := do
 Parse and validate a captured PyTorch graph.
 
 Success means:
-- the JSON uses the Gondlin graph-artifact schema,
-- every op is in the supported Gondlin IR subset,
+- the JSON uses the Gondolin graph-artifact schema,
+- every op is in the supported Gondolin IR subset,
 - node ids are disciplined and topologically ordered,
 - arities are valid, and
 - declared output shapes match `NN.IR.Infer`.

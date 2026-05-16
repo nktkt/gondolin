@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -12,7 +12,7 @@ public import NN.Spec.RL.FiniteStochasticMDP
 /-!
 # GridWorld (Lean-native finite RL environment)
 
-This file defines a small deterministic **GridWorld** environment in Gondlin’s *spec* layer,
+This file defines a small deterministic **GridWorld** environment in Gondolin’s *spec* layer,
 along with two induced “MDP views”:
 
 - a `Spec.RL.Env` view with explicit latent state,
@@ -169,7 +169,7 @@ def toEnv (gw : GridWorld width height) :
 /-!
 ## Finite-state MDP Views
 
-To connect GridWorld to Gondlin’s finite discounted MDP layer we flatten the coordinate state:
+To connect GridWorld to Gondolin’s finite discounted MDP layer we flatten the coordinate state:
 
 `Fin height × Fin width ≃ Fin (height * width)`.
 

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -24,7 +24,7 @@ float32-grid, outward-rounded interval propagation (subject to the usual finiten
 
 namespace NN.MLTheory.CROWN
 
-open Gondlin.Floats.IEEE754
+open Gondolin.Floats.IEEE754
 
 /-- `BoundOps` for `IEEE32Exec`, using the executable directed-rounding endpoint primitives. -/
 instance (priority := 1000) : BoundOps IEEE32Exec where

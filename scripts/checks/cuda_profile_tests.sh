@@ -5,7 +5,7 @@ usage() {
   cat <<'EOF'
 Usage: scripts/checks/cuda_profile_tests.sh [options]
 
-Build Gondlin with native CUDA externs and profile the curated CUDA/Lean test suite with
+Build Gondolin with native CUDA externs and profile the curated CUDA/Lean test suite with
 NVIDIA Nsight tools.
 
 Default:
@@ -210,4 +210,4 @@ if [[ "$mode" == "compute" || "$mode" == "both" ]]; then
     "$target" "${exe_args[@]}"
 fi
 
-printf '\nGondlin CUDA profiling run completed.\n'
+printf '\nGondolin CUDA profiling run completed.\n'

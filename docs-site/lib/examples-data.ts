@@ -23,8 +23,8 @@ export const examples: Example[] = [
     slug: "quickstart_tensors",
     title: "Tensor Basics",
     blurb:
-      "Introductory walkthrough of Gondlin tensors, shapes, and elementary ops.",
-    command: "lake exe gondlin quickstart_tensors",
+      "Introductory walkthrough of Gondolin tensors, shapes, and elementary ops.",
+    command: "lake exe gondolin quickstart_tensors",
     category: "quickstart",
     tags: ["cpu", "intro"],
   },
@@ -33,7 +33,7 @@ export const examples: Example[] = [
     title: "Autograd Basics",
     blurb:
       "Build a small computation graph and inspect reverse-mode gradients end to end.",
-    command: "lake exe gondlin quickstart_autograd --dtype float --backend eager",
+    command: "lake exe gondolin quickstart_autograd --dtype float --backend eager",
     category: "quickstart",
     tags: ["cpu", "autograd", "eager"],
   },
@@ -43,7 +43,7 @@ export const examples: Example[] = [
     blurb:
       "Train a tiny multilayer perceptron in a few steps to see the optimizer loop.",
     command:
-      "lake exe gondlin quickstart_mlp --steps 20 --dtype float --backend eager",
+      "lake exe gondolin quickstart_mlp --steps 20 --dtype float --backend eager",
     category: "quickstart",
     tags: ["cpu", "training", "eager"],
   },
@@ -55,7 +55,7 @@ export const examples: Example[] = [
     blurb:
       "Auto-MPG tabular regression with a dense MLP and minibatch training loop.",
     command:
-      "lake exe -K cuda=true gondlin mlp --cuda --epochs 100 --lr 0.003 --log data/model_zoo/mlp_trainlog.json",
+      "lake exe -K cuda=true gondolin mlp --cuda --epochs 100 --lr 0.003 --log data/model_zoo/mlp_trainlog.json",
     category: "vision",
     tags: ["cuda", "tabular", "supervised"],
   },
@@ -65,7 +65,7 @@ export const examples: Example[] = [
     blurb:
       "Compact convolutional classifier trained with fast CUDA kernels on CIFAR-10.",
     command:
-      "lake exe -K cuda=true gondlin cnn --cuda --fast-kernels --n-total 2000 --epochs 25 --lr 0.001",
+      "lake exe -K cuda=true gondolin cnn --cuda --fast-kernels --n-total 2000 --epochs 25 --lr 0.001",
     category: "vision",
     tags: ["cuda", "fast-kernels", "cifar10"],
   },
@@ -75,7 +75,7 @@ export const examples: Example[] = [
     blurb:
       "Residual network on CIFAR-10 using fused CUDA kernels for the conv path.",
     command:
-      "lake exe -K cuda=true gondlin resnet --cuda --fast-kernels --n-total 2000 --epochs 15 --lr 0.001",
+      "lake exe -K cuda=true gondolin resnet --cuda --fast-kernels --n-total 2000 --epochs 15 --lr 0.001",
     category: "vision",
     tags: ["cuda", "fast-kernels", "residual"],
   },
@@ -85,7 +85,7 @@ export const examples: Example[] = [
     blurb:
       "Small ViT patch encoder for image classification with attention blocks.",
     command:
-      "lake exe -K cuda=true gondlin vit --cuda --fast-kernels --n-total 2000 --epochs 10 --lr 0.001",
+      "lake exe -K cuda=true gondolin vit --cuda --fast-kernels --n-total 2000 --epochs 10 --lr 0.001",
     category: "vision",
     tags: ["cuda", "attention", "patches"],
   },
@@ -95,7 +95,7 @@ export const examples: Example[] = [
     blurb:
       "Forecast household power windows with an LSTM and printed before/after rows.",
     command:
-      "lake exe -K cuda=true gondlin lstm_regression --cuda --steps 200 --windows 96",
+      "lake exe -K cuda=true gondolin lstm_regression --cuda --steps 200 --windows 96",
     category: "sequence",
     tags: ["cuda", "forecasting", "windows"],
   },
@@ -105,7 +105,7 @@ export const examples: Example[] = [
     slug: "rnn",
     title: "Vanilla RNN",
     blurb: "Reference recurrent cell for short character-level sequence tasks.",
-    command: "lake exe gondlin rnn --steps 100",
+    command: "lake exe gondolin rnn --steps 100",
     category: "sequence",
     tags: ["cpu", "recurrent"],
   },
@@ -113,7 +113,7 @@ export const examples: Example[] = [
     slug: "lstm",
     title: "LSTM Cell",
     blurb: "Stacked LSTM check exercising gated state on a tiny corpus.",
-    command: "lake exe gondlin lstm --steps 100",
+    command: "lake exe gondolin lstm --steps 100",
     category: "sequence",
     tags: ["cpu", "recurrent", "gated"],
   },
@@ -122,7 +122,7 @@ export const examples: Example[] = [
     title: "Transformer Block",
     blurb:
       "Encoder-style Transformer building blocks with multi-head attention.",
-    command: "lake exe -K cuda=true gondlin transformer --cuda --steps 100",
+    command: "lake exe -K cuda=true gondolin transformer --cuda --steps 100",
     category: "sequence",
     tags: ["cuda", "attention"],
   },
@@ -132,7 +132,7 @@ export const examples: Example[] = [
     blurb:
       "Compact GPT-style decoder trained on tiny-shakespeare with sampling controls.",
     command:
-      'lake exe -K cuda=true gondlin gpt2 --cuda --fast-kernels --tiny-shakespeare --steps 300 --windows 32 --lr 0.001 --prompt "ROMEO:" --generate 220',
+      'lake exe -K cuda=true gondolin gpt2 --cuda --fast-kernels --tiny-shakespeare --steps 300 --windows 32 --lr 0.001 --prompt "ROMEO:" --generate 220',
     category: "sequence",
     tags: ["cuda", "fast-kernels", "causal-lm"],
   },
@@ -142,7 +142,7 @@ export const examples: Example[] = [
     blurb:
       "Selective state-space sequence model trained on tiny-shakespeare windows.",
     command:
-      'lake exe -K cuda=true gondlin mamba --cuda --fast-kernels --tiny-shakespeare --steps 2000 --windows 384 --lr 0.004 --prompt "ROMEO:" --generate 260',
+      'lake exe -K cuda=true gondolin mamba --cuda --fast-kernels --tiny-shakespeare --steps 2000 --windows 384 --lr 0.004 --prompt "ROMEO:" --generate 260',
     category: "sequence",
     tags: ["cuda", "fast-kernels", "ssm"],
   },
@@ -151,7 +151,7 @@ export const examples: Example[] = [
     title: "GPT Adder",
     blurb:
       "Train a tiny GPT to add two digits and verify a specific input pair.",
-    command: "lake exe gondlin gpt_adder --steps 1000 --a 7 --b 8",
+    command: "lake exe gondolin gpt_adder --steps 1000 --a 7 --b 8",
     category: "sequence",
     tags: ["cpu", "synthetic"],
   },
@@ -163,7 +163,7 @@ export const examples: Example[] = [
     blurb:
       "Train a small VAE with the standard ELBO objective and write a TrainLog.",
     command:
-      "lake exe -K cuda=true gondlin vae --cuda --steps 25 --log data/model_zoo/vae_trainlog.json",
+      "lake exe -K cuda=true gondolin vae --cuda --steps 25 --log data/model_zoo/vae_trainlog.json",
     category: "generative",
     tags: ["cuda", "elbo", "latent"],
   },
@@ -173,7 +173,7 @@ export const examples: Example[] = [
     blurb:
       "Lightweight generator/discriminator pair with an adversarial loop.",
     command:
-      "lake exe -K cuda=true gondlin gan --cuda --steps 25 --log data/model_zoo/gan_trainlog.json",
+      "lake exe -K cuda=true gondolin gan --cuda --steps 25 --log data/model_zoo/gan_trainlog.json",
     category: "generative",
     tags: ["cuda", "adversarial"],
   },
@@ -183,7 +183,7 @@ export const examples: Example[] = [
     blurb:
       "Tiny denoising diffusion model on CIFAR-10 with PPM sample output.",
     command:
-      "lake exe -K cuda=true gondlin diffusion --cuda --fast-kernels --dataset cifar10 --n-total 800 --steps 200 --T 100",
+      "lake exe -K cuda=true gondolin diffusion --cuda --fast-kernels --dataset cifar10 --n-total 800 --steps 200 --T 100",
     category: "generative",
     tags: ["cuda", "fast-kernels", "denoising"],
   },
@@ -193,7 +193,7 @@ export const examples: Example[] = [
     blurb:
       "Patch-masking pretraining objective with reconstructive decoder head.",
     command:
-      "lake exe -K cuda=true gondlin mae --cuda --steps 25 --log data/model_zoo/mae_trainlog.json",
+      "lake exe -K cuda=true gondolin mae --cuda --steps 25 --log data/model_zoo/mae_trainlog.json",
     category: "generative",
     tags: ["cuda", "self-supervised"],
   },
@@ -205,7 +205,7 @@ export const examples: Example[] = [
     blurb:
       "Fourier neural operator trained on the 1D Burgers equation dataset.",
     command:
-      "lake exe -K cuda=true gondlin fno1d_burgers --cuda --steps 200 --log data/model_zoo/fno1d_burgers_trainlog.json",
+      "lake exe -K cuda=true gondolin fno1d_burgers --cuda --steps 200 --log data/model_zoo/fno1d_burgers_trainlog.json",
     category: "operator-learning",
     tags: ["cuda", "pde", "spectral"],
   },
@@ -216,7 +216,7 @@ export const examples: Example[] = [
     title: "PPO on CartPole",
     blurb:
       "Proximal Policy Optimization agent solving the CartPole control task.",
-    command: "lake exe gondlin ppo_cartpole --updates 200",
+    command: "lake exe gondolin ppo_cartpole --updates 200",
     category: "rl",
     tags: ["cpu", "policy-gradient", "control"],
   },
@@ -225,7 +225,7 @@ export const examples: Example[] = [
     title: "PPO on GridWorld",
     blurb:
       "PPO agent navigating a discrete GridWorld environment for many updates.",
-    command: "lake exe gondlin ppo_gridworld --updates 200",
+    command: "lake exe gondolin ppo_gridworld --updates 200",
     category: "rl",
     tags: ["cpu", "policy-gradient", "discrete"],
   },
@@ -234,7 +234,7 @@ export const examples: Example[] = [
     title: "DQN with Replay",
     blurb:
       "Deep Q-Network training with a replay buffer and target network sync.",
-    command: "lake exe gondlin dqn_replay --updates 200",
+    command: "lake exe gondolin dqn_replay --updates 200",
     category: "rl",
     tags: ["cpu", "value-based", "replay"],
   },
@@ -244,8 +244,8 @@ export const examples: Example[] = [
     slug: "pytorch_roundtrip",
     title: "PyTorch Roundtrip",
     blurb:
-      "Export a Gondlin model to PyTorch and re-import the saved weights.",
-    command: "lake exe gondlin pytorch_roundtrip --model mlp --action import",
+      "Export a Gondolin model to PyTorch and re-import the saved weights.",
+    command: "lake exe gondolin pytorch_roundtrip --model mlp --action import",
     category: "interop",
     tags: ["pytorch", "export", "import"],
   },
@@ -253,8 +253,8 @@ export const examples: Example[] = [
     slug: "torch_ir_pytorch",
     title: "Torch IR to PyTorch",
     blurb:
-      "Lower the Gondlin Torch IR to a runnable PyTorch module printed to stdout.",
-    command: "lake exe gondlin torch_ir_pytorch --arch mlp",
+      "Lower the Gondolin Torch IR to a runnable PyTorch module printed to stdout.",
+    command: "lake exe gondolin torch_ir_pytorch --arch mlp",
     category: "interop",
     tags: ["pytorch", "ir", "lowering"],
   },
@@ -263,27 +263,27 @@ export const examples: Example[] = [
     title: "CSV Data Loader",
     blurb:
       "Stream CSV records into typed minibatches under the shared loader path.",
-    command: "lake exe gondlin data_csv --epochs 1 --batch 5 --dtype float --backend eager",
+    command: "lake exe gondolin data_csv --epochs 1 --batch 5 --dtype float --backend eager",
     category: "interop",
     tags: ["data", "csv", "loader"],
   },
 
   // ---------------------- Verification ----------------------
   {
-    slug: "gondlin-robustness",
-    title: "Gondlin Robustness",
+    slug: "gondolin-robustness",
+    title: "Gondolin Robustness",
     blurb:
       "Build a compact classifier and check its margin with IBP, forward CROWN, and backward CROWN.",
-    command: "lake exe verify -- gondlin-robustness",
+    command: "lake exe verify -- gondolin-robustness",
     category: "verification",
     tags: ["ibp", "crown", "robustness"],
   },
   {
-    slug: "gondlin-crown-ops",
+    slug: "gondolin-crown-ops",
     title: "CROWN Nonlinear Ops",
     blurb:
-      "Exercise softmax and MSE-loss bound propagation on compact Gondlin graphs.",
-    command: "lake exe verify -- gondlin-crown-ops",
+      "Exercise softmax and MSE-loss bound propagation on compact Gondolin graphs.",
+    command: "lake exe verify -- gondolin-crown-ops",
     category: "verification",
     tags: ["crown", "softmax", "nonlinear"],
   },

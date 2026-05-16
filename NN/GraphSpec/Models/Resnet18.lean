@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -18,7 +18,7 @@ set_option maxHeartbeats 8000000
 # GraphSpec ResNet-18
 
 This file defines a **ResNet-18–style** convolutional network using GraphSpec's general DAG IR,
-with BasicBlocks, projection shortcuts, shape-indexed parameters, and Gondlin compilation support.
+with BasicBlocks, projection shortcuts, shape-indexed parameters, and Gondolin compilation support.
 
 ## Why This Is A DAG Model
 
@@ -34,15 +34,15 @@ and then they are added. In a chain-only representation you either:
 GraphSpec’s DAG IR takes a different approach: it provides a small SSA-like term language
 (`Term` + `Args`) that can naturally express sharing. The semantics are:
 - `Term.eval`: pure Spec interpreter (math-first).
-- `Term.compile`: Gondlin program compilation (executable).
+- `Term.compile`: Gondolin program compilation (executable).
 
 ResNet-18 here is written once, then we get:
 - spec-side forward semantics (for proofs / reference),
-- a backend-generic Gondlin `Program` (for execution / training).
+- a backend-generic Gondolin `Program` (for execution / training).
 
 ## Model Scope
 
-This is a “CHW, no batch” variant (C×H×W), matching the rest of the Spec/Gondlin vision layers.
+This is a “CHW, no batch” variant (C×H×W), matching the rest of the Spec/Gondolin vision layers.
 It is faithful to the core ResNet-18 structure:
 - stem: 7×7 conv stride 2 padding 3, BN, ReLU, 3×3 maxpool stride 2 padding 1
 - stages: [2,2,2,2] BasicBlocks with channel widths [64,128,256,512]
@@ -164,17 +164,17 @@ def conv3x3Same
       fun {m} _ _ =>
         fun k b x =>
           (do
-            let y ← Runtime.Autograd.Gondlin.conv2d (m := m) (α := α)
+            let y ← Runtime.Autograd.Gondolin.conv2d (m := m) (α := α)
               (inC := c) (outC := c) (kH := 3) (kW := 3)
               (stride := 1) (padding := 1) (inH := h) (inW := w)
               (h1 := h_c) (h2 := by decide) (h3 := by decide)
               k b x
             pure <|
               Eq.ndrec
-                (motive := fun s => Runtime.Autograd.Gondlin.RefTy (m := m) (α := α) s)
+                (motive := fun s => Runtime.Autograd.Gondolin.RefTy (m := m) (α := α) s)
                 y
                 hShape
-          : m (Runtime.Autograd.Gondlin.RefTy (m := m) (α := α) (imgShape c h w)))
+          : m (Runtime.Autograd.Gondolin.RefTy (m := m) (α := α) (imgShape c h w)))
   }
 
 /-- Typed 7×7 stem convolution (stride 2, padding 3), cast to the canonical `down2` spatial sizes.
@@ -201,17 +201,17 @@ def conv7x7Down
       fun {m} _ _ =>
         fun k b x =>
           (do
-            let y ← Runtime.Autograd.Gondlin.conv2d (m := m) (α := α)
+            let y ← Runtime.Autograd.Gondolin.conv2d (m := m) (α := α)
               (inC := inC) (outC := outC) (kH := 7) (kW := 7)
               (stride := 2) (padding := 3) (inH := h) (inW := w)
               (h1 := h_inC) (h2 := by decide) (h3 := by decide)
               k b x
             pure <|
               Eq.ndrec
-                (motive := fun s => Runtime.Autograd.Gondlin.RefTy (m := m) (α := α) s)
+                (motive := fun s => Runtime.Autograd.Gondolin.RefTy (m := m) (α := α) s)
                 y
                 hShape
-          : m (Runtime.Autograd.Gondlin.RefTy (m := m) (α := α) (imgShape outC (down2 h) (down2
+          : m (Runtime.Autograd.Gondolin.RefTy (m := m) (α := α) (imgShape outC (down2 h) (down2
             w))))
   }
 
@@ -238,17 +238,17 @@ def conv3x3Down
       fun {m} _ _ =>
         fun k b x =>
           (do
-            let y ← Runtime.Autograd.Gondlin.conv2d (m := m) (α := α)
+            let y ← Runtime.Autograd.Gondolin.conv2d (m := m) (α := α)
               (inC := inC) (outC := outC) (kH := 3) (kW := 3)
               (stride := 2) (padding := 1) (inH := h) (inW := w)
               (h1 := h_inC) (h2 := by decide) (h3 := by decide)
               k b x
             pure <|
               Eq.ndrec
-                (motive := fun s => Runtime.Autograd.Gondlin.RefTy (m := m) (α := α) s)
+                (motive := fun s => Runtime.Autograd.Gondolin.RefTy (m := m) (α := α) s)
                 y
                 hShape
-          : m (Runtime.Autograd.Gondlin.RefTy (m := m) (α := α) (imgShape outC (down2 h) (down2
+          : m (Runtime.Autograd.Gondolin.RefTy (m := m) (α := α) (imgShape outC (down2 h) (down2
             w))))
   }
 
@@ -275,17 +275,17 @@ def conv1x1Down
       fun {m} _ _ =>
         fun k b x =>
           (do
-            let y ← Runtime.Autograd.Gondlin.conv2d (m := m) (α := α)
+            let y ← Runtime.Autograd.Gondolin.conv2d (m := m) (α := α)
               (inC := inC) (outC := outC) (kH := 1) (kW := 1)
               (stride := 2) (padding := 0) (inH := h) (inW := w)
               (h1 := h_inC) (h2 := by decide) (h3 := by decide)
               k b x
             pure <|
               Eq.ndrec
-                (motive := fun s => Runtime.Autograd.Gondlin.RefTy (m := m) (α := α) s)
+                (motive := fun s => Runtime.Autograd.Gondolin.RefTy (m := m) (α := α) s)
                 y
                 hShape
-          : m (Runtime.Autograd.Gondlin.RefTy (m := m) (α := α) (imgShape outC (down2 h) (down2
+          : m (Runtime.Autograd.Gondolin.RefTy (m := m) (α := α) (imgShape outC (down2 h) (down2
             w))))
   }
 
@@ -312,16 +312,16 @@ def maxpool3x3Down
       fun {m} _ _ =>
         fun x =>
           (do
-            let y ← Runtime.Autograd.Gondlin.maxPool2dPad (m := m) (α := α)
+            let y ← Runtime.Autograd.Gondolin.maxPool2dPad (m := m) (α := α)
               (kH := 3) (kW := 3) (inH := h) (inW := w) (inC := c)
               (stride := 2) (padding := 1) (h1 := by decide) (h2 := by decide)
               x
             pure <|
               Eq.ndrec
-                (motive := fun s => Runtime.Autograd.Gondlin.RefTy (m := m) (α := α) s)
+                (motive := fun s => Runtime.Autograd.Gondolin.RefTy (m := m) (α := α) s)
                 y
                 hShape
-          : m (Runtime.Autograd.Gondlin.RefTy (m := m) (α := α) (imgShape c (down2 h) (down2 w))))
+          : m (Runtime.Autograd.Gondolin.RefTy (m := m) (α := α) (imgShape c (down2 h) (down2 w))))
   }
 
 /-! ## Parameter layout -/
@@ -452,7 +452,7 @@ This is the public entrypoint for the DAG-authored ResNet in this directory. It 
 - and a DAG body whose pure semantics can be interpreted via `DAG.Model.specFwd` and compiled via
   `DAG.Model.torchProgram`.
 
-The model is channel-first (`CHW`) and batch-free, matching the rest of Gondlin's vision-side
+The model is channel-first (`CHW`) and batch-free, matching the rest of Gondolin's vision-side
 Spec and runtime layers.
 -/
 def model

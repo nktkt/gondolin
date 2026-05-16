@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -16,7 +16,7 @@ exact bit-level behavior for transcendental functions like `exp` and `log`. In p
 (`libm`, SVML, CUDA math, etc.) make slightly different choices, and results can differ across
 platforms.
 
-In Gondlin, we still need executable transcendental operations in some examples and runtime
+In Gondolin, we still need executable transcendental operations in some examples and runtime
 experiments. So we give `IEEE32Exec` *deterministic* definitions for a small set of functions using
 fixed algorithms:
 
@@ -37,7 +37,7 @@ the goal is reproducibility (and well-defined behavior) inside Lean.
 @[expose] public section
 
 
-namespace Gondlin.Floats.IEEE754
+namespace Gondolin.Floats.IEEE754
 
 namespace IEEE32Exec
 
@@ -180,4 +180,4 @@ theorem cosh_negInf : cosh negInf = posInf := by
 
 end IEEE32Exec
 
-end Gondlin.Floats.IEEE754
+end Gondolin.Floats.IEEE754

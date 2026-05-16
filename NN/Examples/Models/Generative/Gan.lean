@@ -1,11 +1,11 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 
 Run:
   python3 scripts/datasets/download_example_data.py --cifar10
-  lake exe -K cuda=true gondlin gan --cuda --steps 10
+  lake exe -K cuda=true gondolin gan --cuda --steps 10
 -/
 
 module
@@ -37,7 +37,7 @@ open NN.API
 
 namespace NN.Examples.Models.Generative.Gan
 
-def exeName : String := "gondlin gan"
+def exeName : String := "gondolin gan"
 def defaultLogJson : System.FilePath := "data/model_zoo/gan_trainlog.json"
 def cfg : nn.models.VectorGenerativeConfig := nn.models.compactImageConfig
 
@@ -51,14 +51,14 @@ def mkGenerator : nn.M (nn.Sequential Z X) :=
 def mkDiscriminator : nn.M (nn.Sequential X S) :=
   nn.models.vectorGanDiscriminator cfg
 
-def trainCurve (opts : Gondlin.Options) (xPath yPath : System.FilePath)
+def trainCurve (opts : Gondolin.Options) (xPath yPath : System.FilePath)
     (nRows seed steps : Nat) : IO _root_.Runtime.Training.Curve := do
   nn.withModel mkGenerator fun gen => do
   nn.withModel mkDiscriminator fun disc => do
     let genDef := nn.mseScalarModuleDef gen
     let discDef := nn.mseScalarModuleDef disc
-    let genM ← Gondlin.Module.instantiateWithOptions (α := Float) genDef id opts
-    let discM ← Gondlin.Module.instantiateWithOptions (α := Float) discDef id opts
+    let genM ← Gondolin.Module.instantiateWithOptions (α := Float) genDef id opts
+    let discM ← Gondolin.Module.instantiateWithOptions (α := Float) discDef id opts
     let realX ← RealData.loadCifarVectorBatch cfg (by decide) exeName xPath yPath nRows seed
     let z := nn.models.latentNoise cfg seed
     let noiseX := nn.models.dataNoise cfg (seed + 17)
@@ -66,33 +66,33 @@ def trainCurve (opts : Gondlin.Options) (xPath yPath : System.FilePath)
     let discReal : API.sample.Supervised Float X S := API.sample.mk realX (nn.models.onesScore cfg)
     let discFake : API.sample.Supervised Float X S := API.sample.mk noiseX (nn.models.zerosScore cfg)
     let genOpt :=
-      Gondlin.Optim.adam (α := Float) (paramShapes := nn.paramShapes gen)
+      Gondolin.Optim.adam (α := Float) (paramShapes := nn.paramShapes gen)
         (lr := 1e-3) (beta1 := 0.9) (beta2 := 0.999) (epsilon := 1e-8)
     let discOpt :=
-      Gondlin.Optim.adam (α := Float) (paramShapes := nn.paramShapes disc)
+      Gondolin.Optim.adam (α := Float) (paramShapes := nn.paramShapes disc)
         (lr := 1e-3) (beta1 := 0.9) (beta2 := 0.999) (epsilon := 1e-8)
-    let genH ← Gondlin.Optim.handle (α := Float) genM genOpt
-    let discH ← Gondlin.Optim.handle (α := Float) discM discOpt
+    let genH ← Gondolin.Optim.handle (α := Float) genM genOpt
+    let discH ← Gondolin.Optim.handle (α := Float) discM discOpt
     let mut curve : _root_.Runtime.Training.Curve := {}
-    let g0 ← Gondlin.Module.forward (α := Float) genM genSample
-    let d0r ← Gondlin.Module.forward (α := Float) discM discReal
-    let d0f ← Gondlin.Module.forward (α := Float) discM discFake
+    let g0 ← Gondolin.Module.forward (α := Float) genM genSample
+    let d0r ← Gondolin.Module.forward (α := Float) discM discReal
+    let d0f ← Gondolin.Module.forward (α := Float) discM discFake
     let mut last := Tensor.toScalar g0 + Tensor.toScalar d0r + Tensor.toScalar d0f
     curve := curve.push 0 last
     for step in [0:steps] do
       genH.step genSample
       discH.step discReal
       discH.step discFake
-      let g ← Gondlin.Module.forward (α := Float) genM genSample
-      let dr ← Gondlin.Module.forward (α := Float) discM discReal
-      let df ← Gondlin.Module.forward (α := Float) discM discFake
+      let g ← Gondolin.Module.forward (α := Float) genM genSample
+      let dr ← Gondolin.Module.forward (α := Float) discM discReal
+      let df ← Gondolin.Module.forward (α := Float) discM discFake
       last := Tensor.toScalar g + Tensor.toScalar dr + Tensor.toScalar df
       curve := curve.push (step + 1) last
     IO.println s!"  steps={steps} totalLoss0={Tensor.toScalar g0 + Tensor.toScalar d0r + Tensor.toScalar d0f} totalLoss{steps}={last}"
     pure curve
 
 def main (args : List String) : IO UInt32 := do
-  Gondlin.Module.run exeName args
+  Gondolin.Module.run exeName args
     (.float (fun opts rest => do
       let (xPath, yPath, nRows, seed, rest) ← Common.orThrow exeName <| RealData.parseCifarFlags rest
       let (train, rest) ← Common.orThrow exeName <|

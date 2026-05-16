@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -33,8 +33,8 @@ open scoped BigOperators
 
 namespace NN.MLTheory.LearningTheory.Stability.RidgeRegression1D.IEEE32Exec
 
-open Gondlin.Floats
-open Gondlin.Floats.IEEE754
+open Gondolin.Floats
+open Gondolin.Floats.IEEE754
 
 variable {n : Nat}
 
@@ -94,7 +94,7 @@ abbrev XShape : Spec.Shape := .dim 1 .scalar
 An example where the input feature is packaged as a length-`1` tensor, together with a scalar label.
 
 This is closer to typical ML “(feature vector, label)” layouts and makes it easier to reuse tensor
-utilities elsewhere in Gondlin.
+utilities elsewhere in Gondolin.
 -/
 abbrev ExampleIEEE32Vec1 : Type :=
   Spec.Tensor IEEE32Exec XShape × IEEE32Exec

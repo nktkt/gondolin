@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -13,7 +13,7 @@ public import NN.Verification.Util.Json
 /-!
 # Tensor-native 3D box camera certificates
 
-This module is Gondlin's tensor-native camera-box certificate implementation.
+This module is Gondolin's tensor-native camera-box certificate implementation.
 
 Cube R-CNN, SAM 3D, and related systems can be treated as untrusted producers of tensors. This
 checker verifies the geometric contract of one exported artifact:
@@ -802,7 +802,7 @@ theorem Verified3DBox.projected_corner_in_claimed_bbox {α : Type} [OfNat α 0] 
 /-! ## Float JSON checker for exported artifacts -/
 
 /-- Expected schema string for JSON artifacts accepted by this checker. -/
-def formatString : String := "gondlin.camera.box3d.v1"
+def formatString : String := "gondolin.camera.box3d.v1"
 
 /-- Tensor from a flat array. The caller is responsible for checking the length. -/
 def matFloatOfFlat (rows cols : Nat) (xs : Array Float) :

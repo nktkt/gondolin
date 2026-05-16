@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -12,7 +12,7 @@ public import NN.Proofs.Tensor.Basic
 /-!
 # Tensor Proofs
 
-Stable umbrella for Gondlin's tensor proof layer.
+Stable umbrella for Gondolin's tensor proof layer.
 
 The folder is split deliberately:
 

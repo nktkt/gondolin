@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Regenerate Gondlin verification artifacts.
+"""Regenerate Gondolin verification artifacts.
 
 This script is a small command catalog, not a verifier.  It exists so users can see which JSON
 artifacts are source fixtures and which ones come from external producer scripts.

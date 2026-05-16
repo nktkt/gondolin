@@ -1,13 +1,13 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
 
 public import NN.Runtime.RL.Core
-public import NN.Runtime.Autograd.Gondlin.Random
+public import NN.Runtime.Autograd.Gondolin.Random
 
 /-!
 # Experience Replay Buffers
@@ -135,7 +135,7 @@ def sampleContiguous (b : Buffer α obsShape nActions) (start batchSize : Nat) :
 Deterministic pseudo-random sample from `(seed, counter)`.
 
 The sampler intentionally returns the next counter rather than hiding mutation. It draws indices via
-Gondlin's keyed uniform helper, then wraps them modulo the current buffer size. Empty buffers return
+Gondolin's keyed uniform helper, then wraps them modulo the current buffer size. Empty buffers return
 an empty batch and leave the counter unchanged.
 -/
 def sampleRandom (b : Buffer α obsShape nActions) (seed counter batchSize : Nat) :
@@ -147,10 +147,10 @@ def sampleRandom (b : Buffer α obsShape nActions) (seed counter batchSize : Nat
       let mut out := #[]
       let mut c := counter
       for _ in [0:batchSize] do
-        let key := _root_.Runtime.Autograd.Gondlin.Random.keyOf seed c
+        let key := _root_.Runtime.Autograd.Gondolin.Random.keyOf seed c
         let u : Float :=
           Tensor.toScalar
-            (_root_.Runtime.Autograd.Gondlin.Random.uniform (α := Float) key (s := Shape.scalar))
+            (_root_.Runtime.Autograd.Gondolin.Random.uniform (α := Float) key (s := Shape.scalar))
         let idx := ((u * Float.ofNat b.items.size).floor.toUInt64.toNat) % b.items.size
         match b.items[idx]? with
         | some t => out := out.push t

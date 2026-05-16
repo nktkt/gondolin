@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -11,14 +11,14 @@ public import NN.Spec.Generative.Latent
 /-!
 # Variational autoencoder (VAE) spec
 
-This file gives Gondlin a small, backbone-independent VAE interface:
+This file gives Gondolin a small, backbone-independent VAE interface:
 
 - an encoder maps an observation `x` to diagonal-Gaussian parameters `(μ, logσ²)`;
 - a decoder maps a latent sample `z` back to observation space; and
 - the loss combines reconstruction MSE with the diagonal-Gaussian KL term.
 
 The design mirrors the original VAE formulation of Kingma and Welling (2014), while staying
-compatible with Gondlin's deterministic spec layer by making the reparameterization noise
+compatible with Gondolin's deterministic spec layer by making the reparameterization noise
 explicit.
 
 References:

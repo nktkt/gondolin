@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -25,7 +25,7 @@ This file formalizes the classic constructive proof strategy:
 
 - approximate `f` by a polygonal function on a uniform grid,
 - express that polygonal function as an affine term plus a finite sum of hinges `relu(x - tᵢ)`,
-- package the hinge representation as Gondlin's spec-level 2-layer MLP (`NN.Spec.Models.Mlp`).
+- package the hinge representation as Gondolin's spec-level 2-layer MLP (`NN.Spec.Models.Mlp`).
 
 ## Main result
 
@@ -47,7 +47,7 @@ namespace NN.MLTheory.Proofs.UniversalApproximation
   open _root_.Spec.Tensor
   open Examples
 
-  /-- Shorthand for `relu` in this development, using Gondlin’s spec semantics. -/
+  /-- Shorthand for `relu` in this development, using Gondolin’s spec semantics. -/
   abbrev relu (x : ℝ) : ℝ := Activation.Math.reluSpec x
 
   /-- If the knot `t` is to the left of `x`, the hinge `relu (x - t)` equals `x - t`. -/
@@ -70,7 +70,7 @@ noncomputable def mlpEval1d (hidDim : ℕ)
     (l1 : LinearSpec ℝ 1 hidDim) (l2 : LinearSpec ℝ hidDim 1) (x : ℝ) : ℝ :=
   extractScalarOutput (Examples.mlpForward l1 l2 (Tensor.singleton x))
 
-/-- Gondlin's MLP forward pass is exactly `linear ∘ relu ∘ linear`. -/
+/-- Gondolin's MLP forward pass is exactly `linear ∘ relu ∘ linear`. -/
 lemma mlp_forward_eq_linear_relu_linear {hidDim : ℕ}
     (l1 : LinearSpec ℝ 1 hidDim) (l2 : LinearSpec ℝ hidDim 1) (x : Tensor ℝ (.dim 1 .scalar)) :
     Examples.mlpForward l1 l2 x =
@@ -82,7 +82,7 @@ lemma mlp_forward_eq_linear_relu_linear {hidDim : ℕ}
 /--
 Move a scalar initial accumulator out of a left fold that only adds terms.
 
-This is bookkeeping for converting Gondlin's list-fold tensor semantics into Mathlib finite
+This is bookkeeping for converting Gondolin's list-fold tensor semantics into Mathlib finite
 sums.
 -/
 lemma foldl_add_init {α : Type} (l : List α) (f : α → ℝ) (a : ℝ) :
@@ -238,7 +238,7 @@ lemma mat_vec_mul_spec_matrixMN_singleton (n : ℕ) (x : ℝ) :
 /--
 The explicit two-layer network built from `hingeLayer1` and `hingeLayer2` computes `hingeFun`.
 
-This is the main semantic bridge from the approximation-theory hinge representation to Gondlin's
+This is the main semantic bridge from the approximation-theory hinge representation to Gondolin's
 spec-level MLP model.
 -/
 lemma mlp_eval_1d_hinge (n : ℕ) (t : Fin n → ℝ) (c : Fin n → ℝ) (b x : ℝ) :

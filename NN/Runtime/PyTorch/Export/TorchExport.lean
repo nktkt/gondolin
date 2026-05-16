@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -16,7 +16,7 @@ This module emits the Python side of the model-import bridge:
 ```text
 PyTorch nn.Module
   --torch.export / FX capture-->
-Gondlin graph JSON (`gondlin.ir.v1`)
+Gondolin graph JSON (`gondolin.ir.v1`)
   --NN.Runtime.PyTorch.Import.TorchExport.parseGraph-->
 NN.IR.Graph
 ```
@@ -26,7 +26,7 @@ Why generate a Python adapter instead of parsing PyTorch objects in Lean?
 - PyTorch checkpoints are Python/Pickle/zip artifacts; PyTorch is the external loader that knows
   how to read them.
 - `torch.export` and FX already know how to inspect PyTorch programs.
-- Lean should receive a small, explicit artifact and then validate it with Gondlin's own IR
+- Lean should receive a small, explicit artifact and then validate it with Gondolin's own IR
   checkers.
 
 The generated adapter is intentionally conservative. It lowers only ops that already exist in
@@ -49,7 +49,7 @@ open Export.PyTorch
 /-- Options for the generated PyTorch graph-capture script. -/
 structure GraphBridgeOptions where
   /-- Name of the Python helper function emitted into the script. -/
-  functionName : String := "export_gondlin_graph_json"
+  functionName : String := "export_gondolin_graph_json"
   /-- If true, use `torch.export.export` first and fall back to FX symbolic tracing. -/
   preferTorchExport : Bool := true
   /-- If true, include raw PyTorch target strings in each node for debugging. -/
@@ -60,12 +60,12 @@ def pyBool (b : Bool) : String :=
   if b then "True" else "False"
 
 /--
-Emit a Python script that captures a PyTorch module and writes Gondlin graph JSON.
+Emit a Python script that captures a PyTorch module and writes Gondolin graph JSON.
 
 The generated script expects a Python file containing a zero-argument model constructor or class:
 
 ```bash
-python export_gondlin_graph.py my_model.py MyModel out_graph.json --example-shape 1,4
+python export_gondolin_graph.py my_model.py MyModel out_graph.json --example-shape 1,4
 ```
 
 The first implementation target is the shared IR subset: elementwise ops, matmul, reductions,
@@ -84,7 +84,7 @@ def generateGraphBridgeScript (opts : GraphBridgeOptions := {}) : String :=
     , "import torch.nn as nn"
     , "import torch.nn.functional as F"
     , ""
-    , "FORMAT = \"gondlin.ir.v1\""
+    , "FORMAT = \"gondolin.ir.v1\""
     , ""
     , "def _shape_of(value):"
     , indent4 "if hasattr(value, \"shape\"):"
@@ -131,7 +131,7 @@ def generateGraphBridgeScript (opts : GraphBridgeOptions := {}) : String :=
     , indent4 "return {\"kind\": \"py_tuple\"}"
     , ""
     , "def _load_model(module_path: str, ctor_name: str):"
-    , indent4 "spec = importlib.util.spec_from_file_location(\"gondlin_user_model\", module_path)"
+    , indent4 "spec = importlib.util.spec_from_file_location(\"gondolin_user_model\", module_path)"
     , indent4 "if spec is None or spec.loader is None:"
     , indent8 "raise RuntimeError(f\"could not load Python module from {module_path}\")"
     , indent4 "mod = importlib.util.module_from_spec(spec)"
@@ -310,7 +310,7 @@ def generateGraphBridgeScript (opts : GraphBridgeOptions := {}) : String :=
     , indent8 "value_meta = {\"value_kind\": \"tuple\", \"tuple_shapes\": tuple_shapes} if tuple_shapes else {\"value_kind\": \"tensor\", \"shape\": shape}"
     , indent8 "if node.op == \"placeholder\":"
     , indent8 "    if input_id is not None:"
-    , indent8 "        # torch.export lifts parameters/buffers into placeholders. Gondlin IR keeps those"
+    , indent8 "        # torch.export lifts parameters/buffers into placeholders. Gondolin IR keeps those"
     , indent8 "        # tensors in an external parameter store, so they are not dataflow parents."
     , indent8 "        node_to_id[node] = None"
     , indent8 "        continue"
@@ -319,7 +319,7 @@ def generateGraphBridgeScript (opts : GraphBridgeOptions := {}) : String :=
     , indent8 "    if input_id is None: input_id = node_id"
     , indent8 "elif tuple_shapes:"
     , indent8 "    # Preserve tuple/list-valued FX nodes in the import artifact. They are lowered to the"
-    , indent8 "    # tensor-only Gondlin IR only when a later semantic lowering rule exists."
+    , indent8 "    # tensor-only Gondolin IR only when a later semantic lowering rule exists."
     , indent8 "    kind = _tuple_kind(node, model)"
     , indent8 "    parents = _node_refs((node.args, node.kwargs), node_to_id)"
     , indent8 "elif node.op in (\"call_function\", \"call_method\", \"call_module\"):"
@@ -339,7 +339,7 @@ def generateGraphBridgeScript (opts : GraphBridgeOptions := {}) : String :=
     , indent4 "return payload"
     , ""
     , "def main():"
-    , indent4 "parser = argparse.ArgumentParser(description=\"Export a PyTorch nn.Module to Gondlin IR JSON\")"
+    , indent4 "parser = argparse.ArgumentParser(description=\"Export a PyTorch nn.Module to Gondolin IR JSON\")"
     , indent4 "parser.add_argument(\"module\", help=\"Python file containing the model class/constructor\")"
     , indent4 "parser.add_argument(\"ctor\", help=\"Zero-argument model class or constructor name\")"
     , indent4 "parser.add_argument(\"json\", help=\"Output graph JSON path\")"
@@ -349,7 +349,7 @@ def generateGraphBridgeScript (opts : GraphBridgeOptions := {}) : String :=
     , indent4 "model = _load_model(args.module, args.ctor)"
     , indent4 "example = torch.randn(*shape)"
     , indent4 s!"payload = {opts.functionName}(model, example, args.json)"
-    , indent4 "print(f\"wrote {len(payload['nodes'])} Gondlin IR nodes to {args.json}\")"
+    , indent4 "print(f\"wrote {len(payload['nodes'])} Gondolin IR nodes to {args.json}\")"
     , ""
     , "if __name__ == \"__main__\":"
     , indent4 "main()"

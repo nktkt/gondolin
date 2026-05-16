@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -22,7 +22,7 @@ public import NN.Spec.Core.Utils
 /-!
 # Spec core
 
-Umbrella import for Gondlin's core specification layer: scalar contexts, shape-indexed tensors,
+Umbrella import for Gondolin's core specification layer: scalar contexts, shape-indexed tensors,
 runtime/list bridges, reductions, and gradient utilities.
 
 These modules are intentionally pure. Runtime backends and verifier pipelines reuse the same

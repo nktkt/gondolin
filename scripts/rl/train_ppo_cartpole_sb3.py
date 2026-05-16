@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Stable-Baselines3 PPO baseline for Gymnasium CartPole.
 
-This is a pragmatic baseline for Gondlin:
+This is a pragmatic baseline for Gondolin:
   - Fast, well-tested training loop (Python).
-  - Useful to sanity-check environment + target performance ("solved" CartPole) while Gondlin’s
+  - Useful to sanity-check environment + target performance ("solved" CartPole) while Gondolin’s
     Lean-side PPO/GAE definitions and boundary contracts evolve.
 
 Run:

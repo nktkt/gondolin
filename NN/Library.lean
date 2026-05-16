@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -13,7 +13,7 @@ public import NN.Entrypoint.IR
 public import NN.Entrypoint.Proofs
 public import NN.Entrypoint.Runtime
 public import NN.Entrypoint.Spec
-public import NN.Entrypoint.GondlinModels
+public import NN.Entrypoint.GondolinModels
 public import NN.Entrypoint.Verification
 public import NN.Entrypoint.MLTheory
 public import NN.Entrypoint.Tensor
@@ -22,7 +22,7 @@ public import NN.Entrypoint.Widgets
 /-!
 # Library
 
-`NN.Library` is the curated umbrella import for Gondlin's broad reusable library surface area.
+`NN.Library` is the curated umbrella import for Gondolin's broad reusable library surface area.
 
 It includes:
 - the public user facade (`NN.API.Public`),

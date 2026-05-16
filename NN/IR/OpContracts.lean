@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -88,7 +88,7 @@ def checkPositive (tag param : String) (n : Nat) : Except String Unit := do
 /--
 Compute the `(seqLen, embedDim)` pair used to interpret `layernorm axis`.
 
-Gondlin’s IR stores LayerNorm as an `axis : Nat` instead of a full `normalized_shape` tuple.
+Gondolin’s IR stores LayerNorm as an `axis : Nat` instead of a full `normalized_shape` tuple.
 We interpret this in the same way the PyTorch exporter does:
 
 `normalized_shape = dims.drop axis`

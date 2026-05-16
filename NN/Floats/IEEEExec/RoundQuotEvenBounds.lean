@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -31,7 +31,7 @@ division case.
 @[expose] public section
 
 
-namespace Gondlin.Floats.IEEE754
+namespace Gondolin.Floats.IEEE754
 namespace IEEE32Exec
 
 open Nat
@@ -101,4 +101,4 @@ lemma roundQuotEven_le_div_add1 (num den : Nat) :
   · simp [hq, q]
 
 end IEEE32Exec
-end Gondlin.Floats.IEEE754
+end Gondolin.Floats.IEEE754

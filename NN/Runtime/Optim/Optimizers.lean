@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -12,7 +12,7 @@ public import NN.Spec.Core.TensorOps
 /-!
 # Optimizers
 
-Optimizers for Gondlin runtime training.
+Optimizers for Gondolin runtime training.
 
 This file implements the *core math* of common gradient-based optimizers as pure functions on
 typed tensors `Tensor α s`.
@@ -20,7 +20,7 @@ typed tensors `Tensor α s`.
 Why “pure functions”?
 
 In PyTorch, optimizers mutate parameters in-place and keep state in Python objects.
-In Gondlin, we want the update rule itself to be explicit and easy to reuse:
+In Gondolin, we want the update rule itself to be explicit and easy to reuse:
 - eager demos can call the update directly,
 - the runtime training engine can store state in maps keyed by parameter ids,
 - and proofs can refer to the same update equations.
@@ -31,7 +31,7 @@ flag); those live at a different layer than the math we specify here.
 
 Where this file sits in the stack:
 - this file owns the scalar-polymorphic, per-tensor update equations;
-- `NN.Runtime.Autograd.Gondlin.Optim` lifts those equations to runtime parameter lists; and
+- `NN.Runtime.Autograd.Gondolin.Optim` lifts those equations to runtime parameter lists; and
 - `NN.API.Runtime` exposes ergonomic `optim.sgd`, `optim.adam`, and related configuration helpers.
 
 That separation is deliberate: the formula appears once, while runtime adapters and public API
@@ -47,7 +47,7 @@ Why each optimizer has its own `State` structure:
   decoupled `weight_decay` coefficient.
 
 The generic abstraction lives one layer up:
-- `Runtime.Autograd.Gondlin.Optim.Optimizer` packages `init`/`step` for shape-indexed parameter
+- `Runtime.Autograd.Gondolin.Optim.Optimizer` packages `init`/`step` for shape-indexed parameter
   lists, like a typed analogue of a PyTorch optimizer object.
 - `Runtime.Autograd.Train.OptimizerState` handles dynamic parameter groups and checkpoint-style
   maps for the training-loop API.
@@ -613,7 +613,7 @@ namespace Muon
 Orthogonalization backend for a matrix-shaped update.
 
 Muon uses a momentum buffer and then replaces the raw momentum direction by an approximately
-orthogonalized update, commonly via Newton-Schulz iterations. Gondlin keeps this as an explicit
+orthogonalized update, commonly via Newton-Schulz iterations. Gondolin keeps this as an explicit
 backend so the pure update rule is testable before CUDA kernels are introduced.
 -/
 structure Orthogonalizer (α : Type) (s : Shape) where

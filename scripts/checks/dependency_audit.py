@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Gondlin dependency-graph audit.
+Gondolin dependency-graph audit.
 
 This is a lightweight adaptation of the methodology in:
 
@@ -9,7 +9,7 @@ This is a lightweight adaptation of the methodology in:
 
 Their work extracts Mathlib's module/declaration/namespace graphs at large scale.  This script is
 not a replacement for premise-level extraction; it is a lightweight repository audit that runs
-cheaply on Gondlin to keep the architecture map aligned with the import graph.
+cheaply on Gondolin to keep the architecture map aligned with the import graph.
 
 The audit uses only the Python standard library.  It parses Lean import headers,
 builds a module graph, reports broad import / layer-boundary smells, and can export JSON for
@@ -30,7 +30,7 @@ from typing import Iterable
 
 REPO_ROOT = pathlib.Path(__file__).resolve().parent.parent.parent
 
-# The parser is intentionally shallow: Gondlin's public graph page needs module imports,
+# The parser is intentionally shallow: Gondolin's public graph page needs module imports,
 # namespaces, and declaration headers, not a full elaborated Lean environment.
 IMPORT_RE = re.compile(r"^\s*(public\s+)?import\s+([A-Za-z0-9_'.]+)\s*$")
 NAMESPACE_RE = re.compile(r"^\s*namespace\s+([A-Za-z0-9_'.]+)\s*$")
@@ -90,11 +90,11 @@ class Finding:
 
 
 def iter_lean_files(root: pathlib.Path) -> Iterable[pathlib.Path]:
-    """Yield Lean source files that belong to the Gondlin architecture graph."""
+    """Yield Lean source files that belong to the Gondolin architecture graph."""
     for path in sorted(root.rglob("*.lean")):
         rel_parts = path.relative_to(root).parts
         # Build artifacts and vendored external projects would make the public
-        # architecture page report dependencies that are not part of Gondlin.
+        # architecture page report dependencies that are not part of Gondolin.
         if any(part in SKIP_PARTS for part in rel_parts):
             continue
         if any(part in EXTERNAL_TREE_NAMES for part in rel_parts):
@@ -439,7 +439,7 @@ def render_markdown(report: dict, *, max_findings: int) -> str:
     """Render a compact Markdown summary from a full audit report."""
     s = report["summary"]
     lines: list[str] = []
-    lines.append("# Gondlin Dependency Audit")
+    lines.append("# Gondolin Dependency Audit")
     lines.append("")
     lines.append(
         "Inspired by Li, Peng, Severini, and Shafto, "

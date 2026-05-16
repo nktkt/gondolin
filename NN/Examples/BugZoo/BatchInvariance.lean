@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -19,7 +19,7 @@ Reference:
 - Thinking Machines Lab, "Defeating Nondeterminism in LLM Inference", 2025.
 - Liu et al., "A First Look at Bugs in LLM Inference Engines", 2025.
 
-Gondlin cannot prove arbitrary CUDA kernels batch-invariant unless the kernel implementation is
+Gondolin cannot prove arbitrary CUDA kernels batch-invariant unless the kernel implementation is
 also connected to the spec. This file records the semantic target: if a model is lifted across the
 batch axis by applying the same function independently to every row, then selecting one row of the
 batched result is exactly the same as evaluating that row alone.

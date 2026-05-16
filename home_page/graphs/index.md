@@ -3,7 +3,7 @@ title: Dependency Maps
 ---
 
 <p class="lede">
-  Explore how Gondlin is organized: which modules import each other, where the main hubs are, and
+  Explore how Gondolin is organized: which modules import each other, where the main hubs are, and
   how the API, runtime, proof, and verification layers connect.
 </p>
 

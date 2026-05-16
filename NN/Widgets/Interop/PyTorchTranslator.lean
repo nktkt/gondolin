@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -13,28 +13,28 @@ public meta import ProofWidgets.Demos.Macro
 /-!
 # PyTorch Translator Widget
 
-This file implements the editor-side "write PyTorch, see Gondlin" translator workflow.
+This file implements the editor-side "write PyTorch, see Gondolin" translator workflow.
 
 The goal is deliberately modest and honest:
 
 - accept a Python source file, with a lower-level command for selected `nn.Sequential` /
   `nn.Module` text;
 - recognize common layer constructors by name;
-- emit a Gondlin skeleton using the public `nn.sequential!` style;
+- emit a Gondolin skeleton using the public `nn.sequential!` style;
 - report the exact boundary between translated layers, layers that need extra shape information,
   and Python code that is outside this lightweight supported-subset assistant.
 
 This is **not** a verified Python parser and it is not a full PyTorch semantic import. For full
 graph capture, the right path is still the existing `torch.export` JSON bridge in
 `NN.Runtime.PyTorch.Import.TorchExport`. This widget is the fast, friendly "front door" that shows
-whether a model is close to the supported Gondlin subset before users commit to the full
+whether a model is close to the supported Gondolin subset before users commit to the full
 capture/import path.
 
 The VS Code extension version can reuse this design:
 
 1. Run a stronger Python-side analyzer (`ast`, `torch.fx`, or `torch.export`).
 2. Send the normalized layer/graph report to Lean.
-3. Display the same kind of Gondlin skeleton plus trust-boundary diagnostics.
+3. Display the same kind of Gondolin skeleton plus trust-boundary diagnostics.
 
 For the in-repo workflow, prefer `#pytorch_translate_file "path/to/model.py"`. That command reads a
 real Python source file and renders the report in the Lean infoview. The lower-level
@@ -67,7 +67,7 @@ inductive Layer where
   /--
   2D convolution with the fields this text-level assistant can reliably infer from common snippets.
 
-  We do not generate executable Gondlin code directly from this constructor because a correct
+  We do not generate executable Gondolin code directly from this constructor because a correct
   `nn.conv` term also needs the input contract: batch size, input height, and input width.
   -/
   | conv2d (inC outC kernel stride padding : Nat)
@@ -196,9 +196,9 @@ Render a layer as a direct `nn.sequential!` term when that is safe for the suppo
 
 Only vector-shaped elementwise and linear layers are emitted directly. Shape-changing CNN pieces are
 not silently guessed, because that would create exactly the kind of misleading "it translated!"
-experience Gondlin should avoid.
+experience Gondolin should avoid.
 -/
-private def layerGondlinTerm? : Layer → Option String
+private def layerGondolinTerm? : Layer → Option String
   | .linear i o => some s!"nn.linear {i} {o} (pfx := Spec.Shape.scalar)"
   | .flatten => some "nn.flatten"
   | .relu => some "nn.relu"
@@ -221,7 +221,7 @@ private def layerBoundaryComment? : Layer → Option String
   | .maxPool2d k s =>
       some s!"-- MaxPool2d(kernel_size={k}, stride={s}) detected: add pooling after choosing channel/spatial dimensions."
   | .adaptiveAvgPool2d o =>
-      some s!"-- AdaptiveAvgPool2d({o}) detected: connect this to the specific Gondlin pooling spec you want."
+      some s!"-- AdaptiveAvgPool2d({o}) detected: connect this to the specific Gondolin pooling spec you want."
   | .dropout =>
       some "-- Dropout detected: add `nn.dropout p (seed := seed)` after making `p` and mode behavior explicit."
   | .unsupported raw reason =>
@@ -318,15 +318,15 @@ def analyze (snippet : String) : Report :=
     if layers.any (fun l => match l with | .conv2d .. => true | .maxPool2d .. => true | _ => false) then
       warnings := warnings.push
         "CNN layers need an explicit input contract (`batch`, channels, height, width) before the \
-        generated Gondlin skeleton can be made executable."
+        generated Gondolin skeleton can be made executable."
     if layers.any (fun l => match l with | .dropout => true | _ => false) then
       warnings := warnings.push
-        "Dropout is mode-dependent; Gondlin asks for an explicit probability/seed and keeps train/eval \
+        "Dropout is mode-dependent; Gondolin asks for an explicit probability/seed and keeps train/eval \
         behavior visible."
     if layers.any (fun l => match l with | .adaptiveAvgPool2d .. => true | _ => false) then
       warnings := warnings.push
         "Adaptive pooling is detected as a shape-changing operation; connect it to the specific \
-        Gondlin pooling spec you want before treating the skeleton as executable."
+        Gondolin pooling spec you want before treating the skeleton as executable."
     pure warnings
   { layers, translated, warnings, unsupported }
 
@@ -334,16 +334,16 @@ private def joinLines (xs : List String) : String :=
   String.intercalate "\n" xs
 
 /--
-Generate a Gondlin skeleton from the recognized layer sequence.
+Generate a Gondolin skeleton from the recognized layer sequence.
 
 The emitted code is meant to be a starting point, not a final theorem. It imports the public
-Gondlin umbrella, opens the user-facing API namespaces, emits direct sequential terms for the safe
+Gondolin umbrella, opens the user-facing API namespaces, emits direct sequential terms for the safe
 subset, and then appends boundary notes as Lean comments. The next intended step is to add a concrete
 shape contract and wrap the model in a `train.Task` / `SeqTask`.
 -/
-def gondlinSkeleton (r : Report) (name : String := "translatedModel") : String :=
+def gondolinSkeleton (r : Report) (name : String := "translatedModel") : String :=
   let translatedLines :=
-    r.layers.toList.filterMap layerGondlinTerm?
+    r.layers.toList.filterMap layerGondolinTerm?
   let body :=
     match translatedLines with
     | [] => "    -- No directly translatable sequential terms were recognized."
@@ -435,7 +435,7 @@ equally visible account of what has *not* been checked.
 def html (snippet : String) : ProofWidgets.Html :=
   let r := analyze snippet
   let rows := r.layers.map layerRowHtml
-  let skeleton := gondlinSkeleton r
+  let skeleton := gondolinSkeleton r
   let allSupported := r.unsupported.isEmpty && !r.layers.isEmpty
   ;
   <div style={json% {
@@ -446,13 +446,13 @@ def html (snippet : String) : ProofWidgets.Html :=
     "color": "var(--vscode-editor-foreground, inherit)"
   }}>
     <div style={json% {"display": "flex", "gap": "8px", "flex-wrap": "wrap", "margin-bottom": "10px"}}>
-      {pill "PyTorch -> Gondlin"}
+      {pill "PyTorch -> Gondolin"}
       {pill s!"layers={r.layers.size}"}
       {pill s!"translated={r.translated}"}
       {if allSupported then okBadge "supported subset" else warnBadge "boundary report"}
     </div>
     <p style={json% {"margin": "0 0 10px 0"}}>
-      {.text "Lightweight supported-subset assistant for common PyTorch layer stacks. It generates a Gondlin skeleton and names the parts that still need shape contracts or the full torch.export path."}
+      {.text "Lightweight supported-subset assistant for common PyTorch layer stacks. It generates a Gondolin skeleton and names the parts that still need shape contracts or the full torch.export path."}
     </p>
     <details «open»={true}>
       <summary>{.text "Recognized layers"}</summary>
@@ -470,7 +470,7 @@ def html (snippet : String) : ProofWidgets.Html :=
     {msgListHtml "warnings" r.warnings "warn"}
     {msgListHtml "unsupported" r.unsupported "err"}
     <details «open»={true} style={json% {"margin-top": "10px"}}>
-      <summary>{.text "Generated Gondlin skeleton"}</summary>
+      <summary>{.text "Generated Gondolin skeleton"}</summary>
       <pre style={json% {
         "white-space": "pre",
         "overflow-x": "auto",

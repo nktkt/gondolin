@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -76,7 +76,7 @@ Inputs are ordered as `[W, b, x]`:
 - `x : Vec inDim`.
 
 The output is `Vec outDim`. This is the DAG embedding of `Primitive.linear`, so the DAG and
-sequential authoring surfaces share the same Spec semantics and Gondlin compiler path.
+sequential authoring surfaces share the same Spec semantics and Gondolin compiler path.
 -/
 def linear (inDim outDim : Nat) :
     PrimOp [Shape.Mat outDim inDim, Shape.Vec outDim, Shape.Vec inDim] (Shape.Vec outDim) :=
@@ -123,7 +123,7 @@ def add (s : Shape) : PrimOp [s, s] s :=
       | .cons a (.cons b .nil) => _root_.Spec.Tensor.addSpec (α := α) a b
     torchProgram := fun {α} _ctx _deq =>
       fun {m} _ _ =>
-        fun a b => Runtime.Autograd.Gondlin.add (m := m) (α := α) (s := s) a b
+        fun a b => Runtime.Autograd.Gondolin.add (m := m) (α := α) (s := s) a b
   }
 
 /--

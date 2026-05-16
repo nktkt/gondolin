@@ -14,7 +14,7 @@
     "minWidth": 0.05,
     "slack": 0.0,
     "verbose": false,
-    "modelBackend": "gondlin"
+    "modelBackend": "gondolin"
   }
 }
 

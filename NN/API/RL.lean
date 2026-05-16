@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -17,7 +17,7 @@ public import NN.Runtime.Training.Log
 /-!
 # Public RL Facade
 
-This module exposes Gondlin's reinforcement-learning helper surface under the public
+This module exposes Gondolin's reinforcement-learning helper surface under the public
 `NN.API.rl.*` namespace.
 
 Design intent:
@@ -143,7 +143,7 @@ export _root_.Runtime.RL.PolicyGradient
 
 namespace autograd
 /-!
-Differentiable policy-gradient losses over Gondlin backend references.
+Differentiable policy-gradient losses over Gondolin backend references.
 
 The pure exports above are algebra over concrete spec tensors. These helpers are the training-time
 counterpart: they build scalar losses from backend refs, so the same formulas can run through eager
@@ -167,7 +167,7 @@ namespace train
 /-!
 ## Training Logs (Widgets and Examples)
 
-Gondlin does not aim to be a full “trainer framework”, but many executable examples want to:
+Gondolin does not aim to be a full “trainer framework”, but many executable examples want to:
 
 - evaluate a scalar metric every `N` updates,
 - append it to a curve, and
@@ -199,7 +199,7 @@ export _root_.Runtime.RL.Boundary.Transition (done)
 The trust-boundary checker (`Runtime.RL.Boundary`) validates rollouts in terms of host `Float`
 because that is what our lightweight JSON interchange format uses.
 
-Most RL math in Gondlin is scalar-polymorphic (`[Context α]`), so it is often convenient to
+Most RL math in Gondolin is scalar-polymorphic (`[Context α]`), so it is often convenient to
 cast a validated `Float` rollout into the chosen runtime scalar backend:
 - `Float` (fast host execution),
 - `IEEE32Exec` (executable bit-level float32),
@@ -297,18 +297,18 @@ This helper keeps example code from reaching into the long proved `TList.splitAp
 -/
 def splitActorCriticParams
     {σ₁ τ₁ σ₂ τ₂ : _root_.Spec.Shape}
-    (actor : _root_.Runtime.Autograd.Gondlin.NN.Seq σ₁ τ₁)
-    (critic : _root_.Runtime.Autograd.Gondlin.NN.Seq σ₂ τ₂)
+    (actor : _root_.Runtime.Autograd.Gondolin.NN.Seq σ₁ τ₁)
+    (critic : _root_.Runtime.Autograd.Gondolin.NN.Seq σ₂ τ₂)
     {α : Type}
     (ps :
       _root_.Runtime.Autograd.Torch.TList α
-        (_root_.Runtime.Autograd.Gondlin.NN.Seq.paramShapes actor ++
-          _root_.Runtime.Autograd.Gondlin.NN.Seq.paramShapes critic)) :
-    _root_.Runtime.Autograd.Torch.TList α (_root_.Runtime.Autograd.Gondlin.NN.Seq.paramShapes actor) ×
-      _root_.Runtime.Autograd.Torch.TList α (_root_.Runtime.Autograd.Gondlin.NN.Seq.paramShapes critic) :=
+        (_root_.Runtime.Autograd.Gondolin.NN.Seq.paramShapes actor ++
+          _root_.Runtime.Autograd.Gondolin.NN.Seq.paramShapes critic)) :
+    _root_.Runtime.Autograd.Torch.TList α (_root_.Runtime.Autograd.Gondolin.NN.Seq.paramShapes actor) ×
+      _root_.Runtime.Autograd.Torch.TList α (_root_.Runtime.Autograd.Gondolin.NN.Seq.paramShapes critic) :=
   _root_.Runtime.Autograd.Torch.Proofs.Autograd.Algebra.TList.splitAppend (α := α)
-    (ss₁ := _root_.Runtime.Autograd.Gondlin.NN.Seq.paramShapes actor)
-    (ss₂ := _root_.Runtime.Autograd.Gondlin.NN.Seq.paramShapes critic)
+    (ss₁ := _root_.Runtime.Autograd.Gondolin.NN.Seq.paramShapes actor)
+    (ss₂ := _root_.Runtime.Autograd.Gondolin.NN.Seq.paramShapes critic)
     ps
 end ppo
 

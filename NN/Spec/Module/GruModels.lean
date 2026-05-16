@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -13,7 +13,7 @@ public import NN.Spec.Module.Rnn
 /-!
 # GRU models (spec)
 
-Gondlin provides GRU layers/cells in `NN.Spec.Layers.Gru`. This file builds *models* on top of
+Gondolin provides GRU layers/cells in `NN.Spec.Layers.Gru`. This file builds *models* on top of
 that layer API: common compositions, heads, and a couple of end-to-end forward/backward routines.
 
 Higher‑level GRU architectures built from module specs (`SpecChain`):
@@ -122,7 +122,7 @@ def gruLanguageModelSpec
 /-!
 ## Record-style model specs
 
-The `SpecChain` builders above are the most uniform way to assemble models in Gondlin.
+The `SpecChain` builders above are the most uniform way to assemble models in Gondolin.
 
 This section uses small record types with explicit forward functions. It is useful when you want
 to talk about a particular architecture directly (e.g. encoder-decoder), or when you need to carry

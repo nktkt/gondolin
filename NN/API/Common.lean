@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -18,7 +18,7 @@ import Mathlib.Algebra.Order.Algebra
 /-!
 # `NN.API.Common`
 
-Small, practical helpers used across Gondlin workflows and entrypoints: typed tensor constructors,
+Small, practical helpers used across Gondolin workflows and entrypoints: typed tensor constructors,
 casting between scalar backends, and `Except`/`IO` glue.
 -/
 
@@ -57,7 +57,7 @@ written around:
 - choosing a dtype/backend based on CLI flags
 - `try/except` wrappers for dataset loading and runnable workflow code
 
-The main difference is that Gondlin tracks shapes in types, so tensor constructors here return
+The main difference is that Gondolin tracks shapes in types, so tensor constructors here return
 `Except String ...` rather than silently reshaping.
 -/
 
@@ -197,12 +197,12 @@ MLP, CNN, ResNet, ViT, and similar small demos.
 -/
 def adamOptimizer {α : Type} [Semantics.Scalar α] [Runtime.Scalar α]
     (cast : Float → α) (ps : List Shape) (lr : Float) :
-    Gondlin.Optim.Optimizer α ps :=
-  Gondlin.Optim.adam (α := α) (paramShapes := ps)
+    Gondolin.Optim.Optimizer α ps :=
+  Gondolin.Optim.adam (α := α) (paramShapes := ps)
     (lr := cast lr) (beta1 := cast 0.9) (beta2 := cast 0.999) (epsilon := cast 1e-8)
 
 /--
-Run an executable with the standard Gondlin runtime parser, using the polymorphic scalar path by
+Run an executable with the standard Gondolin runtime parser, using the polymorphic scalar path by
 default and switching to the `Float` path when requested.
 
 This is the common shape for public examples that support all executable scalar backends, but need
@@ -212,19 +212,19 @@ the `Float` path for CUDA bridges, decoded probes, or JSON artifacts whose metri
 def runAnyOrFloat
     (exeName : String) (args : List String)
     (preferFloat : List String → Bool)
-    (banner : Gondlin.Options → String)
+    (banner : Gondolin.Options → String)
     (anyK :
       ∀ {α : Type}, [Semantics.Scalar α] → [DecidableEq Spec.Shape] → [ToString α] →
         [Runtime.Scalar α] →
-        (cast : Float → α) → (opts : Gondlin.Options) → (rest : List String) → IO Unit)
-    (floatK : (opts : Gondlin.Options) → (rest : List String) → IO Unit)
+        (cast : Float → α) → (opts : Gondolin.Options) → (rest : List String) → IO Unit)
+    (floatK : (opts : Gondolin.Options) → (rest : List String) → IO Unit)
     (printOk : Bool := true) : IO UInt32 := do
-  let runOpts : Gondlin.Module.RunOptions :=
+  let runOpts : Gondolin.Module.RunOptions :=
     { banner? := some banner, printOk := printOk }
   if preferFloat args then
-    Gondlin.Module.run exeName args (.float floatK) runOpts
+    Gondolin.Module.run exeName args (.float floatK) runOpts
   else
-    Gondlin.Module.run exeName args (.any anyK) runOpts
+    Gondolin.Module.run exeName args (.any anyK) runOpts
 
 /-- List generator: `[0, 1, ..., n-1]` mapped through `f`. -/
 def listGen {α : Type} (n : Nat) (f : Nat → α) : List α :=
@@ -323,8 +323,8 @@ scalar backend.
 
 In particular:
 - `--dtype=float` selects Lean's builtin `Float` (trusted semantics, executable),
-- `--dtype=float32` selects Gondlin's verified IEEE32 executable semantics,
-- `--dtype=complex` selects Gondlin's parametric complex scalar over Float32,
+- `--dtype=float32` selects Gondolin's verified IEEE32 executable semantics,
+- `--dtype=complex` selects Gondolin's parametric complex scalar over Float32,
 - `--dtype=real` selects `ℝ` (proof-only; errors at runtime).
 -/
 def runWithDType (title : String) (args : List String)

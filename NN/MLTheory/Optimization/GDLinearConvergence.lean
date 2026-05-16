@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -34,7 +34,7 @@ properties that imply linear convergence of gradient descent with a suitable ste
 
 This module deliberately avoids any heavy Fréchet-derivative setup: it is stated directly in terms
 of `g` so it can later be instantiated either by “`g = ∇f`” theorems or by verified gradients of
-concrete Gondlin models.
+concrete Gondolin models.
 -/
 
 @[expose] public section

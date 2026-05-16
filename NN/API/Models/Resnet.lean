@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -20,7 +20,7 @@ standard ResNet pattern:
 - global average pooling
 - linear classifier head
 
-Our goal is to keep the runnable `gondlin resnet` example focused on data loading, optimizer
+Our goal is to keep the runnable `gondolin resnet` example focused on data loading, optimizer
 choice, and reporting. The positivity proofs below are Lean's way of recording that pooling axes
 are nonempty; callers should normally just use `nn.models.resnet cfg`.
 -/

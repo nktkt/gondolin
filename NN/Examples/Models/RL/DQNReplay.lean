@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -21,12 +21,12 @@ This example runs the runtime pieces used by an off-policy DQN-style update:
 
 It is deliberately compact: the Q-functions are hand-written closures rather than neural networks. That
 keeps the file focused on the replay/minibatch API. A full trainable DQN example can later swap those
-closures for compiled Gondlin models and an optimizer step.
+closures for compiled Gondolin models and an optimizer step.
 
 Run from the repo root through the maintained example runner:
 
 ```bash
-lake exe gondlin dqn_replay
+lake exe gondolin dqn_replay
 ```
 
 References:
@@ -107,7 +107,7 @@ def run : IO Unit := do
   IO.println s!"soft target update example: {synced}"
   IO.println "dqn_replay: ok"
 
-/-- Runner entrypoint used by `lake exe gondlin dqn_replay`. -/
+/-- Runner entrypoint used by `lake exe gondolin dqn_replay`. -/
 def main (_args : List String) : IO UInt32 := do
   run
   pure 0

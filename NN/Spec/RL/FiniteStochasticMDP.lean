@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -14,7 +14,7 @@ public import NN.Spec.RL.MDP
 /-!
 # Finite Stochastic Discounted MDPs
 
-This module extends Gondlin's finite deterministic MDP layer with finite-state stochastic
+This module extends Gondolin's finite deterministic MDP layer with finite-state stochastic
 transitions.
 
 We stay in a deliberately small setting:

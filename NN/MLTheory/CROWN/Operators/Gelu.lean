@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 
 GELU activation for CROWN bound propagation.
 GELU(x) = x * Φ(x) where Φ is the standard Gaussian CDF.

@@ -1,6 +1,6 @@
 # `NN/IR`
 
-`NN.IR` is Gondlin's op tagged SSA/DAG intermediate representation. It is the small shared graph
+`NN.IR` is Gondolin's op tagged SSA/DAG intermediate representation. It is the small shared graph
 language that model compilers, verification passes, exporters, widgets, and compiled-runtime
 correctness proofs can all point at without each inventing a private graph format.
 
@@ -34,7 +34,7 @@ precise internal dependency boundaries.
 ## Relationship To `NN.GraphSpec`
 
 `NN.GraphSpec` is a typed authoring DSL for model architectures, with a pure semantics and lowering
-to Gondlin runtime programs. `NN.IR` sits lower in the stack: it is the op tagged graph target that
+to Gondolin runtime programs. `NN.IR` sits lower in the stack: it is the op tagged graph target that
 verification/export/runtime tooling can consume after a model has been compiled or traced.
 
 In PyTorch terms, `NN.GraphSpec` is closer to a typed model construction DSL; `NN.IR` is closer to

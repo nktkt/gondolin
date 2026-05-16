@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -18,7 +18,7 @@ single-input/single-output vision operation adapters used by classic CNN pipelin
 
 These are not model definitions. They are reusable nodes in the GraphSpec vocabulary:
 
-- `Primitive.conv2d` wraps `Spec.conv2dSpec` and `Runtime.Autograd.Gondlin.conv2d`;
+- `Primitive.conv2d` wraps `Spec.conv2dSpec` and `Runtime.Autograd.Gondolin.conv2d`;
 - `Primitive.maxPool2d` wraps the corresponding Spec/runtime pooling operation;
 - `Primitive.batchnormChw` wraps channel-first BatchNorm;
 - `Primitive.globalAvgPool2dChw` wraps channel-wise global average pooling;
@@ -39,7 +39,7 @@ Why only these vision ops?
 GraphSpec only exposes an operation once we have both sides of the contract in place:
 
 1. a pure Spec meaning, and
-2. an executable Gondlin program meaning.
+2. an executable Gondolin program meaning.
 
 The general always-available primitives (`linear`, `relu`, `softmax`) live in
 `NN.GraphSpec.Core`; this file is the current vision extension pack. More packs can be added as
@@ -91,7 +91,7 @@ Output:
 
 `outH = (inH + 2*padding - kH) / stride + 1`  and similarly for `outW`.
 
-This is intentionally close to the underlying Spec/Gondlin op.
+This is intentionally close to the underlying Spec/Gondolin op.
 PyTorch analogy: `torch.nn.functional.conv2d` on an NCHW tensor, specialized here to CHW.
  -/
 def conv2d
@@ -112,14 +112,14 @@ def conv2d
     torchProgram := fun {α} _ctx _deq =>
       fun {m} _ _ =>
         fun k b x =>
-          Runtime.Autograd.Gondlin.conv2d (m := m) (α := α)
+          Runtime.Autograd.Gondolin.conv2d (m := m) (α := α)
             (inC := inC) (outC := outC) (kH := kH) (kW := kW)
             (stride := stride) (padding := padding) (inH := inH) (inW := inW)
             (h1 := h_inC) (h2 := h_kH) (h3 := h_kW)
             k b x
     toLayerDefM? := some (fun i =>
       -- Occurrence-indexed seeds, matching the `Primitive.linear` convention.
-      ⟨ Runtime.Autograd.Gondlin.NN.conv2d
+      ⟨ Runtime.Autograd.Gondolin.NN.conv2d
           (inC := inC) (outC := outC) (kH := kH) (kW := kW) (stride := stride) (padding := padding)
           (inH := inH) (inW := inW) (h1 := h_inC) (h2 := h_kH) (h3 := h_kW)
           (seedK := 2 * i) (seedB := 2 * i + 1)
@@ -149,11 +149,11 @@ def maxPool2d
     torchProgram := fun {α} _ctx _deq =>
       fun {m} _ _ =>
         fun x =>
-          Runtime.Autograd.Gondlin.maxPool2d (m := m) (α := α)
+          Runtime.Autograd.Gondolin.maxPool2d (m := m) (α := α)
             (kH := kH) (kW := kW) (inH := inH) (inW := inW) (inC := inC) (stride := stride)
             (h1 := h_kH) (h2 := h_kW) x
     toLayerDefM? := some (fun _i =>
-      ⟨ Runtime.Autograd.Gondlin.NN.maxPool2d
+      ⟨ Runtime.Autograd.Gondolin.NN.maxPool2d
           (kH := kH) (kW := kW) (inH := inH) (inW := inW) (inC := inC) (stride := stride)
           (h1 := h_kH) (h2 := h_kW)
       , by rfl ⟩)
@@ -177,8 +177,8 @@ def flatten (s : Shape) : Primitive [] s (.dim (Shape.size s) .scalar) :=
       Spec.Tensor.flattenSpec (α := α) (s := s) x
     torchProgram := fun {α} _ctx _deq =>
       fun {m} _ _ =>
-        fun x => Runtime.Autograd.Gondlin.flatten (m := m) (α := α) (s := s) x
-    toLayerDefM? := some (fun _i => ⟨Runtime.Autograd.Gondlin.NN.flatten (s := s), by rfl⟩)
+        fun x => Runtime.Autograd.Gondolin.flatten (m := m) (α := α) (s := s) x
+    toLayerDefM? := some (fun _i => ⟨Runtime.Autograd.Gondolin.NN.flatten (s := s), by rfl⟩)
     countsAsLayer := false
   }
 
@@ -210,12 +210,12 @@ def batchnormChw
     torchProgram := fun {α} _ctx _deq =>
       fun {m} _ _ =>
         fun gamma beta x =>
-          Runtime.Autograd.Gondlin.batchnormChannelFirst (m := m) (α := α)
+          Runtime.Autograd.Gondolin.batchnormChannelFirst (m := m) (α := α)
             (channels := channels) (height := height) (width := width)
             (h_c := h_c) (h_h := h_h) (h_w := h_w)
             x gamma beta
     toLayerDefM? := some (fun i =>
-      ⟨ Runtime.Autograd.Gondlin.NN.batchnormChannelFirst
+      ⟨ Runtime.Autograd.Gondolin.NN.batchnormChannelFirst
           (channels := channels) (height := height) (width := width)
           (h_c := h_c) (h_h := h_h) (h_w := h_w)
           (seedGamma := 2 * i) (seedBeta := 2 * i + 1)
@@ -242,11 +242,11 @@ def globalAvgPool2dChw
     torchProgram := fun {α} _ctx _deq =>
       fun {m} _ _ =>
         fun x =>
-          Runtime.Autograd.Gondlin.globalAvgPool2dChw (m := m) (α := α)
+          Runtime.Autograd.Gondolin.globalAvgPool2dChw (m := m) (α := α)
             (c := c) (h := h) (w := w)
             h_c (Nat.pos_of_ne_zero h_h) (Nat.pos_of_ne_zero h_w) x
     toLayerDefM? := some (fun _i =>
-      ⟨ Runtime.Autograd.Gondlin.NN.globalAvgPool2dChw
+      ⟨ Runtime.Autograd.Gondolin.NN.globalAvgPool2dChw
           (c := c) (h := h) (w := w)
           (h_c_pos := h_c)
           (h_h_pos := Nat.pos_of_ne_zero h_h)

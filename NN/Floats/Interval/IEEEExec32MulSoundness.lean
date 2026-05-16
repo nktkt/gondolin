@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -42,9 +42,9 @@ corner computations, and the proof handles it via `EReal`.
 @[expose] public section
 
 
-namespace Gondlin.Floats.IEEE754
+namespace Gondolin.Floats.IEEE754
 
-open Gondlin.Floats
+open Gondolin.Floats
 
 namespace IEEE32Exec
 
@@ -52,7 +52,7 @@ namespace Interval32
 
 noncomputable section
 
-open Gondlin.Floats.Interval
+open Gondolin.Floats.Interval
 
 /-! ## Real helper lemmas (min/max of 4 corners) -/
 
@@ -318,4 +318,4 @@ end Interval32
 
 end IEEE32Exec
 
-end Gondlin.Floats.IEEE754
+end Gondolin.Floats.IEEE754

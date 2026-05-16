@@ -1,13 +1,13 @@
 # RL Examples
 
-This folder is the companion layer for Gondlin's runnable RL examples.
+This folder is the companion layer for Gondolin's runnable RL examples.
 
 The executable trainers are under `NN/Examples/Models` and are selected through the shared runner:
 
-- `lake exe gondlin ppo_gridworld`
-- `lake exe gondlin ppo_cartpole`
-- `lake exe gondlin ppo_pong_ram`
-- `lake exe gondlin dqn_replay`
+- `lake exe gondolin ppo_gridworld`
+- `lake exe gondolin ppo_cartpole`
+- `lake exe gondolin ppo_pong_ram`
+- `lake exe gondolin dqn_replay`
 
 The files here do three different jobs:
 
@@ -29,13 +29,13 @@ The Python boundary helpers live under `scripts/rl/` so runtime code does not de
 1. Train or smoke test a Lean example:
 
 ```bash
-lake exe gondlin ppo_gridworld --updates 200
-lake exe gondlin ppo_cartpole
+lake exe gondolin ppo_gridworld --updates 200
+lake exe gondolin ppo_cartpole
 ```
 
 2. Open the corresponding `*View.lean` file in the editor and put the cursor on the widget command.
 
-3. For external Gymnasium environments, treat Python as an untrusted producer: Gondlin checks
+3. For external Gymnasium environments, treat Python as an untrusted producer: Gondolin checks
    observations, rewards, actions, and done flags before consuming rollout data.
 
 ## Dependencies

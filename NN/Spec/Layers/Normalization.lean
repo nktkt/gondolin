@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -12,7 +12,7 @@ public import NN.Spec.Layers.Utils
 /-!
 # Normalization layers (spec layer)
 
-This file collects a few normalization operators used throughout Gondlin's spec/model code.
+This file collects a few normalization operators used throughout Gondolin's spec/model code.
 
 The common pattern is:
 
@@ -223,7 +223,7 @@ def layerNormBackward
   -- We interpret `embedDim` as the feature-count `N` in the closed-form LayerNorm VJP.
   --
   -- Note: this relies on the `Context`'s `Coe Nat α` behaving sensibly (in particular, that
-  -- `(embedDim : α)` is nonzero when `embedDim > 0`). This holds for Gondlin's shipped backends
+  -- `(embedDim : α)` is nonzero when `embedDim > 0`). This holds for Gondolin's shipped backends
   -- (Float/ℝ/IEEE32Exec), but for exotic saturating casts a specialized scalar interface may be
   -- preferable.
   let N : α := (embedDim : α)
@@ -605,10 +605,10 @@ def weightNorm {inDim outDim : Nat}
 /-
   Batch Normalization (spec layer)
 
-  Gondlin models *pure* (stateless) BatchNorm operators:
+  Gondolin models *pure* (stateless) BatchNorm operators:
 
   - `batchNorm`: "training-mode" normalization using statistics computed from the current input
-    (Gondlin does not model the running-statistics update),
+    (Gondolin does not model the running-statistics update),
   - `batchNorm_inference`: inference-time normalization using fixed running mean/variance.
 -/
 
@@ -620,7 +620,7 @@ This computes per-channel mean/variance over the `sSpatial` axes and applies:
 `y = ((x - mean) / sqrt(var + eps)) * gamma + beta`.
 
 PyTorch analogy: `torch.nn.BatchNorm{1,2,3}d` in training mode on an input with batch size `N=1`.
-Gondlin does **not** model the running-statistics update here.
+Gondolin does **not** model the running-statistics update here.
 -/
 def batchNorm
   {channels : Nat} {sSpatial : Shape}
@@ -707,7 +707,7 @@ def batchNorm2d
 /--
 Forward-mode JVP for `batchNorm2d`.
 
-Gondlin's stateless BatchNorm2d computes one set of statistics per channel over the spatial
+Gondolin's stateless BatchNorm2d computes one set of statistics per channel over the spatial
 grid. The input tangent therefore uses the same closed-form normalization differential as
 LayerNorm, but with the mean taken over `(height,width)` for each channel:
 
@@ -1061,7 +1061,7 @@ PyTorch distinction:
 - *training*: normalize using batch statistics (and update running mean/variance);
 - *inference*: normalize using the stored running mean/variance.
 
-Gondlin keeps things pure and explicit: inference-time BatchNorm takes the running statistics
+Gondolin keeps things pure and explicit: inference-time BatchNorm takes the running statistics
 as arguments.
 -/
 

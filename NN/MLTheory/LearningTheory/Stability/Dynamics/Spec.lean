@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -25,7 +25,7 @@ namespace NN.MLTheory.Stability.Spec
 # Stability specifications (discrete-time dynamical systems)
 
 This module defines standard stability notions for iterated maps `f : Tensor α s → Tensor α s`,
-phrased over Gondlin's shape-indexed tensors:
+phrased over Gondolin's shape-indexed tensors:
 - Lyapunov stability,
 - asymptotic/exponential stability,
 - global stability, and
@@ -33,7 +33,7 @@ phrased over Gondlin's shape-indexed tensors:
 
 The definitions are polymorphic in the scalar type `α` via `[Context α]`; for noncomputable
 quantities (e.g. the supremum defining a stability margin on `ℝ`), we expose the notion via a type
-class `StabilityMarginComputable`. Gondlin installs the real supremum instance globally and keeps
+class `StabilityMarginComputable`. Gondolin installs the real supremum instance globally and keeps
 the conservative `0` lower-bound instance behind an explicit opt-in scope for examples and tests.
 
 ## References
@@ -55,7 +55,7 @@ abbrev iterate {α : Type} {s : Shape} (f : Tensor α s → Tensor α s) (n : Na
 A computable notion of stability margin, matching the "largest invariant ball" intuition:
 the largest `r ≥ 0` such that the closed ball `{x | dist(eq, x) ≤ r}` is forward-invariant.
 
-Gondlin only installs a real supremum-based instance globally for `ℝ`. Other scalar backends can
+Gondolin only installs a real supremum-based instance globally for `ℝ`. Other scalar backends can
 opt into the conservative lower-bound instance below explicitly; this avoids silently reporting `0` as a
 semantic stability margin for arbitrary scalar types.
 -/

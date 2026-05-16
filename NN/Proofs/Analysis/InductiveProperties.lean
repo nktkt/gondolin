@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -24,7 +24,7 @@ on its `Shape` (i.e. the nested `scalar`/`dim` structure), plus a few higher-lev
 that are easiest to state once the Lipschitz/norm library is available.
 
 ## Why this exists
-Many lemmas in Gondlin are naturally phrased as “for all shapes / for all dimensions …”.
+Many lemmas in Gondolin are naturally phrased as “for all shapes / for all dimensions …”.
 Rather than re-proving the same induction scaffolding (or writing deeply nested `cases`/`induction`
 blocks) throughout the repo, we keep a few canonical lemmas here.
 
@@ -40,7 +40,7 @@ under `NN/Proofs`.
 
 ## References
 - This is standard structural induction on an inductive family; no external paper is required.
-  The main nontrivial detail is simply that Gondlin encodes tensors as a tree indexed by `Shape`,
+  The main nontrivial detail is simply that Gondolin encodes tensors as a tree indexed by `Shape`,
   rather than (say) a flat array with a runtime `shape`.
 -/
 

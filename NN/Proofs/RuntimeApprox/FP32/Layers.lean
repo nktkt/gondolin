@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -16,14 +16,14 @@ public import NN.Runtime.Context
 # FP32 Layer Approximation
 
 This module specializes the backend-generic runtime-approximation framework
-(`NN.Proofs.RuntimeApprox`) to the concrete float32 rounding model `Gondlin.Floats.FP32`
+(`NN.Proofs.RuntimeApprox`) to the concrete float32 rounding model `Gondolin.Floats.FP32`
 (round-to-nearest-even with an IEEE-754 binary32-style exponent function).
 
 The lemmas here are *compositional*: they let you relate a real-valued spec computation
 to its float32 execution under an explicit error budget, so that larger network theorems can be
 proved by chaining smaller ones.
 
-Trust boundary: `Gondlin.Floats.FP32` is a finite rounding model exposed to Lean. These statements
+Trust boundary: `Gondolin.Floats.FP32` is a finite rounding model exposed to Lean. These statements
 are about real-valued spec computations and their rounded counterparts, under the intended side
 condition that execution stays finite (no NaN/Inf/overflow in an IEEE-754 hardware sense).
 -/
@@ -39,19 +39,19 @@ open _root_.Spec.Tensor
 open _root_.Proofs
 open _root_.Proofs.RuntimeApprox
 open _root_.Proofs.RuntimeApprox.NFBackend
-open Gondlin.Floats
+open Gondolin.Floats
 
 noncomputable section
 
-/-- Runtime scalar type: float32 rounding model (`Gondlin.Floats.FP32`). -/
-abbrev R : Type := Gondlin.Floats.FP32
+/-- Runtime scalar type: float32 rounding model (`Gondolin.Floats.FP32`). -/
+abbrev R : Type := Gondolin.Floats.FP32
 
 /-- Radix for the `FP32` rounding model (binary). -/
 abbrev β : NeuralRadix := binaryRadix
 /-- Exponent function used by the `FP32` rounding model. -/
-abbrev fexp : ℤ → ℤ := Gondlin.Floats.fexp32
+abbrev fexp : ℤ → ℤ := Gondolin.Floats.fexp32
 /-- Round-to-nearest-even function used by the `FP32` rounding model. -/
-abbrev rnd : ℝ → ℤ := Gondlin.Floats.rnd32
+abbrev rnd : ℝ → ℤ := Gondolin.Floats.rnd32
 
 /-- Interpretation of runtime scalars as real spec scalars, specialized to `FP32`. -/
 abbrev toSpec : R → ℝ :=

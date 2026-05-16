@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 
 CUDA tape op coverage.
 
@@ -917,7 +917,7 @@ def conv2d
   let input ← requireValue (t := t) inputId (.dim inC (.dim inH (.dim inW .scalar)))
   let outH : Nat := (inH + 2 * padding - kH) / stride + 1
   let outW : Nat := (inW + 2 * padding - kW) / stride + 1
-  let y := gondlinConv2dFwdCuda input kernel bias inC32 inH32 inW32 outC32 kH32 kW32 stride32
+  let y := gondolinConv2dFwdCuda input kernel bias inC32 inH32 inW32 outC32 kH32 kW32 stride32
     pad32
   let outShape : Shape := .dim outC (.dim outH (.dim outW .scalar))
   let node : Node :=
@@ -928,7 +928,7 @@ def conv2d
       backward := fun dLdyAny => do
         let dLdy ← requireGrad dLdyAny outShape
         let (dKernel, dBias, dInput) :=
-          gondlinConv2dBwdCuda input kernel dLdy.buf
+          gondolinConv2dBwdCuda input kernel dLdy.buf
             inC32 inH32 inW32 outC32 kH32 kW32 stride32 pad32
         pure [
           (kernelId, { s := .dim outC (.dim inC (.dim kH (.dim kW .scalar))), buf := dKernel }),
@@ -963,7 +963,7 @@ def convTranspose2d
   let outH : Nat := (inH - 1) * stride - 2 * padding + kH
   let outW : Nat := (inW - 1) * stride - 2 * padding + kW
   let y :=
-    gondlinConvTranspose2dFwdCuda input kernel bias inC32 inH32 inW32 outC32 kH32 kW32 stride32
+    gondolinConvTranspose2dFwdCuda input kernel bias inC32 inH32 inW32 outC32 kH32 kW32 stride32
       pad32
   let outShape : Shape := .dim outC (.dim outH (.dim outW .scalar))
   let node : Node :=
@@ -974,7 +974,7 @@ def convTranspose2d
       backward := fun dLdyAny => do
         let dLdy ← requireGrad dLdyAny outShape
         let (dKernel, dBias, dInput) :=
-          gondlinConvTranspose2dBwdCuda input kernel dLdy.buf
+          gondolinConvTranspose2dBwdCuda input kernel dLdy.buf
             inC32 inH32 inW32 outC32 kH32 kW32 stride32 pad32
         pure [
           (kernelId, { s := .dim inC (.dim outC (.dim kH (.dim kW .scalar))), buf := dKernel }),
@@ -1033,7 +1033,7 @@ def conv
   let inputBuf ← requireValue (t := t) inputId inputShape
 
   let y :=
-    gondlinConvFwdCuda inputBuf kernelBuf biasBuf
+    gondolinConvFwdCuda inputBuf kernelBuf biasBuf
       inSpatialArr kernelSpatialArr strideArr paddingArr
       inC32 outC32
 
@@ -1045,7 +1045,7 @@ def conv
       backward := fun dLdyAny => do
         let dLdy ← requireGrad dLdyAny outShape
         let (dKernel, dBias, dInput) :=
-          gondlinConvBwdCuda inputBuf kernelBuf dLdy.buf
+          gondolinConvBwdCuda inputBuf kernelBuf dLdy.buf
             inSpatialArr kernelSpatialArr strideArr paddingArr
             inC32 outC32
         pure [
@@ -1096,7 +1096,7 @@ def convTranspose
   let inputBuf ← requireValue (t := t) inputId inputShape
 
   let y :=
-    gondlinConvTransposeFwdCuda inputBuf kernelBuf biasBuf
+    gondolinConvTransposeFwdCuda inputBuf kernelBuf biasBuf
       inSpatialArr kernelSpatialArr strideArr paddingArr
       inC32 outC32
 
@@ -1108,7 +1108,7 @@ def convTranspose
       backward := fun dLdyAny => do
         let dLdy ← requireGrad dLdyAny outShape
         let (dKernel, dBias, dInput) :=
-          gondlinConvTransposeBwdCuda inputBuf kernelBuf dLdy.buf
+          gondolinConvTransposeBwdCuda inputBuf kernelBuf dLdy.buf
             inSpatialArr kernelSpatialArr strideArr paddingArr
             inC32 outC32
         pure [
@@ -1134,7 +1134,7 @@ def maxPool2d {kH kW inH inW inC stride : Nat} {h1 : kH ≠ 0} {h2 : kW ≠ 0}
   let outH : Nat := (inH - kH) / stride + 1
   let outW : Nat := (inW - kW) / stride + 1
   let outShape : Shape := .dim inC (.dim outH (.dim outW .scalar))
-  let y := gondlinMaxPool2dFwdCuda x inC32 inH32 inW32 kH32 kW32 stride32 pad32
+  let y := gondolinMaxPool2dFwdCuda x inC32 inH32 inW32 kH32 kW32 stride32 pad32
   let node : Node :=
     { name := some "max_pool2d"
       value := { s := outShape, buf := y }
@@ -1142,7 +1142,7 @@ def maxPool2d {kH kW inH inW inC stride : Nat} {h1 : kH ≠ 0} {h2 : kW ≠ 0}
       parents := [xId]
       backward := fun dLdyAny => do
         let dLdy ← requireGrad dLdyAny outShape
-        let dx := gondlinMaxPool2dBwdCuda x dLdy.buf inC32 inH32 inW32 kH32 kW32 stride32 pad32
+        let dx := gondolinMaxPool2dBwdCuda x dLdy.buf inC32 inH32 inW32 kH32 kW32 stride32 pad32
         pure [(xId, { s := .dim inC (.dim inH (.dim inW .scalar)), buf := dx })] }
   pure (t.addNode node)
 
@@ -1162,7 +1162,7 @@ def maxPool2dPad {kH kW inH inW inC stride padding : Nat} {h1 : kH ≠ 0} {h2 : 
   let outH : Nat := (inH + 2 * padding - kH) / stride + 1
   let outW : Nat := (inW + 2 * padding - kW) / stride + 1
   let outShape : Shape := .dim inC (.dim outH (.dim outW .scalar))
-  let y := gondlinMaxPool2dFwdCuda x inC32 inH32 inW32 kH32 kW32 stride32 pad32
+  let y := gondolinMaxPool2dFwdCuda x inC32 inH32 inW32 kH32 kW32 stride32 pad32
   let node : Node :=
     { name := some "max_pool2d_pad"
       value := { s := outShape, buf := y }
@@ -1170,7 +1170,7 @@ def maxPool2dPad {kH kW inH inW inC stride padding : Nat} {h1 : kH ≠ 0} {h2 : 
       parents := [xId]
       backward := fun dLdyAny => do
         let dLdy ← requireGrad dLdyAny outShape
-        let dx := gondlinMaxPool2dBwdCuda x dLdy.buf inC32 inH32 inW32 kH32 kW32 stride32 pad32
+        let dx := gondolinMaxPool2dBwdCuda x dLdy.buf inC32 inH32 inW32 kH32 kW32 stride32 pad32
         pure [(xId, { s := .dim inC (.dim inH (.dim inW .scalar)), buf := dx })] }
   pure (t.addNode node)
 
@@ -1203,7 +1203,7 @@ def maxPool
 
   let xBuf ← requireValue (t := t) xId inputShape
   let y :=
-    gondlinMaxPoolFwdCuda xBuf inSpatialArr kernelArr strideArr paddingArr inC32
+    gondolinMaxPoolFwdCuda xBuf inSpatialArr kernelArr strideArr paddingArr inC32
 
   let node : Node :=
     { name := some "max_pool"
@@ -1213,7 +1213,7 @@ def maxPool
       backward := fun dLdyAny => do
         let dLdy ← requireGrad dLdyAny outShape
         let dx :=
-          gondlinMaxPoolBwdCuda xBuf dLdy.buf
+          gondolinMaxPoolBwdCuda xBuf dLdy.buf
             inSpatialArr kernelArr strideArr paddingArr inC32
         pure [(xId, { s := inputShape, buf := dx })] }
   pure (t.addNode node)
@@ -1236,7 +1236,7 @@ def smoothMaxPool2d {kH kW inH inW inC stride : Nat} {h1 : kH ≠ 0} {h2 : kW �
   let outH : Nat := (inH - kH) / stride + 1
   let outW : Nat := (inW - kW) / stride + 1
   let outShape : Shape := .dim inC (.dim outH (.dim outW .scalar))
-  let y := gondlinSmoothMaxPool2dFwdCuda x beta inC32 inH32 inW32 kH32 kW32 stride32 pad32
+  let y := gondolinSmoothMaxPool2dFwdCuda x beta inC32 inH32 inW32 kH32 kW32 stride32 pad32
   let node : Node :=
     { name := some "smooth_max_pool2d"
       value := { s := outShape, buf := y }
@@ -1245,7 +1245,7 @@ def smoothMaxPool2d {kH kW inH inW inC stride : Nat} {h1 : kH ≠ 0} {h2 : kW �
       backward := fun dLdyAny => do
         let dLdy ← requireGrad dLdyAny outShape
         let dx :=
-          gondlinSmoothMaxPool2dBwdCuda x dLdy.buf beta inC32 inH32 inW32 kH32 kW32 stride32 pad32
+          gondolinSmoothMaxPool2dBwdCuda x dLdy.buf beta inC32 inH32 inW32 kH32 kW32 stride32 pad32
         pure [(xId, { s := .dim inC (.dim inH (.dim inW .scalar)), buf := dx })] }
   pure (t.addNode node)
 
@@ -1267,7 +1267,7 @@ def smoothMaxPool2dPad {kH kW inH inW inC stride padding : Nat} {h1 : kH ≠ 0} 
   let outH : Nat := (inH + 2 * padding - kH) / stride + 1
   let outW : Nat := (inW + 2 * padding - kW) / stride + 1
   let outShape : Shape := .dim inC (.dim outH (.dim outW .scalar))
-  let y := gondlinSmoothMaxPool2dFwdCuda x beta inC32 inH32 inW32 kH32 kW32 stride32 pad32
+  let y := gondolinSmoothMaxPool2dFwdCuda x beta inC32 inH32 inW32 kH32 kW32 stride32 pad32
   let node : Node :=
     { name := some "smooth_max_pool2d_pad"
       value := { s := outShape, buf := y }
@@ -1276,7 +1276,7 @@ def smoothMaxPool2dPad {kH kW inH inW inC stride padding : Nat} {h1 : kH ≠ 0} 
       backward := fun dLdyAny => do
         let dLdy ← requireGrad dLdyAny outShape
         let dx :=
-          gondlinSmoothMaxPool2dBwdCuda x dLdy.buf beta inC32 inH32 inW32 kH32 kW32 stride32 pad32
+          gondolinSmoothMaxPool2dBwdCuda x dLdy.buf beta inC32 inH32 inW32 kH32 kW32 stride32 pad32
         pure [(xId, { s := .dim inC (.dim inH (.dim inW .scalar)), buf := dx })] }
   pure (t.addNode node)
 
@@ -1311,7 +1311,7 @@ def smoothMaxPool
 
   let xBuf ← requireValue (t := t) xId inputShape
   let y :=
-    gondlinSmoothMaxPoolFwdCuda xBuf beta
+    gondolinSmoothMaxPoolFwdCuda xBuf beta
       inSpatialArr kernelArr strideArr paddingArr
       inC32
 
@@ -1323,7 +1323,7 @@ def smoothMaxPool
       backward := fun dLdyAny => do
         let dLdy ← requireGrad dLdyAny outShape
         let dx :=
-          gondlinSmoothMaxPoolBwdCuda xBuf dLdy.buf beta
+          gondolinSmoothMaxPoolBwdCuda xBuf dLdy.buf beta
             inSpatialArr kernelArr strideArr paddingArr
             inC32
         pure [(xId, { s := inputShape, buf := dx })] }
@@ -1345,7 +1345,7 @@ def avgPool2d {kH kW inH inW inC stride : Nat} (h1 : kH ≠ 0) (h2 : kW ≠ 0)
   let outH : Nat := (inH - kH) / stride + 1
   let outW : Nat := (inW - kW) / stride + 1
   let outShape : Shape := .dim inC (.dim outH (.dim outW .scalar))
-  let y := gondlinAvgPool2dFwdCuda x inC32 inH32 inW32 kH32 kW32 stride32 pad32
+  let y := gondolinAvgPool2dFwdCuda x inC32 inH32 inW32 kH32 kW32 stride32 pad32
   let node : Node :=
     { name := some "avg_pool2d"
       value := { s := outShape, buf := y }
@@ -1353,7 +1353,7 @@ def avgPool2d {kH kW inH inW inC stride : Nat} (h1 : kH ≠ 0) (h2 : kW ≠ 0)
       parents := [xId]
       backward := fun dLdyAny => do
         let dLdy ← requireGrad dLdyAny outShape
-        let dx := gondlinAvgPool2dBwdCuda dLdy.buf inC32 inH32 inW32 kH32 kW32 stride32 pad32
+        let dx := gondolinAvgPool2dBwdCuda dLdy.buf inC32 inH32 inW32 kH32 kW32 stride32 pad32
         pure [(xId, { s := .dim inC (.dim inH (.dim inW .scalar)), buf := dx })] }
   pure (t.addNode node)
 
@@ -1373,7 +1373,7 @@ def avgPool2dPad {kH kW inH inW inC stride padding : Nat} (h1 : kH ≠ 0) (h2 : 
   let outH : Nat := (inH + 2 * padding - kH) / stride + 1
   let outW : Nat := (inW + 2 * padding - kW) / stride + 1
   let outShape : Shape := .dim inC (.dim outH (.dim outW .scalar))
-  let y := gondlinAvgPool2dFwdCuda x inC32 inH32 inW32 kH32 kW32 stride32 pad32
+  let y := gondolinAvgPool2dFwdCuda x inC32 inH32 inW32 kH32 kW32 stride32 pad32
   let node : Node :=
     { name := some "avg_pool2d_pad"
       value := { s := outShape, buf := y }
@@ -1381,7 +1381,7 @@ def avgPool2dPad {kH kW inH inW inC stride padding : Nat} (h1 : kH ≠ 0) (h2 : 
       parents := [xId]
       backward := fun dLdyAny => do
         let dLdy ← requireGrad dLdyAny outShape
-        let dx := gondlinAvgPool2dBwdCuda dLdy.buf inC32 inH32 inW32 kH32 kW32 stride32 pad32
+        let dx := gondolinAvgPool2dBwdCuda dLdy.buf inC32 inH32 inW32 kH32 kW32 stride32 pad32
         pure [(xId, { s := .dim inC (.dim inH (.dim inW .scalar)), buf := dx })] }
   pure (t.addNode node)
 
@@ -1414,7 +1414,7 @@ def avgPool
 
   let xBuf ← requireValue (t := t) xId inputShape
   let y :=
-    gondlinAvgPoolFwdCuda xBuf
+    gondolinAvgPoolFwdCuda xBuf
       inSpatialArr kernelArr strideArr paddingArr
       inC32
 
@@ -1426,7 +1426,7 @@ def avgPool
       backward := fun dLdyAny => do
         let dLdy ← requireGrad dLdyAny outShape
         let dx :=
-          gondlinAvgPoolBwdCuda dLdy.buf
+          gondolinAvgPoolBwdCuda dLdy.buf
             inSpatialArr kernelArr strideArr paddingArr
             inC32
         pure [(xId, { s := inputShape, buf := dx })] }

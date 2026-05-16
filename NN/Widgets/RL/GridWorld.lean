@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -15,7 +15,7 @@ public meta import ProofWidgets.Demos.Macro
 /-!
 # GridWorld Widgets
 
-This module provides small infoview widgets for Gondlin's Lean-native GridWorld environment
+This module provides small infoview widgets for Gondolin's Lean-native GridWorld environment
 (`NN.Spec.RL.Envs.GridWorld`):
 
 - `#gridworld_view gw, pos` renders the grid, highlighting `start`, `goal`, and the current position.
@@ -362,7 +362,7 @@ syntax (name := gridworldPathViewCmd) "#gridworld_path_view " term ", " term : c
 Read a saved GridWorld greedy-policy snapshot (`before` vs `after`) from JSON and render it.
 
 This is intended for executable examples or training jobs that write artifacts to disk, for example:
-`lake exe gondlin ppo_gridworld`.
+`lake exe gondolin ppo_gridworld`.
 
 The JSON schema matches `Runtime.RL.Artifacts.GridWorld.PolicyDiff`.
 -/
@@ -372,7 +372,7 @@ syntax (name := gridworldPolicyFileViewCmd) "#gridworld_policy_file_view " term 
 Read a saved GridWorld episode path snapshot (`before` vs `after`) from JSON and render it.
 
 This is intended for executable examples or training jobs that write artifacts to disk, for example:
-`lake exe gondlin ppo_gridworld`.
+`lake exe gondolin ppo_gridworld`.
 
 The JSON schema matches `Runtime.RL.Artifacts.GridWorld.PathDiff`.
 -/
@@ -465,8 +465,8 @@ macro "#gridworld_policy_file_view " gw:term ", " path:term : command =>
             {monospace p.toString}
           </div>
           <div style={json% {"margin-top": "6px", "opacity": "0.9"}}>
-            {.text "Tip: this file is usually produced by a Gondlin GridWorld PPO run "}
-            {.text "(for example `lake exe gondlin ppo_gridworld`). "}
+            {.text "Tip: this file is usually produced by a Gondolin GridWorld PPO run "}
+            {.text "(for example `lake exe gondolin ppo_gridworld`). "}
             {.text "You can also override the output path with `--policy <path>`."}
           </div>
           <div style={json% {"margin-top": "6px"}}>{monospace (toString e)}</div>
@@ -559,8 +559,8 @@ macro "#gridworld_path_file_view " gw:term ", " path:term : command =>
             {monospace p.toString}
           </div>
           <div style={json% {"margin-top": "6px", "opacity": "0.9"}}>
-            {.text "Tip: this file is usually produced by a Gondlin GridWorld PPO run "}
-            {.text "(for example `lake exe gondlin ppo_gridworld`). "}
+            {.text "Tip: this file is usually produced by a Gondolin GridWorld PPO run "}
+            {.text "(for example `lake exe gondolin ppo_gridworld`). "}
             {.text "You can also override the output path with `--path <path>`."}
           </div>
           <div style={json% {"margin-top": "6px"}}>{monospace (toString e)}</div>

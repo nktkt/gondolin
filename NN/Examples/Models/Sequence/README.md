@@ -1,15 +1,15 @@
-# Sequence Examples (Gondlin)
+# Sequence Examples (Gondolin)
 
 This folder contains the runnable sequence model examples.
 
 If you only want the main tutorials:
 
-- `CharGpt.lean` (`lake exe gondlin chargpt ...`): the minGPT style character GPT walkthrough.
-- `Gpt2.lean` (`lake exe gondlin gpt2 ...`): a small byte level GPT-2 style causal Transformer.
-- `Gpt2Saved.lean` (`lake exe gondlin gpt2_saved ...`): load weights saved by `gpt2` and sample.
-- `TextGpt2.lean` (`lake exe gondlin text_gpt2 ...`): CUDA only corpus trainer, with byte level
+- `CharGpt.lean` (`lake exe gondolin chargpt ...`): the minGPT style character GPT walkthrough.
+- `Gpt2.lean` (`lake exe gondolin gpt2 ...`): a small byte level GPT-2 style causal Transformer.
+- `Gpt2Saved.lean` (`lake exe gondolin gpt2_saved ...`): load weights saved by `gpt2` and sample.
+- `TextGpt2.lean` (`lake exe gondolin text_gpt2 ...`): CUDA only corpus trainer, with byte level
   tokens or GPT-2 BPE.
-- `Mamba.lean` (`lake exe gondlin mamba ...`): compact text training for the Mamba-style model.
+- `Mamba.lean` (`lake exe gondolin mamba ...`): compact text training for the Mamba-style model.
 
 Why there are multiple GPT like files:
 

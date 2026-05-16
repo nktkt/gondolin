@@ -86,7 +86,7 @@
     ]
   },
   "meta": {
-    "format": "Gondlin.TransformerEncoder",
+    "format": "Gondolin.TransformerEncoder",
     "dtype": "float32"
   }
 }

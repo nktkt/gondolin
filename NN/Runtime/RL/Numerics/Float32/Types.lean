@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -14,7 +14,7 @@ public import NN.Floats.Interval.IEEEExec32
 /-!
 # RL Float32 Types and Boundary Casts
 
-This module is the foundation for Gondlin's explicit binary32 RL diagnostics. It defines the
+This module is the foundation for Gondolin's explicit binary32 RL diagnostics. It defines the
 `IEEE32Exec` aliases used by the runtime and checks host `Float` values after casting to binary32.
 The checked arithmetic combinators live with the return/GAE recurrences in
 `NN.Runtime.RL.Numerics.Float32.Returns`, where the proof-side bridge lemmas unfold them.
@@ -34,14 +34,14 @@ open Spec
 open Tensor
 open Spec.RL
 
-open Gondlin.Floats
-open Gondlin.Floats.IEEE754
+open Gondolin.Floats
+open Gondolin.Floats.IEEE754
 
 /-- Executable IEEE-754 binary32 model used for explicit float32 semantics. -/
-abbrev Float32Exec : Type := Gondlin.Floats.IEEE754.IEEE32Exec
+abbrev Float32Exec : Type := Gondolin.Floats.IEEE754.IEEE32Exec
 
 /-- Outward-rounded interval type built on `IEEE32Exec` endpoints. -/
-abbrev Interval32 : Type := Gondlin.Floats.IEEE754.IEEE32Exec.Interval32
+abbrev Interval32 : Type := Gondolin.Floats.IEEE754.IEEE32Exec.Interval32
 
 /--
 Default inhabitant for `Interval32`.
@@ -49,7 +49,7 @@ Default inhabitant for `Interval32`.
 `Array.get!` requires an `Inhabited` default; we use the degenerate interval `[0,0]`.
 -/
 instance : Inhabited Interval32 where
-  default := Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.point 0
+  default := Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.point 0
 
 /-!
 ## Checked Float → IEEE32Exec casting
@@ -61,8 +61,8 @@ Cast a host `Float` to `IEEE32Exec`, rejecting NaN/Inf *and* binary64→binary32
 This is intended as a “second boundary check” after `Runtime.RL.Boundary` validation.
 -/
 def ofFloatIEEE32ExecChecked (x : Float) : Except String Float32Exec :=
-  let y : Float32Exec := Gondlin.Floats.IEEE754.IEEE32Exec.ofFloat x
-  if Gondlin.Floats.IEEE754.IEEE32Exec.isFinite y = true then
+  let y : Float32Exec := Gondolin.Floats.IEEE754.IEEE32Exec.ofFloat x
+  if Gondolin.Floats.IEEE754.IEEE32Exec.isFinite y = true then
     .ok y
   else
     .error s!"RL float32: Float→IEEE32Exec cast produced non-finite value (x={x}, y={y})."
@@ -73,8 +73,8 @@ non-finite.
 -/
 def castTensorIEEE32ExecChecked {s : Shape} (t : Tensor Float s) :
     Except String (Tensor Float32Exec s) :=
-  let t32 : Tensor Float32Exec s := Spec.mapTensor (Gondlin.Floats.IEEE754.IEEE32Exec.ofFloat) t
-  if Boundary.tensorAll (α := Float32Exec) (s := s) (fun x => Gondlin.Floats.IEEE754.IEEE32Exec.isFinite x) t32 then
+  let t32 : Tensor Float32Exec s := Spec.mapTensor (Gondolin.Floats.IEEE754.IEEE32Exec.ofFloat) t
+  if Boundary.tensorAll (α := Float32Exec) (s := s) (fun x => Gondolin.Floats.IEEE754.IEEE32Exec.isFinite x) t32 then
     .ok t32
   else
     .error "RL float32: Float→IEEE32Exec tensor cast produced a non-finite entry."

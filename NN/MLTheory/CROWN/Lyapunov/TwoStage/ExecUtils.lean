@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -32,7 +32,7 @@ open Tensor
 
 namespace NN.MLTheory.CROWN.Lyapunov.TwoStage.ExecUtils
 
-open Gondlin.Floats.IEEE754
+open Gondolin.Floats.IEEE754
 open NN.MLTheory.CROWN.Lyapunov.TwoStage.Core
 
 /-- Executable float32 semantics used by the TwoStage workflows. -/

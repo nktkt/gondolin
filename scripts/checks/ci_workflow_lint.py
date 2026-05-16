@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Gondlin CI workflow lint (stdlib-only).
+Gondolin CI workflow lint (stdlib-only).
 
 Lightweight structural sanity check for ``.github/workflows/*.yml`` that does not
 depend on PyYAML or actionlint. The intent is to catch trivially broken
@@ -405,7 +405,7 @@ def _iter_workflow_files(paths: list[str] | None) -> Iterable[pathlib.Path]:
 def main(argv: list[str] | None = None) -> int:
     """CLI entry point."""
     ap = argparse.ArgumentParser(
-        description="Gondlin CI workflow structural lint (stdlib-only)."
+        description="Gondolin CI workflow structural lint (stdlib-only)."
     )
     ap.add_argument(
         "--strict",

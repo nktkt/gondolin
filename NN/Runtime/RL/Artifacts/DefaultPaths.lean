@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -9,7 +9,7 @@ module
 /-!
 # Default Artifact Paths for RL Examples
 
-Gondlin's runnable RL examples write small JSON artifacts to `data/rl/` by default:
+Gondolin's runnable RL examples write small JSON artifacts to `data/rl/` by default:
 
 - training curves (`TrainLog` JSON),
 - optional policy snapshots, and
@@ -30,23 +30,23 @@ namespace RL
 namespace Artifacts
 namespace DefaultPaths
 
-/-- Default training-log path written by `gondlin ppo_cartpole` (override with `--log`). -/
+/-- Default training-log path written by `gondolin ppo_cartpole` (override with `--log`). -/
 def ppoCartPoleTrainLog : System.FilePath :=
   ("data/rl/ppo_cartpole_trainlog.json" : System.FilePath)
 
-/-- Default training-log path written by `gondlin ppo_pong_ram` (override with `--log`). -/
+/-- Default training-log path written by `gondolin ppo_pong_ram` (override with `--log`). -/
 def ppoPongRamTrainLog : System.FilePath :=
   ("data/rl/ppo_pong_ram_trainlog.json" : System.FilePath)
 
-/-- Default training-log path written by `gondlin ppo_gridworld` (override with `--log`). -/
+/-- Default training-log path written by `gondolin ppo_gridworld` (override with `--log`). -/
 def ppoGridWorldTrainLog : System.FilePath :=
   ("data/rl/ppo_gridworld_trainlog.json" : System.FilePath)
 
-/-- Default policy snapshot path written by `gondlin ppo_gridworld` (override with `--policy`). -/
+/-- Default policy snapshot path written by `gondolin ppo_gridworld` (override with `--policy`). -/
 def ppoGridWorldPolicy : System.FilePath :=
   ("data/rl/ppo_gridworld_policy.json" : System.FilePath)
 
-/-- Default episode-path snapshot path written by `gondlin ppo_gridworld` (override with `--path`). -/
+/-- Default episode-path snapshot path written by `gondolin ppo_gridworld` (override with `--path`). -/
 def ppoGridWorldPath : System.FilePath :=
   ("data/rl/ppo_gridworld_path.json" : System.FilePath)
 

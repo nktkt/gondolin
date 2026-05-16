@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -15,7 +15,7 @@ bug studies include tokenizer/config mismatch classes among real production fail
 
 https://arxiv.org/abs/2506.09713
 
-Gondlin's current contract is intentionally small: once tokens enter the verified fragment, token
+Gondolin's current contract is intentionally small: once tokens enter the verified fragment, token
 IDs can be represented as `Fin vocabSize`, making out-of-vocabulary IDs unrepresentable.
 -/
 

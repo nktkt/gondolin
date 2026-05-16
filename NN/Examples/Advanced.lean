@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -18,7 +18,7 @@ public import NN.Examples.Advanced.Widgets
 /-!
 # `NN.Examples.Advanced`
 
-Curated umbrella for advanced Gondlin examples.
+Curated umbrella for advanced Gondolin examples.
 
 These files are intentionally not beginner quickstarts. They demonstrate cross-cutting boundaries:
 

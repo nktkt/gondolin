@@ -1,14 +1,14 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
 
 public import NN.Verification.PINN.PyTorch
 public import NN.Verification.ODE.Parse
-public import NN.Verification.Gondlin.Compile
+public import NN.Verification.Gondolin.Compile
 public import NN.Verification.Util.Json
 
 /-!
@@ -408,21 +408,21 @@ private def boundsOn {α : Type} [Context α] [DecidableEq Shape]
 /--
 How to load the corridor network weights.
 
-`direct` uses the PyTorch-import graph builder directly. `gondlin` goes through the Gondlin
+`direct` uses the PyTorch-import graph builder directly. `gondolin` goes through the Gondolin
 compiler path (useful for testing the compilation pipeline).
 -/
 inductive ModelBackend where
   | direct
-  | gondlin
+  | gondolin
   deriving DecidableEq, Repr
 
 /-- Pretty-print the backend choice for CLI logs. -/
 instance : ToString ModelBackend :=
-  ⟨fun b => match b with | .direct => "direct" | .gondlin => "gondlin"⟩
+  ⟨fun b => match b with | .direct => "direct" | .gondolin => "gondolin"⟩
 
 /-- Parse a `--model=...` argument into a `ModelBackend` choice. -/
 private def parseModelBackendArg (s : String) : Option ModelBackend :=
-  if s = "--model=gondlin" ∨ s = "--model gondlin" then some .gondlin
+  if s = "--model=gondolin" ∨ s = "--model gondolin" then some .gondolin
   else if s = "--model=direct" ∨ s = "--model direct" then some .direct
   else none
 
@@ -458,7 +458,7 @@ private structure LinLayer (inDim outDim : Nat) where
 /--
 Simple representation of an MLP as a chain of linear layers.
 
-This is used when lowering imported PINN weights into the Gondlin compilation pipeline.
+This is used when lowering imported PINN weights into the Gondolin compilation pipeline.
 -/
 private inductive LayerChain : Nat → Nat → Type where
   | last {inDim outDim : Nat} : LinLayer inDim outDim → LayerChain inDim outDim
@@ -488,12 +488,12 @@ private def chainOfPinnLayers :
         .error s!"layer dim mismatch: {l.outDim} ≠ {inTail}"
 
 /--
-Load a corridor model via the Gondlin compilation pipeline.
+Load a corridor model via the Gondolin compilation pipeline.
 
-This path reconstructs a small Gondlin program from the imported weights, compiles it to a CROWN
+This path reconstructs a small Gondolin program from the imported weights, compiles it to a CROWN
 graph, and then builds the derivative graph from that compiled graph.
 -/
-private def loadModelGondlin (path : String) : IO (Model Float) := do
+private def loadModelGondolin (path : String) : IO (Model Float) := do
   let sd ← loadPinnState path
   match chainOfPinnLayers sd.layers with
   | .error e => throw <| IO.userError s!"Bad layer chain in {path}: {e}"
@@ -505,35 +505,35 @@ private def loadModelGondlin (path : String) : IO (Model Float) := do
 
     match sd.arch.activation with
     | .tanh =>
-      let model : Runtime.Autograd.Gondlin.Program Float [xShape] yShape :=
+      let model : Runtime.Autograd.Gondolin.Program Float [xShape] yShape :=
         fun {m} [Monad m] [Runtime.Autograd.Torch.Ops (m := m) (α := Float)] =>
           fun x =>
             let rec evalT
                 {inD outD : Nat}
                 (ch : LayerChain inD outD)
-                (x : Runtime.Autograd.Gondlin.RefTy (m := m) (α := Float) (.dim inD .scalar)) :
-                m (Runtime.Autograd.Gondlin.RefTy (m := m) (α := Float) (.dim outD .scalar)) := do
+                (x : Runtime.Autograd.Gondolin.RefTy (m := m) (α := Float) (.dim inD .scalar)) :
+                m (Runtime.Autograd.Gondolin.RefTy (m := m) (α := Float) (.dim outD .scalar)) := do
               match ch with
               | .last l =>
-                let wR ← Runtime.Autograd.Gondlin.const (m := m) (α := Float)
+                let wR ← Runtime.Autograd.Gondolin.const (m := m) (α := Float)
                   (s := .dim outD (.dim inD .scalar)) l.w
-                let bR ← Runtime.Autograd.Gondlin.const (m := m) (α := Float)
+                let bR ← Runtime.Autograd.Gondolin.const (m := m) (α := Float)
                   (s := .dim outD .scalar) l.b
-                Runtime.Autograd.Gondlin.linear (m := m) (α := Float)
+                Runtime.Autograd.Gondolin.linear (m := m) (α := Float)
                   (inDim := inD) (outDim := outD) wR bR x
               | .cons l tail =>
-                let wR ← Runtime.Autograd.Gondlin.const (m := m) (α := Float)
+                let wR ← Runtime.Autograd.Gondolin.const (m := m) (α := Float)
                   (s := .dim _ (.dim _ .scalar)) l.w
-                let bR ← Runtime.Autograd.Gondlin.const (m := m) (α := Float)
+                let bR ← Runtime.Autograd.Gondolin.const (m := m) (α := Float)
                   (s := .dim _ .scalar) l.b
-                let z ← Runtime.Autograd.Gondlin.linear (m := m) (α := Float)
+                let z ← Runtime.Autograd.Gondolin.linear (m := m) (α := Float)
                   (inDim := inD) (outDim := _) wR bR x
-                let a ← Runtime.Autograd.Gondlin.tanh (m := m) (α := Float) (s := .dim _ .scalar)
+                let a ← Runtime.Autograd.Gondolin.tanh (m := m) (α := Float) (s := .dim _ .scalar)
                   z
                 evalT tail a
             evalT chain x
       let compiled ←
-        match NN.Verification.Gondlin.compileForward1
+        match NN.Verification.Gondolin.compileForward1
               (α := Float) (paramShapes := []) (inShape := xShape) (outShape := yShape)
               model (.nil) with
         | .ok c => pure c
@@ -543,35 +543,35 @@ private def loadModelGondlin (path : String) : IO (Model Float) := do
       pure { g := compiled.graph, dg := dg, ps0 := ps1, outId := compiled.outputId, dOutId :=
         dOutId, inDim := inDim }
     | .relu =>
-      let model : Runtime.Autograd.Gondlin.Program Float [xShape] yShape :=
+      let model : Runtime.Autograd.Gondolin.Program Float [xShape] yShape :=
         fun {m} [Monad m] [Runtime.Autograd.Torch.Ops (m := m) (α := Float)] =>
           fun x =>
             let rec evalR
                 {inD outD : Nat}
                 (ch : LayerChain inD outD)
-                (x : Runtime.Autograd.Gondlin.RefTy (m := m) (α := Float) (.dim inD .scalar)) :
-                m (Runtime.Autograd.Gondlin.RefTy (m := m) (α := Float) (.dim outD .scalar)) := do
+                (x : Runtime.Autograd.Gondolin.RefTy (m := m) (α := Float) (.dim inD .scalar)) :
+                m (Runtime.Autograd.Gondolin.RefTy (m := m) (α := Float) (.dim outD .scalar)) := do
               match ch with
               | .last l =>
-                let wR ← Runtime.Autograd.Gondlin.const (m := m) (α := Float)
+                let wR ← Runtime.Autograd.Gondolin.const (m := m) (α := Float)
                   (s := .dim outD (.dim inD .scalar)) l.w
-                let bR ← Runtime.Autograd.Gondlin.const (m := m) (α := Float)
+                let bR ← Runtime.Autograd.Gondolin.const (m := m) (α := Float)
                   (s := .dim outD .scalar) l.b
-                Runtime.Autograd.Gondlin.linear (m := m) (α := Float)
+                Runtime.Autograd.Gondolin.linear (m := m) (α := Float)
                   (inDim := inD) (outDim := outD) wR bR x
               | .cons l tail =>
-                let wR ← Runtime.Autograd.Gondlin.const (m := m) (α := Float)
+                let wR ← Runtime.Autograd.Gondolin.const (m := m) (α := Float)
                   (s := .dim _ (.dim _ .scalar)) l.w
-                let bR ← Runtime.Autograd.Gondlin.const (m := m) (α := Float)
+                let bR ← Runtime.Autograd.Gondolin.const (m := m) (α := Float)
                   (s := .dim _ .scalar) l.b
-                let z ← Runtime.Autograd.Gondlin.linear (m := m) (α := Float)
+                let z ← Runtime.Autograd.Gondolin.linear (m := m) (α := Float)
                   (inDim := inD) (outDim := _) wR bR x
-                let a ← Runtime.Autograd.Gondlin.relu (m := m) (α := Float) (s := .dim _ .scalar)
+                let a ← Runtime.Autograd.Gondolin.relu (m := m) (α := Float) (s := .dim _ .scalar)
                   z
                 evalR tail a
             evalR chain x
       let compiled ←
-        match NN.Verification.Gondlin.compileForward1
+        match NN.Verification.Gondolin.compileForward1
               (α := Float) (paramShapes := []) (inShape := xShape) (outShape := yShape)
               model (.nil) with
         | .ok c => pure c
@@ -582,13 +582,13 @@ private def loadModelGondlin (path : String) : IO (Model Float) := do
         dOutId, inDim := inDim }
     | .sin =>
       throw <| IO.userError
-        "ODE verifier: --model=gondlin accepts ReLU/Tanh/Sigmoid activations; use --model=direct for sin."
+        "ODE verifier: --model=gondolin accepts ReLU/Tanh/Sigmoid activations; use --model=direct for sin."
 
 /-- Load a corridor model in the default executable scalar (`Float`), choosing the backend path. -/
 private def loadModelFloat (backend : ModelBackend) (path : String) : IO (Model Float) := do
   match backend with
   | .direct => loadModelDirectWith (α := Float) (fun x => x) path
-  | .gondlin => loadModelGondlin path
+  | .gondolin => loadModelGondolin path
 
 /-- Load a corridor model in a non-`Float` scalar backend (supported in `direct`
   mode). -/
@@ -596,8 +596,8 @@ private def loadModelNonFloat {α : Type} [Context α] (ofFloat : Float → α)
     (backend : ModelBackend) (path : String) : IO (Model α) := do
   match backend with
   | .direct => loadModelDirectWith (α := α) ofFloat path
-  | .gondlin =>
-    throw <| IO.userError "ODE verifier: --model=gondlin is only supported with --scalar=float"
+  | .gondolin =>
+    throw <| IO.userError "ODE verifier: --model=gondolin is only supported with --scalar=float"
 
 /-- Choice of scalar backend for the verifier. -/
 inductive ScalarBackend where
@@ -706,7 +706,7 @@ private def parseSettings (j : Json) : Except String ODEVerifierSettings := do
       | _ => false
     let modelBackend :=
       match o.get? "modelBackend" with
-      | some (.str "gondlin") => ModelBackend.gondlin
+      | some (.str "gondolin") => ModelBackend.gondolin
       | some (.str "direct") => ModelBackend.direct
       | _ => ModelBackend.direct
     let scalar :=
@@ -938,8 +938,8 @@ def runCertificate (path : String) (backendOverride : Option ModelBackend) (scal
     else
       throw <| IO.userError "[ODE] certificate verification failed."
   | .ieee32exec =>
-    let αI := Gondlin.Floats.IEEE754.IEEE32Exec
-    let ofF := Gondlin.Floats.IEEE754.IEEE32Exec.ofFloat
+    let αI := Gondolin.Floats.IEEE754.IEEE32Exec
+    let ofF := Gondolin.Floats.IEEE754.IEEE32Exec.ofFloat
     let mut allOk := true
     for seg in cert.segments do
       let ok ← verifySegmentWith (α := αI) ofF (fun mb p => loadModelNonFloat (α := αI) ofF mb p)
@@ -1049,8 +1049,8 @@ def runArgs (args : List String) : IO Unit := do
       if ok then IO.println "[ODE] verification succeeded."
       else throw <| IO.userError "[ODE] verification failed."
     | .ieee32exec =>
-      let αI := Gondlin.Floats.IEEE754.IEEE32Exec
-      let ofF := Gondlin.Floats.IEEE754.IEEE32Exec.ofFloat
+      let αI := Gondolin.Floats.IEEE754.IEEE32Exec
+      let ofF := Gondolin.Floats.IEEE754.IEEE32Exec.ofFloat
       let ok ← verifySegmentWith (α := αI) ofF (fun mb p => loadModelNonFloat (α := αI) ofF mb p)
         rhsAst seg cfg
       if ok then IO.println "[ODE] verification succeeded."
@@ -1069,9 +1069,9 @@ public def main (args : List String) : IO Unit := do
   if args = [] ∨ args = ["--help"] ∨ args = ["-h"] then
     IO.println
       ("Usage:\n" ++
-       ("  lake exe verify -- ode [--model=direct|gondlin] " ++
+       ("  lake exe verify -- ode [--model=direct|gondolin] " ++
          "[--scalar=float|ieee32exec] --cert=<cert.json>\n") ++
-       ("  lake exe verify -- ode [--model=direct|gondlin] " ++
+       ("  lake exe verify -- ode [--model=direct|gondolin] " ++
          "[--scalar=float|ieee32exec] --rhs=\"<expr>\" --t0=<float> " ++
          "--t1=<float> --init=<float> --lower=<wL.json> --upper=<wU.json>\n") ++
        "Options:\n" ++

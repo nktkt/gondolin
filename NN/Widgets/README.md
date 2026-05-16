@@ -1,6 +1,6 @@
-# Gondlin Widgets
+# Gondolin Widgets
 
-Gondlin widgets are optional Lean infoview panels for inspecting tensors, IR graphs, runtime
+Gondolin widgets are optional Lean infoview panels for inspecting tensors, IR graphs, runtime
 state, training logs, verification artifacts, and small reinforcement-learning objects.
 
 They are not part of the trusted mathematical kernel and they are not required for ordinary training
@@ -45,7 +45,7 @@ import NN.Widgets.Verification.CROWN
 
 - `Core`: shared UI helpers, tensor rendering, and docstring panels.
 - `IR`: graph structure, shape inference, graph rewrite diffs, and execution traces.
-- `Interop`: PyTorch-to-Gondlin assistant panels and import/export diagnostics.
+- `Interop`: PyTorch-to-Gondolin assistant panels and import/export diagnostics.
 - `Runtime`: autograd tape, runtime context, and training log panels.
 - `Numerics`: floating point inspection widgets such as binary32 bit views.
 - `Verification`: CROWN/IBP certificate and bound propagation panels.
@@ -60,7 +60,7 @@ Open these files in an editor with the Lean infoview enabled:
 - `NN/Examples/RL/PPOCartPoleView.lean`
 - `NN/Examples/RL/PPOPongRamView.lean`
 - `NN/Examples/Quickstart/Widgets.lean`, including `#pytorch_translate_file` for the lightweight
-  PyTorch-to-Gondlin assistant.
+  PyTorch-to-Gondolin assistant.
 
 The examples are intentionally small and editor friendly. File backed viewers render an error panel
 when an artifact is missing instead of making the Lean build fail.
@@ -70,13 +70,13 @@ when an artifact is missing instead of making the Lean build fail.
 `NN.Widgets.Interop.PyTorchTranslator` is the file-based translator widget for the workflow:
 
 ```text
-PyTorch file -> recognized layer report -> Gondlin skeleton -> trust-boundary notes
+PyTorch file -> recognized layer report -> Gondolin skeleton -> trust-boundary notes
 ```
 
 It is a lightweight supported-subset assistant for common `nn.Sequential`-style models such as MLPs
 and simple CNN blocks. It does not parse arbitrary Python and does not prove PyTorch execution
 correct. For real modules, use the existing `torch.export` JSON bridge and Lean graph importer; the
-widget helps users see whether their model is close to Gondlin's supported subset before they run
+widget helps users see whether their model is close to Gondolin's supported subset before they run
 the full capture/import path.
 
 In Lean files, the practical command is:

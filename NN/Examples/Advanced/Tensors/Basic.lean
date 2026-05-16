@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -13,7 +13,7 @@ meta import NN.Spec.Core.TensorBridge
 /-!
 # Advanced tensor basics
 
-This file is the advanced “tensor basics” map for Gondlin. It covers the core operations people
+This file is the advanced “tensor basics” map for Gondolin. It covers the core operations people
 usually ask about once they understand typed shapes:
 
 - constructing small tensors;
@@ -35,7 +35,7 @@ We intentionally keep two representations because they serve different goals:
 - The array representation (`TensorArray.Tensor`) is compact and practical for serialization and
   numeric kernels (e.g. `matvec` on flat buffers).
 
-The conversion boundary is where you want to be explicit about layout and conventions. Gondlin
+The conversion boundary is where you want to be explicit about layout and conventions. Gondolin
 uses a *row-major* convention for flattening/unflattening, so that the last axis varies fastest.
 
 ## How to read this file
@@ -51,7 +51,7 @@ the Lean infoview. The notes below also show the closest PyTorch spelling for ea
 
 Important distinction:
 - Ordinary tutorial definitions use plain `def`; this is the code you should copy into normal
-  Gondlin modules.
+  Gondolin modules.
 - A few `meta def ...View` declarations exist only for widgets. The infoview evaluator needs
   interpreter-visible bridge code, while normal compiled modules can use the plain `def`s above
   them.
@@ -74,7 +74,7 @@ matrix = torch.tensor([[1., 2., 3.], [4., 5., 6.]])
 first_row = matrix[0]
 ```
 
-Gondlin keeps the shape in the type after the conversion: `matrixSpec` has shape `[2,3]`, and
+Gondolin keeps the shape in the type after the conversion: `matrixSpec` has shape `[2,3]`, and
 `firstRowSpec` has shape `[3]`.
 -/
 
@@ -168,7 +168,7 @@ first = batch[0]
 second = batch[1]
 ```
 
-In Gondlin, slicing a `Spec.Tensor` is ordinary dependent pattern matching: the outer
+In Gondolin, slicing a `Spec.Tensor` is ordinary dependent pattern matching: the outer
 `Spec.Tensor.dim` exposes the `Fin 2 -> Tensor ...` function, and the index proof records that the
 sample exists.
 -/

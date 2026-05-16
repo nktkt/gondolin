@@ -1,6 +1,6 @@
 # `NN.Spec.Module`
 
-This directory is Gondlin's module wrapper layer for the spec codebase.
+This directory is Gondolin's module wrapper layer for the spec codebase.
 
 Most math lives in `NN/Spec/Layers/*` (pure layer specs) and `NN/Spec/Core/*` (tensors/shapes).
 Here we package selected layer specs into a uniform interface that records input/output shapes:

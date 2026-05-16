@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -13,7 +13,7 @@ import Mathlib.Tactic.Ring
 /-!
 # Normalization analysis properties
 
-This file records theorem-level properties of Gondlin's normalization specs. The executable and
+This file records theorem-level properties of Gondolin's normalization specs. The executable and
 spec definitions live in `NN.Spec.Layers.Normalization`; this file belongs under
 `NN.Proofs.Analysis` because it proves algebraic facts about those definitions over `ℝ`.
 

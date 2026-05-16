@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -11,7 +11,7 @@ public import NN.Spec.Core.Context
 /-!
 # Directed-rounding primitives for interval propagation
 
-Gondlin’s IBP/CROWN code represents bounds as endpoint pairs (`lo`/`hi`) inside `Box`/`FlatBox`.
+Gondolin’s IBP/CROWN code represents bounds as endpoint pairs (`lo`/`hi`) inside `Box`/`FlatBox`.
 To make those bounds meaningful under different numeric semantics, we abstract the *primitive*
 endpoint operations (directed rounding).
 

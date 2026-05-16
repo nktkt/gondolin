@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -22,7 +22,7 @@ public import NN.Spec.Layers.Activation
 /-!
 # Lipschitz continuity library for `Tensor`-level ops
 
-This file proves basic norm and distance facts for Gondlin tensors over `ℝ`, and uses them to
+This file proves basic norm and distance facts for Gondolin tensors over `ℝ`, and uses them to
 derive Lipschitz-style bounds for common neural-network building blocks.
 
 ## Scope and conventions
@@ -52,7 +52,7 @@ statements, e.g.:
 - The key analytic tool is the Mean Value Theorem / derivative bounds, as formalized in Mathlib:
   `Mathlib.Analysis.Calculus.MeanValue`.
 - The mathematics is standard (functional analysis / optimization folklore); this file’s value is
-  aligning those facts with Gondlin’s `Tensor` encoding.
+  aligning those facts with Gondolin’s `Tensor` encoding.
 -/
 
 @[expose] public section

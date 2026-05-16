@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -37,7 +37,7 @@ typed layer is nicer for examples and "certificate-like" workflows.
 @[expose] public section
 
 
-namespace Gondlin.Floats.Arb
+namespace Gondolin.Floats.Arb
 
 open Lean
 
@@ -167,12 +167,12 @@ def oracleScriptPath : String :=
 /--
 Resolve which Python executable to use.
 
-In words: if the environment variable `GONDLIN_ARB_PY` is set, use it; otherwise fall
+In words: if the environment variable `GONDOLIN_ARB_PY` is set, use it; otherwise fall
 back to the provided `pythonCmd` (default: `"python3"`).
 -/
 def resolvePythonCmd (pythonCmd : String) : IO String := do
   -- Allow a project-wide override for non-default python environments.
-  Runtime.External.Process.resolveCmdFromEnv "GONDLIN_ARB_PY" pythonCmd
+  Runtime.External.Process.resolveCmdFromEnv "GONDOLIN_ARB_PY" pythonCmd
 
 /--
 Run the oracle script as a subprocess and parse its stdout as JSON.
@@ -339,7 +339,7 @@ Run a unary `Query` and parse the result.
 
 This is the convenience wrapper most demos should use.
 
-It respects `GONDLIN_ARB_PY` (if set) to choose the Python executable.
+It respects `GONDOLIN_ARB_PY` (if set) to choose the Python executable.
 -/
 def run (q : Query) (pythonCmd : String := "python3") : IO Result := do
   let j ← runJson q pythonCmd
@@ -352,14 +352,14 @@ Ensure the temp directory used for request files exists.
 
 We write request JSON payloads to `.lake/build/tmp/` so they are available for debugging if the
 oracle subprocess fails or its output cannot be parsed. On success, we delete the file unless
-`GONDLIN_ARB_KEEP_TMP` is set.
+`GONDOLIN_ARB_KEEP_TMP` is set.
 -/
 def ensureTmpDir : IO Unit :=
   IO.FS.createDirAll ".lake/build/tmp"
 
 /-- Return `true` iff request payload files should be kept on disk even on success. -/
 def keepTmpRequests : IO Bool := do
-  pure <| (← IO.getEnv "GONDLIN_ARB_KEEP_TMP") |>.isSome
+  pure <| (← IO.getEnv "GONDOLIN_ARB_KEEP_TMP") |>.isSome
 
 /-- Best-effort file removal helper (ignore errors). -/
 def tryRemoveFile (path : System.FilePath) : IO Unit := do
@@ -386,7 +386,7 @@ This is the entrypoint for the richer request schemas supported by `arb_oracle.p
 - `kind = "expr"` (expression AST evaluation), and
 - `kind = "mlp"` (small feedforward MLP evaluation).
 
-This respects `GONDLIN_ARB_PY` (if set) to choose the Python executable.
+This respects `GONDOLIN_ARB_PY` (if set) to choose the Python executable.
 -/
 def runRequestJson (req : Json) (precBits : Nat := 200) (digits : Nat := 50)
     (pythonCmd : String := "python3") : IO Json := do
@@ -474,4 +474,4 @@ def runMLP (req : Json) (precBits : Nat := 200) (digits : Nat := 50) (pythonCmd 
   | .ok r => pure r
   | .error msg => throw <| IO.userError s!"Arb oracle mlp parse error: {msg}\njson:\n{j}"
 
-end Gondlin.Floats.Arb
+end Gondolin.Floats.Arb

@@ -1,5 +1,5 @@
 """
-Train the compact MLP example and export its weights to JSON for Gondlin.
+Train the compact MLP example and export its weights to JSON for Gondolin.
 
 This script is intentionally compact: it trains on a single fixed input/target pair and then
 writes a JSON object that matches the importer in:
@@ -57,7 +57,7 @@ def save_mlp_to_json(model: TestMLP, json_path: str):
     """
     state_dict = model.state_dict()
     
-    # Convert PyTorch state dict to the Gondlin import key format (layers.X.weight/bias)
+    # Convert PyTorch state dict to the Gondolin import key format (layers.X.weight/bias)
     new_format = {}
     new_format['layers.0.weight'] = state_dict['fc1.weight'].tolist()
     new_format['layers.0.bias'] = state_dict['fc1.bias'].tolist()
@@ -68,7 +68,7 @@ def save_mlp_to_json(model: TestMLP, json_path: str):
         # `Import.PyTorch.loadWeights?` accepts `{...}` or `{ "params": {...} }`.
         "params": new_format,
         "meta": {
-            "format": "Gondlin.MLP",
+            "format": "Gondolin.MLP",
             "pytorch_keys": "layers.*",
             "dtype": "float32",
         },
@@ -108,7 +108,7 @@ def main():
     
     print(f"Final output: {model(x_train)}")
     
-    # 5. Save trained weights to JSON in the Gondlin import key format
+    # 5. Save trained weights to JSON in the Gondolin import key format
     # Write directly into this example folder so `Roundtrip.lean` can import it by a stable path.
     out_path = THIS_DIR / "mlp.json"
     save_mlp_to_json(model, str(out_path))

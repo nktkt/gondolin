@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Gondlin docstring coverage check for the Tier 1 / Tier 2 public API.
+Gondolin docstring coverage check for the Tier 1 / Tier 2 public API.
 
 Phase 0.2 of the roadmap targets >=80% docstring coverage on the public surface exposed by
 `NN/API/Public.lean` and `NN/Library`. This script scans `.lean` files under `NN/API/` (configurable
@@ -217,7 +217,7 @@ def _is_internal_file(text: str) -> bool:
 
 
 def _file_has_expose_public_section(text: str) -> bool:
-    """Detect the `@[expose] public section` pattern Gondlin uses for facade files."""
+    """Detect the `@[expose] public section` pattern Gondolin uses for facade files."""
     return bool(FILE_PUBLIC_SECTION_RE.search(text))
 
 
@@ -273,7 +273,7 @@ def _has_preceding_docstring(raw_lines: list[str], decl_idx: int) -> bool:
         must be immediately adjacent for `Lean.findDocString?` to pick it up — so we stop at the
         first blank line found between a candidate docstring and the keyword).
       - attribute-only lines and bare-modifier-only lines (these legitimately sit between a
-        docstring and the keyword in Gondlin sources).
+        docstring and the keyword in Gondolin sources).
 
     The first non-modifier line we hit must end with `-/` and (after collecting upward) the
     matching opener must be `/--`.

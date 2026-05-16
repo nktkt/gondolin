@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -22,7 +22,7 @@ This file centralizes those bit-manipulation lemmas for the large proof modules.
 
 @[expose] public section
 
-namespace Gondlin.Floats.IEEE754
+namespace Gondolin.Floats.IEEE754
 namespace IEEE32Exec
 
 /--
@@ -114,4 +114,4 @@ theorem fracField_ofBits_xor_signMask (b : UInt32) :
     simp [fracField, ofBits, UInt32.toNat_and, hmask]
 
 end IEEE32Exec
-end Gondlin.Floats.IEEE754
+end Gondolin.Floats.IEEE754

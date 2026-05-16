@@ -1,13 +1,13 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
 
 public import NN.Runtime.RL.Core
-public import NN.Runtime.Autograd.Gondlin.Metrics
+public import NN.Runtime.Autograd.Gondolin.Metrics
 
 /-!
 # Deep Value-Learning Objectives
@@ -53,7 +53,7 @@ def chosenActionValue {nActions : Nat} (qValues : Tensor α (.dim nActions .scal
 
 /-- Maximum Q-value in a vector, defaulting to `0` when `nActions = 0`. -/
 def maxQValue {nActions : Nat} (qValues : Tensor α (.dim nActions .scalar)) : α :=
-  match Runtime.Autograd.Gondlin.Metrics.argmax? (α := α) (n := nActions) qValues with
+  match Runtime.Autograd.Gondolin.Metrics.argmax? (α := α) (n := nActions) qValues with
   | some action => Tensor.vecGet qValues action
   | none => 0
 
@@ -66,7 +66,7 @@ def dqnTarget {nActions : Nat} (reward gamma : α) (done : Bool)
 select with the online network, evaluate with the target network. -/
 def doubleDqnTarget {nActions : Nat} (reward gamma : α) (done : Bool)
     (nextQOnline nextQTarget : Tensor α (.dim nActions .scalar)) : α :=
-  match Runtime.Autograd.Gondlin.Metrics.argmax? (α := α) (n := nActions) nextQOnline with
+  match Runtime.Autograd.Gondolin.Metrics.argmax? (α := α) (n := nActions) nextQOnline with
   | some action => Core.tdTarget (α := α) reward gamma (Tensor.vecGet nextQTarget action) done
   | none => reward
 

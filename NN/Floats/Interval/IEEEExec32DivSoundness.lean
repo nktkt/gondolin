@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -47,9 +47,9 @@ References / background (informal pointers):
 @[expose] public section
 
 
-namespace Gondlin.Floats.IEEE754
+namespace Gondolin.Floats.IEEE754
 
-open Gondlin.Floats
+open Gondolin.Floats
 
 namespace IEEE32Exec
 
@@ -57,7 +57,7 @@ namespace Interval32
 
 noncomputable section
 
-open Gondlin.Floats.Interval
+open Gondolin.Floats.Interval
 
 /-! ## `EReal` coercion helpers -/
 
@@ -621,11 +621,11 @@ private lemma toReal_posOne : toReal (posOne : IEEE32Exec) = 1 := by
     toReal (posOne : IEEE32Exec)
         = dyadicToReal { sign := false, mant := pow2 23, exp := (-23 : Int) } := by
             simp [toReal_eq, hdy]
-    _ = (pow2 23 : ℝ) * Gondlin.Floats.neuralBpow binaryRadix (-23 : Int) := by
+    _ = (pow2 23 : ℝ) * Gondolin.Floats.neuralBpow binaryRadix (-23 : Int) := by
           simp [dyadicToReal]
     _ = ((2 : ℝ) ^ (23 : Nat)) * (((2 : ℝ) ^ (23 : Nat))⁻¹) := by
           -- Rewrite `pow2 23` and `neural_bpow` to powers of `2`.
-          simp [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal, hpow2, hneg,
+          simp [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal, hpow2, hneg,
             zpow_neg,
             zpow_ofNat]
     _ = 1 := by
@@ -670,4 +670,4 @@ end Interval32
 
 end IEEE32Exec
 
-end Gondlin.Floats.IEEE754
+end Gondolin.Floats.IEEE754

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -241,22 +241,22 @@ def classification {α : Type} [Context α] {σ : Spec.Shape}
   xs.map (fun (xF, label) => (Common.castTensor cast xF, oneHot cast classes label))
 
 /--
-Pack `(x, y)` tensor pairs into Gondlin supervised `TList` samples.
+Pack `(x, y)` tensor pairs into Gondolin supervised `TList` samples.
 
 This is the common sample representation used by the training helpers.
 -/
 def supervised {α : Type} [Context α] {σ τ : Spec.Shape}
     (cast : Float → α) (xs : List (Spec.Tensor Float σ × Spec.Tensor Float τ)) :
-    List (Gondlin.TList α [σ, τ]) :=
+    List (Gondolin.TList α [σ, τ]) :=
   xs.map (fun (xF, yF) =>
-    Gondlin.tlist2 (Common.castTensor cast xF) (Common.castTensor cast yF))
+    Gondolin.tlist2 (Common.castTensor cast xF) (Common.castTensor cast yF))
 
-/-- Convert `(x, label)` pairs into Gondlin `TList` samples with one-hot targets. -/
+/-- Convert `(x, label)` pairs into Gondolin `TList` samples with one-hot targets. -/
 def labeled {α : Type} [Context α] {σ : Spec.Shape}
     (cast : Float → α) (classes : Nat) (xs : List (Spec.Tensor Float σ × Nat)) :
-    List (Gondlin.TList α [σ, NN.Tensor.Shape.Vec classes]) :=
+    List (Gondolin.TList α [σ, NN.Tensor.Shape.Vec classes]) :=
   (classification (α := α) (σ := σ) cast classes xs).map (fun (x, y) =>
-    Gondlin.tlist2 x y)
+    Gondolin.tlist2 x y)
 
 /-! ## CHW Parsing -/
 

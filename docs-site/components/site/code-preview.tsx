@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
  */
 export function CodePreview({
   className,
-  filename = "Gondlin.lean",
+  filename = "Gondolin.lean",
 }: {
   className?: string;
   filename?: string;

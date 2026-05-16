@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -17,7 +17,7 @@ typically wants **directed rounding** at interval endpoints:
 - `down x` is a representable value with `down x ≤ x`,
 - `up x` is a representable value with `x ≤ up x`.
 
-In IEEE-754 hardware this corresponds to rounding modes “toward -∞” and “toward +∞”. In Gondlin’s
+In IEEE-754 hardware this corresponds to rounding modes “toward -∞” and “toward +∞”. In Gondolin’s
 proof-oriented stack we model this with Flocq-style rounding on `ℝ` via `neural_round` together with
 the floor/ceil rounding functions from `NN/Floats/NeuralFloat/Rounding.lean`.
 
@@ -33,9 +33,9 @@ References:
 @[expose] public section
 
 
-namespace Gondlin.Floats.Interval
+namespace Gondolin.Floats.Interval
 
-open Gondlin.Floats
+open Gondolin.Floats
 
 variable {β : NeuralRadix} {fexp : ℤ → ℤ} [NeuralValidExp fexp]
 
@@ -57,12 +57,12 @@ the exact real value.
 -/
 theorem roundDown_le (x : ℝ) : roundDown (β := β) (fexp := fexp) x ≤ x := by
   -- Unfold `neural_round` and compare scaled mantissas; `β^e` is positive.
-  simp [roundDown, Gondlin.Floats.neuralRound, Gondlin.Floats.neuralToReal]
+  simp [roundDown, Gondolin.Floats.neuralRound, Gondolin.Floats.neuralToReal]
   set s : ℝ := neuralScaledMantissa β fexp x
   set e : ℤ := neuralCexp β fexp x
   have hx : s * neuralBpow β e = x := by
     -- `scaled_mantissa * bpow = x` is a helper lemma in `NeuralFloat/Rounding.lean`.
-    simpa [s, e] using (Gondlin.Floats.neural_scaled_mantissa_mul_bpow (β := β) (fexp := fexp) x)
+    simpa [s, e] using (Gondolin.Floats.neural_scaled_mantissa_mul_bpow (β := β) (fexp := fexp) x)
   have hb : 0 ≤ neuralBpow β e := neuralBpow.nonneg β e
   have hf : (⌊s⌋ : ℝ) ≤ s := Int.floor_le s
   -- Multiply the mantissa inequality by `β^e` and rewrite back to `x`.
@@ -77,11 +77,11 @@ This is the format-generic analogue of the IEEE-754 fact that rounding “toward
 the exact real value.
 -/
 theorem le_roundUp (x : ℝ) : x ≤ roundUp (β := β) (fexp := fexp) x := by
-  simp [roundUp, Gondlin.Floats.neuralRound, Gondlin.Floats.neuralToReal]
+  simp [roundUp, Gondolin.Floats.neuralRound, Gondolin.Floats.neuralToReal]
   set s : ℝ := neuralScaledMantissa β fexp x
   set e : ℤ := neuralCexp β fexp x
   have hx : s * neuralBpow β e = x := by
-    simpa [s, e] using (Gondlin.Floats.neural_scaled_mantissa_mul_bpow (β := β) (fexp := fexp) x)
+    simpa [s, e] using (Gondolin.Floats.neural_scaled_mantissa_mul_bpow (β := β) (fexp := fexp) x)
   have hb : 0 ≤ neuralBpow β e := neuralBpow.nonneg β e
   have hc : s ≤ (⌈s⌉ : ℝ) := Int.le_ceil s
   have : s * neuralBpow β e ≤ (⌈s⌉ : ℝ) * neuralBpow β e :=
@@ -111,4 +111,4 @@ noncomputable def formatRounder (β : NeuralRadix) (fexp : ℤ → ℤ) [NeuralV
     down_le := fun x => roundDown_le (β := β) (fexp := fexp) x
     le_up := fun x => le_roundUp (β := β) (fexp := fexp) x }
 
-end Gondlin.Floats.Interval
+end Gondolin.Floats.Interval

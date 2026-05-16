@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -21,7 +21,7 @@ GraphSpec primitives are **operation adapters**, not models:
 The small always-available primitives (`linear`, `relu`, `softmax`) live in
 `NN.GraphSpec.Core` because they are part of the minimal sequential DSL examples and lowering
 interface. Larger domain-specific packs live under `NN.GraphSpec.Primitives/*` so the core language does
-not become a grab bag of every layer Gondlin supports.
+not become a grab bag of every layer Gondolin supports.
 
 Current extension pack:
 
@@ -31,7 +31,7 @@ Current extension pack:
 Adding a new operation to GraphSpec means giving it both meanings:
 
 - pure Spec semantics for proof/reference use;
-- Gondlin program semantics for execution/training.
+- Gondolin program semantics for execution/training.
 -/
 
 @[expose] public section

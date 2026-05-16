@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -15,7 +15,7 @@ public import NN.Spec.RL.MDP
 /-!
 # Finite-MDP Proofs
 
-This module proves the first foundational theorems for Gondlin's finite discounted MDP layer:
+This module proves the first foundational theorems for Gondolin's finite discounted MDP layer:
 
 - Bellman policy operators are monotone for nonnegative discounts,
 - Bellman optimality operators dominate every policy operator,

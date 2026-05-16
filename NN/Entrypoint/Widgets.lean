@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -27,7 +27,7 @@ public import NN.Widgets.Verification.CROWN
 /-!
 # Widgets entrypoint
 
-Umbrella import for Gondlin's optional Infoview / widget tooling.
+Umbrella import for Gondolin's optional Infoview / widget tooling.
 
 This entrypoint imports the widget implementation modules directly. We avoid a second top-level
 `NN.Widgets` alias so the root namespace stays focused on the library umbrella and subsystem
@@ -37,10 +37,10 @@ The entrypoint is intentionally editor-facing:
 
 - ordinary runtime/proof files should import the concrete library modules they need;
 - tutorial and inspection files can import this one module to get all widget commands;
-- adding a widget here does not make it part of Gondlin's trusted semantics.
+- adding a widget here does not make it part of Gondolin's trusted semantics.
 
 `NN.Widgets.Interop.PyTorchTranslator` is included here because it is exactly that kind of
-editor-side assistant: useful for navigating PyTorch-to-Gondlin workflows, but not a proof that
+editor-side assistant: useful for navigating PyTorch-to-Gondolin workflows, but not a proof that
 arbitrary Python has been verified.
 -/
 

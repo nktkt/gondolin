@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -23,15 +23,15 @@ public import NN.Examples.BugZoo.Geometry3DProjection
 /-!
 # BugZoo Case Studies
 
-Folder-local umbrella for public case studies mapping real neural-network bug classes to Gondlin
+Folder-local umbrella for public case studies mapping real neural-network bug classes to Gondolin
 contracts.
 
 Each submodule follows the same pattern:
 - cite the paper or incident class that motivates the bug;
-- state the Gondlin boundary honestly (`prevents`, `detects`, or `requires external conformance`);
+- state the Gondolin boundary honestly (`prevents`, `detects`, or `requires external conformance`);
 - expose a small checked theorem or definition tied to the real spec/proof stack.
 
-This is intentionally not a separate theory fork. The examples re-export the actual Gondlin
+This is intentionally not a separate theory fork. The examples re-export the actual Gondolin
 semantics and proof theorems so the examples stay connected to the library.
 
 The writing style is deliberately plain: tell the reader what the bug is, state the contract in

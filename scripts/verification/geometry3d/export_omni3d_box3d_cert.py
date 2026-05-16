@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Export a Gondlin 3D camera-box certificate from Cube R-CNN / Omni3D predictions.
+"""Export a Gondolin 3D camera-box certificate from Cube R-CNN / Omni3D predictions.
 
 This exporter treats Cube R-CNN, SAM-3D-style systems, or any other 3D detector as untrusted
-producers; Gondlin accepts the result only after Lean recomputes the
+producers; Gondolin accepts the result only after Lean recomputes the
 projection contract with:
 
     lake exe verify -- camera-box3d-cert <out.json>
@@ -40,13 +40,13 @@ from typing import Any
 
 
 DEFAULT_OUT = Path("_external/geometry3d/omni3d_box3d_cert.json")
-FORMAT = "gondlin.camera.box3d.v1"
+FORMAT = "gondolin.camera.box3d.v1"
 
 
 def _as_float_list(value: Any, *, name: str) -> list[float]:
     """Flatten a nested numeric JSON list into row-major floats.
 
-    Omni3D-style outputs often store matrices/corners as nested lists, while the Gondlin JSON
+    Omni3D-style outputs often store matrices/corners as nested lists, while the Gondolin JSON
     schema stores flat row-major arrays.  This helper performs only shape/number sanitation; Lean
     later checks the geometry contract.
     """
@@ -122,7 +122,7 @@ def _field(obj: dict[str, Any], names: tuple[str, ...], *, ctx: str) -> Any:
 
 
 def export_cert(payload: Any, args: argparse.Namespace) -> dict[str, Any]:
-    """Convert one Omni3D-style prediction into the Gondlin certificate schema.
+    """Convert one Omni3D-style prediction into the Gondolin certificate schema.
 
     This path assumes the producer already exported true 3D corners (`bbox3D`/`corners3d`).  The
     script only packs them with `[K | 0]`, image dimensions, and the claimed 2D bbox.  Lean then
@@ -185,7 +185,7 @@ def main() -> None:
     """Command-line entrypoint for converting one 3D-detector prediction JSON."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--prediction-json", type=Path, required=True, help="Cube R-CNN/Omni3D prediction JSON")
-    parser.add_argument("--out", type=Path, default=DEFAULT_OUT, help="Gondlin cert output path")
+    parser.add_argument("--out", type=Path, default=DEFAULT_OUT, help="Gondolin cert output path")
     parser.add_argument("--image-index", type=int, default=0, help="image record to export")
     parser.add_argument("--instance-index", type=int, default=None, help="instance to export; default: highest score")
     parser.add_argument("--tol", type=float, default=2.0, help="pixel tolerance for bbox enclosure")

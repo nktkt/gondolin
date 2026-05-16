@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -13,7 +13,7 @@ public import NN.Spec.RL.Environment
 /-!
 # Checked RL Sessions (Unified Runtime Interface)
 
-Gondlin supports two “sources of experience”:
+Gondolin supports two “sources of experience”:
 
 1. **External samplers** like Python Gymnasium (via `NN.Runtime.RL.Gymnasium`), and
 2. **Lean-native environments** (`Spec.RL.Env`), useful for strongest end-to-end guarantees.

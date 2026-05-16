@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -20,7 +20,7 @@ public import NN.Runtime.Autograd.Train.Optim
 /-!
 # Autograd Train
 
-`NN.Runtime.Autograd.Train` is the curated umbrella for Gondlin's dynamic-tape training helpers.
+`NN.Runtime.Autograd.Train` is the curated umbrella for Gondolin's dynamic-tape training helpers.
 
 This layer is intentionally about training-loop infrastructure, not model definitions:
 

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -23,7 +23,7 @@ binary directly. What we can do well is factor the interface into three layers:
 3. **Native validation / trust boundary**: CUDA C, libdevice, cuBLAS, compiler flags, GPU hardware,
    and driver behavior are validated by tests and documented assumptions, not proved by Lean.
 
-This split is deliberate. It lets us prove the algorithm/indexing contracts that Gondlin owns,
+This split is deliberate. It lets us prove the algorithm/indexing contracts that Gondolin owns,
 without claiming that the Lean kernel can inspect NVIDIA's compiler, runtime, or device ISA.
 
 External references for the assumptions named here:
@@ -32,7 +32,7 @@ External references for the assumptions named here:
   https://standards.ieee.org/ieee/754/6210/
 - NVIDIA CUDA C Programming Guide documents the CUDA execution/memory model:
   https://docs.nvidia.com/cuda/cuda-c-programming-guide/
-- cuBLAS documents GEMM's column-major API contract; Gondlin's CUDA BMM uses a row-major
+- cuBLAS documents GEMM's column-major API contract; Gondolin's CUDA BMM uses a row-major
   interpretation around that API:
   https://docs.nvidia.com/cuda/cublas/
 - PyTorch's tensor docs are a useful user-facing analogue for row-major/strided tensor operations:
@@ -46,8 +46,8 @@ namespace Autograd
 namespace Cuda
 namespace KernelSpec
 
-open Gondlin.Floats
-open Gondlin.Floats.IEEE754
+open Gondolin.Floats
+open Gondolin.Floats.IEEE754
 open Float32Contract
 
 noncomputable section
@@ -249,7 +249,7 @@ theorem native_sqrt_pointwise_abs_error_of_bits
 Sequential left-fold reduction over a flat buffer.
 
 This is a *deterministic algorithmic spec*, not a claim about CUDA atomics. Native atomic reductions
-only refine this spec under an additional ordering/agreement assumption. Gondlin's deterministic
+only refine this spec under an additional ordering/agreement assumption. Gondolin's deterministic
 reduction mode is intended to make that assumption true for tested reduction paths.
 -/
 def reduceSumLeftSpec {n : Nat} (x : FlatBuffer n) : RefScalar :=
@@ -348,7 +348,7 @@ The scalar result bits must match `bmmSpec` at every output element. This is int
 than "numerically close": it is the bitwise contract needed to reuse exact `IEEE32Exec` proofs.
 
 For cuBLAS-backed kernels this assumption includes:
-- row-major Gondlin buffers are interpreted consistently around cuBLAS's column-major GEMM API;
+- row-major Gondolin buffers are interpreted consistently around cuBLAS's column-major GEMM API;
 - the accumulation tree/FMA behavior is compatible with the selected reference spec, or the spec is
   adjusted to the documented cuBLAS/toolchain behavior;
 - input and output strides match `(batch,m,n)`, `(batch,n,p)`, and `(batch,m,p)` row-major layout.

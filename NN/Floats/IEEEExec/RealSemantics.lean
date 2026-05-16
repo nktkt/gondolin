@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -28,9 +28,9 @@ Most theorems should be read under finiteness hypotheses and use `toReal?` (or l
 
 @[expose] public section
 
-namespace Gondlin.Floats.IEEE754
+namespace Gondolin.Floats.IEEE754
 
-open Gondlin.Floats
+open Gondolin.Floats
 
 namespace IEEE32Exec
 
@@ -87,5 +87,5 @@ end -- noncomputable section
 
 end IEEE32Exec
 
-end Gondlin.Floats.IEEE754
+end Gondolin.Floats.IEEE754
 

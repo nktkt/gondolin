@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -22,7 +22,7 @@ We mirror the common PyTorch naming convention for modules:
 - `fc.weight`, `fc.bias`
 
 Each tensor is expected to be encoded as nested JSON arrays whose shape matches the expected
-Gondlin `Shape`.
+Gondolin `Shape`.
 -/
 
 @[expose] public section
@@ -42,7 +42,7 @@ open Json
 /-- Typed view of a PyTorch `state_dict` for the demo 2-block CNN.
 
 This matches the keys used by the exporter (`conv1.*`, `conv2.*`, `fc.*`) and pins down the exact
-shapes expected by Gondlin.
+shapes expected by Gondolin.
 -/
 structure CnnStateDict (inC outC kH kW flatSize : Nat) where
   /-- First convolution kernel, PyTorch shape `(outC, inC, kH, kW)`. -/

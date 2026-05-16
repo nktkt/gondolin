@@ -3,7 +3,7 @@
  "packages":
  [{"type": "path",
    "scope": "",
-   "name": "Gondlin",
+   "name": "Gondolin",
    "manifestFile": "lake-manifest.json",
    "inherited": false,
    "dir": "..",
@@ -208,5 +208,5 @@
    "inputRev": "main",
    "inherited": true,
    "configFile": "lakefile.lean"}],
- "name": "«gondlin-blueprint»",
+ "name": "«gondolin-blueprint»",
  "lakeDir": ".lake"}

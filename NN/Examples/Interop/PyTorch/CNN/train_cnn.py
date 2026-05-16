@@ -1,5 +1,5 @@
 """
-Train the compact CNN example and export its weights to JSON for Gondlin.
+Train the compact CNN example and export its weights to JSON for Gondolin.
 
 The JSON schema matches the importer in:
 
@@ -27,7 +27,7 @@ THIS_DIR = Path(__file__).resolve().parent
 
 class TestCNN(nn.Module):
     """
-    Compact CNN with named layers matching Gondlin import keys:
+    Compact CNN with named layers matching Gondolin import keys:
       conv1, conv2, fc
 
     This model is intentionally aligned with the CNN shape used by:
@@ -68,10 +68,10 @@ def init_deterministic_weights(model: TestCNN) -> None:
             p.uniform_(-0.05, 0.05)
 
 def save_cnn_to_json(model: TestCNN, json_path: str):
-    """Save CNN weights to JSON in the key format expected by Gondlin import."""
+    """Save CNN weights to JSON in the key format expected by Gondolin import."""
     state_dict = model.state_dict()
     
-    # Convert PyTorch state dict to the Gondlin CNN import key format (named layers)
+    # Convert PyTorch state dict to the Gondolin CNN import key format (named layers)
     new_format = {}
     new_format['conv1.weight'] = state_dict['conv1.weight'].tolist()
     new_format['conv1.bias'] = state_dict['conv1.bias'].tolist()
@@ -83,7 +83,7 @@ def save_cnn_to_json(model: TestCNN, json_path: str):
     payload = {
         "params": new_format,
         "meta": {
-            "format": "Gondlin.CNN2",
+            "format": "Gondolin.CNN2",
             "dtype": "float32",
         },
     }
@@ -135,7 +135,7 @@ def main():
     
     print(f"Final output: {model(x_train)}")
     
-    # 5. Save trained weights to JSON in the Gondlin CNN import key format
+    # 5. Save trained weights to JSON in the Gondolin CNN import key format
     # Write directly into this example folder so `Roundtrip.lean` can import it by a stable path.
     out_path = THIS_DIR / "cnn.json"
     save_cnn_to_json(model, str(out_path))

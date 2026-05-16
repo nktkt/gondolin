@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -21,7 +21,7 @@ The data structures in this file are deliberately small:
 - `TrainLog` is the persisted/viewed artifact shared by JSON IO and widgets.
 
 For W&B-style workflows, `ExperimentLog` adds run metadata, config entries, tags, and artifact
-references while still lowering to the same stable `TrainLog` JSON that Gondlin widgets already
+references while still lowering to the same stable `TrainLog` JSON that Gondolin widgets already
 know how to render. This gives examples one clean local artifact format and a straightforward bridge
 to hosted trackers.
 
@@ -40,7 +40,7 @@ open Json
 /-!
 ## Core Artifact Model
 
-Gondlin logs are intentionally local-first. The shape mirrors the small useful subset of hosted
+Gondolin logs are intentionally local-first. The shape mirrors the small useful subset of hosted
 experiment trackers such as Weights & Biases:
 - a run has project/name/id metadata,
 - config records hyperparameters and data choices,
@@ -78,8 +78,8 @@ This is deliberately close to the mental model of W&B (`project`, `name`, `group
 but it remains a plain Lean value and does not perform network IO.
 -/
 structure RunInfo where
-  /-- Project or collection name. Examples usually use `"gondlin"`. -/
-  project : String := "gondlin"
+  /-- Project or collection name. Examples usually use `"gondolin"`. -/
+  project : String := "gondolin"
   /-- Display name for this run. Defaults to the resulting `TrainLog.title` if left empty. -/
   name : String := ""
   /-- Stable run identifier, useful when several artifacts belong to one run. -/
@@ -163,7 +163,7 @@ def push (c : Curve) (step : Nat) (value : Float) : Curve :=
 /--
 Convert a single curve into a `TrainLog` with one series.
 
-This matches the expectations of Gondlin's widgets (`#train_log_file_view`).
+This matches the expectations of Gondolin's widgets (`#train_log_file_view`).
 -/
 def toTrainLog (c : Curve) (title : String) (seriesName : String)
     (color : String := "#4e79a7") (notes : Array String := #[]) : TrainLog :=
@@ -320,7 +320,7 @@ end ExperimentLog
 ## Logging Destinations
 
 Examples should make logging explicit. `LogDestination.disabled` is the local equivalent of
-`wandb disabled`; `LogDestination.json path` writes the standard Gondlin JSON artifact.
+`wandb disabled`; `LogDestination.json path` writes the standard Gondolin JSON artifact.
 -/
 
 /-- Where a training routine should send its log artifact. -/

@@ -20,7 +20,7 @@ for several updates or epochs, and optionally write a training curve.
 | `Generative/` | autoencoder, MAE, VAE, VQ-VAE, GAN, and diffusion examples |
 | `Operators/` | FNO and operator-learning examples |
 | `RL/` | DQN and PPO examples |
-| `Runner.lean` | shared `lake exe gondlin ...` dispatcher |
+| `Runner.lean` | shared `lake exe gondolin ...` dispatcher |
 
 ## Data Preparation
 
@@ -32,7 +32,7 @@ python3 scripts/datasets/download_example_data.py --household-power --household-
 ```
 
 For custom image folders or tensor archives, convert once to `.npy` with
-`scripts/datasets/gondlin_data_convert.py`, then pass `--x` and `--y` to the relevant
+`scripts/datasets/gondolin_data_convert.py`, then pass `--x` and `--y` to the relevant
 command.
 
 ## Training Curves
@@ -51,16 +51,16 @@ accuracy curve.
 ## Supervised And Vision
 
 ```bash
-lake exe -K cuda=true gondlin mlp --cuda --epochs 100 --lr 0.003 \
+lake exe -K cuda=true gondolin mlp --cuda --epochs 100 --lr 0.003 \
   --log data/model_zoo/mlp_trainlog.json
 
-lake exe -K cuda=true gondlin cnn --cuda --fast-kernels --n-total 2000 \
+lake exe -K cuda=true gondolin cnn --cuda --fast-kernels --n-total 2000 \
   --epochs 25 --lr 0.001 --log data/model_zoo/cnn_trainlog.json
 
-lake exe -K cuda=true gondlin resnet --cuda --fast-kernels --n-total 2000 \
+lake exe -K cuda=true gondolin resnet --cuda --fast-kernels --n-total 2000 \
   --epochs 15 --lr 0.001 --log data/model_zoo/resnet_trainlog.json
 
-lake exe -K cuda=true gondlin vit --cuda --fast-kernels --n-total 2000 \
+lake exe -K cuda=true gondolin vit --cuda --fast-kernels --n-total 2000 \
   --epochs 10 --lr 0.001 --log data/model_zoo/vit_trainlog.json
 ```
 
@@ -70,10 +70,10 @@ Text models read a corpus, tokenize it, and build causal language-model windows 
 shifted targets. The shared helpers live in `NN.API.Text`.
 
 ```bash
-lake exe -K cuda=true gondlin mamba --cuda --fast-kernels --tiny-shakespeare \
+lake exe -K cuda=true gondolin mamba --cuda --fast-kernels --tiny-shakespeare \
   --steps 2000 --windows 384 --lr 0.004 --prompt "ROMEO:" --generate 260
 
-lake exe -K cuda=true gondlin gpt2 --cuda --fast-kernels --tiny-shakespeare \
+lake exe -K cuda=true gondolin gpt2 --cuda --fast-kernels --tiny-shakespeare \
   --steps 300 --windows 32 --lr 0.001 --prompt "ROMEO:" --generate 220
 ```
 
@@ -83,13 +83,13 @@ checkpoint.
 ## Generative, Operator, And RL
 
 ```bash
-lake exe -K cuda=true gondlin diffusion --cuda --fast-kernels \
+lake exe -K cuda=true gondolin diffusion --cuda --fast-kernels \
   --dataset cifar10 --n-total 800 --steps 200 --T 100
 
-lake exe -K cuda=true gondlin fno1d_burgers --cuda --steps 200 \
+lake exe -K cuda=true gondolin fno1d_burgers --cuda --steps 200 \
   --log data/model_zoo/fno1d_burgers_trainlog.json
 
-lake exe gondlin mae --steps 25
-lake exe gondlin gpt_adder --steps 1000 --a 7 --b 8
-lake exe gondlin ppo_gridworld --updates 200
+lake exe gondolin mae --steps 25
+lake exe gondolin gpt_adder --steps 1000 --a 7 --b 8
+lake exe gondolin ppo_gridworld --updates 200
 ```

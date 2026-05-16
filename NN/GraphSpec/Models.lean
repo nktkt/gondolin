@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -11,7 +11,7 @@ public import NN.GraphSpec.Models.Mlp
 public import NN.GraphSpec.Models.Cnn
 public import NN.GraphSpec.Models.ResidualLinear
 public import NN.GraphSpec.Models.Resnet18
-public import NN.GraphSpec.Models.Gondlin
+public import NN.GraphSpec.Models.Gondolin
 
 /-!
 # GraphSpec Model Catalog
@@ -27,9 +27,9 @@ We still keep the source files split by semantic layer:
 - `NN.Spec.Models.*` contains pure mathematical/reference specifications such as Transformer, ViT,
   Mamba, S4, UNet, VAE/VQ-VAE/GAN, and classical baselines.
 - `NN.GraphSpec.Models.*` contains graph-authored models whose structure is itself a typed
-  `Graph`/`DAG.Model`, so we can compile the same architecture to Gondlin and reason about the
+  `Graph`/`DAG.Model`, so we can compile the same architecture to Gondolin and reason about the
   graph shape.
-- `NN.GraphSpec.Models.Gondlin.*` contains executable Gondlin constructors for models that are
+- `NN.GraphSpec.Models.Gondolin.*` contains executable Gondolin constructors for models that are
   already useful as reusable autograd programs.
 - `NN.Examples.Models.*` contains runnable scripts and training demos.
 

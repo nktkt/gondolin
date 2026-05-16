@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -17,7 +17,7 @@ public meta import ProofWidgets.Demos.Macro
 
 Graph rewrite / diff viewer.
 
-Gondlin’s IR is designed to support compilation and optimization passes. When working on those
+Gondolin’s IR is designed to support compilation and optimization passes. When working on those
 passes, the most useful debugging UI is "before/after":
 - render both graphs,
 - show which nodes changed (op kind / parents / shapes),

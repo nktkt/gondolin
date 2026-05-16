@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Collect a Gymnasium rollout and write Gondlin-compatible JSON.
+"""Collect a Gymnasium rollout and write Gondolin-compatible JSON.
 
 The output format is accepted by:
   `NN.Runtime.RL.Boundary.loadRollout`
 
 This script is a small exporter rather than a trainer. It moves data across the trust boundary:
 
-  Python Gymnasium env -> JSON -> Lean contract check -> Gondlin RL update code
+  Python Gymnasium env -> JSON -> Lean contract check -> Gondolin RL update code
 
 Schema (top-level):
 {

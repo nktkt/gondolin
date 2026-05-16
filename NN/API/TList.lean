@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -17,7 +17,7 @@ import Mathlib.Algebra.Order.Algebra
 
 `TList` / supervised-sample ergonomics.
 
-Gondlin uses dependently-typed heterogeneous lists (`TList α ss`) to keep tensor shapes aligned
+Gondolin uses dependently-typed heterogeneous lists (`TList α ss`) to keep tensor shapes aligned
 with the type-level list `ss`.
 
 This is great for safety, but raw `.cons ...` pattern matching is noisy in tutorials. This module
@@ -39,7 +39,7 @@ namespace API
 namespace tlist
 
 /-!
-Small ergonomics for Gondlin's typed tensor lists (`TList`).
+Small ergonomics for Gondolin's typed tensor lists (`TList`).
 
 `TList α ss` is a heterogeneous list of tensors whose shapes are tracked by the type-level list
   `ss`.
@@ -48,31 +48,31 @@ It is great for safety, but raw destructuring via `.cons ...` is noisy in demos.
 This namespace provides the small "get/unpack" helpers you would expect from tuple-like samples.
 -/
 
-/-- Typed tensor lists, used throughout Gondlin as shape-tracked tuples of tensors. -/
+/-- Typed tensor lists, used throughout Gondolin as shape-tracked tuples of tensors. -/
 abbrev TList (α : Type) (ss : List Spec.Shape) :=
-  Gondlin.TList α ss
+  Gondolin.TList α ss
 
 /-- Construct a 1-element `TList` (like a 1-tuple). -/
 def mk1 {α : Type} {s : Spec.Shape} (x : Spec.Tensor α s) : TList α [s] :=
-  Gondlin.tlist1 x
+  Gondolin.tlist1 x
 
 /-- Construct a 2-element `TList` (like a pair). -/
 def mk2 {α : Type} {s₁ s₂ : Spec.Shape} (x₁ : Spec.Tensor α s₁) (x₂ : Spec.Tensor α s₂) :
     TList α [s₁, s₂] :=
-  Gondlin.tlist2 x₁ x₂
+  Gondolin.tlist2 x₁ x₂
 
 /-- Construct a 3-element `TList` (like a 3-tuple). -/
 def mk3 {α : Type} {s₁ s₂ s₃ : Spec.Shape}
     (x₁ : Spec.Tensor α s₁) (x₂ : Spec.Tensor α s₂) (x₃ : Spec.Tensor α s₃) :
     TList α [s₁, s₂, s₃] :=
-  Gondlin.tlist3 x₁ x₂ x₃
+  Gondolin.tlist3 x₁ x₂ x₃
 
 /-- Construct a 4-element `TList` (like a 4-tuple). -/
 def mk4 {α : Type} {s₁ s₂ s₃ s₄ : Spec.Shape}
     (x₁ : Spec.Tensor α s₁) (x₂ : Spec.Tensor α s₂) (x₃ : Spec.Tensor α s₃) (x₄ : Spec.Tensor α s₄)
       :
     TList α [s₁, s₂, s₃, s₄] :=
-  Gondlin.tlist4 x₁ x₂ x₃ x₄
+  Gondolin.tlist4 x₁ x₂ x₃ x₄
 
 /-- Map each tensor entry (shape-preserving). -/
 def map {α β : Type} (f : ∀ {s : Spec.Shape}, Spec.Tensor α s → Spec.Tensor β s) :
@@ -134,7 +134,7 @@ def unpack1 {α : Type} {s : Spec.Shape} :
 /-- Unpacking `mk1` yields the original element. -/
 @[simp] theorem unpack1_mk1 {α : Type} {s : Spec.Shape} (x : Spec.Tensor α s) :
     unpack1 (mk1 (α := α) (s := s) x) = x := by
-  simp [unpack1, mk1, Gondlin.tlist1]
+  simp [unpack1, mk1, Gondolin.tlist1]
 
 /-- Unpack a length-2 `TList` into a Lean pair. -/
 def unpack2 {α : Type} {s₁ s₂ : Spec.Shape} :
@@ -145,7 +145,7 @@ def unpack2 {α : Type} {s₁ s₂ : Spec.Shape} :
 @[simp] theorem unpack2_mk2 {α : Type} {s₁ s₂ : Spec.Shape}
     (x₁ : Spec.Tensor α s₁) (x₂ : Spec.Tensor α s₂) :
     unpack2 (mk2 (α := α) (s₁ := s₁) (s₂ := s₂) x₁ x₂) = (x₁, x₂) := by
-  simp [unpack2, mk2, Gondlin.tlist2]
+  simp [unpack2, mk2, Gondolin.tlist2]
 
 /-- Unpack a length-3 `TList` into a Lean triple. -/
 def unpack3 {α : Type} {s₁ s₂ s₃ : Spec.Shape} :
@@ -156,7 +156,7 @@ def unpack3 {α : Type} {s₁ s₂ s₃ : Spec.Shape} :
 @[simp] theorem unpack3_mk3 {α : Type} {s₁ s₂ s₃ : Spec.Shape}
     (x₁ : Spec.Tensor α s₁) (x₂ : Spec.Tensor α s₂) (x₃ : Spec.Tensor α s₃) :
     unpack3 (mk3 (α := α) (s₁ := s₁) (s₂ := s₂) (s₃ := s₃) x₁ x₂ x₃) = (x₁, x₂, x₃) := by
-  simp [unpack3, mk3, Gondlin.tlist3]
+  simp [unpack3, mk3, Gondolin.tlist3]
 
 /-- Unpack a length-4 `TList` into a Lean 4-tuple. -/
 def unpack4 {α : Type} {s₁ s₂ s₃ s₄ : Spec.Shape} :
@@ -170,7 +170,7 @@ def unpack4 {α : Type} {s₁ s₂ s₃ s₄ : Spec.Shape} :
       :
     unpack4 (mk4 (α := α) (s₁ := s₁) (s₂ := s₂) (s₃ := s₃) (s₄ := s₄) x₁ x₂ x₃ x₄) =
       (x₁, x₂, x₃, x₄) := by
-  simp [unpack4, mk4, Gondlin.tlist4]
+  simp [unpack4, mk4, Gondolin.tlist4]
 
 end tlist
 
@@ -180,12 +180,12 @@ namespace sample
 Ergonomics for the common supervised-learning sample shape `TList α [xShape, yShape]`.
 
 This keeps tutorial code closer to the PyTorch convention of `(x, y)` pairs without losing
-Gondlin's static shape safety.
+Gondolin's static shape safety.
 -/
 
 /-- A supervised sample `(x, y)` with input shape `σ` and target shape `τ`. -/
 abbrev Supervised (α : Type) (σ τ : Spec.Shape) :=
-  Gondlin.TList α [σ, τ]
+  Gondolin.TList α [σ, τ]
 
 /-- A fixed-size minibatch of supervised samples. -/
 abbrev Batch (α : Type) (n : Nat) (σ τ : Spec.Shape) :=
@@ -194,7 +194,7 @@ abbrev Batch (α : Type) (n : Nat) (σ τ : Spec.Shape) :=
 /-- Build a supervised sample `(x, y)` represented as `TList α [σ, τ]`. -/
 def mk {α : Type} {σ τ : Spec.Shape} (x : Spec.Tensor α σ) (y : Spec.Tensor α τ) :
     Supervised α σ τ :=
-  Gondlin.tlist2 x y
+  Gondolin.tlist2 x y
 
 /-- Build a *batched* supervised sample `(xBatch, yBatch)` for a minibatch of size `n`. -/
 def batch {α : Type} {n : Nat} {σ τ : Spec.Shape}
@@ -214,13 +214,13 @@ def y {α : Type} {σ τ : Spec.Shape} (s : Supervised α σ τ) : Spec.Tensor �
 @[simp] theorem x_mk {α : Type} {σ τ : Spec.Shape}
     (xT : Spec.Tensor α σ) (yT : Spec.Tensor α τ) :
     x (mk (α := α) (σ := σ) (τ := τ) xT yT) = xT := by
-  simp [x, mk, tlist.get0, Gondlin.tlist2]
+  simp [x, mk, tlist.get0, Gondolin.tlist2]
 
 /-- `y` of a constructed supervised sample `mk x y` is `y`. -/
 @[simp] theorem y_mk {α : Type} {σ τ : Spec.Shape}
     (xT : Spec.Tensor α σ) (yT : Spec.Tensor α τ) :
     y (mk (α := α) (σ := σ) (τ := τ) xT yT) = yT := by
-  simp [y, mk, tlist.get1, Gondlin.tlist2]
+  simp [y, mk, tlist.get1, Gondolin.tlist2]
 
 /-- Map a function over the input tensor `x`, leaving the target `y` unchanged. -/
 def mapX {α : Type} {σ τ : Spec.Shape}

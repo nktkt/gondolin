@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -12,7 +12,7 @@ public meta import ProofWidgets.Demos.Macro
 /-!
 # Widgets UI helpers
 
-Gondlin has multiple ProofWidgets-based viewers (IR graphs, autograd tapes, RL rollouts, etc.).
+Gondolin has multiple ProofWidgets-based viewers (IR graphs, autograd tapes, RL rollouts, etc.).
 Several widgets share the same compact HTML helpers (`monospace`, `pill`, status badges, DOT label
 escaping).
 

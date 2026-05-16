@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -23,7 +23,7 @@ public import NN.Runtime.Autograd.Engine.Cuda.Trusted
 /-!
 # CUDA eager-engine backend
 
-This umbrella collects the CUDA side of Gondlin's eager autograd engine.
+This umbrella collects the CUDA side of Gondolin's eager autograd engine.
 
 The modules here are deliberately split by trust boundary:
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Plot Gondlin TrainLog JSON artifacts.
+"""Plot Gondolin TrainLog JSON artifacts.
 
 Examples:
   python3 scripts/datasets/plot_trainlog.py data/model_zoo/mlp_trainlog.json

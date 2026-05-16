@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -12,7 +12,7 @@ public import NN.Runtime.Autograd.Torch.Utils
 /-!
 # `NN.API.Init`
 
-Deterministic tensor initialization helpers (Xavier/Kaiming, etc.) that return Gondlin
+Deterministic tensor initialization helpers (Xavier/Kaiming, etc.) that return Gondolin
 `Spec.Tensor`s with shape tracked in the type.
 -/
 
@@ -28,7 +28,7 @@ open Spec
 /-!
 ## Tensor Initialization Helpers
 
-This module is a thin wrapper around `Runtime.Autograd.Torch.Init` that returns Gondlin
+This module is a thin wrapper around `Runtime.Autograd.Torch.Init` that returns Gondolin
 `Spec.Tensor`s with shapes tracked in the type.
 
 All initializers are deterministic given an explicit `seed : Nat`, which is convenient for:

@@ -3,7 +3,7 @@ title: Examples
 usemathjax: true
 ---
 
-The examples are the quickest way to see Gondlin as a working system. Each page starts from
+The examples are the quickest way to see Gondolin as a working system. Each page starts from
 something concrete: a model run, a graph, a tensor artifact, a saved log, a verifier result, or a
 bug pattern. The goal is to show how runnable ML code becomes an object that Lean can inspect,
 lower, check, or relate to a theorem.
@@ -15,7 +15,7 @@ the text-model and diffusion walkthroughs. For the clearest motivation, read Bug
 
 <div class="showcase-grid showcase-grid-featured">
   <a class="showcase-card showcase-image-card" href="{{ '/blueprint/Semantics-and-Graphs/Graphs-and-IR/' | relative_url }}">
-    <img class="showcase-media" src="{{ '/assets/media/examples/showcase/ir-bounds.png' | relative_url }}" alt="Gondlin graph IR to interval bounds example"/>
+    <img class="showcase-media" src="{{ '/assets/media/examples/showcase/ir-bounds.png' | relative_url }}" alt="Gondolin graph IR to interval bounds example"/>
     <span class="showcase-body">
       <span class="showcase-title">Graph IR and Bounds</span>
       <span class="showcase-text">Follow a small model as it becomes an op-tagged graph, then use that graph for shape checks, execution traces, and interval bounds.</span>

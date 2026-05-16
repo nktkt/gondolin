@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -27,7 +27,7 @@ The guiding split is:
 
 The statements here are deliberately finite and method-neutral. They do not claim that SSL
 optimization learns good representations. They prove a smaller semantic fact that is useful for
-Gondlin and for paper writing: MAE, JEPA, VICReg-style guards, Barlow-style guards, and
+Gondolin and for paper writing: MAE, JEPA, VICReg-style guards, Barlow-style guards, and
 autoregressive prediction can share one objective shape.
 
 In this finite layer, a view-prediction contract has:

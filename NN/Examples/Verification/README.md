@@ -1,6 +1,6 @@
 # Verification Fixtures and Workflows
 
-This directory contains the small verification fixtures and wrapper modules used by Gondlin's
+This directory contains the small verification fixtures and wrapper modules used by Gondolin's
 unified verification CLI.
 
 Reusable verification code lives under `NN/Verification/*`.
@@ -14,18 +14,18 @@ reproducible without pulling in large benchmark dumps.
 
 - `lake exe verify -- digits --eps=0.02 --max=360`
   Loads the bundled sklearn digits weights and test set, compiles the linear classifier through the
-  Gondlin verifier bridge, and reports IBP/CROWN certified accuracy.
+  Gondolin verifier bridge, and reports IBP/CROWN certified accuracy.
 
 - `lake exe verify -- margin-cert`
   Checks the exported digits logit margin certificate. This recomputes the margin predicate from
   the JSON bounds and checks the summary fields.
 
-- `lake exe verify -- gondlin-robustness`
-  Builds a compact Gondlin classifier, compiles it to verifier IR, and checks the margin with
+- `lake exe verify -- gondolin-robustness`
+  Builds a compact Gondolin classifier, compiles it to verifier IR, and checks the margin with
   IBP, forward affine CROWN, and backward objective CROWN.
 
-- `lake exe verify -- gondlin-crown-ops`
-  Exercises nonlinear verifier ops such as softmax and MSE loss on compact Gondlin graphs.
+- `lake exe verify -- gondolin-crown-ops`
+  Exercises nonlinear verifier ops such as softmax and MSE loss on compact Gondolin graphs.
 
 - `lake exe verify -- spline-cert`
   Checks an exact rational piecewise polynomial certificate. With `--regen`, Julia is used only as
@@ -33,8 +33,8 @@ reproducible without pulling in large benchmark dumps.
 
 ## Workflow Tiers
 
-- Native Gondlin verification: `Gondlin/*` and `Robustness/GondlinRobustness.lean` build
-  models in Gondlin, compile them to verifier IR, and run bound propagation directly. These do
+- Native Gondolin verification: `Gondolin/*` and `Robustness/GondolinRobustness.lean` build
+  models in Gondolin, compile them to verifier IR, and run bound propagation directly. These do
   not depend on an external verifier exporter.
 
 - Exporter-backed verification: `LiRPA/*` and `VNNComp/*` include example wrappers. `AbCrown/*`,
@@ -74,7 +74,7 @@ over the Lean graph semantics once the local certificate hypotheses are discharg
 
 ## Compact Constants Versus Real Data
 
-Small hand written tensors are acceptable in Gondlin native operator workflows because their job
+Small hand written tensors are acceptable in Gondolin native operator workflows because their job
 is to exercise a verifier path quickly and reproducibly. Workflows that make data claims should
 load weights and datasets from documented assets. Digits fixtures are bundled; large VNN-COMP
 exports are kept outside git and passed to the checker explicitly.

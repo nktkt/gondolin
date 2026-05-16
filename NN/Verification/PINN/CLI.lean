@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -58,7 +58,7 @@ open NN.Verification.PINN.PdeParse
 open NN.Verification.PINN.ResidualAffine
 open _root_.Spec
 open _root_.Spec.Tensor
-open Gondlin.Floats
+open Gondolin.Floats
 
 /- Approximate conversion ℝ → Float by rounding to `digits` decimal places. -/
 noncomputable def realToFloat (x : ℝ) (digits : Nat := 6) : Float :=

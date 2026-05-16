@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 
 Soundness proofs for CROWN affine bounds and LiRPA verification.
 -/
@@ -27,7 +27,7 @@ The main result in this file is an end-to-end soundness statement for a small ML
 - soundness of affine composition through linear layers,
 - an IBP-style fallback used by `bound_affine` (so the end-to-end theorem is sound but not tight).
 
-For certificate-checking theorems over the graph dialect (the form used by Gondlin verification
+For certificate-checking theorems over the graph dialect (the form used by Gondolin verification
 examples), see:
 
 - `NN.MLTheory.CROWN.Proofs.GraphCrownCertSoundness`

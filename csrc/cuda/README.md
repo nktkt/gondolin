@@ -1,6 +1,6 @@
-# Gondlin CUDA Runtime Sources
+# Gondolin CUDA Runtime Sources
 
-This directory contains Gondlin's trusted native runtime boundary for CUDA and CPU stub builds.
+This directory contains Gondolin's trusted native runtime boundary for CUDA and CPU stub builds.
 Lean checks shapes and dispatches to these symbols, but memory safety, kernel launch behavior, and
 float32 arithmetic are outside Lean's kernel.
 
@@ -34,7 +34,7 @@ lake build -R -K cuda=true -K cuda_home=/usr/local/cuda
 
 ## CUDA Graph Status
 
-Gondlin's current CUDA path is eager: each autograd step records a Lean runtime tape and dispatches
+Gondolin's current CUDA path is eager: each autograd step records a Lean runtime tape and dispatches
 individual CUDA buffer ops. This already moves the expensive math to the GPU, but it is not CUDA
 Graph capture/replay.
 
@@ -57,13 +57,13 @@ separate runtime layer with:
 - explicit invalidation when shapes, masks, or parameter layouts change,
 - regression tests comparing captured replay against the eager CUDA tape for every supported op.
 
-Until that layer exists, `--backend compiled` should be read as Gondlin's proof/SSA graph backend,
+Until that layer exists, `--backend compiled` should be read as Gondolin's proof/SSA graph backend,
 not as CUDA Graph execution.
 
 For a CUDA training smoke test:
 
 ```bash
-lake exe gondlin gpt_adder --steps 500 --log-every 100
+lake exe gondolin gpt_adder --steps 500 --log-every 100
 ```
 
 ## Sanitizer Harness
@@ -145,7 +145,7 @@ buffers.  If it uses atomics, also decide whether deterministic mode needs a sep
 
 ## Review Notes
 
-- Padded max pooling follows the Gondlin spec and PyTorch convention: cells outside the input are
+- Padded max pooling follows the Gondolin spec and PyTorch convention: cells outside the input are
   ignored (equivalently `-inf`), with row major argmax tie breaking.
 - Some accumulation paths use `atomicAdd`; enable deterministic reductions when exact repeatability
   is more important than speed.

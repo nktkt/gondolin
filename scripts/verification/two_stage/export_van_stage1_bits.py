@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Train/export Stage 1 for the Gondlin two-stage Van-der-Pol workflow.
+"""Train/export Stage 1 for the Gondolin two-stage Van-der-Pol workflow.
 
 This script is an *artifact producer*.  It trains a compact PyTorch controller/Lyapunov seed and
-writes the learned parameters in the exact order expected by the Gondlin Stage-2 checker.
+writes the learned parameters in the exact order expected by the Gondolin Stage-2 checker.
 
 Why bits?
-- Stage 2 can run in Gondlin under `IEEE32Exec`.
+- Stage 2 can run in Gondolin under `IEEE32Exec`.
 - JSON decimal floats can lose the exact binary32 payload that PyTorch trained.
 - Exporting uint32 bit patterns lets Lean reconstruct exactly the same Float32 values.
 
@@ -54,7 +54,7 @@ def float32_bits_as_str_list(t: torch.Tensor) -> list[str]:
 
 
 def build_parameters(width: int) -> list[torch.Tensor]:
-    """Create Stage-1 parameters in exactly the order consumed by Gondlin.
+    """Create Stage-1 parameters in exactly the order consumed by Gondolin.
 
     Order:
       Wc, bc: controller `u = tanh(Wc x + bc)`
@@ -76,7 +76,7 @@ def build_parameters(width: int) -> list[torch.Tensor]:
 
 
 def van_loss(x: torch.Tensor, params: list[torch.Tensor]) -> torch.Tensor:
-    """Stage-1 scalar loss shared with the Gondlin Stage-2 workflow.
+    """Stage-1 scalar loss shared with the Gondolin Stage-2 workflow.
 
     The loss has two ReLU penalties:
       positivity: `0.1 * ||x||² <= V(x)`

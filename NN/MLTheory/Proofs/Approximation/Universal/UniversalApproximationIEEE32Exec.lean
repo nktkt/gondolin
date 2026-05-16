@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -38,8 +38,8 @@ Goldberg and Higham; the approximation side reuses the constructive hinge-networ
 
 namespace NN.MLTheory.Proofs.UniversalApproximation
 
-open Gondlin.Floats
-open Gondlin.Floats.IEEE754
+open Gondolin.Floats
+open Gondolin.Floats.IEEE754
 
 namespace IEEE32ExecReLUApprox
 
@@ -48,7 +48,7 @@ open IEEE32Exec
 noncomputable section
 
 /-- FP32 model type (rounded `ℝ`) used as the comparison target for IEEE32Exec error bounds. -/
-abbrev FP32 : Type := Gondlin.Floats.FP32
+abbrev FP32 : Type := Gondolin.Floats.FP32
 
 -- We avoid simp-unfolding `IEEE32Exec.toReal`; this file uses the dedicated bridge lemmas instead.
 
@@ -220,23 +220,23 @@ theorem hingeEvalFiniteProp_to_witness {n : ℕ} {t c : Fin n → IEEE32Exec} {b
 
 /-- FP32 addition in the rounded-`ℝ` model uses the same `fp32Round` operation as IEEE32Exec. -/
 private theorem fp32_add_val (a b : FP32) :
-    (a + b).val = Gondlin.Floats.IEEE754.IEEE32Exec.fp32Round (a.val + b.val) := by
-  change Gondlin.Floats.round32 (a.val + b.val) =
-    Gondlin.Floats.IEEE754.IEEE32Exec.fp32Round (a.val + b.val)
+    (a + b).val = Gondolin.Floats.IEEE754.IEEE32Exec.fp32Round (a.val + b.val) := by
+  change Gondolin.Floats.round32 (a.val + b.val) =
+    Gondolin.Floats.IEEE754.IEEE32Exec.fp32Round (a.val + b.val)
   rfl
 
 /-- FP32 subtraction in the rounded-`ℝ` model uses the same `fp32Round` operation as IEEE32Exec. -/
 private theorem fp32_sub_val (a b : FP32) :
-    (a - b).val = Gondlin.Floats.IEEE754.IEEE32Exec.fp32Round (a.val - b.val) := by
-  change Gondlin.Floats.round32 (a.val - b.val) =
-    Gondlin.Floats.IEEE754.IEEE32Exec.fp32Round (a.val - b.val)
+    (a - b).val = Gondolin.Floats.IEEE754.IEEE32Exec.fp32Round (a.val - b.val) := by
+  change Gondolin.Floats.round32 (a.val - b.val) =
+    Gondolin.Floats.IEEE754.IEEE32Exec.fp32Round (a.val - b.val)
   rfl
 
 /-- FP32 multiplication in the rounded-`ℝ` model uses the same `fp32Round` operation as IEEE32Exec. -/
 private theorem fp32_mul_val (a b : FP32) :
-    (a * b).val = Gondlin.Floats.IEEE754.IEEE32Exec.fp32Round (a.val * b.val) := by
-  change Gondlin.Floats.round32 (a.val * b.val) =
-    Gondlin.Floats.IEEE754.IEEE32Exec.fp32Round (a.val * b.val)
+    (a * b).val = Gondolin.Floats.IEEE754.IEEE32Exec.fp32Round (a.val * b.val) := by
+  change Gondolin.Floats.round32 (a.val * b.val) =
+    Gondolin.Floats.IEEE754.IEEE32Exec.fp32Round (a.val * b.val)
   rfl
 
 /-- ReLU is exact at the FP32 value level because it is a comparison with zero, not arithmetic. -/
@@ -256,7 +256,7 @@ private theorem fp32_ext {u v : FP32} (h : u.val = v.val) : u = v := by
 Finite IEEE32Exec ReLU agrees with real ReLU after `toReal`.
 
 The IEEE operation here is `maximum x 0`; once NaN/Inf paths are ruled out, the bridge theorem for
-`maximum` turns it into real `max`, which is exactly Gondlin's real ReLU specification.
+`maximum` turns it into real `max`, which is exactly Gondolin's real ReLU specification.
 -/
 private theorem toReal_relu_ieee_eq_relu {x : IEEE32Exec}
     (hx : IEEE32Exec.isFinite x = true) :
@@ -264,11 +264,11 @@ private theorem toReal_relu_ieee_eq_relu {x : IEEE32Exec}
   have h0 : IEEE32Exec.isFinite (Numbers.zero : IEEE32Exec) = true := by decide
   have hto0 : IEEE32Exec.toReal (Numbers.zero : IEEE32Exec) = 0 := by
     -- `Numbers.zero` is `posZero`.
-    simp [Numbers.zero, Gondlin.Floats.IEEE754.IEEE32Exec.toReal_posZero]
+    simp [Numbers.zero, Gondolin.Floats.IEEE754.IEEE32Exec.toReal_posZero]
   have hmax :
       IEEE32Exec.toReal (IEEE32Exec.maximum x (Numbers.zero : IEEE32Exec)) =
         max (IEEE32Exec.toReal x) (IEEE32Exec.toReal (Numbers.zero : IEEE32Exec)) :=
-    Gondlin.Floats.IEEE754.IEEE32Exec.toReal_maximum_eq_max_of_isFinite (x := x)
+    Gondolin.Floats.IEEE754.IEEE32Exec.toReal_maximum_eq_max_of_isFinite (x := x)
       (y := (Numbers.zero : IEEE32Exec)) hx h0
   -- `relu` is `max _ 0` on reals.
   simpa [reluIeee, relu, Activation.Math.reluSpec, hto0] using hmax
@@ -291,7 +291,7 @@ private theorem toReal_hinge_term_eq_fp32_val {n : ℕ}
   -- Subtraction refinement.
   have hsubR :
       IEEE32Exec.toReal (IEEE32Exec.sub x (t i)) =
-        Gondlin.Floats.IEEE754.IEEE32Exec.fp32Round (IEEE32Exec.toReal x - IEEE32Exec.toReal (t
+        Gondolin.Floats.IEEE754.IEEE32Exec.fp32Round (IEEE32Exec.toReal x - IEEE32Exec.toReal (t
           i)) :=
     toReal_sub_eq_fp32Round_of_isFinite (x := x) (y := t i) hx ht (by simpa using hsub)
   -- ReLU is `maximum _ 0`, which is exact as `max` on reals for finite inputs.
@@ -304,17 +304,17 @@ private theorem toReal_hinge_term_eq_fp32_val {n : ℕ}
   -- Multiplication refinement.
   have hmulR :
       IEEE32Exec.toReal (IEEE32Exec.mul (c i) (reluIeee (IEEE32Exec.sub x (t i)))) =
-        Gondlin.Floats.IEEE754.IEEE32Exec.fp32Round
+        Gondolin.Floats.IEEE754.IEEE32Exec.fp32Round
           (IEEE32Exec.toReal (c i) * IEEE32Exec.toReal (reluIeee (IEEE32Exec.sub x (t i)))) :=
-    Gondlin.Floats.IEEE754.IEEE32Exec.toReal_mul_eq_fp32Round_of_isFinite (x := c i)
+    Gondolin.Floats.IEEE754.IEEE32Exec.toReal_mul_eq_fp32Round_of_isFinite (x := c i)
       (y := reluIeee (IEEE32Exec.sub x (t i))) (by simpa [hingeTermIeee] using hmul)
   -- Compute the FP32 hinge term as the same `fp32Round` expression.
   have htermFP :
       (hingeTermFp32 (c := embedVec c) (t := embedVec t) (x := embed x) i).val =
-        Gondlin.Floats.IEEE754.IEEE32Exec.fp32Round
+        Gondolin.Floats.IEEE754.IEEE32Exec.fp32Round
           (IEEE32Exec.toReal (c i) *
             relu
-              (Gondlin.Floats.IEEE754.IEEE32Exec.fp32Round (IEEE32Exec.toReal x -
+              (Gondolin.Floats.IEEE754.IEEE32Exec.fp32Round (IEEE32Exec.toReal x -
                 IEEE32Exec.toReal (t i)))) := by
     -- `reluFp32` is exact on `.val`, and FP32 `-`/`*` round with the same `fp32Round`.
     simp [hingeTermFp32, embedVec, embed, fp32_mul_val, fp32_sub_val, relu,
@@ -322,16 +322,16 @@ private theorem toReal_hinge_term_eq_fp32_val {n : ℕ}
   -- Rewrite IEEE32Exec `mul` and `reluIeee` using the bridge lemmas, then match `htermFP`.
   calc
     IEEE32Exec.toReal (hingeTermIeee (c := c) (t := t) x i)
-        = Gondlin.Floats.IEEE754.IEEE32Exec.fp32Round
+        = Gondolin.Floats.IEEE754.IEEE32Exec.fp32Round
             (IEEE32Exec.toReal (c i) * IEEE32Exec.toReal (reluIeee (IEEE32Exec.sub x (t i)))) := by
               simpa [hingeTermIeee] using hmulR
-    _ = Gondlin.Floats.IEEE754.IEEE32Exec.fp32Round
+    _ = Gondolin.Floats.IEEE754.IEEE32Exec.fp32Round
             (IEEE32Exec.toReal (c i) * relu (IEEE32Exec.toReal (IEEE32Exec.sub x (t i)))) := by
               simp [hreluR]
-    _ = Gondlin.Floats.IEEE754.IEEE32Exec.fp32Round
+    _ = Gondolin.Floats.IEEE754.IEEE32Exec.fp32Round
             (IEEE32Exec.toReal (c i) *
               relu
-                (Gondlin.Floats.IEEE754.IEEE32Exec.fp32Round (IEEE32Exec.toReal x -
+                (Gondolin.Floats.IEEE754.IEEE32Exec.fp32Round (IEEE32Exec.toReal x -
                   IEEE32Exec.toReal (t i)))) := by
               simp [hsubR]
     _ = (hingeTermFp32 (c := embedVec c) (t := embedVec t) (x := embed x) i).val := by
@@ -388,14 +388,14 @@ theorem toReal_hinge_sum_ieee_eq_fp32_val {n : ℕ}
           (toReal_hinge_term_eq_fp32_val (t := t) (c := c) (x := x) (i := i) hsub hmul hx (ht i))
       have haddR :
           IEEE32Exec.toReal (IEEE32Exec.add acc termI) =
-            Gondlin.Floats.IEEE754.IEEE32Exec.fp32Round (IEEE32Exec.toReal acc + IEEE32Exec.toReal
+            Gondolin.Floats.IEEE754.IEEE32Exec.fp32Round (IEEE32Exec.toReal acc + IEEE32Exec.toReal
               termI) :=
-        Gondlin.Floats.IEEE754.IEEE32Exec.toReal_add_eq_fp32Round_of_isFinite (x := acc) (y :=
+        Gondolin.Floats.IEEE754.IEEE32Exec.toReal_add_eq_fp32Round_of_isFinite (x := acc) (y :=
           termI)
           (by simpa [termI] using hadd)
       have hfpStep :
           ((embed acc) + termFP).val =
-            Gondlin.Floats.IEEE754.IEEE32Exec.fp32Round (IEEE32Exec.toReal acc + termFP.val) := by
+            Gondolin.Floats.IEEE754.IEEE32Exec.fp32Round (IEEE32Exec.toReal acc + termFP.val) := by
         simp [embed, termFP, fp32_add_val]
       have hstartVal : (embed (IEEE32Exec.add acc termI)).val = ((embed acc) + termFP).val := by
         -- `embed` exposes `toReal`, and both additions round with the same `fp32Round`.
@@ -439,7 +439,7 @@ theorem toReal_hinge_fun_ieee_eq_fp32_val {n : ℕ}
         (acc := (Numbers.zero : IEEE32Exec)) (xs := List.finRange n) hSum hx ht hc
     have hstartVal : (embed (Numbers.zero : IEEE32Exec)).val = (0 : FP32).val := by
       -- Both are real zero.
-      simp [embed, Numbers.zero, Gondlin.Floats.IEEE754.IEEE32Exec.toReal_posZero]
+      simp [embed, Numbers.zero, Gondolin.Floats.IEEE754.IEEE32Exec.toReal_posZero]
     have hstart : embed (Numbers.zero : IEEE32Exec) = (0 : FP32) := fp32_ext hstartVal
     -- Convert the RHS fold's start accumulator using `hstart`, then rewrite via `hsumFold`.
     have hfold' :
@@ -455,13 +455,13 @@ theorem toReal_hinge_fun_ieee_eq_fp32_val {n : ℕ}
   -- Finally refine the last `+ b`.
   have haddR :
       IEEE32Exec.toReal (IEEE32Exec.add (hingeSumIeee (c := c) (t := t) x) b) =
-        Gondlin.Floats.IEEE754.IEEE32Exec.fp32Round
+        Gondolin.Floats.IEEE754.IEEE32Exec.fp32Round
           (IEEE32Exec.toReal (hingeSumIeee (c := c) (t := t) x) + IEEE32Exec.toReal b) :=
-    Gondlin.Floats.IEEE754.IEEE32Exec.toReal_add_eq_fp32Round_of_isFinite
+    Gondolin.Floats.IEEE754.IEEE32Exec.toReal_add_eq_fp32Round_of_isFinite
       (x := hingeSumIeee (c := c) (t := t) x) (y := b) (by simpa [hingeFunIeee] using hOut)
   have hfp :
       (hingeFunFp32 (t := embedVec t) (c := embedVec c) (b := embed b) (x := embed x)).val =
-        Gondlin.Floats.IEEE754.IEEE32Exec.fp32Round
+        Gondolin.Floats.IEEE754.IEEE32Exec.fp32Round
           ((hingeSumFp32 (c := embedVec c) (t := embedVec t) (x := embed x)).val + (embed b).val)
             := by
     -- `hinge_fun_fp32` is `sum + b`, and FP32 `+` rounds with `fp32Round`.
@@ -804,16 +804,16 @@ theorem reluApproximationIccIEEE32Exec_threeTerm_bias
 /--
 Generic half-ulp absolute-error bound for the rounded-`ℝ` binary32 model.
 
-This is the standard floating-point local rounding statement specialized to Gondlin's FP32
+This is the standard floating-point local rounding statement specialized to Gondolin's FP32
 format parameters.  It is the bridge from abstract approximation coefficients to explicit
 quantization budgets.
 -/
 theorem fp32Round_abs_error_bound (x : ℝ) :
-    abs (Gondlin.Floats.IEEE754.IEEE32Exec.fp32Round x - x) ≤
+    abs (Gondolin.Floats.IEEE754.IEEE32Exec.fp32Round x - x) ≤
       neuralUlp binaryRadix fexp32 x TrainingPhase.forward / 2 := by
-  simpa [Gondlin.Floats.IEEE754.IEEE32Exec.fp32Round] using
+  simpa [Gondolin.Floats.IEEE754.IEEE32Exec.fp32Round] using
     (neural_error_bound_ulp
-      (β := binaryRadix) (fexp := fexp32) (rnd := Gondlin.Floats.rnd32) x)
+      (β := binaryRadix) (fexp := fexp32) (rnd := Gondolin.Floats.rnd32) x)
 
 /--
 Half-ulp error bound for dyadic values rounded into executable IEEE32Exec values.
@@ -826,7 +826,7 @@ theorem toReal_roundDyadicToIEEE32_abs_error_bound (d : IEEE32Exec.Dyadic)
     abs (IEEE32Exec.toReal (IEEE32Exec.roundDyadicToIEEE32 d) - IEEE32Exec.dyadicToReal d) ≤
       neuralUlp binaryRadix fexp32 (IEEE32Exec.dyadicToReal d) TrainingPhase.forward / 2 := by
   have hbridge :=
-    Gondlin.Floats.IEEE754.IEEE32Exec.toReal_roundDyadicToIEEE32_eq_fp32Round (d := d) hfin
+    Gondolin.Floats.IEEE754.IEEE32Exec.toReal_roundDyadicToIEEE32_eq_fp32Round (d := d) hfin
   -- Reduce to the generic rounding bound for `fp32Round`.
   simpa [hbridge] using (fp32Round_abs_error_bound (x := IEEE32Exec.dyadicToReal d))
 

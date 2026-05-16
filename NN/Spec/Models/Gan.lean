@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -11,7 +11,7 @@ public import NN.Spec.Layers.Loss
 /-!
 # Generative adversarial network (GAN) spec
 
-This module gives Gondlin a small, total GAN interface:
+This module gives Gondolin a small, total GAN interface:
 
 - `Generator` maps latent noise to synthetic observations;
 - `Discriminator` maps observations to scalar "realness" scores; and

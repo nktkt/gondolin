@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -12,7 +12,7 @@ import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 /-!
 # Vector tensors (`Spec.Vec`)
 
-Gondlin’s spec tensor type is shape-indexed:
+Gondolin’s spec tensor type is shape-indexed:
 
 `Spec.Tensor α s`
 

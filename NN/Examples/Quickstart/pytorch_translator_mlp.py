@@ -1,4 +1,4 @@
-"""Small PyTorch model used by the Gondlin translator widget quickstart.
+"""Small PyTorch model used by the Gondolin translator widget quickstart.
 
 This is ordinary Python source on disk, not a Lean string literal. Open
 `NN/Examples/Quickstart/Widgets.lean` and place the cursor on:
@@ -6,7 +6,7 @@ This is ordinary Python source on disk, not a Lean string literal. Open
     #pytorch_translate_file "NN/Examples/Quickstart/pytorch_translator_mlp.py"
 
 The widget reads this file, recognizes the common layer stack, and renders a
-Gondlin skeleton plus boundary notes. This is an editor preview, not an
+Gondolin skeleton plus boundary notes. This is an editor preview, not an
 import certificate; for checked graph imports, use the torch.export JSON bridge.
 """
 

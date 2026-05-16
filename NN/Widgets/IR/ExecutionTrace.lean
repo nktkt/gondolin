@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -20,7 +20,7 @@ public meta import ProofWidgets.Demos.Macro
 
 IR execution trace viewer (step-by-step evaluation).
 
-Gondlin’s IR semantics (`NN.IR.Semantics`) can evaluate a graph and either:
+Gondolin’s IR semantics (`NN.IR.Semantics`) can evaluate a graph and either:
 - return the full table of intermediate values, or
 - stop at the first failure (missing payload, shape mismatch, etc.).
 

@@ -1,14 +1,14 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
 
 public import NN.IR.OpContracts
 public import NN.Runtime.Context
-public import NN.Runtime.Autograd.Gondlin.Random
+public import NN.Runtime.Autograd.Gondolin.Random
 public import NN.Spec.Layers.Activation
 public import NN.Spec.Layers.Conv
 public import NN.Spec.Layers.Normalization
@@ -482,9 +482,9 @@ def evalAt
     | .randUniform seed =>
         match n.parents with
         | [] =>
-            let key := Runtime.Autograd.Gondlin.Random.keyOf seed i
+            let key := Runtime.Autograd.Gondolin.Random.keyOf seed i
             let t : Tensor α n.outShape :=
-              Runtime.Autograd.Gondlin.Random.uniform (α := α) key (s := n.outShape)
+              Runtime.Autograd.Gondolin.Random.uniform (α := α) key (s := n.outShape)
             pure (DVal.mk (α := α) n.outShape t)
         | _ => throw s!"IR eval: node {i}: rand_uniform expects 0 parents ({n.summary})"
     | .bernoulliMask seed =>
@@ -493,9 +493,9 @@ def evalAt
             let pV := getParent pId
             match pV.shape, pV.tensor with
             | .scalar, Tensor.scalar keepProb =>
-                let key := Runtime.Autograd.Gondlin.Random.keyOf seed i
+                let key := Runtime.Autograd.Gondolin.Random.keyOf seed i
                 let t : Tensor α n.outShape :=
-                  Runtime.Autograd.Gondlin.Random.mask (α := α) key keepProb (s := n.outShape)
+                  Runtime.Autograd.Gondolin.Random.mask (α := α) key keepProb (s := n.outShape)
                 pure (DVal.mk (α := α) n.outShape t)
             | _, _ =>
                 throw

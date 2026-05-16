@@ -1,13 +1,13 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
 
 public import NN.Runtime.RL.Core
-public import NN.Runtime.Autograd.Gondlin.NN
+public import NN.Runtime.Autograd.Gondolin.NN
 public import NN.Spec.Models.CommonHelpers
 
 /-!

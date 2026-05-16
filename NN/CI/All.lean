@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -18,14 +18,14 @@ public import NN.API.Runtime
 public import NN.API.Samples
 public import NN.API.Samples.Bands
 public import NN.API.TList
-public import NN.API.Gondlin.Optimizers
-public import NN.API.Gondlin.Schedulers
+public import NN.API.Gondolin.Optimizers
+public import NN.API.Gondolin.Schedulers
 public import NN.Entrypoint.Floats
 public import NN.Entrypoint.GraphSpec
 public import NN.Entrypoint.Proofs
 public import NN.Entrypoint.Runtime
 public import NN.Entrypoint.Spec
-public import NN.Entrypoint.GondlinModels
+public import NN.Entrypoint.GondolinModels
 public import NN.Examples.Zoo
 public import NN.Examples.Advanced
 public import NN.Verification.Cert.AbCrownLeafCert
@@ -198,21 +198,21 @@ public import NN.Runtime.Autograd.Compiled
 public import NN.Runtime.Autograd.Engine
 public import NN.Runtime.Autograd.Overview
 public import NN.Runtime.Autograd.Torch
-public import NN.Runtime.Autograd.Gondlin
-public import NN.Runtime.Autograd.Gondlin.Autodiff
-public import NN.Runtime.Autograd.Gondlin.Backend
-public import NN.Runtime.Autograd.Gondlin.CompileExec
-public import NN.Runtime.Autograd.Gondlin.Dual
-public import NN.Runtime.Autograd.Gondlin.Fno1d
-public import NN.Runtime.Autograd.Gondlin.Functional
-public import NN.Runtime.Autograd.Gondlin.Loss
-public import NN.Runtime.Autograd.Gondlin.Metrics
-public import NN.Runtime.Autograd.Gondlin.Module
-public import NN.Runtime.Autograd.Gondlin.NN
-public import NN.Runtime.Autograd.Gondlin.Norm
-public import NN.Runtime.Autograd.Gondlin.Optim
-public import NN.Runtime.Autograd.Gondlin.Random
-public import NN.Runtime.Autograd.Gondlin.Session
+public import NN.Runtime.Autograd.Gondolin
+public import NN.Runtime.Autograd.Gondolin.Autodiff
+public import NN.Runtime.Autograd.Gondolin.Backend
+public import NN.Runtime.Autograd.Gondolin.CompileExec
+public import NN.Runtime.Autograd.Gondolin.Dual
+public import NN.Runtime.Autograd.Gondolin.Fno1d
+public import NN.Runtime.Autograd.Gondolin.Functional
+public import NN.Runtime.Autograd.Gondolin.Loss
+public import NN.Runtime.Autograd.Gondolin.Metrics
+public import NN.Runtime.Autograd.Gondolin.Module
+public import NN.Runtime.Autograd.Gondolin.NN
+public import NN.Runtime.Autograd.Gondolin.Norm
+public import NN.Runtime.Autograd.Gondolin.Optim
+public import NN.Runtime.Autograd.Gondolin.Random
+public import NN.Runtime.Autograd.Gondolin.Session
 public import NN.Runtime.Autograd.Train
 public import NN.Runtime.Autograd.Utils
 public import NN.Runtime.Context
@@ -316,10 +316,10 @@ public import NN.Tests.Runtime.Floats.ModelsSmoke
 public import NN.Tests.Runtime.Floats.PINNDerivResidual
 public import NN.Tests.Runtime.Floats.RnnGruLstmBpttSmoke
 public import NN.Tests.Runtime.Floats.Suite
-public import NN.Tests.Runtime.Floats.GondlinIRExecEquivSmoke
-public import NN.Tests.Runtime.Floats.GondlinIndexShapeSmoke
-public import NN.Tests.Runtime.Floats.GondlinOpsSmoke
-public import NN.Tests.Runtime.Floats.GondlinSpecMlpEquivSmoke
+public import NN.Tests.Runtime.Floats.GondolinIRExecEquivSmoke
+public import NN.Tests.Runtime.Floats.GondolinIndexShapeSmoke
+public import NN.Tests.Runtime.Floats.GondolinOpsSmoke
+public import NN.Tests.Runtime.Floats.GondolinSpecMlpEquivSmoke
 public import NN.Tests.Runtime.Floats.Utils
 public import NN.Tests.Runtime.Rationals.AutogradEngineTest
 public import NN.Tests.Runtime.Rationals.MlpTest
@@ -331,11 +331,11 @@ public import NN.Verification.Cert.IBPNodeCert
 public import NN.Verification.ODE.Ast
 public import NN.Verification.ODE.Parse
 public import NN.Verification.PINN.Architecture
-public import NN.Verification.Gondlin.Compile
-public import NN.Verification.Gondlin.CompileExec
-public import NN.Verification.Gondlin.Correctness
-public import NN.Verification.Gondlin.Verified
-public import NN.Verification.Gondlin.SpecEval
+public import NN.Verification.Gondolin.Compile
+public import NN.Verification.Gondolin.CompileExec
+public import NN.Verification.Gondolin.Correctness
+public import NN.Verification.Gondolin.Verified
+public import NN.Verification.Gondolin.SpecEval
 public import NN.Verification.Util.FloatApprox
 public import NN.Verification.Util.Json
 public import NN.Entrypoint.Widgets

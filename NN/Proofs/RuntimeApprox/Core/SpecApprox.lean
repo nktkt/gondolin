@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -46,7 +46,7 @@ namespace RuntimeApprox
 
 open Spec
 open NN.MLTheory.Robustness.Spec
-open Gondlin.Floats
+open Gondolin.Floats
 
 noncomputable section
 

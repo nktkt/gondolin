@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -31,7 +31,7 @@ Run via the unified verification CLI:
 - Check bundled cert (no Julia required):
   `lake exe verify -- spline-cert`
 
-- Regenerate by calling Julia (requires `julia` on `PATH` or `GONDLIN_JULIA` set):
+- Regenerate by calling Julia (requires `julia` on `PATH` or `GONDOLIN_JULIA` set):
   `lake exe verify -- spline-cert --regen`
 
 References:

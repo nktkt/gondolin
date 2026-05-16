@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -17,7 +17,7 @@ public import NN.Examples.Models.RL
 /-!
 # Model Examples
 
-Umbrella for Gondlin's runnable model/training examples.
+Umbrella for Gondolin's runnable model/training examples.
 
 The source tree is grouped by what the example teaches:
 
@@ -29,7 +29,7 @@ The source tree is grouped by what the example teaches:
 - `Operators`: operator-learning examples such as FNO.
 - `RL`: executable RL trainers (artifact viewers live under `NN.Examples.RL`).
 
-The command-line interface remains stable through `lake exe gondlin <name>`.
+The command-line interface remains stable through `lake exe gondolin <name>`.
 -/
 
 @[expose] public section

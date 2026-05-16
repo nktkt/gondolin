@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -12,25 +12,25 @@ public import NN.Runtime.PyTorch.Export.TorchExport
 public import NN.Runtime.PyTorch.Import.TorchExport
 
 /-!
-# PyTorch `nn.Module` → Gondlin IR Smoke Test
+# PyTorch `nn.Module` → Gondolin IR Smoke Test
 
 This executable example exercises the model-agnostic PyTorch graph bridge:
 
 1. write the generated Python graph-capture adapter;
 2. write several compact supported PyTorch models (MLP/CNN/CNN head/attention/MHA blocks);
-3. capture them to `gondlin.ir.v1` JSON;
+3. capture them to `gondolin.ir.v1` JSON;
 4. parse and validate each JSON artifact back into `NN.IR.Graph`; and
 5. exercise a real `torch.save(model.state_dict())` checkpoint reload path; and
 6. run deliberate unsupported-op cases to confirm the bridge reports unsupported semantics clearly.
 
 The example is intentionally small. Its job is not to benchmark PyTorch; it is to test the trust
-boundary we care about: PyTorch may produce an artifact, but Gondlin accepts it only after parsing
+boundary we care about: PyTorch may produce an artifact, but Gondolin accepts it only after parsing
 and validating the explicit IR JSON.
 
 Run:
 
 ```bash
-lake exe gondlin pytorch_export_smoke
+lake exe gondolin pytorch_export_smoke
 ```
 -/
 
@@ -41,10 +41,10 @@ namespace NN.Examples.Interop.PyTorch.TorchExportSmoke
 open Lean
 
 def workDir : System.FilePath :=
-  ".lake/build/gondlin_pytorch_export_smoke"
+  ".lake/build/gondolin_pytorch_export_smoke"
 
 def bridgePath : System.FilePath :=
-  workDir / "export_gondlin_graph.py"
+  workDir / "export_gondolin_graph.py"
 
 def modelPath : System.FilePath :=
   workDir / "tiny_models.py"
@@ -195,7 +195,7 @@ def runSupportedCase (ctor shape : String) : IO Unit := do
       IO.println s!"  accepted: nodes={cg.graph.nodes.size}, input={cg.inputId}, output={cg.outputId}"
       IO.println "  guarantee: WellShaped via parseGraph_wellShaped"
   | .error e =>
-      throw <| IO.userError s!"Gondlin rejected supported PyTorch graph `{ctor}`:\n{e}"
+      throw <| IO.userError s!"Gondolin rejected supported PyTorch graph `{ctor}`:\n{e}"
 
 /-- Run the supported capture paths and parse the resulting graphs in Lean. -/
 def runSupported : IO Unit := do
@@ -242,7 +242,7 @@ def runLeanUnsupportedCase (ctor shape msg : String) : IO Unit := do
 /-- Run deliberate unsupported ops and require the Python bridge to reject them. -/
 def runUnsupported : IO Unit := do
   runPythonUnsupportedCase "UnsupportedSort" "1,4"
-    "rejected `torch.sort`, which is not in the current Gondlin IR import subset"
+    "rejected `torch.sort`, which is not in the current Gondolin IR import subset"
   runLeanUnsupportedCase "UnsupportedMultiHeadMHA" "1,2,4"
     "captured MultiheadAttention as a tuple-valued FX node, then rejected tensor lowering because multi-head splitting is not in the current tensor-IR lowering slice"
 
@@ -252,12 +252,12 @@ def run : IO Unit := do
   IO.FS.writeFile bridgePath (Export.PyTorch.TorchExport.generateGraphBridgeScript {})
   IO.FS.writeFile modelPath supportedModelSource
   writeCheckpoint
-  IO.println "== PyTorch nn.Module → Gondlin IR smoke =="
+  IO.println "== PyTorch nn.Module → Gondolin IR smoke =="
   runSupported
   runUnsupported
   IO.println "pytorch_export_smoke: ok"
 
-/-- Entrypoint used by `lake exe gondlin pytorch_export_smoke`. -/
+/-- Entrypoint used by `lake exe gondolin pytorch_export_smoke`. -/
 def main (_args : List String) : IO UInt32 := do
   run
   pure 0

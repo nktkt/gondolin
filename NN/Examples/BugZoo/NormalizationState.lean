@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -23,7 +23,7 @@ References:
 - Ioffe and Szegedy, "Batch Normalization: Accelerating Deep Network Training by Reducing Internal
   Covariate Shift", ICML 2015.
 
-Gondlin addresses this class in two layers:
+Gondolin addresses this class in two layers:
 - the spec formula is explicit, so epsilon placement is not hidden in backend code;
 - inference-time running statistics are explicit inputs, so train/eval state boundaries become part
   of the checked object rather than ambient mutable framework state.
@@ -46,13 +46,13 @@ to
 `(x - μ) / (sqrt(σ²) + ε)`.
 
 We keep this definition as the "bad PyTorch-like code" analogue for documentation and regression
-tests. Gondlin's actual `normalizeCore` does not use this expression.
+tests. Gondolin's actual `normalizeCore` does not use this expression.
 -/
 def wrongEpsilonOutsideSqrt (x mean variance gamma beta epsilon : ℝ) : ℝ :=
   ((x - mean) / (Real.sqrt variance + epsilon)) * gamma + beta
 
 /--
-The intended scalar BatchNorm expression. This mirrors the public Gondlin normalization spec:
+The intended scalar BatchNorm expression. This mirrors the public Gondolin normalization spec:
 epsilon is added to the variance before the square root.
 -/
 def correctEpsilonInsideSqrt (x mean variance gamma beta epsilon : ℝ) : ℝ :=
@@ -94,7 +94,7 @@ theorem normalizeCore_scalar_uses_variance_plus_epsilon
 Running statistics are part of the BatchNorm inference contract.
 
 This is the boundary that catches a common state bug: using stale or unintended moving statistics
-cannot be invisible inside Gondlin, because the exact `runningMean` and `runningVar` tensors are
+cannot be invisible inside Gondolin, because the exact `runningMean` and `runningVar` tensors are
 arguments to the spec.
 -/
 structure RunningStats (channels : Nat) where

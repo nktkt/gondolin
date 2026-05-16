@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -12,7 +12,7 @@ public import NN.Spec.Dynamics.StateSpace
 /-!
 # Diagonal S4-style state-space layer
 
-This module provides Gondlin's diagonal recurrent SSM layer in the S4 family.  It exposes the
+This module provides Gondolin's diagonal recurrent SSM layer in the S4 family.  It exposes the
 state-space recurrence used by S4-style models:
 
 `h_{t+1} = A h_t + B x_t`,

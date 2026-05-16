@@ -1,6 +1,6 @@
 # `NN/Floats/IEEEExec`: Executable IEEE-754 Float32 Semantics
 
-This directory contains Gondlin's Lean defined executable model of IEEE-754 binary32. It also holds
+This directory contains Gondolin's Lean defined executable model of IEEE-754 binary32. It also holds
 bridge theorems that connect runtime execution to proof oriented rounding models over `ℝ`.
 
 ## What lives here
@@ -30,7 +30,7 @@ The interval *API layer* that uses these results lives in `NN/Floats/Interval/`.
 
 ## Bridge To Proof Oriented Float Models
 
-Gondlin keeps two float32 views:
+Gondolin keeps two float32 views:
 
 - Executable (`IEEE32Exec`): what we can run inside Lean, with bit level semantics.
 - Proof oriented (`FP32`): round on real semantics used for numerical error envelopes.
@@ -47,7 +47,7 @@ Bridge files connect these on the finite, no overflow path:
 ## Trust boundary (important)
 
 IEEE-754 does not specify bit level results for transcendentals (`expf`, `logf`, ...), and platform
-libm implementations can differ. Gondlin therefore treats:
+libm implementations can differ. Gondolin therefore treats:
 
 - core arithmetic (add/mul/div/sqrt, specials) as the proved executable kernel, and
 - transcendentals as deterministic but not IEEE specified unless you use a separate rigorous

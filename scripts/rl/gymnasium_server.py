@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Gymnasium JSON-lines server used by Gondlin RL examples.
+"""Gymnasium JSON-lines server used by Gondolin RL examples.
 
 This starts one Gymnasium environment and then speaks a compact JSON-lines protocol over
 stdin/stdout so a Lean process can:
@@ -88,7 +88,7 @@ def _register_ale_if_needed(env_id: str) -> None:
 
 def main() -> int:
     """Run the Gymnasium environment server until stdin closes or `close` arrives."""
-    ap = ArgumentParser(description="Run one Gymnasium env behind Gondlin's JSON-lines protocol.")
+    ap = ArgumentParser(description="Run one Gymnasium env behind Gondolin's JSON-lines protocol.")
     ap.add_argument("--env-id", default="CartPole-v1", help="Gymnasium environment id")
     ap.add_argument(
         "--make-kwargs",

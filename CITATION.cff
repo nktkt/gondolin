@@ -1,12 +1,12 @@
 cff-version: 1.2.0
-message: "If you use this software, please cite the Gondlin repository and the Gondlin paper."
-title: "Gondlin"
-url: "https://github.com/nktkt/gondlin"
-repository-code: "https://github.com/nktkt/gondlin"
+message: "If you use this software, please cite the Gondolin repository and the Gondolin paper."
+title: "Gondolin"
+url: "https://github.com/nktkt/gondolin"
+repository-code: "https://github.com/nktkt/gondolin"
 license: "MIT"
 preferred-citation:
   type: article
-  title: "Gondlin: Formalizing Neural Networks in Lean"
+  title: "Gondolin: Formalizing Neural Networks in Lean"
   authors:
     - family-names: "George"
       given-names: "Robert Joseph"

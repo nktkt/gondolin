@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -12,10 +12,10 @@ public import NN.Proofs.Tensor.Basic
 /-!
 # Causal attention mask laws
 
-This file proves the exact Boolean semantics of Gondlin's causal and future masks and connects
+This file proves the exact Boolean semantics of Gondolin's causal and future masks and connects
 those mask facts to the true hard-masked attention primitive.
 
-Gondlin's main attention spec uses the proof-facing semantics corresponding to
+Gondolin's main attention spec uses the proof-facing semantics corresponding to
 `scores.masked_fill(~mask, -torch.inf)`: blocked entries receive zero softmax numerator, hence zero
 attention mass.
 

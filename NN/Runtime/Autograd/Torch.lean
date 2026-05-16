@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -25,8 +25,8 @@ The split is intentional:
 - `Torch.Utils` contains small demo/training conveniences such as deterministic initializers,
   small sample builders, and trainer loops.
 
-`Gondlin/*` builds the higher-level model/program API on top of this layer. So `Torch` is the
-low-level session/ref bridge; `Gondlin` is the nicer user-facing model stack.
+`Gondolin/*` builds the higher-level model/program API on top of this layer. So `Torch` is the
+low-level session/ref bridge; `Gondolin` is the nicer user-facing model stack.
 -/
 
 @[expose] public section

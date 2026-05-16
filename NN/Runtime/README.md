@@ -1,8 +1,8 @@
 # NN/Runtime
 
-`NN/Runtime` is Gondlin's executable layer. This is where typed tensor specs become runnable
+`NN/Runtime` is Gondolin's executable layer. This is where typed tensor specs become runnable
 programs, autograd tapes execute, optimizers update parameter lists, and optional bridges connect
-Gondlin to CUDA, PyTorch, Julia, and Gymnasium style environments.
+Gondolin to CUDA, PyTorch, Julia, and Gymnasium style environments.
 
 Most downstream code should not import modules from this directory directly. Prefer:
 
@@ -19,7 +19,7 @@ implementation modules without creating competing umbrella names.
 * `Autograd/Engine`: the small eager reverse-mode tape and runtime tape monad.
 * `Autograd/Compiled`: typed IR/DAG execution that lowers into the same tape machinery.
 * `Autograd/Torch`: lower level imperative session operations and linked compiled sessions.
-* `Autograd/Gondlin`: the user facing runtime front end used by `NN.API.Runtime`.
+* `Autograd/Gondolin`: the user facing runtime front end used by `NN.API.Runtime`.
 * `Autograd/Train`: deterministic datasets, loaders, trainers, and optimizer integration.
 * `Optim`: pure optimizer equations and scheduler utilities.
 * `PyTorch`: import/export bridges for round trip checks against Python `torch.nn.Module`s.
@@ -30,7 +30,7 @@ implementation modules without creating competing umbrella names.
 
 ## Trust Boundaries
 
-The Lean runtime specifies and executes Gondlin's own tensor and tape semantics. Native CUDA,
+The Lean runtime specifies and executes Gondolin's own tensor and tape semantics. Native CUDA,
 PyTorch, Julia, and Gymnasium integrations are external trust boundaries: their contracts, shape
 checks, and regression tests live in Lean facing modules, but foreign C, CUDA, Python, and Julia code
 is not proved correct inside Lean. Formal correctness results live in `NN.Proofs.*`; this directory

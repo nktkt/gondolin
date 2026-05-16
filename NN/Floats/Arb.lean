@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -18,7 +18,7 @@ It is useful for:
 
 - rigorous enclosures of real-valued expressions (ball arithmetic),
 - tight bounds for monotone nonlinearities,
-- cross-checking Gondlin’s native float backends (`IEEE32Exec`, `FP32`/`NF`).
+- cross-checking Gondolin’s native float backends (`IEEE32Exec`, `FP32`/`NF`).
 
 Trust boundary: the Python/Arb stack is an oracle. This module parses and packages its output; it
 does not by itself prove the Arb enclosure certificate inside Lean.

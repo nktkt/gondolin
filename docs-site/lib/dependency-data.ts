@@ -1,4 +1,4 @@
-// Auto-extracted from the gondlin repo home_page/graphs/dependency-audit.json.
+// Auto-extracted from the gondolin repo home_page/graphs/dependency-audit.json.
 // Trimmed to the layer-graph + stats subset (the 873-module / 3216-edge raw
 // lists are intentionally dropped to keep the bundle small).
 
@@ -823,11 +823,11 @@ export const dependencyData: DependencyData = {
     },
     {
       "count": 17,
-      "module": "NN.Verification.Gondlin.Compile"
+      "module": "NN.Verification.Gondolin.Compile"
     },
     {
       "count": 16,
-      "module": "NN.Runtime.Autograd.Gondlin.NN"
+      "module": "NN.Runtime.Autograd.Gondolin.NN"
     },
     {
       "count": 15,
@@ -913,7 +913,7 @@ export const dependencyData: DependencyData = {
     },
     {
       "count": 13,
-      "module": "NN.Runtime.Autograd.Gondlin"
+      "module": "NN.Runtime.Autograd.Gondolin"
     },
     {
       "count": 12,

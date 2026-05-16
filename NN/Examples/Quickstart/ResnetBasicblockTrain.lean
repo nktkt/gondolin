@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -28,7 +28,7 @@ Check this tutorial module directly:
 For the maintained command-line ResNet trainer, use `NN/Examples/Models/Vision/Resnet.lean`:
 
 - `python3 scripts/datasets/download_example_data.py --cifar10`
-- `lake exe gondlin resnet --cpu --n-total 20 --steps 1`
+- `lake exe gondolin resnet --cpu --n-total 20 --steps 1`
 
 Optional flags:
 
@@ -54,7 +54,7 @@ See `NN/Examples/Quickstart/README.md` for the shared conventions in this folder
 
 Why this tutorial exists:
 
-- it shows how Gondlin exposes residual CNN blocks, not just plain sequential stacks;
+- it shows how Gondolin exposes residual CNN blocks, not just plain sequential stacks;
 - it gives users one clean example of fixed-batch training, which matters once BatchNorm enters the
   model;
 - it stays small enough to read in one sitting while still looking recognizably "ResNet-like".
@@ -115,7 +115,7 @@ def runOnce {batch : Nat} (task : train.Task (Shape.Images batch 1 4 4) (shape![
     (quick : Bool := false) : IO Unit := do
   let samplesF := API.Samples.Bands.trainCHWFloat
   let probes := API.Samples.Bands.probesCHW (α := α) API.Runtime.ofFloat
-  let dataset : Data.Dataset (Gondlin.TList α [Shape.CHW 1 4 4, Shape.Vec 2]) :=
+  let dataset : Data.Dataset (Gondolin.TList α [Shape.CHW 1 4 4, Shape.Vec 2]) :=
     Data.labeled (α := α) (σ := Shape.CHW 1 4 4) 2 samplesF
   let loader := Data.batchLoader dataset batch (shuffle := true) (seed := seed) (dropLast := true)
 

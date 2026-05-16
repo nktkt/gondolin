@@ -16,8 +16,8 @@ used by TorchLean's unified verification CLI. Reusable verification code lives u
 lake exe verify -- all
 lake exe verify -- digits --eps=0.02 --max=360
 lake exe verify -- margin-cert
-lake exe verify -- gondlin-robustness
-lake exe verify -- gondlin-crown-ops
+lake exe verify -- gondolin-robustness
+lake exe verify -- gondolin-crown-ops
 lake exe verify -- spline-cert
 ```
 
@@ -25,9 +25,9 @@ lake exe verify -- spline-cert
 - `digits` loads the bundled sklearn digits weights and test set, compiles the linear
   classifier through the verifier bridge, and reports IBP/CROWN certified accuracy.
 - `margin-cert` checks the exported digits logit margin certificate.
-- `gondlin-robustness` builds a compact classifier, compiles it to verifier IR, and
+- `gondolin-robustness` builds a compact classifier, compiles it to verifier IR, and
   checks the margin with IBP, forward affine CROWN, and backward objective CROWN.
-- `gondlin-crown-ops` exercises nonlinear verifier ops such as softmax and MSE loss
+- `gondolin-crown-ops` exercises nonlinear verifier ops such as softmax and MSE loss
   on compact graphs.
 - `spline-cert` checks an exact rational piecewise-polynomial certificate. With
   `--regen`, Julia is used only as an untrusted producer; Lean checks the regenerated
@@ -35,7 +35,7 @@ lake exe verify -- spline-cert
 
 ## Workflow Tiers
 
-- **Native verification.** `Gondlin/*` and `Robustness/GondlinRobustness.lean` build
+- **Native verification.** `Gondolin/*` and `Robustness/GondolinRobustness.lean` build
   models, compile them to verifier IR, and run bound propagation directly without an
   external verifier exporter.
 - **Exporter-backed verification.** `LiRPA/*` and `VNNComp/*` include example wrappers.

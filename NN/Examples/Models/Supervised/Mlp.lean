@@ -1,12 +1,12 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 
 Device-agnostic real-data example:
   python3 scripts/datasets/download_example_data.py --auto-mpg
-  lake exe gondlin mlp --cpu
-  lake build -R -K cuda=true && lake exe gondlin mlp --cuda
+  lake exe gondolin mlp --cpu
+  lake build -R -K cuda=true && lake exe gondolin mlp --cuda
 -/
 
 module
@@ -27,7 +27,7 @@ Prepare the CSV once:
 
 ```bash
 python3 scripts/datasets/download_example_data.py --auto-mpg
-lake exe gondlin mlp --cpu --steps 1
+lake exe gondolin mlp --cpu --steps 1
 ```
 
 The downloader writes normalized columns `x1..x7,y`. If you want to try your own tabular regression
@@ -41,7 +41,7 @@ open NN.API
 
 namespace NN.Examples.Models.Supervised.Mlp
 
-def exeName : String := "gondlin mlp"
+def exeName : String := "gondolin mlp"
 def defaultLogJson : System.FilePath := "data/model_zoo/mlp_trainlog.json"
 
 def batch : Nat := 5
@@ -95,7 +95,7 @@ def main (args : List String) : IO UInt32 := do
         -- Build the module, optimizer, and reporting hooks in the same order as a PyTorch loop:
         -- instantiate model, attach optimizer, fit the loader, then compare before/after loss.
         let modDef := nn.mseScalarModuleDef model
-        let module ← Gondlin.Module.instantiateWithOptions (α := α) modDef cast opts
+        let module ← Gondolin.Module.instantiateWithOptions (α := α) modDef cast opts
         let opt := Common.adamOptimizer (α := α) cast (nn.paramShapes model) trainCfg.lr
         let hooks : train.Callbacks α :=
           (train.onTrainStart (α := α) do
@@ -117,7 +117,7 @@ def main (args : List String) : IO UInt32 := do
         -- The Float path mirrors the generic path and additionally records per-step loss for the
         -- website training curve.
         let modDef := nn.mseScalarModuleDef model
-        let module ← Gondlin.Module.instantiateWithOptions (α := Float) modDef id opts
+        let module ← Gondolin.Module.instantiateWithOptions (α := Float) modDef id opts
         let opt := Common.adamOptimizer (α := Float) id (nn.paramShapes model) trainCfg.lr
         let curveRef ← IO.mkRef ({} : _root_.Runtime.Training.Curve)
         let hooks : train.Callbacks Float :=

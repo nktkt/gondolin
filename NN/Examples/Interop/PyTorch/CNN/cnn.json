@@ -150,7 +150,7 @@
     ]
   },
   "meta": {
-    "format": "Gondlin.CNN2",
+    "format": "Gondolin.CNN2",
     "dtype": "float32"
   }
 }

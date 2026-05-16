@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -30,7 +30,7 @@ namespace NN.MLTheory.CROWN.Float
 
 open _root_.Spec
 open _root_.Spec.Tensor
-open Gondlin.Floats
+open Gondolin.Floats
 open NN.MLTheory.CROWN
 
 /- Rounding choice (can be made configurable per phase) -/

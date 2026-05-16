@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -15,7 +15,7 @@ public import NN.Spec.Models.Transformer
 PyTorch code generator for the small Transformer encoder round-trip fixture.
 
 This file produces a readable Python `nn.Module` implementation that follows the usual PyTorch
-structure (MHA + residual + LayerNorm + FFN). In the Gondlin repo we mostly use this as a
+structure (MHA + residual + LayerNorm + FFN). In the Gondolin repo we mostly use this as a
 round-trip companion: generate a reference implementation, train/tweak in Python if needed, and
 optionally export parameters back to Lean via JSON in the importer modules.
 -/
@@ -46,7 +46,7 @@ def generateTransformerEncoderPyTorchClass (seqLen embedDim headCount hiddenDim 
     indent4 "self.num_heads = num_heads",
     indent4 "self.head_dim = embed_dim // num_heads",
     indent4 "assert embed_dim % num_heads == 0",
-    -- Gondlin's spec uses bias-free attention projections (explicit matrices).
+    -- Gondolin's spec uses bias-free attention projections (explicit matrices).
     indent4 "self.q_proj = nn.Linear(embed_dim, embed_dim, bias=False)",
     indent4 "self.k_proj = nn.Linear(embed_dim, embed_dim, bias=False)",
     indent4 "self.v_proj = nn.Linear(embed_dim, embed_dim, bias=False)",
@@ -121,7 +121,7 @@ def generateTransformerEncoderPyTorchClass (seqLen embedDim headCount hiddenDim 
 /--
 Generate a single-layer Transformer encoder module with an embedded `state_dict` initializer.
 
-This is meant for round-trip demos where parameters are loaded from Gondlin tensors.
+This is meant for round-trip demos where parameters are loaded from Gondolin tensors.
 
 Important convention:
 `NN/Spec` transformer weights are stored in the mathematical `(in, out)` orientation because they

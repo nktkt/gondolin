@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -14,7 +14,7 @@ public import NN.Proofs.Autograd.Tape.Core.Soundness
 /-!
 # Autograd proofs: overview and map to PyTorch
 
-Gondlin’s autograd development is split into **spec**, **runtime**, and **proofs** layers.
+Gondolin’s autograd development is split into **spec**, **runtime**, and **proofs** layers.
 This folder (`NN/Proofs/Autograd/*`) is the main correctness/soundness argument for the runtime
 autograd engine, written in a way that stays close to the structure of PyTorch Autograd.
 
@@ -45,13 +45,13 @@ autograd engine, written in a way that stays close to the structure of PyTorch A
 ## How this compares to PyTorch Autograd
 
 - **Dynamic graphs**: both systems support DAG structure with sharing/fan-out.
-- **VJP-first**: PyTorch’s backward is VJP-based; Gondlin proofs are organized around the same
+- **VJP-first**: PyTorch’s backward is VJP-based; Gondolin proofs are organized around the same
   VJP/JVP
   adjointness statement.
-- **Pure semantics**: Gondlin uses pure functions and typed shapes in the spec/proof layers;
+- **Pure semantics**: Gondolin uses pure functions and typed shapes in the spec/proof layers;
   PyTorch
   uses an imperative engine with runtime shapes and a mutable `ctx` for custom Functions.
-- **Trust boundary**: Gondlin can swap “runtime semantics” (exact, rounded models, etc.) depending
+- **Trust boundary**: Gondolin can swap “runtime semantics” (exact, rounded models, etc.) depending
   on
   the backend, whereas PyTorch executes on IEEE-754 hardware by default.
 

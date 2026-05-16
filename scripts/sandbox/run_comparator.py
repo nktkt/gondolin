@@ -2,14 +2,14 @@
 """
 Run `leanprover/comparator` against a Lake project.
 
-Gondlin vendors Comparator as a Lake dependency to make Comparator runs reproducible against the
-same Lean toolchain as Gondlin.
+Gondolin vendors Comparator as a Lake dependency to make Comparator runs reproducible against the
+same Lean toolchain as Gondolin.
 
 Security note:
   Only the final `comparator` invocation is sandboxed by `landrun`. Running `lake update` or
   `lake build` inside an arbitrary `--project` executes that project's `lakefile` and dependency
   code. For untrusted projects, skip update/build (this script does so by default unless the
-  project is Gondlin itself) or run inside a dedicated container.
+  project is Gondolin itself) or run inside a dedicated container.
 
 Prerequisites (external):
   - `landrun` in PATH: https://github.com/Zouuup/landrun
@@ -57,13 +57,13 @@ def main() -> int:
         "--project",
         type=pathlib.Path,
         default=REPO_ROOT,
-        help="Lake project root to run comparator in (default: Gondlin repo root).",
+        help="Lake project root to run comparator in (default: Gondolin repo root).",
     )
     ap.add_argument(
         "--trusted-project",
         action="store_true",
         help=(
-            "Allow running `lake update`/`lake build` inside --project even when it is not Gondlin. "
+            "Allow running `lake update`/`lake build` inside --project even when it is not Gondolin. "
             "WARNING: this executes arbitrary code from that project."
         ),
     )
@@ -105,12 +105,12 @@ def main() -> int:
         _die(f"--project does not look like a Lake project (missing lakefile.*): {project}")
 
     # Safety: building arbitrary Lake projects executes code (lakefile + dependencies).
-    # Restrict update/build to Gondlin by default; require explicit opt-in for other projects.
+    # Restrict update/build to Gondolin by default; require explicit opt-in for other projects.
     if project != REPO_ROOT and not args.trusted_project:
         args.no_update = True
         args.no_build = True
         print(
-            "NOTE: --project is not Gondlin and --trusted-project was not set; "
+            "NOTE: --project is not Gondolin and --trusted-project was not set; "
             "skipping `lake update` and `lake build` for safety.",
             file=sys.stderr,
         )

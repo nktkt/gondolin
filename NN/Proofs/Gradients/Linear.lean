@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -22,7 +22,7 @@ namely:
 - `∂L/∂b = δ`.
 
 ## What these theorems are (and are not)
-- These are **spec-level** identities over Gondlin’s tensor encodings, not a full calculus layer
+- These are **spec-level** identities over Gondolin’s tensor encodings, not a full calculus layer
   about Frechét derivatives.
 - Several proofs are `rfl` after unfolding definitions, because the corresponding specs are
   implemented directly in that form.
@@ -30,7 +30,7 @@ namely:
 ## PyTorch correspondence / citations
 
 - `torch.nn.Linear` / `torch.nn.functional.linear` implement `y = x Wᵀ + b` with weight stored as
-  shape `(out_features, in_features)` (so the math “matrix” is `W` with output rows). Gondlin’s
+  shape `(out_features, in_features)` (so the math “matrix” is `W` with output rows). Gondolin’s
   `LinearSpec` follows the same convention: `weights : Tensor α (.dim outDim (.dim inDim .scalar))`.
   https://pytorch.org/docs/stable/generated/torch.nn.Linear.html
   https://pytorch.org/docs/stable/generated/torch.nn.functional.linear.html

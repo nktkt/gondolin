@@ -1,27 +1,27 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
 
-public import NN.Runtime.Autograd.Gondlin.Functional
-public import NN.Runtime.Autograd.Gondlin.Loss
-public import NN.Runtime.Autograd.Gondlin.Module
-public import NN.Runtime.Autograd.Gondlin.NN
+public import NN.Runtime.Autograd.Gondolin.Functional
+public import NN.Runtime.Autograd.Gondolin.Loss
+public import NN.Runtime.Autograd.Gondolin.Module
+public import NN.Runtime.Autograd.Gondolin.NN
 
 /-!
 # Autograd Policy-Gradient Objectives
 
 This module provides differentiable policy-gradient / actor-critic helpers expressed in terms of
-Gondlin's backend-generic `Ops` interface, so they can run under:
+Gondolin's backend-generic `Ops` interface, so they can run under:
 
 - the eager runtime backend (imperative autograd, GPU-capable), and
 - the compiled backend (graph recording / proof tooling).
 
-This file lives with the RL runtime, not the Gondlin runtime internals, because these are RL
-objectives that happen to be differentiable through Gondlin. It is the autograd companion to the
+This file lives with the RL runtime, not the Gondolin runtime internals, because these are RL
+objectives that happen to be differentiable through Gondolin. It is the autograd companion to the
 pure helpers in `NN.Runtime.RL.Algorithms.PolicyGradient`:
 
 - `NN.Runtime.RL.PolicyGradient` works with concrete spec tensors (`Tensor α s`).
@@ -55,7 +55,7 @@ namespace PolicyGradient
 namespace Autograd
 
 open Spec
-open _root_.Runtime.Autograd.Gondlin
+open _root_.Runtime.Autograd.Gondolin
 
 variable {α : Type} [Context α] [DecidableEq Shape]
 
@@ -77,10 +77,10 @@ def actionLogProbOneHotBatch
     {m : Type → Type} [Monad m] [_root_.Runtime.Autograd.Torch.Ops (m := m) (α := α)]
     {batch nActions : Nat}
     [hBatch : Fact (0 < batch)] [hAct : Fact (0 < nActions)]
-    (logits : _root_.Runtime.Autograd.Gondlin.RefTy (m := m) (α := α) (.dim batch (.dim nActions .scalar)))
-    (actionOneHot : _root_.Runtime.Autograd.Gondlin.RefTy (m := m) (α := α) (.dim batch (.dim nActions .scalar)))
+    (logits : _root_.Runtime.Autograd.Gondolin.RefTy (m := m) (α := α) (.dim batch (.dim nActions .scalar)))
+    (actionOneHot : _root_.Runtime.Autograd.Gondolin.RefTy (m := m) (α := α) (.dim batch (.dim nActions .scalar)))
     (ε : α := Numbers.epsilon) :
-    m (_root_.Runtime.Autograd.Gondlin.RefTy (m := m) (α := α) (.dim batch .scalar)) := do
+    m (_root_.Runtime.Autograd.Gondolin.RefTy (m := m) (α := α) (.dim batch .scalar)) := do
   let s : Shape := .dim batch (.dim nActions .scalar)
   let _ : Shape.WellFormed s := by infer_instance
   let _ : Shape.valid_axis_inst 1 s :=
@@ -102,9 +102,9 @@ def entropyMean
     {m : Type → Type} [Monad m] [_root_.Runtime.Autograd.Torch.Ops (m := m) (α := α)]
     {batch nActions : Nat}
     [hBatch : Fact (0 < batch)] [hAct : Fact (0 < nActions)]
-    (logits : _root_.Runtime.Autograd.Gondlin.RefTy (m := m) (α := α) (.dim batch (.dim nActions .scalar)))
+    (logits : _root_.Runtime.Autograd.Gondolin.RefTy (m := m) (α := α) (.dim batch (.dim nActions .scalar)))
     (ε : α := Numbers.epsilon) :
-    m (_root_.Runtime.Autograd.Gondlin.RefTy (m := m) (α := α) Shape.scalar) := do
+    m (_root_.Runtime.Autograd.Gondolin.RefTy (m := m) (α := α) Shape.scalar) := do
   let s : Shape := .dim batch (.dim nActions .scalar)
   let _ : Shape.WellFormed s := by infer_instance
   let _ : Shape.valid_axis_inst 1 s :=
@@ -114,7 +114,7 @@ def entropyMean
   let plogp ← mul (m := m) (α := α) (s := s) probs logp
   let sumActions ← reduceSum (m := m) (α := α) (s := s) (axis := 1) plogp
   let entropyVec ← scale (m := m) (α := α) (s := .dim batch .scalar) sumActions (-1)
-  _root_.Runtime.Autograd.Gondlin.F.mean (m := m) (α := α) (s := .dim batch .scalar) entropyVec
+  _root_.Runtime.Autograd.Gondolin.F.mean (m := m) (α := α) (s := .dim batch .scalar) entropyVec
 
 /-! ## PPO (batched) -/
 
@@ -129,13 +129,13 @@ def ppoClippedObjectiveBatch
     {m : Type → Type} [Monad m] [_root_.Runtime.Autograd.Torch.Ops (m := m) (α := α)]
     {batch nActions : Nat}
     [hBatch : Fact (0 < batch)] [hAct : Fact (0 < nActions)]
-    (newLogits : _root_.Runtime.Autograd.Gondlin.RefTy (m := m) (α := α) (.dim batch (.dim nActions .scalar)))
-    (actionOneHot : _root_.Runtime.Autograd.Gondlin.RefTy (m := m) (α := α) (.dim batch (.dim nActions .scalar)))
-    (oldLogProb : _root_.Runtime.Autograd.Gondlin.RefTy (m := m) (α := α) (.dim batch .scalar))
-    (advantage : _root_.Runtime.Autograd.Gondlin.RefTy (m := m) (α := α) (.dim batch .scalar))
+    (newLogits : _root_.Runtime.Autograd.Gondolin.RefTy (m := m) (α := α) (.dim batch (.dim nActions .scalar)))
+    (actionOneHot : _root_.Runtime.Autograd.Gondolin.RefTy (m := m) (α := α) (.dim batch (.dim nActions .scalar)))
+    (oldLogProb : _root_.Runtime.Autograd.Gondolin.RefTy (m := m) (α := α) (.dim batch .scalar))
+    (advantage : _root_.Runtime.Autograd.Gondolin.RefTy (m := m) (α := α) (.dim batch .scalar))
     (clipEps : α := (1 : α) / ((5 : Nat) : α))
     (ε : α := Numbers.epsilon) :
-    m (_root_.Runtime.Autograd.Gondlin.RefTy (m := m) (α := α) (.dim batch .scalar)) := do
+    m (_root_.Runtime.Autograd.Gondolin.RefTy (m := m) (α := α) (.dim batch .scalar)) := do
   let sVec : Shape := .dim batch .scalar
   let newLogProb ←
     actionLogProbOneHotBatch (m := m) (α := α) (batch := batch) (nActions := nActions)
@@ -158,22 +158,22 @@ def ppoLossBatch
     {m : Type → Type} [Monad m] [_root_.Runtime.Autograd.Torch.Ops (m := m) (α := α)]
     {batch nActions : Nat}
     [hBatch : Fact (0 < batch)] [hAct : Fact (0 < nActions)]
-    (newLogits : _root_.Runtime.Autograd.Gondlin.RefTy (m := m) (α := α) (.dim batch (.dim nActions .scalar)))
-    (actionOneHot : _root_.Runtime.Autograd.Gondlin.RefTy (m := m) (α := α) (.dim batch (.dim nActions .scalar)))
-    (oldLogProb : _root_.Runtime.Autograd.Gondlin.RefTy (m := m) (α := α) (.dim batch .scalar))
-    (advantage : _root_.Runtime.Autograd.Gondlin.RefTy (m := m) (α := α) (.dim batch .scalar))
-    (valuePred valueTarget : _root_.Runtime.Autograd.Gondlin.RefTy (m := m) (α := α) (.dim batch (.dim 1 .scalar)))
+    (newLogits : _root_.Runtime.Autograd.Gondolin.RefTy (m := m) (α := α) (.dim batch (.dim nActions .scalar)))
+    (actionOneHot : _root_.Runtime.Autograd.Gondolin.RefTy (m := m) (α := α) (.dim batch (.dim nActions .scalar)))
+    (oldLogProb : _root_.Runtime.Autograd.Gondolin.RefTy (m := m) (α := α) (.dim batch .scalar))
+    (advantage : _root_.Runtime.Autograd.Gondolin.RefTy (m := m) (α := α) (.dim batch .scalar))
+    (valuePred valueTarget : _root_.Runtime.Autograd.Gondolin.RefTy (m := m) (α := α) (.dim batch (.dim 1 .scalar)))
     (clipEps : α := (1 : α) / ((5 : Nat) : α))
     (valueCoef : α := (1 : α) / ((2 : Nat) : α))
     (entropyCoef : α := (1 : α) / ((100 : Nat) : α))
     (ε : α := Numbers.epsilon) :
-    m (_root_.Runtime.Autograd.Gondlin.RefTy (m := m) (α := α) Shape.scalar) := do
+    m (_root_.Runtime.Autograd.Gondolin.RefTy (m := m) (α := α) Shape.scalar) := do
   let obj ←
     ppoClippedObjectiveBatch (m := m) (α := α) (batch := batch) (nActions := nActions)
       newLogits actionOneHot oldLogProb advantage (clipEps := clipEps) (ε := ε)
-  let objMean ← _root_.Runtime.Autograd.Gondlin.F.mean (m := m) (α := α) (s := .dim batch .scalar) obj
+  let objMean ← _root_.Runtime.Autograd.Gondolin.F.mean (m := m) (α := α) (s := .dim batch .scalar) obj
   let policyLoss ← scale (m := m) (α := α) (s := Shape.scalar) objMean (-1)
-  let valueLoss ← _root_.Runtime.Autograd.Gondlin.Loss.mse (m := m) (α := α) (s := .dim batch (.dim 1 .scalar)) valuePred valueTarget
+  let valueLoss ← _root_.Runtime.Autograd.Gondolin.Loss.mse (m := m) (α := α) (s := .dim batch (.dim 1 .scalar)) valuePred valueTarget
   let valueLossScaled ← scale (m := m) (α := α) (s := Shape.scalar) valueLoss valueCoef
   let entropy ←
     entropyMean (m := m) (α := α) (batch := batch) (nActions := nActions) newLogits (ε := ε)
@@ -197,43 +197,43 @@ The parameters are `actor.params ++ critic.params`, and one optimizer step updat
 def ppoActorCriticScalarModuleDef
     {stateShape : Shape} {batch nActions : Nat}
     [hBatch : Fact (0 < batch)] [hAct : Fact (0 < nActions)]
-    (actor : _root_.Runtime.Autograd.Gondlin.NN.Seq stateShape (.dim batch (.dim nActions .scalar)))
-    (critic : _root_.Runtime.Autograd.Gondlin.NN.Seq stateShape (.dim batch (.dim 1 .scalar))) :
-    _root_.Runtime.Autograd.Gondlin.Module.ScalarModuleDef
-      (_root_.Runtime.Autograd.Gondlin.NN.Seq.paramShapes actor ++ _root_.Runtime.Autograd.Gondlin.NN.Seq.paramShapes critic)
+    (actor : _root_.Runtime.Autograd.Gondolin.NN.Seq stateShape (.dim batch (.dim nActions .scalar)))
+    (critic : _root_.Runtime.Autograd.Gondolin.NN.Seq stateShape (.dim batch (.dim 1 .scalar))) :
+    _root_.Runtime.Autograd.Gondolin.Module.ScalarModuleDef
+      (_root_.Runtime.Autograd.Gondolin.NN.Seq.paramShapes actor ++ _root_.Runtime.Autograd.Gondolin.NN.Seq.paramShapes critic)
       [stateShape, (.dim batch (.dim nActions .scalar)), (.dim batch .scalar), (.dim batch .scalar),
         (.dim batch (.dim 1 .scalar))] :=
   { initParams :=
       _root_.Runtime.Autograd.Torch.Proofs.Autograd.Algebra.TList.append (α := Float)
-        (ss₁ := _root_.Runtime.Autograd.Gondlin.NN.Seq.paramShapes actor) (ss₂ := _root_.Runtime.Autograd.Gondlin.NN.Seq.paramShapes critic)
-        (_root_.Runtime.Autograd.Gondlin.NN.Seq.initParams actor) (_root_.Runtime.Autograd.Gondlin.NN.Seq.initParams critic)
-    initRequiresGrad := _root_.Runtime.Autograd.Gondlin.NN.Seq.paramRequiresGrad actor ++ _root_.Runtime.Autograd.Gondlin.NN.Seq.paramRequiresGrad critic
+        (ss₁ := _root_.Runtime.Autograd.Gondolin.NN.Seq.paramShapes actor) (ss₂ := _root_.Runtime.Autograd.Gondolin.NN.Seq.paramShapes critic)
+        (_root_.Runtime.Autograd.Gondolin.NN.Seq.initParams actor) (_root_.Runtime.Autograd.Gondolin.NN.Seq.initParams critic)
+    initRequiresGrad := _root_.Runtime.Autograd.Gondolin.NN.Seq.paramRequiresGrad actor ++ _root_.Runtime.Autograd.Gondolin.NN.Seq.paramRequiresGrad critic
     loss := fun {α} => by
       intro _ _; exact
         (fun {m} _ _ =>
-          _root_.Runtime.Autograd.Torch.CurriedRef.curry (Ref := fun sh => _root_.Runtime.Autograd.Gondlin.RefTy (m := m) (α := α) sh)
-            (ss := (_root_.Runtime.Autograd.Gondlin.NN.Seq.paramShapes actor ++ _root_.Runtime.Autograd.Gondlin.NN.Seq.paramShapes critic) ++
+          _root_.Runtime.Autograd.Torch.CurriedRef.curry (Ref := fun sh => _root_.Runtime.Autograd.Gondolin.RefTy (m := m) (α := α) sh)
+            (ss := (_root_.Runtime.Autograd.Gondolin.NN.Seq.paramShapes actor ++ _root_.Runtime.Autograd.Gondolin.NN.Seq.paramShapes critic) ++
               [stateShape, (.dim batch (.dim nActions .scalar)), (.dim batch .scalar), (.dim batch .scalar),
                 (.dim batch (.dim 1 .scalar))])
-            (β := m (_root_.Runtime.Autograd.Gondlin.RefTy (m := m) (α := α) Shape.scalar))
+            (β := m (_root_.Runtime.Autograd.Gondolin.RefTy (m := m) (α := α) Shape.scalar))
             (fun args => do
               let (ps, xs) :=
-                _root_.Runtime.Autograd.Torch.RefList.split (Ref := fun sh => _root_.Runtime.Autograd.Gondlin.RefTy (m := m) (α := α) sh)
-                  (ss₁ := (_root_.Runtime.Autograd.Gondlin.NN.Seq.paramShapes actor ++ _root_.Runtime.Autograd.Gondlin.NN.Seq.paramShapes critic))
+                _root_.Runtime.Autograd.Torch.RefList.split (Ref := fun sh => _root_.Runtime.Autograd.Gondolin.RefTy (m := m) (α := α) sh)
+                  (ss₁ := (_root_.Runtime.Autograd.Gondolin.NN.Seq.paramShapes actor ++ _root_.Runtime.Autograd.Gondolin.NN.Seq.paramShapes critic))
                   (ss₂ := [stateShape, (.dim batch (.dim nActions .scalar)), (.dim batch .scalar),
                     (.dim batch .scalar), (.dim batch (.dim 1 .scalar))])
                   args
               let (psActor, psCritic) :=
-                _root_.Runtime.Autograd.Torch.RefList.split (Ref := fun sh => _root_.Runtime.Autograd.Gondlin.RefTy (m := m) (α := α) sh)
-                  (ss₁ := _root_.Runtime.Autograd.Gondlin.NN.Seq.paramShapes actor)
-                  (ss₂ := _root_.Runtime.Autograd.Gondlin.NN.Seq.paramShapes critic)
+                _root_.Runtime.Autograd.Torch.RefList.split (Ref := fun sh => _root_.Runtime.Autograd.Gondolin.RefTy (m := m) (α := α) sh)
+                  (ss₁ := _root_.Runtime.Autograd.Gondolin.NN.Seq.paramShapes actor)
+                  (ss₂ := _root_.Runtime.Autograd.Gondolin.NN.Seq.paramShapes critic)
                   ps
               let .cons states (.cons actionsOneHot (.cons oldLogProb (.cons advantages (.cons valueTarget .nil)))) :=
                 xs
               let logits ←
-                _root_.Runtime.Autograd.Gondlin.NN.Seq.evalParams (model := actor) (α := α) (m := m) .train psActor states
+                _root_.Runtime.Autograd.Gondolin.NN.Seq.evalParams (model := actor) (α := α) (m := m) .train psActor states
               let values ←
-                _root_.Runtime.Autograd.Gondlin.NN.Seq.evalParams (model := critic) (α := α) (m := m) .train psCritic states
+                _root_.Runtime.Autograd.Gondolin.NN.Seq.evalParams (model := critic) (α := α) (m := m) .train psCritic states
               ppoLossBatch (m := m) (α := α) (batch := batch) (nActions := nActions)
                 logits actionsOneHot oldLogProb advantages values valueTarget))
   }

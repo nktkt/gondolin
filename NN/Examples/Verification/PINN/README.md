@@ -8,7 +8,7 @@ This folder contains only small checked assets. Python producers live under `scr
   `lake exe verify -- pinn-dataset-check`.
 - `export_pinn_cert.py`: regenerates the compact certificate fixture.
 - `train_pinn_1d.py`, `train_pinn_2d.py`: train local PINN checkpoints/weight JSONs.
-- `export_pinn_weights.py`: converts a PyTorch checkpoint or fresh model to Gondlin JSON.
+- `export_pinn_weights.py`: converts a PyTorch checkpoint or fresh model to Gondolin JSON.
 - `import_burgers_shock_mat.py`: converts the external Burgers `.mat` dataset to JSON.
 
 Generated checkpoints and trained weight dumps belong in `checkpoints/`, `/tmp`, or another ignored

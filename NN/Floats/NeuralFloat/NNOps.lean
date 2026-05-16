@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -30,7 +30,7 @@ directly from the generic lemma `neural_error_bound_ulp` applied to the exact re
 @[expose] public section
 
 
-namespace Gondlin.Floats
+namespace Gondolin.Floats
 
 namespace NNOps
 
@@ -138,4 +138,4 @@ noncomputable def neuralSoftplus (rnd : ℝ → ℤ) [NeuralValidRnd rnd] (x : �
 
 end NNOps
 
-end Gondlin.Floats
+end Gondolin.Floats

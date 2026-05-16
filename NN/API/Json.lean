@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -14,7 +14,7 @@ public import Lean.Data.Json.Parser
 Small conservative JSON helpers shared by public artifact loaders and verification tools.
 
 The functions here fail fast with contextual messages. This module is intentionally small:
-not a schema library, just the common parsing substrate for Gondlin JSON artifacts.
+not a schema library, just the common parsing substrate for Gondolin JSON artifacts.
 -/
 
 @[expose] public section

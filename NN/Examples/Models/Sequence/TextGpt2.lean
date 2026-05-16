@@ -1,11 +1,11 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 
 GPU-only corpus-training example:
   lake build -R -K cuda=true
-  lake exe gondlin text_gpt2 \
+  lake exe gondolin text_gpt2 \
     --data-file data/real/text/tinystories_valid.txt \
     --allow-small-data --steps 1000 --log-every 100
 
@@ -13,7 +13,7 @@ Prepare that file with:
   python3 scripts/datasets/download_example_data.py --tinystories-valid
 
 GPT-2 BPE smoke run:
-  lake exe gondlin text_gpt2 \
+  lake exe gondolin text_gpt2 \
     --data-file data/real/text/tiny_shakespeare.txt \
     --bpe-vocab data/real/gpt2/vocab.json \
     --bpe-merges data/real/gpt2/merges.txt \
@@ -21,7 +21,7 @@ GPT-2 BPE smoke run:
     --prompt "First Citizen:" --generate 8
 
 Smoke test on a small local file:
-  lake exe gondlin text_gpt2 \
+  lake exe gondolin text_gpt2 \
     --data-file /tmp/tiny.txt --allow-small-data --steps 2 --log-every 1
 -/
 
@@ -30,14 +30,14 @@ module
 public import NN
 public import NN.API.Text.Bpe
 public import NN.API.Models.Gpt2
-public import NN.Runtime.Autograd.Gondlin.NN
+public import NN.Runtime.Autograd.Gondolin.NN
 
 /-!
 # GPU GPT-2 Corpus Trainer
 
-This file trains GPT-2-style models from text in Gondlin.
+This file trains GPT-2-style models from text in Gondolin.
 
-The model is initialized inside Gondlin and trained by the Gondlin runtime. It does not load a
+The model is initialized inside Gondolin and trained by the Gondolin runtime. It does not load a
 pretrained PyTorch/Hugging Face checkpoint:
 
 * reusable tokenization lives in `NN.API.Text` / `NN.API.Text.Bpe`,
@@ -46,7 +46,7 @@ pretrained PyTorch/Hugging Face checkpoint:
 
 The default path is byte-level because it is compact and fast.  Passing `--bpe-vocab` and
 `--bpe-merges` switches to the Lean-native GPT-2 BPE tokenizer, using the standard 50,257-way GPT-2
-token vocabulary.  That BPE path is still **training from scratch** in Gondlin; it does not load a
+token vocabulary.  That BPE path is still **training from scratch** in Gondolin; it does not load a
 pretrained checkpoint.
 -/
 
@@ -58,7 +58,7 @@ open NN.API
 namespace NN.Examples.Models.Sequence.TextGpt2
 
 /-- Runner subcommand name. This subcommand trains a GPT-2-style model from scratch. -/
-def exeName : String := "gondlin text_gpt2"
+def exeName : String := "gondolin text_gpt2"
 def defaultLogJson : System.FilePath := "data/model_zoo/text_gpt2_trainlog.json"
 
 /-- Minimum corpus size for the default public training path: 100 MiB. -/
@@ -114,7 +114,7 @@ def log (trainOpts : TrainOptions) : _root_.Runtime.Training.LogDestination :=
 
 end TrainOptions
 
-/-- Parse options owned by this example; runtime flags are parsed by `Gondlin.Module.run`. -/
+/-- Parse options owned by this example; runtime flags are parsed by `Gondolin.Module.run`. -/
 def parseTrainOptions (args : List String) : Except String (TrainOptions × List String) := do
   let (dataFile?, args) ← CLI.takePathFlagOnce args "data-file"
   let dataFile ←
@@ -265,7 +265,7 @@ def lastPredictedByteId (logits : Tensor Float ByteGpt2.τ) : Nat :=
 def generateByteGreedy
     (opts : Runtime.Autograd.Torch.Options)
     (model : nn.Sequential ByteGpt2.σ ByteGpt2.τ)
-    (m : Gondlin.Module.ScalarModule Float (Gondlin.NN.Seq.paramShapes model)
+    (m : Gondolin.Module.ScalarModule Float (Gondolin.NN.Seq.paramShapes model)
       [ByteGpt2.σ, ByteGpt2.τ])
     (prompt : String) (steps : Nat) : IO String := do
   let mut ids := text.Tokenizer.byte.encode prompt
@@ -283,7 +283,7 @@ def generateByteGreedy
 partial def interactiveByteLoop
     (opts : Runtime.Autograd.Torch.Options)
     (model : nn.Sequential ByteGpt2.σ ByteGpt2.τ)
-    (m : Gondlin.Module.ScalarModule Float (Gondlin.NN.Seq.paramShapes model)
+    (m : Gondolin.Module.ScalarModule Float (Gondolin.NN.Seq.paramShapes model)
       [ByteGpt2.σ, ByteGpt2.τ])
     (generate : Nat) : IO Unit := do
   IO.println s!"  interactive: enter a prompt; empty line or :q exits (window={ByteGpt2.seqLen} bytes, generate={generate})"
@@ -354,7 +354,7 @@ abbrev τ : Shape :=
 /--
 Compact GPT-2-style model with the real GPT-2 BPE vocabulary.
 
-This is not OpenAI GPT-2-small.  It is a Gondlin-native miniature Transformer whose input/output
+This is not OpenAI GPT-2-small.  It is a Gondolin-native miniature Transformer whose input/output
 vocabulary matches GPT-2 BPE, so tokenizer/probing behavior is realistic while the model remains
 small enough for a local smoke run.
 -/
@@ -448,7 +448,7 @@ def printBpePredictionProbe
     (tok : text.Gpt2Bpe.Tokenizer)
     (lv : LocalBpeVocab)
     (model : nn.Sequential BpeGpt2.σ BpeGpt2.τ)
-    (m : Gondlin.Module.ScalarModule Float (Gondlin.NN.Seq.paramShapes model)
+    (m : Gondolin.Module.ScalarModule Float (Gondolin.NN.Seq.paramShapes model)
       [BpeGpt2.σ, BpeGpt2.τ])
     (label prompt : String) : IO Unit := do
   let sample ← Common.orThrow exeName <| mkBpePromptSample (α := Float) tok lv prompt
@@ -470,7 +470,7 @@ def generateBpeGreedy
     (tok : text.Gpt2Bpe.Tokenizer)
     (lv : LocalBpeVocab)
     (model : nn.Sequential BpeGpt2.σ BpeGpt2.τ)
-    (m : Gondlin.Module.ScalarModule Float (Gondlin.NN.Seq.paramShapes model)
+    (m : Gondolin.Module.ScalarModule Float (Gondolin.NN.Seq.paramShapes model)
       [BpeGpt2.σ, BpeGpt2.τ])
     (prompt : String) (steps : Nat) : IO String := do
   let initOrigIds ← Common.orThrow exeName <| text.Gpt2Bpe.encode tok prompt
@@ -492,15 +492,15 @@ Train the GPT-2-style model over a text corpus using CUDA.
 
 This intentionally performs one optimizer step per corpus window, rather than materializing the
 entire dataset in memory.  The example is still compact by GPT-2 standards, but the data path is real:
-file bytes → token windows → one-hot tensors → Gondlin CUDA training.
+file bytes → token windows → one-hot tensors → Gondolin CUDA training.
 -/
 def trainCorpusFloat (opts : Runtime.Autograd.Torch.Options) (trainOpts : TrainOptions)
     (bytes : ByteArray) : IO Unit := do
   nn.withModel ByteGpt2.mkModel fun model => do
     let modDef := nn.crossEntropyOneHotScalarModuleDef model (reduction := .mean)
-    let m ← Gondlin.Module.instantiateWithOptions (α := Float) modDef id opts
+    let m ← Gondolin.Module.instantiateWithOptions (α := Float) modDef id opts
     let sample0 := mkByteCorpusSample (α := Float) bytes 0
-    let loss0 ← Gondlin.Module.forward (α := Float) m sample0
+    let loss0 ← Gondolin.Module.forward (α := Float) m sample0
     let L0 := Tensor.toScalar loss0
     IO.println s!"  mode=byte bytes={bytes.size} steps={trainOpts.steps} window={ByteGpt2.seqLen}"
     IO.println s!"  initial loss={L0}"
@@ -508,13 +508,13 @@ def trainCorpusFloat (opts : Runtime.Autograd.Torch.Options) (trainOpts : TrainO
     IO.println s!"  first prompt={text.escapeForDisplay (text.Tokenizer.byte.decode (first.take ByteGpt2.seqLen))}"
     IO.println s!"  first target={text.escapeForDisplay (text.Tokenizer.byte.decode (first.drop 1))}"
 
-    let opt := Gondlin.Optim.adam (α := Float)
+    let opt := Gondolin.Optim.adam (α := Float)
       (paramShapes := nn.paramShapes model)
       (lr := 1e-3)
       (beta1 := 0.9)
       (beta2 := 0.999)
       (epsilon := 1e-8)
-    let optH ← Gondlin.Optim.handle (α := Float) m opt
+    let optH ← Gondolin.Optim.handle (α := Float) m opt
     let trainPhase (label : String) (phaseBytes : ByteArray) (steps : Nat) : IO Unit := do
       IO.println s!"  phase={label} bytes={phaseBytes.size} steps={steps}"
       for step in [0:steps] do
@@ -523,7 +523,7 @@ def trainCorpusFloat (opts : Runtime.Autograd.Torch.Options) (trainOpts : TrainO
         let done := step + 1
         if trainOpts.logEvery != 0 && done % trainOpts.logEvery == 0 then
           let probe := mkByteCorpusSample (α := Float) phaseBytes done
-          let loss ← Gondlin.Module.forward (α := Float) m probe
+          let loss ← Gondolin.Module.forward (α := Float) m probe
           IO.println s!"  {label} step={done} loss={Tensor.toScalar loss}"
 
     trainPhase "pretrain" bytes trainOpts.steps
@@ -534,7 +534,7 @@ def trainCorpusFloat (opts : Runtime.Autograd.Torch.Options) (trainOpts : TrainO
           text.Corpus.readByteFile exeName path trainOpts.allowSmallData minTrainingBytes ByteGpt2.seqLen
         trainPhase "finetune" ftBytes trainOpts.finetuneSteps
 
-    let loss1 ← Gondlin.Module.forward (α := Float) m sample0
+    let loss1 ← Gondolin.Module.forward (α := Float) m sample0
     let L1 := Tensor.toScalar loss1
     let generated ← generateByteGreedy opts model m trainOpts.prompt trainOpts.generate
     IO.println s!"  greedy generated={text.escapeForDisplay generated}"
@@ -603,32 +603,32 @@ def trainBpeCorpusFloat (opts : Runtime.Autograd.Torch.Options) (trainOpts : Tra
     (tok : text.Gpt2Bpe.Tokenizer) (lv : LocalBpeVocab) (tokens : Array Nat) : IO Unit := do
   nn.withModel BpeGpt2.mkModel fun model => do
     let modDef := nn.crossEntropyOneHotScalarModuleDef model (reduction := .mean)
-    let m ← Gondlin.Module.instantiateWithOptions (α := Float) modDef id opts
+    let m ← Gondolin.Module.instantiateWithOptions (α := Float) modDef id opts
     let sample0 := mkBpeCorpusSample (α := Float) tokens 0
-    let loss0 ← Gondlin.Module.forward (α := Float) m sample0
+    let loss0 ← Gondolin.Module.forward (α := Float) m sample0
     let L0 := Tensor.toScalar loss0
     IO.println s!"  mode=bpe local-vocab={lv.size}/{BpeGpt2.vocab} tokens={tokens.size} steps={trainOpts.steps}"
     IO.println s!"  initial loss={L0}"
     printBpeCorpusPreview tok lv tokens
     printBpePredictionProbe opts tok lv model m "before" trainOpts.prompt
 
-    let opt := Gondlin.Optim.adam (α := Float)
+    let opt := Gondolin.Optim.adam (α := Float)
       (paramShapes := nn.paramShapes model)
       (lr := 1e-3)
       (beta1 := 0.9)
       (beta2 := 0.999)
       (epsilon := 1e-8)
-    let optH ← Gondlin.Optim.handle (α := Float) m opt
+    let optH ← Gondolin.Optim.handle (α := Float) m opt
     for step in [0:trainOpts.steps] do
       let sample := mkBpeCorpusSample (α := Float) tokens step
       optH.step sample
       let done := step + 1
       if trainOpts.logEvery != 0 && done % trainOpts.logEvery == 0 then
         let probe := mkBpeCorpusSample (α := Float) tokens done
-        let loss ← Gondlin.Module.forward (α := Float) m probe
+        let loss ← Gondolin.Module.forward (α := Float) m probe
         IO.println s!"  step={done} loss={Tensor.toScalar loss}"
 
-    let loss1 ← Gondlin.Module.forward (α := Float) m sample0
+    let loss1 ← Gondolin.Module.forward (α := Float) m sample0
     let L1 := Tensor.toScalar loss1
     printBpePredictionProbe opts tok lv model m "after " trainOpts.prompt
     let generated ← generateBpeGreedy opts tok lv model m trainOpts.prompt trainOpts.generate
@@ -644,7 +644,7 @@ def main (args : List String) : IO UInt32 := do
       IO.eprintln s!"{exeName}: {e}"
       pure 1
   | .ok args =>
-      Gondlin.Module.run exeName args
+      Gondolin.Module.run exeName args
         (.float (fun opts rest => do
           if !opts.useGpu then
             throw <| IO.userError s!"{exeName}: CUDA runtime was not selected"

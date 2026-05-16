@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -271,15 +271,15 @@ transcendentals), and then the generic checker theorem applies.
 -/
 
 theorem crown_checker_encloses_semantics_ieee32exec
-    (g : Graph) (_ps : ParamStore Gondlin.Floats.IEEE754.IEEE32Exec)
-    (step : Array (Option (FlatAffineBounds Gondlin.Floats.IEEE754.IEEE32Exec)) → Nat →
-        Option (FlatAffineBounds Gondlin.Floats.IEEE754.IEEE32Exec))
-    (cert : Array (Option (FlatAffineBounds Gondlin.Floats.IEEE754.IEEE32Exec)))
-    (_inputs : Std.HashMap Nat (FlatVec Gondlin.Floats.IEEE754.IEEE32Exec))
-    (vals : Array (Option (FlatVec Gondlin.Floats.IEEE754.IEEE32Exec)))
+    (g : Graph) (_ps : ParamStore Gondolin.Floats.IEEE754.IEEE32Exec)
+    (step : Array (Option (FlatAffineBounds Gondolin.Floats.IEEE754.IEEE32Exec)) → Nat →
+        Option (FlatAffineBounds Gondolin.Floats.IEEE754.IEEE32Exec))
+    (cert : Array (Option (FlatAffineBounds Gondolin.Floats.IEEE754.IEEE32Exec)))
+    (_inputs : Std.HashMap Nat (FlatVec Gondolin.Floats.IEEE754.IEEE32Exec))
+    (vals : Array (Option (FlatVec Gondolin.Floats.IEEE754.IEEE32Exec)))
     (ctx : AffineCtx)
-    (x : Tensor Gondlin.Floats.IEEE754.IEEE32Exec (.dim ctx.inputDim .scalar))
-    [Preorder Gondlin.Floats.IEEE754.IEEE32Exec]
+    (x : Tensor Gondolin.Floats.IEEE754.IEEE32Exec (.dim ctx.inputDim .scalar))
+    [Preorder Gondolin.Floats.IEEE754.IEEE32Exec]
     (htopo : TopoSorted g)
     (_hsem : vals.size = g.nodes.size ∧
       ∀ id : Nat, id < g.nodes.size →
@@ -293,16 +293,16 @@ theorem crown_checker_encloses_semantics_ieee32exec
         (∀ p : Nat, p ∈ (g.nodes[id]!).parents →
           match cert[p]!, vals[p]! with
           | some bp, some vp =>
-              EnclosesAtInput (α := Gondlin.Floats.IEEE754.IEEE32Exec) ctx x bp vp
+              EnclosesAtInput (α := Gondolin.Floats.IEEE754.IEEE32Exec) ctx x bp vp
           | _, _ => True) →
         match step cert id, vals[id]! with
         | some b, some v =>
-            EnclosesAtInput (α := Gondlin.Floats.IEEE754.IEEE32Exec) ctx x b v
+            EnclosesAtInput (α := Gondolin.Floats.IEEE754.IEEE32Exec) ctx x b v
         | _, _ => True) :
     ∀ id : Nat, id < g.nodes.size →
       match cert[id]!, vals[id]! with
       | some b, some v =>
-          EnclosesAtInput (α := Gondlin.Floats.IEEE754.IEEE32Exec) ctx x b v
+          EnclosesAtInput (α := Gondolin.Floats.IEEE754.IEEE32Exec) ctx x b v
       | _, _ => True := by
   -- This is the same proof as the real-valued theorem, with `SemLocalOK` abstracted away.
   classical
@@ -312,7 +312,7 @@ theorem crown_checker_encloses_semantics_ieee32exec
         k < g.nodes.size →
           match cert[k]!, vals[k]! with
           | some b, some v =>
-              EnclosesAtInput (α := Gondlin.Floats.IEEE754.IEEE32Exec) ctx x b v
+              EnclosesAtInput (α := Gondolin.Floats.IEEE754.IEEE32Exec) ctx x b v
           | _, _ => True) ?_ hid
   intro k ih hk
   cases hcert with
@@ -322,7 +322,7 @@ theorem crown_checker_encloses_semantics_ieee32exec
         (∀ p : Nat, p ∈ (g.nodes[k]!).parents →
           match cert[p]!, vals[p]! with
           | some bp, some vp =>
-              EnclosesAtInput (α := Gondlin.Floats.IEEE754.IEEE32Exec) ctx x bp vp
+              EnclosesAtInput (α := Gondolin.Floats.IEEE754.IEEE32Exec) ctx x bp vp
           | _, _ => True) := by
       intro p hp
       -- In the IEEE specialization, we still rely on `TopoSorted` to ensure parent ids are smaller.

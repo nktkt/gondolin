@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -15,8 +15,8 @@ This file contains the smallest GraphSpec architecture example:
 
 `Linear(in,hid) → ReLU → Linear(hid,out)`.
 
-The goal is not to duplicate Gondlin's executable MLP helper. That constructor lives under
-`NN.GraphSpec.Models.Gondlin.Mlp` and is re-exported through `NN.Entrypoint.GondlinModels`.
+The goal is not to duplicate Gondolin's executable MLP helper. That constructor lives under
+`NN.GraphSpec.Models.Gondolin.Mlp` and is re-exported through `NN.Entrypoint.GondolinModels`.
 Here the point is narrower and proof-oriented:
 
 - show the sequential `Graph` DSL in its simplest useful form;
@@ -92,7 +92,7 @@ def g (inDim hidDim outDim : Nat) :
 Then:
 
 - `Interp.spec (g …)` is a pure function `Params → Tensor → Tensor`;
-- `Compile.torchProgram (g …)` is an executable Gondlin `Program` with arguments
+- `Compile.torchProgram (g …)` is an executable Gondolin `Program` with arguments
   `params ++ [input]`.
 -/
 

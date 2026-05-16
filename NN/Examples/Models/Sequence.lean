@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -24,23 +24,23 @@ Runnable sequence-model examples, organized by what each file is meant to teach:
 
 The “main” entrypoints most people should look at first:
 
-- `CharGpt` (`gondlin chargpt`): Karpathy-style char-level GPT on a single text file (Tiny Shakespeare).
+- `CharGpt` (`gondolin chargpt`): Karpathy-style char-level GPT on a single text file (Tiny Shakespeare).
   This is the simplest end-to-end path: read text, tokenize by characters, train, sample.
-- `Gpt2` (`gondlin gpt2`): byte-level GPT-2-style causal Transformer with a small, local-friendly config.
+- `Gpt2` (`gondolin gpt2`): byte-level GPT-2-style causal Transformer with a small, local-friendly config.
   Use this when you want to see masked self-attention + LayerNorm + FFN wiring, and a save/reload path
   via `Gpt2Saved`.
-- `TextGpt2` (`gondlin text_gpt2`): CUDA-only corpus trainer (byte-level by default, optional GPT-2 BPE).
+- `TextGpt2` (`gondolin text_gpt2`): CUDA-only corpus trainer (byte-level by default, optional GPT-2 BPE).
   This is the “serious” trainer interface for bigger text runs.
-- `Mamba` (`gondlin mamba`): compact text walkthrough for the Mamba-style model.
+- `Mamba` (`gondolin mamba`): compact text walkthrough for the Mamba-style model.
 
 Other sequence examples:
 
 - `Rnn` and `Lstm`: compact real-text recurrent smoke tests over the shared `SimpleText` runner.
 - `Transformer`: one-block encoder example for attention/norm/FFN wiring.
-- `GptAdder`: synthetic algorithmic curriculum (addition), runnable as `gondlin gpt_adder`.
+- `GptAdder`: synthetic algorithmic curriculum (addition), runnable as `gondolin gpt_adder`.
 
 For supervised time-series forecasting with an LSTM, see
-`NN.Examples.Models.Supervised.LstmRegression` (`gondlin lstm_regression`).
+`NN.Examples.Models.Supervised.LstmRegression` (`gondolin lstm_regression`).
 -/
 
 @[expose] public section

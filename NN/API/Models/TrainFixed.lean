@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -24,7 +24,7 @@ This module keeps that loop in one place so examples stay short and consistent.
 What this is (and is not):
 - it is a tutorial helper for fixed-sample runs, not a full dataset trainer;
 - it is model-agnostic: callers supply the loss wrapper and optimizer constructor;
-- it is backend-agnostic: callers can use it on CPU or CUDA via `Gondlin.Options`.
+- it is backend-agnostic: callers can use it on CPU or CUDA via `Gondolin.Options`.
 -/
 
 @[expose] public section
@@ -51,24 +51,24 @@ def steps
     (mkModel : nn.M (nn.Sequential σ τ))
     (mkModuleDef :
       (model : nn.Sequential σ τ) →
-        Gondlin.Module.ScalarModuleDef (nn.paramShapes model) [σ, τ])
+        Gondolin.Module.ScalarModuleDef (nn.paramShapes model) [σ, τ])
     (mkOptim :
-      (cast : Float → α) → (paramShapes : List Shape) → Gondlin.Optim.Optimizer α paramShapes)
+      (cast : Float → α) → (paramShapes : List Shape) → Gondolin.Optim.Optimizer α paramShapes)
     (cast : Float → α)
-    (opts : Gondlin.Options)
+    (opts : Gondolin.Options)
     (sample : sample.Supervised α σ τ)
     (steps : Nat) :
     IO (LossPair α) := do
   nn.withModel mkModel fun model => do
     let modDef := mkModuleDef model
-    let m ← Gondlin.Module.instantiateWithOptions (α := α) modDef cast opts
-    let loss0 ← Gondlin.Module.forward (α := α) m sample
+    let m ← Gondolin.Module.instantiateWithOptions (α := α) modDef cast opts
+    let loss0 ← Gondolin.Module.forward (α := α) m sample
     let L0 := _root_.Spec.Tensor.toScalar loss0
     let opt := mkOptim cast (nn.paramShapes model)
-    let optH ← Gondlin.Optim.handle (α := α) m opt
+    let optH ← Gondolin.Optim.handle (α := α) m opt
     for _ in [0:steps] do
       optH.step sample
-    let loss1 ← Gondlin.Module.forward (α := α) m sample
+    let loss1 ← Gondolin.Module.forward (α := α) m sample
     let L1 := _root_.Spec.Tensor.toScalar loss1
     pure { loss0 := L0, loss1 := L1 }
 
@@ -78,26 +78,26 @@ def curveFloat
     (mkModel : nn.M (nn.Sequential σ τ))
     (mkModuleDef :
       (model : nn.Sequential σ τ) →
-        Gondlin.Module.ScalarModuleDef (nn.paramShapes model) [σ, τ])
+        Gondolin.Module.ScalarModuleDef (nn.paramShapes model) [σ, τ])
     (mkOptim :
-      (paramShapes : List Shape) → Gondlin.Optim.Optimizer Float paramShapes)
-    (opts : Gondlin.Options)
+      (paramShapes : List Shape) → Gondolin.Optim.Optimizer Float paramShapes)
+    (opts : Gondolin.Options)
     (sample : sample.Supervised Float σ τ)
     (steps : Nat) :
     IO _root_.Runtime.Training.Curve := do
   nn.withModel mkModel fun model => do
     let modDef := mkModuleDef model
-    let m ← Gondlin.Module.instantiateWithOptions (α := Float) modDef id opts
-    let loss0 ← Gondlin.Module.forward (α := Float) m sample
+    let m ← Gondolin.Module.instantiateWithOptions (α := Float) modDef id opts
+    let loss0 ← Gondolin.Module.forward (α := Float) m sample
     let L0 := _root_.Spec.Tensor.toScalar loss0
     let opt := mkOptim (nn.paramShapes model)
-    let optH ← Gondlin.Optim.handle (α := Float) m opt
+    let optH ← Gondolin.Optim.handle (α := Float) m opt
     let mut curve : _root_.Runtime.Training.Curve := {}
     curve := curve.push 0 L0
     let mut last := L0
     for step in [0:steps] do
       optH.step sample
-      let loss ← Gondlin.Module.forward (α := Float) m sample
+      let loss ← Gondolin.Module.forward (α := Float) m sample
       last := _root_.Spec.Tensor.toScalar loss
       curve := curve.push (step + 1) last
     pure curve

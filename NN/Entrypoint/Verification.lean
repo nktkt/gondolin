@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -11,21 +11,21 @@ public import NN.Verification.ODE
 public import NN.Verification.PINN
 public import NN.Verification.Robustness
 public import NN.Verification.Splines
-public import NN.Verification.Gondlin.Compile
-public import NN.Verification.Gondlin.CompileExec
-public import NN.Verification.Gondlin.Verified
+public import NN.Verification.Gondolin.Compile
+public import NN.Verification.Gondolin.CompileExec
+public import NN.Verification.Gondolin.Verified
 public import NN.Verification.Util.Json
 public import NN.MLTheory.CROWN.Proofs.Overview
 
 /-!
 # Verification entrypoint
 
-This is the public umbrella import for Gondlin’s verification infrastructure: JSON utilities,
+This is the public umbrella import for Gondolin’s verification infrastructure: JSON utilities,
 certificate formats, ODE/PINN-style checkers, proof-backed certificate soundness, and the verified
-Gondlin-to-IR forward compiler bridge.
+Gondolin-to-IR forward compiler bridge.
 
 We keep one verification entrypoint on purpose. The verified compiler bridge is imported here
-through the naming-friendly `NN.Verification.Gondlin.Verified` API, so users do not have to choose
+through the naming-friendly `NN.Verification.Gondolin.Verified` API, so users do not have to choose
 between separate “proved” and “verified” umbrellas.
 
 Runnable CLIs stay out of this umbrella. If you want a command-line tool, import

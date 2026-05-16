@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -13,7 +13,7 @@ public import NN.Runtime.RL.Artifacts.DefaultPaths
 # PPO Atari Pong RAM Artifacts
 
 This file visualizes the training curve produced by
-`NN/Examples/Models/RL/PPOPongRam.lean` (`lake exe gondlin ppo_pong_ram`).
+`NN/Examples/Models/RL/PPOPongRam.lean` (`lake exe gondolin ppo_pong_ram`).
 
 Pong RAM intentionally uses the same Gymnasium boundary as CartPole, but with ALE registration and
 a higher-dimensional observation. It is an integration/regression example, not a tuned Atari agent.
@@ -23,8 +23,8 @@ Workflow:
 
 ```bash
 python3 -m pip install --user 'gymnasium>=1.0' ale-py
-lake exe gondlin ppo_pong_ram
-lake build -R -K cuda=true && lake exe gondlin ppo_pong_ram --cuda
+lake exe gondolin ppo_pong_ram
+lake build -R -K cuda=true && lake exe gondolin ppo_pong_ram --cuda
 ```
 
 2. Put the cursor on the command below in an editor. The infoview will render the saved log.
@@ -39,7 +39,7 @@ References:
 - ALE docs: https://ale.farama.org/
 -/
 
-/-- Default training-log path written by `gondlin ppo_pong_ram` (override with `--log`). -/
+/-- Default training-log path written by `gondolin ppo_pong_ram` (override with `--log`). -/
 def trainLogPath : System.FilePath :=
   Runtime.RL.Artifacts.DefaultPaths.ppoPongRamTrainLog
 

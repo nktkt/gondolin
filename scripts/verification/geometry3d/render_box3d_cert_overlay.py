@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render visual overlays for Gondlin 3D camera-box certificates.
+"""Render visual overlays for Gondolin 3D camera-box certificates.
 
 This script is a human-facing companion to the Lean checker, not part of the checker itself:
 

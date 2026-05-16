@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -48,9 +48,9 @@ References:
 @[expose] public section
 
 
-namespace Gondlin.Floats.IEEE754
+namespace Gondolin.Floats.IEEE754
 
-open Gondlin.Floats
+open Gondolin.Floats
 
 namespace IEEE32Exec
 
@@ -104,13 +104,13 @@ lemma pow2_mul (a b : Nat) : pow2 a * pow2 b = pow2 (a + b) :=
 /-- Interpret `bpow` at a natural exponent in terms of `pow2`. -/
 lemma bpow_ofNat (n : Nat) : bpow (Int.ofNat n) = (pow2 n : ℝ) := by
   -- `binary_radix.to_real = 2`, so `neural_bpow` is `2^n`.
-  simp [bpow, Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal, pow2_eq_two_pow,
+  simp [bpow, Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal, pow2_eq_two_pow,
     Nat.cast_pow]
 
 /-- Interpret `bpow` at a negative successor exponent as an inverse power of two. -/
 lemma bpow_negSucc (n : Nat) : bpow (Int.negSucc n) = ((pow2 (n + 1) : Nat) : ℝ)⁻¹ := by
   -- `2^(-(n+1)) = (2^(n+1))⁻¹`.
-  simp [bpow, Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal, pow2_eq_two_pow]
+  simp [bpow, Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal, pow2_eq_two_pow]
 
 /-- Real semantics of a nonnegative dyadic `(mant, exp)` (sign bit false). -/
 lemma dyadicToReal_pos (mant : Nat) (exp : Int) :
@@ -346,7 +346,7 @@ theorem toReal_roundDyadicPosDown_le (mant : Nat) (exp : Int) (hm : mant ≠ 0) 
         -- rewrite `bpow` to `zpow`.
         have : (2 : ℝ) ^ (128 : Int) ≤ (2 : ℝ) ^ k := by
           exact zpow_le_zpow_right₀ hbase hk128
-        simpa [bpow, Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal] using this
+        simpa [bpow, Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal] using this
       have hkdef : k = Int.ofNat log2m + exp := hk
       -- Combine.
       have : bpow (128 : Int) ≤ bpow (Int.ofNat log2m + exp) := by
@@ -887,7 +887,7 @@ theorem toEReal_roundDyadicPosUp_ge (mant : Nat) (exp : Int) (hm : mant ≠ 0) :
         have hbase : (1 : ℝ) ≤ (2 : ℝ) := by norm_num
         have : (2 : ℝ) ^ (k + 1) ≤ (2 : ℝ) ^ (-149 : Int) :=
           zpow_le_zpow_right₀ hbase hk1
-        simpa [bpow, Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal] using this
+        simpa [bpow, Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal] using this
       have hle_real : (mant : ℝ) * bpow exp ≤ bpow (-149 : Int) :=
         hmul_le_k1.trans hbpow_le
       -- Convert to `EReal` and rewrite the output.
@@ -1070,7 +1070,7 @@ theorem toEReal_roundDyadicPosUp_ge (mant : Nat) (exp : Int) (hm : mant ≠ 0) :
                 have hbase : (1 : ℝ) ≤ (2 : ℝ) := by norm_num
                 have : (2 : ℝ) ^ (k + 1) ≤ (2 : ℝ) ^ (-126 : Int) :=
                   zpow_le_zpow_right₀ hbase hk1
-                simpa [bpow, Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal] using
+                simpa [bpow, Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal] using
                   this
               have hle126 : (mant : ℝ) * bpow exp ≤ bpow (-126 : Int) :=
                 (le_of_lt hmul_lt_k1).trans hbpow_le
@@ -2614,4 +2614,4 @@ end
 
 end IEEE32Exec
 
-end Gondlin.Floats.IEEE754
+end Gondolin.Floats.IEEE754

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -11,7 +11,7 @@ public import NN.Spec.Core.Utils
 /-!
 # Runtime context
 
-This module defines the runtime environment for executing Gondlin computations.
+This module defines the runtime environment for executing Gondolin computations.
 
 The main challenge is that tensors are dependently typed by their `Shape`, but at runtime we want
 to store a heterogeneous map from names to values. We solve this by storing an existential wrapper

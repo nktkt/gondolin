@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -19,8 +19,8 @@ Tour of the public autograd APIs beyond `.backward()`:
 - `API.nn.functional.detach` for stop-gradient behavior.
 
 Run:
-  `lake exe gondlin quickstart_autograd --dtype float --backend eager`
-  `lake exe gondlin quickstart_autograd --dtype float32 --backend compiled`
+  `lake exe gondolin quickstart_autograd --dtype float --backend eager`
+  `lake exe gondolin quickstart_autograd --dtype float32 --backend compiled`
 -/
 
 @[expose] public section
@@ -82,7 +82,7 @@ def runOnce {α : Type} [Semantics.Scalar α] [DecidableEq Spec.Shape] [ToString
   let x : Spec.Tensor α (Shape.Vec 2) := tensorF! cast [2] [0.5, -1.2]
   let y : Spec.Tensor α (Shape.Vec 3) := tensorF! cast [3] [0.7, 0.1, -0.5]
 
-  -- `autograd.model.linearParams` builds parameters for the *bare* `Gondlin.Layers.linear` layer.
+  -- `autograd.model.linearParams` builds parameters for the *bare* `Gondolin.Layers.linear` layer.
   -- Here `model` is the public `API.nn.linear` sequential wrapper, so we construct its parameter
   -- record directly as the expected `TList` shape.
   let params : autograd.model.Params model α := by
@@ -208,7 +208,7 @@ def runOnce {α : Type} [Semantics.Scalar α] [DecidableEq Spec.Shape] [ToString
 
 def main (args : List String) : IO Unit := do
   let args := API.CLI.dropDashDash args
-  _root_.NN.API.Gondlin.Module.withRuntime args (fun {α} _ _ _ _ cast _opts rest => do
+  _root_.NN.API.Gondolin.Module.withRuntime args (fun {α} _ _ _ _ cast _opts rest => do
     API.Common.orThrow "quickstart_autograd" <| API.CLI.requireNoArgs rest
     runOnce (α := α) cast)
 

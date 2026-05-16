@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -27,7 +27,7 @@ public import NN.Floats.IEEEExec.TrigBounds
 /-!
 # `NN.Floats.IEEEExec`
 
-This is Gondlin’s execution-aware float32 layer. We use it when we want runs inside Lean to have a
+This is Gondolin’s execution-aware float32 layer. We use it when we want runs inside Lean to have a
 precise, platform-independent meaning (including NaN/Inf and signed-zero corner cases):
 
 - `IEEE32Exec`: an executable, bit-level IEEE-754 binary32 kernel,

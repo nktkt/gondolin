@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -19,7 +19,7 @@ This module exposes the "approach (a)" workflow:
 3) Run `Tape.backwardDenseFrom` / `Tape.backwardDenseAll`.
 
 Notes / trust boundaries:
-- If you instantiate `α := Float` or `α := Gondlin.Floats.IEEE754.IEEE32Exec`, you get an
+- If you instantiate `α := Float` or `α := Gondolin.Floats.IEEE754.IEEE32Exec`, you get an
   executable engine,
   but connecting those runs to real hardware semantics is treated as a trusted interface.
 - The proof-carrying graph (`Proofs.Autograd.Algebra.Graph`) remains available for backends

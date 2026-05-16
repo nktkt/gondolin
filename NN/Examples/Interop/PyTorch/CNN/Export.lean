@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -14,7 +14,7 @@ public import NN.Spec.Models.Cnn
 
 PyTorch exporter for the small 2-block ConvNet round-trip fixture.
 
-This exporter is meant to mirror the "classic demo CNN" shape that shows up in many Gondlin
+This exporter is meant to mirror the "classic demo CNN" shape that shows up in many Gondolin
 examples: two `Conv2d + ReLU + MaxPool2d` blocks, then `Flatten`, then a single `Linear` head.
 
 Instead of taking a long positional list of naturals, we use small configuration records so call

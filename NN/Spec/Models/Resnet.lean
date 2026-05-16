@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -40,7 +40,7 @@ Torchvision compatibility note:
 
 - In standard ResNet (as implemented in `torchvision.models.resnet*`), whenever input/output
   channels differ, the shortcut path is a learnable **1×1 projection** (typically with BatchNorm).
-- In Gondlin, that corresponds to enabling `cfg.useProjectionShortcuts = true` when constructing a
+- In Gondolin, that corresponds to enabling `cfg.useProjectionShortcuts = true` when constructing a
   `ResNetSpec` via helpers like `ResNetSpec.zeroInit`, or otherwise supplying `shortcut_conv := some`
   in the block parameters.
 
@@ -64,7 +64,7 @@ PyTorch mental model:
 - `torchvision.models.resnet.ResNet` fixes a few "stem" choices (7×7 conv, stride 2, etc.) and
   varies the per-stage widths and block counts based on a small config.
 
-Gondlin’s spec ResNet is intentionally smaller in scope:
+Gondolin’s spec ResNet is intentionally smaller in scope:
 - blocks keep `stride=1` so spatial resolution stays constant inside `layer1..layer4`,
 - we still expose the stem / stage widths / stage block counts as explicit configuration so the
   model definition does not hide numeric architecture choices in its types.

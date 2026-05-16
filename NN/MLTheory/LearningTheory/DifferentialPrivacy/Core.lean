@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -12,7 +12,7 @@ public import Mathlib.MeasureTheory.Measure.ProbabilityMeasure
 /-!
 # Differential privacy (learning theory)
 
-This file introduces a small, reusable vocabulary for *differential privacy* (DP) in Gondlin’s
+This file introduces a small, reusable vocabulary for *differential privacy* (DP) in Gondolin’s
 learning-theory layer.
 
 We isolate the core event-wise definition of differential privacy and the closure properties that

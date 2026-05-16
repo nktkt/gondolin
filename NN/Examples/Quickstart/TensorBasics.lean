@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -11,7 +11,7 @@ public import NN
 /-!
 # Quickstart: Tensor Basics
 
-This is the first stop in the Gondlin examples. It does **not** use sessions, CUDA, or autograd.
+This is the first stop in the Gondolin examples. It does **not** use sessions, CUDA, or autograd.
 It is just about building typed tensors in Lean with a convenient constructor layer.
 
 What it demonstrates:
@@ -21,7 +21,7 @@ What it demonstrates:
 - why we generally do not try to `print` tensors over `ℝ` (noncomputable / too large).
 
 Run:
-  `lake exe gondlin quickstart_tensors`
+  `lake exe gondolin quickstart_tensors`
 -/
 
 @[expose] public section

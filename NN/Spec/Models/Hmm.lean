@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -52,7 +52,7 @@ PyTorch analogy:
   then summing over previous states (often implemented in log-space in practice).
 
 In practice, PyTorch users often reach for a dedicated HMM library (e.g. `hmmlearn`) or implement
-HMMs in log-space with `logsumexp`; Gondlin keeps the spec in a simple, explicit form that is
+HMMs in log-space with `logsumexp`; Gondolin keeps the spec in a simple, explicit form that is
 good for reading and proofs.
 -/
 

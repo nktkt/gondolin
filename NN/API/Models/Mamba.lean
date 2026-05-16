@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -14,7 +14,7 @@ public import NN.Spec.Models.Mamba
 
 Reusable configuration, model constructors, and text helpers for Mamba-style sequence models.
 
-The trainable model path uses Gondlin autograd layers and therefore runs on the CPU and CUDA
+The trainable model path uses Gondolin autograd layers and therefore runs on the CPU and CUDA
 backends.  The spec-backed deterministic helpers below are kept as small mathematical reference
 utilities; runnable training examples use the autograd constructor.
 -/
@@ -65,7 +65,7 @@ Architecture:
 `mamba(seqLen, vocab, stateDim) → linear(stateDim → vocab)` applied at every time step.
 
 The recurrent core is a gated diagonal state-space update implemented with autograd-covered
-Gondlin ops.  Passing `--cuda` to a runner that instantiates this model trains the same parameters
+Gondolin ops.  Passing `--cuda` to a runner that instantiates this model trains the same parameters
 on the CUDA backend.
 -/
 def mambaTextLm (cfg : MambaTextConfig) (seqLen : Nat) :

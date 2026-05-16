@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://gondlin.dev/schemas/certificate-v1.json",
-  "title": "Gondlin Certificate v1",
+  "$id": "https://gondolin.dev/schemas/certificate-v1.json",
+  "title": "Gondolin Certificate v1",
   "description": "Common envelope for verifier certificates produced or consumed by `lake exe verify`. The migration plan from per-verifier ad-hoc formats to this unified schema is tracked internally.",
   "type": "object",
   "required": ["schema_version", "kind", "claim", "evidence"],
@@ -65,12 +65,12 @@
     },
     "checked_by": {
       "type": "object",
-      "description": "Independent attestation: which Gondlin checker validated this certificate, when, and at what commit.",
-      "required": ["checker", "gondlin_version", "ok"],
+      "description": "Independent attestation: which Gondolin checker validated this certificate, when, and at what commit.",
+      "required": ["checker", "gondolin_version", "ok"],
       "properties": {
         "checker": { "type": "string" },
-        "gondlin_version": { "type": "string" },
-        "gondlin_commit": { "type": "string" },
+        "gondolin_version": { "type": "string" },
+        "gondolin_commit": { "type": "string" },
         "checked_at": {
           "type": "string",
           "format": "date-time"

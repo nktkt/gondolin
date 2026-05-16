@@ -27,7 +27,7 @@ jobs:
       - name: Get Mathlib cache
         run: ~/.elan/bin/lake exe cache get || true
 
-      - name: Repo lint (Gondlin policies)
+      - name: Repo lint (Gondolin policies)
         run: ~/.elan/bin/lake lint
 
       - name: Build curated library surface
@@ -69,9 +69,9 @@ jobs:
           ~/.elan/bin/lake exe cache get || true
           ~/.elan/bin/lake exe blueprint-gen --output ../_out/blueprint
           cd ..
-          if [ -d blueprint/GondlinBlueprint/Guide/Assets ]; then
+          if [ -d blueprint/GondolinBlueprint/Guide/Assets ]; then
             mkdir -p _out/blueprint/html-multi/Guide/Assets
-            cp -r blueprint/GondlinBlueprint/Guide/Assets/* _out/blueprint/html-multi/Guide/Assets/
+            cp -r blueprint/GondolinBlueprint/Guide/Assets/* _out/blueprint/html-multi/Guide/Assets/
           fi
           python3 scripts/docs/polish_verso_guide.py --guide _out/blueprint/html-multi
           rm -rf home_page/blueprint

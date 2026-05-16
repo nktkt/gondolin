@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -12,7 +12,7 @@ public import NN.Runtime.RL.Gymnasium.Session
 /-!
 # Gymnasium Bridge (Subprocess, JSON Lines)
 
-Umbrella import for Gondlin’s small Gymnasium subprocess bridge.
+Umbrella import for Gondolin’s small Gymnasium subprocess bridge.
 
 The implementation is split into two focused submodules:
 

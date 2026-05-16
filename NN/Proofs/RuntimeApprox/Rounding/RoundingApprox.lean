@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -24,7 +24,7 @@ fixed (MLP first, then larger models).
 
 ## PyTorch correspondence / citations
 In ordinary PyTorch execution, floating-point ops are performed in a chosen dtype (e.g. `float32`)
-with hardware/IEEE-754 rounding. In Gondlin, `neuralRound`/`NF` is a proof-relevant rounding model
+with hardware/IEEE-754 rounding. In Gondolin, `neuralRound`/`NF` is a proof-relevant rounding model
 where each operation exposes an explicit `ulp`-style error bound suitable for composition.
 https://pytorch.org/docs/stable/tensor_attributes.html#torch.dtype
 -/
@@ -37,7 +37,7 @@ namespace RuntimeRoundingApprox
 
 open scoped Real
 
-open Gondlin.Floats
+open Gondolin.Floats
 
 noncomputable section
 

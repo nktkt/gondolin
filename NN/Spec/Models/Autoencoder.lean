@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -26,7 +26,7 @@ intended to be instantiated over multiple scalar backends (`Float`, intervals, p
 
 Note on `activation_type`:
 
-We keep a small string switch for demos and exporters. Most Gondlin code prefers choosing the
+We keep a small string switch for demos and exporters. Most Gondolin code prefers choosing the
 activation by composition (at the module level), but having the switch here makes the "one-file
 model" convenient for examples.
 -/

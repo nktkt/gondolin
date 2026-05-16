@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -153,7 +153,7 @@ def getAlpha? (alpha : Array (Option (FlatVec α))) (pid : Nat) : Option (FlatVe
 /--
 Default α vector used when the certificate omits α values.
 
-This matches Gondlin's default lower relaxation: pick slope `1` when `u > -l`, otherwise `0`.
+This matches Gondolin's default lower relaxation: pick slope `1` when `u > -l`, otherwise `0`.
 -/
 def defaultAlphaVec {n : Nat} (lo hi : Tensor α (.dim n .scalar)) : Tensor α (.dim n .scalar) :=
   match lo, hi with
@@ -161,7 +161,7 @@ def defaultAlphaVec {n : Nat} (lo hi : Tensor α (.dim n .scalar)) : Tensor α (
       Tensor.dim (fun i =>
         match flo i, fhi i with
         | .scalar l, .scalar u =>
-            -- Match Gondlin's default lower relaxation: choose slope 1 iff `u > -l`, else 0.
+            -- Match Gondolin's default lower relaxation: choose slope 1 iff `u > -l`, else 0.
             let a := if u > (-l) then Numbers.one else Numbers.zero
             Tensor.scalar a)
 
@@ -323,7 +323,7 @@ def alphaCrownStepNode?
                 some { inDim := xin.inDim, outDim := preB.dim, loAff := loAff, hiAff := hiAff }
               else none
           | some xin, some preB, none =>
-              -- No alpha provided: use Gondlin's default 0/1 lower relaxation as a certificate-free
+              -- No alpha provided: use Gondolin's default 0/1 lower relaxation as a certificate-free
               -- producer.
               if hout : xin.outDim = preB.dim then
                 let xLo : AffineVec α xin.inDim preB.dim := by

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -14,7 +14,7 @@ import Mathlib.LinearAlgebra.Matrix.SemiringInverse
 /-!
 # Discrete Fourier Transform (DFT) theorems over mathlib `ℂ`
 
-Gondlin’s runtime FFT building blocks (`NN.Runtime.Autograd.Gondlin.Fft`) implement FFT/IFFT by
+Gondolin’s runtime FFT building blocks (`NN.Runtime.Autograd.Gondolin.Fft`) implement FFT/IFFT by
 explicit DFT matrices. This file proves the corresponding *exact* math facts over mathlib’s complex
 numbers `ℂ`:
 
@@ -25,7 +25,7 @@ We prove these statements in the mathlib `Matrix` world first. That choice is de
 primitive roots of unity, conjugate transposes, geometric sums, and matrix inverse facts already
 live cleanly in mathlib for `ℂ`.
 
-The Gondlin runtime FFT code uses shape-indexed tensors and scalar-polymorphic twiddle factors
+The Gondolin runtime FFT code uses shape-indexed tensors and scalar-polymorphic twiddle factors
 written with `cos`/`sin`. Connecting that runtime representation to these exact matrices is a
 separate transport theorem in `NN.Proofs.Analysis.FftBridge`. Keeping the files split avoids making
 the pure DFT algebra import the runtime/autograd stack.

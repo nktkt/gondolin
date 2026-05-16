@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -94,7 +94,7 @@ def nchwToTokens (cfg : VitConfig) : nn.LayerDef (vitConvOutShape cfg) (vitToken
     forward := fun _ {α} _ _ =>
       fun {m} _ _ =>
         fun x =>
-          (show m (Runtime.Autograd.Gondlin.RefTy (m := m) (α := α) (vitTokensShape cfg)) from do
+          (show m (Runtime.Autograd.Gondolin.RefTy (m := m) (α := α) (vitTokensShape cfg)) from do
             let sMid : Shape := shape![cfg.batch, cfg.dModel, cfg.seqLen]
             have hReshape : Shape.size (vitConvOutShape cfg) = Shape.size sMid := by
               simp [vitConvOutShape, NN.Tensor.Shape.NCHW, sMid, _root_.Spec.Shape.size,
@@ -108,7 +108,7 @@ def nchwToTokens (cfg : VitConfig) : nn.LayerDef (vitConvOutShape cfg) (vitToken
 /--
 One-block ViT-style classifier.
 
-This is the constructor used by `gondlin vit`. Keeping it here makes the example a one-liner:
+This is the constructor used by `gondolin vit`. Keeping it here makes the example a one-liner:
 `def mkModel := nn.models.vit1 cfg`.
 -/
 def vit1 (cfg : VitConfig)

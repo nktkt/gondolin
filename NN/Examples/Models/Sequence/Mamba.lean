@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -19,11 +19,11 @@ The model is trainable end-to-end:
 
 `mamba(seqLen, vocab, stateDim) → linear(stateDim → vocab)`
 
-and the same code runs on CPU or CUDA through Gondlin autograd.
+and the same code runs on CPU or CUDA through Gondolin autograd.
 
 ```bash
 python3 scripts/datasets/download_example_data.py --tiny-shakespeare
-lake exe -K cuda=true gondlin mamba --cuda --tiny-shakespeare --steps 300 --windows 128 \
+lake exe -K cuda=true gondolin mamba --cuda --tiny-shakespeare --steps 300 --windows 128 \
   --temperature 0.85 --top-k 12 --sample-seed 7
 ```
 -/
@@ -35,7 +35,7 @@ open NN.API
 
 namespace NN.Examples.Models.Sequence.Mamba
 
-def exeName : String := "gondlin mamba"
+def exeName : String := "gondolin mamba"
 def defaultLogJson : System.FilePath := "data/model_zoo/mamba_trainlog.json"
 
 /--
@@ -170,7 +170,7 @@ def sampleFromLogitsAt (logits : Tensor Float τ) (pos : Nat)
 
 partial def generateSampled
     (opts : Runtime.Autograd.Torch.Options) (model : nn.Sequential σ τ)
-    (params : Gondlin.ParamList Float (nn.paramShapes model))
+    (params : Gondolin.ParamList Float (nn.paramShapes model))
     (prompt : String) (steps : Nat) (temperature : Float) (topK seed : Nat) : IO String := do
   let rec loop (ids : List Nat) : Nat → IO (List Nat)
     | 0 => pure ids
@@ -192,7 +192,7 @@ partial def generateSampled
 
 def meanLossOnSamples
     (model : nn.Sequential σ τ)
-    (m : Gondlin.Module.ScalarModule Float (nn.paramShapes model) [σ, τ])
+    (m : Gondolin.Module.ScalarModule Float (nn.paramShapes model) [σ, τ])
     (samples : Array (API.sample.Supervised Float σ τ)) : IO Float := do
   -- Keep reporting cheap and memory-bounded. The trainer can cycle over hundreds of windows, but a
   -- full eager-CUDA scalar forward over every window is not needed just to print a representative
@@ -201,7 +201,7 @@ def meanLossOnSamples
   let mut total := 0.0
   for i in [0:evalCount] do
     let sample := samples.getD i (firstSample samples)
-    let loss ← Gondlin.Module.forward (α := Float) m sample
+    let loss ← Gondolin.Module.forward (α := Float) m sample
     total := total + Tensor.toScalar loss
   pure (total / Float.ofNat (Nat.max 1 evalCount))
 
@@ -212,20 +212,20 @@ def trainOnText (opts : Runtime.Autograd.Torch.Options) (input : String) (train 
     let probeSample := sampleFromTokenIds (text.tokenWindow tokenizer (seqLen + 1) train.prompt
       (padId := 32))
     let modDef := nn.crossEntropyOneHotScalarModuleDef model (reduction := .mean)
-    let m ← Gondlin.Module.instantiateWithOptions (α := Float) modDef id opts
+    let m ← Gondolin.Module.instantiateWithOptions (α := Float) modDef id opts
 
     let logits0 ← nn.eval1NoGrad (α := Float) opts model m.trainer.params
       (NN.API.sample.x probeSample)
     printPredictionProbe "before" train.prompt logits0
     let L0 ← meanLossOnSamples model m samples
 
-    let opt := Gondlin.Optim.adam (α := Float)
+    let opt := Gondolin.Optim.adam (α := Float)
       (paramShapes := nn.paramShapes model)
       (lr := train.lr)
       (beta1 := 0.9)
       (beta2 := 0.999)
       (epsilon := 1e-8)
-    let optH ← Gondlin.Optim.handle (α := Float) m opt
+    let optH ← Gondolin.Optim.handle (α := Float) m opt
     if train.steps > 0 then
       for step in [0:train.steps] do
         let sample := samples.getD (step % Nat.max 1 samples.size) (firstSample samples)
@@ -244,7 +244,7 @@ def trainOnText (opts : Runtime.Autograd.Torch.Options) (input : String) (train 
     pure (L0, L1)
 
 def main (args : List String) : IO UInt32 := do
-  Gondlin.Module.run exeName args
+  Gondolin.Module.run exeName args
     (.float (fun opts rest => do
       let (path, rest) ← Common.orThrow exeName <| RealData.parseTextFlags rest
       let (train, rest) ← Common.orThrow exeName <| parseTrainOptions rest

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -34,7 +34,7 @@ public import NN.Examples.BugZoo.All
 /-!
 # `NN.Examples.Zoo`
 
-Single umbrella for Gondlin examples.
+Single umbrella for Gondolin examples.
 
 The examples directory intentionally keeps only one root Lean entrypoint. Import this module when
 you want to compile every maintained example module, including quickstarts, model examples,
@@ -44,9 +44,9 @@ Typical usage:
 
 * Build the full example surface: `lake build NN.Examples.Zoo`
 * Run model examples through the CLI:
-  `lake exe gondlin mlp -- --steps 10`
+  `lake exe gondolin mlp -- --steps 10`
 * Run standalone executables directly when they intentionally define their own root `main`
-  (for example `lake exe gondlin gpt_adder --steps 1000`).
+  (for example `lake exe gondolin gpt_adder --steps 1000`).
 
 The heavier examples remain in their subdirectories so users can still build or run one example at a
 time. This umbrella avoids importing standalone executable roots that would collide on the global

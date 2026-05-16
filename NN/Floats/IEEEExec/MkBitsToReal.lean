@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -30,10 +30,10 @@ expression.
 @[expose] public section
 
 
-namespace Gondlin.Floats.IEEE754
+namespace Gondolin.Floats.IEEE754
 namespace IEEE32Exec
 
-open Gondlin.Floats
+open Gondolin.Floats
 
 /-!
 ## Main decoding lemma
@@ -79,4 +79,4 @@ theorem toReal_ofBits_mkBits_fin (sign : Bool) (exp frac : Nat)
     simp [hexp0, hfrac0, neuralBpow, binaryRadix, NeuralRadix.toReal, pow2, Nat.shiftLeft_eq]
 
 end IEEE32Exec
-end Gondlin.Floats.IEEE754
+end Gondolin.Floats.IEEE754

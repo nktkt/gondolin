@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -15,7 +15,7 @@ public import NN.Tests.Runtime.Cuda.Suite
 /-!
 # Suite
 
-Top-level executable test entrypoint for Gondlin.
+Top-level executable test entrypoint for Gondolin.
 
 This suite is intentionally not a replacement for the theorem stack in `NN/Proofs`. It is the
 regression harness for runtime trust boundaries: native CUDA kernels, FFI buffers,
@@ -30,7 +30,7 @@ namespace NN.Tests
 
 def usage : String :=
   String.intercalate "\n"
-    [ "Gondlin test suite"
+    [ "Gondolin test suite"
     , ""
     , "Usage:"
     , "  lake build nn_tests_suite && lake exe nn_tests_suite"
@@ -42,11 +42,11 @@ def usage : String :=
     ]
 
 def run : IO Unit := do
-  IO.println "== Gondlin: curated tests =="
+  IO.println "== Gondolin: curated tests =="
   Tests.Floats.run
   Tests.Rationals.Suite.run
   Tests.Cuda.run
-  IO.println "== Gondlin: all curated tests passed =="
+  IO.println "== Gondolin: all curated tests passed =="
 
 def main (args : List String) : IO Unit := do
   match args with

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -17,7 +17,7 @@ public import NN.Runtime.Autograd.Overview
 public import NN.Runtime.Autograd.Compiled
 public import NN.Runtime.Autograd.Engine
 public import NN.Runtime.Autograd.Torch
-public import NN.Runtime.Autograd.Gondlin
+public import NN.Runtime.Autograd.Gondolin
 public import NN.Runtime.Autograd.Train
 public import NN.Runtime.Autograd.Utils
 
@@ -30,12 +30,12 @@ public import NN.Runtime.RL
 /-!
 # Runtime Entrypoint
 
-This is the broad import for Gondlin's executable layer. It collects the runtime pieces that are
+This is the broad import for Gondolin's executable layer. It collects the runtime pieces that are
 useful when building, training, importing, exporting, or checking runnable models:
 
 - the eager and compiled autograd engines;
 - the lower-level `Runtime.Autograd.Torch` session operations;
-- the higher-level `Runtime.Autograd.Gondlin` front-end used by `NN.API.Runtime`;
+- the higher-level `Runtime.Autograd.Gondolin` front-end used by `NN.API.Runtime`;
 - deterministic dataset/training utilities;
 - optional external-process helpers for untrusted producer / trusted checker workflows;
 - pure optimizer and scheduler equations;
@@ -58,7 +58,7 @@ References / context:
 - PyTorch `nn.Module` / tensor ops surface:
   https://pytorch.org/docs/stable/nn.html
   https://pytorch.org/docs/stable/torch.html
-- Gondlin’s import/export bridge details live in `NN.Runtime.PyTorch.Export.Core` and
+- Gondolin’s import/export bridge details live in `NN.Runtime.PyTorch.Export.Core` and
   `NN.Runtime.PyTorch.Import.Core`.
 -/
 

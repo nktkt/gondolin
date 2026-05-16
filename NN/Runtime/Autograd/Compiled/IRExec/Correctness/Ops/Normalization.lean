@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -13,7 +13,7 @@ public import NN.Runtime.Autograd.Compiled.IRExec.Correctness.Common
 
 Normalization correctness lemmas for the IR -> compiled runtime bridge.
 
-Gondlin’s LayerNorm proof stack has two layers:
+Gondolin’s LayerNorm proof stack has two layers:
 
 * the spec layer (`Spec.layerNorm`) defines the mathematical normalization over a tensor axis,
   matching the original Layer Normalization formulation from Ba et al. (2016) and the public

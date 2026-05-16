@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Polish DocGen output for the public Gondlin website.
+"""Polish DocGen output for the public Gondolin website.
 
 DocGen owns the declaration pages. This script only adds a nicer landing page and a thin visual
 layer after `lake build NN:docs` has produced `home_page/docs`.
@@ -7,7 +7,7 @@ layer after `lake build NN:docs` has produced `home_page/docs`.
 The important design rule is: do not fork DocGen. DocGen keeps producing
 search data, declaration pages, source links, sidebars, and module navigation,
 then apply small, deterministic post-processing steps that make those artifacts
-feel like part of the Gondlin website.
+feel like part of the Gondolin website.
 """
 
 from __future__ import annotations
@@ -17,19 +17,19 @@ from pathlib import Path
 
 
 # `append_style` is idempotent: it removes everything after this marker before
-# re-appending the Gondlin-specific CSS.  That lets `build_site.sh` and local
+# re-appending the Gondolin-specific CSS.  That lets `build_site.sh` and local
 # preview loops run repeatedly without duplicating the polish block.
-STYLE_MARKER = "/* Gondlin public docs polish */"
+STYLE_MARKER = "/* Gondolin public docs polish */"
 
 
 def write_index(docs: Path) -> None:
-    """Replace DocGen's default index with a Gondlin-specific API landing page.
+    """Replace DocGen's default index with a Gondolin-specific API landing page.
 
     DocGen's stock index is a raw module tree.  That is technically complete,
     but not friendly for a project website: users need a few stable entrypoints
     before they start searching thousands of generated declarations.  This page
     keeps the DocGen search scripts and module drawer, but adds a curated front
-    door for common Gondlin surfaces.
+    door for common Gondolin surfaces.
     """
     (docs / "index.html").write_text(
         """<!doctype html>
@@ -41,7 +41,7 @@ def write_index(docs: Path) -> None:
   <link rel="icon" href="./favicon.svg">
   <link rel="mask-icon" href="./favicon.svg" color="#000000">
   <link rel="prefetch" href=".//declarations/declaration-data.bmp" as="image">
-  <title>Gondlin API Docs</title>
+  <title>Gondolin API Docs</title>
   <script defer src="./mathjax-config.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -56,8 +56,8 @@ def write_index(docs: Path) -> None:
   <body class="tl-docs-index">
   <input id="nav_toggle" type="checkbox">
   <header>
-    <h1><label for="nav_toggle"></label><span>Gondlin API</span></h1>
-    <div class="tl-docsite-links" aria-label="Gondlin site links">
+    <h1><label for="nav_toggle"></label><span>Gondolin API</span></h1>
+    <div class="tl-docsite-links" aria-label="Gondolin site links">
       <a href="../">Home</a>
       <a href="../blueprint/">Guide</a>
       <a href="../examples/">Examples</a>
@@ -71,10 +71,10 @@ def write_index(docs: Path) -> None:
   <main>
     <a id="top"></a>
     <section class="tl-api-hero">
-      <p class="tl-kicker">Gondlin API Docs</p>
+      <p class="tl-kicker">Gondolin API Docs</p>
       <h1>Exact declarations, organized by API surface.</h1>
       <p>
-        These pages are generated from Lean. Use the cards below for the main Gondlin surfaces,
+        These pages are generated from Lean. Use the cards below for the main Gondolin surfaces,
         then use search when you need a specific definition, theorem, or module.
       </p>
       <div class="tl-hero-actions">
@@ -110,9 +110,9 @@ def write_index(docs: Path) -> None:
         <strong>NN.IR.Semantics</strong>
         <p>The executable meaning attached to IR operators and graph evaluation.</p>
       </a>
-      <a class="tl-api-card" href="./NN/Runtime/Autograd/Gondlin.html">
+      <a class="tl-api-card" href="./NN/Runtime/Autograd/Gondolin.html">
         <span>Runtime</span>
-        <strong>NN.Runtime.Autograd.Gondlin</strong>
+        <strong>NN.Runtime.Autograd.Gondolin</strong>
         <p>Runtime autograd, compiled execution, and training support.</p>
       </a>
       <a class="tl-api-card" href="./NN/Verification/CLI.html">
@@ -132,7 +132,7 @@ def write_index(docs: Path) -> None:
       <div class="tl-link-list">
         <a href="./NN/API/Public.html">API</a>
         <a href="./NN/Spec/Core.html">Spec</a>
-        <a href="./NN/Runtime/Autograd/Gondlin.html">Runtime</a>
+        <a href="./NN/Runtime/Autograd/Gondolin.html">Runtime</a>
         <a href="./NN/IR/Graph.html">IR</a>
         <a href="./NN/GraphSpec/Core.html">GraphSpec</a>
         <a href="./NN/Proofs/Tensor.html">Proofs</a>
@@ -156,7 +156,7 @@ def write_index(docs: Path) -> None:
         <strong>Inspect lowering</strong>
         <span>The shared graph object that verification and execution read.</span>
       </a>
-      <a href="./NN/Runtime/Autograd/Gondlin.html">
+      <a href="./NN/Runtime/Autograd/Gondolin.html">
         <strong>Run autograd</strong>
         <span>Runtime training and reverse-mode execution entrypoints.</span>
       </a>
@@ -207,7 +207,7 @@ def append_style(docs: Path) -> None:
         + """
 /* Shared polish variables -------------------------------------------------
    DocGen already defines semantic colors for declaration kinds.  These
-   Gondlin variables cover site chrome: teal accents, soft borders, and
+   Gondolin variables cover site chrome: teal accents, soft borders, and
    shadows used by the landing page and sidebar cards. */
 header h1 span {
   letter-spacing: 0;
@@ -703,10 +703,10 @@ body:not(.tl-docs-index) .decl > div {
 /* Left module tree --------------------------------------------------------
    The left iframe is generated by DocGen from all imported modules, including
    Lean, Mathlib, and dependencies. A hint and highlight for `NN` show
-   users know where the Gondlin modules live.
+   users know where the Gondolin modules live.
 
    DocGen's default desktop layout keeps this tree permanently visible in a
-   side column. That works for wide theorem-library docs, but Gondlin pages
+   side column. That works for wide theorem-library docs, but Gondolin pages
    often contain long module docs and code blocks, so the tree can overlap the
    readable content. Treat it as an explicit drawer on every viewport instead:
    the header's Modules tab opens it, and the same tab closes it. */
@@ -800,7 +800,7 @@ label[for="nav_toggle"]::before {
 }
 
 .nav details[data-path="./NN.html"] > summary::after {
-  content: "Gondlin";
+  content: "Gondolin";
   margin-left: 0.35rem;
   padding: 0.08rem 0.35rem;
   border-radius: 999px;
@@ -936,7 +936,7 @@ def add_nav_hint(docs: Path) -> None:
 
     The generated tree includes every imported library, so a first-time visitor
     sees `Aesop`, `Batteries`, `Lean`, `Mathlib`, and `NN` at the same level.
-    For Gondlin docs, `NN` is the useful subtree.  Rather than deleting the
+    For Gondolin docs, `NN` is the useful subtree.  Rather than deleting the
     dependency modules, the script keeps the full tree and adds a clear nudge.
     """
     nav = docs / "navbar.html"
@@ -949,7 +949,7 @@ def add_nav_hint(docs: Path) -> None:
     hint = (
         '<h3>Library</h3>'
         '<div class="tl-nav-hint">'
-        'Open <strong>NN</strong> for Gondlin modules.'
+        'Open <strong>NN</strong> for Gondolin modules.'
         '<span aria-hidden="true">↓</span>'
         '</div>'
         '<div class="module_list">'
@@ -993,7 +993,7 @@ def rename_docgen_header(docs: Path) -> None:
 
         # Rebrand DocGen's default header without changing its search form or
         # module name display.
-        updated = text.replace("<span>Documentation</span>", "<span>Gondlin API</span>")
+        updated = text.replace("<span>Documentation</span>", "<span>Gondolin API</span>")
 
         # Older docstrings used a lowercase `tensor` path.  Linux hosting is
         # case-sensitive, so keep this defensive rewrite until all generated
@@ -1006,8 +1006,8 @@ def rename_docgen_header(docs: Path) -> None:
         # DocGen's global CSS treats every `nav` as a fixed sidebar, so normalize
         # this tiny cross-site link group to a plain div before adding links.
         updated = updated.replace(
-            '<nav class="tl-docsite-links" aria-label="Gondlin site links">',
-            '<div class="tl-docsite-links" aria-label="Gondlin site links">',
+            '<nav class="tl-docsite-links" aria-label="Gondolin site links">',
+            '<div class="tl-docsite-links" aria-label="Gondolin site links">',
         )
         updated = updated.replace("</nav><h2 class=\"header_filename", "</div><h2 class=\"header_filename")
 
@@ -1018,7 +1018,7 @@ def rename_docgen_header(docs: Path) -> None:
             docs_root = "../" * depth if depth else "./"
             site_root = docs_root + "../"
             links = (
-                '<div class="tl-docsite-links" aria-label="Gondlin site links">'
+                '<div class="tl-docsite-links" aria-label="Gondolin site links">'
                 f'<a href="{docs_root}index.html">Docs Home</a>'
                 f'<a href="{site_root}blueprint/">Guide</a>'
                 f'<a href="{site_root}examples/">Examples</a>'

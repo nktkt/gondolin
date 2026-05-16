@@ -1,11 +1,11 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 
 Device-agnostic example:
-  lake exe gondlin rnn --cpu
-  lake build -R -K cuda=true && lake exe gondlin rnn --cuda
+  lake exe gondolin rnn --cpu
+  lake build -R -K cuda=true && lake exe gondolin rnn --cuda
 
 This is a real-data sequence run:
 - reads a local text corpus (default: `data/real/text/tiny_shakespeare.txt`),
@@ -22,7 +22,7 @@ public import NN.Examples.Models.Sequence.SimpleText
 /-!
 # RNN Text Example
 
-Runnable `gondlin rnn` example. It reads a local text corpus, creates a byte-level
+Runnable `gondolin rnn` example. It reads a local text corpus, creates a byte-level
 causal-language-model window, and trains a vanilla RNN plus time-distributed linear head.
 
 The model constructor lives in `NN.API.Models.SimpleSeq` so other examples can reuse it. This file
@@ -31,7 +31,7 @@ and train loop live in `NN.Examples.Models.Sequence.SimpleText`.
 
 ## What This Example Is (And Is Not)
 
-This is a **small layer smoke test** for the vanilla RNN cell plus the Gondlin training loop. It
+This is a **small layer smoke test** for the vanilla RNN cell plus the Gondolin training loop. It
 uses a single fixed text window and a simple MSE-on-one-hot objective so it can run on CPU or CUDA
 quickly.
 
@@ -40,7 +40,7 @@ or `text_gpt2`.
 
 ```bash
 python3 scripts/datasets/download_example_data.py --tiny-shakespeare
-lake build -R -K cuda=true && lake exe gondlin rnn --cuda --tiny-shakespeare --steps 1
+lake build -R -K cuda=true && lake exe gondolin rnn --cuda --tiny-shakespeare --steps 1
 ```
 -/
 
@@ -51,7 +51,7 @@ open NN.API
 
 namespace NN.Examples.Models.Sequence.Rnn
 
-def exeName : String := "gondlin rnn"
+def exeName : String := "gondolin rnn"
 def defaultLogJson : System.FilePath := "data/model_zoo/rnn_trainlog.json"
 
 /-- Short byte-window length used for a quick recurrent-model smoke test. -/
@@ -84,7 +84,7 @@ def mkSample {α : Type} [Semantics.Scalar α] [Runtime.Scalar α] (input : Stri
     API.sample.Supervised α σ τ :=
   RealData.textCausalSample (α := α) seqLen inputSize input
 
-/-- Shared runner configuration for `gondlin rnn`. -/
+/-- Shared runner configuration for `gondolin rnn`. -/
 def runner : SimpleText.RunnerConfig σ τ :=
   { exeName := exeName
     defaultLogJson := defaultLogJson

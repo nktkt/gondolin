@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -16,7 +16,7 @@ ignored target case:
 
 https://github.com/pytorch/pytorch/issues/75181
 
-The formal lesson is not "Gondlin has PyTorch's full label-indexed loss kernel." It is simpler:
+The formal lesson is not "Gondolin has PyTorch's full label-indexed loss kernel." It is simpler:
 ignored labels should be represented as an explicit contribution mask, and the empty-active-label
 reduction policy should be stated in the spec rather than left as backend behavior.
 -/

@@ -1,6 +1,6 @@
 # NN/MLTheory
 
-This directory contains Gondlin's formal ML theory layer: specifications, executable checkers, and
+This directory contains Gondolin's formal ML theory layer: specifications, executable checkers, and
 theorem level bridges.
 
 Recommended entrypoint:
@@ -21,7 +21,7 @@ need to import separate umbrellas.
   objectives.
 - `LearningTheory/`: robustness, stability, differential privacy, and a small ridge regression
   bridge that connects real valued theory to executable IEEE32 semantics.
-- `Optimization/`: optimizer equations over Gondlin tensors, exact real convergence theorems for
+- `Optimization/`: optimizer equations over Gondolin tensors, exact real convergence theorems for
   gradient descent, and the calculus bridge from strong convexity to strong monotonicity.
 - `Proofs/`: larger theorem developments for approximation, ReLU constructions, state space
   models, and verification oriented robustness.

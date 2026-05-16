@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -18,7 +18,7 @@ LoRA is a parameter-efficient adapter for linear layers: instead of updating the
 
 `W_eff = W + scale * (A * B)`.
 
-The convention in this file matches the rest of Gondlin's linear specs, where row-batch inputs
+The convention in this file matches the rest of Gondolin's linear specs, where row-batch inputs
 multiply a weight matrix on the right. If a base linear layer uses `W : inDim × outDim`, then:
 
 - `A : inDim × rank` maps the input dimension into the adapter rank,
@@ -44,7 +44,7 @@ namespace LoRA
 /--
 LoRA adapter parameters for a linear weight matrix of shape `inDim × outDim`.
 
-The usual LoRA scaling is `alpha / rank`; Gondlin keeps the final scalar as an explicit `scale`
+The usual LoRA scaling is `alpha / rank`; Gondolin keeps the final scalar as an explicit `scale`
 argument so callers can choose that convention, a schedule, or a test value.
 -/
 structure Params (α : Type) (inDim rank outDim : Nat) where

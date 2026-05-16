@@ -1,6 +1,6 @@
 # LiRPA Verification Fixtures
 
-These files are compact offline fixtures for checking Gondlin's graph IBP certificate
+These files are compact offline fixtures for checking Gondolin's graph IBP certificate
 checker. The reusable checker is `NN.Verification.Cert.IBPCert`; the Lean files here define small
 model fixtures and call that checker.
 

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -13,7 +13,7 @@ public import NN.Spec.Core.Tensor
 
 PyTorch import core (JSON parsing).
 
-The Python side of Gondlin round-trips usually writes a JSON object containing nested arrays of
+The Python side of Gondolin round-trips usually writes a JSON object containing nested arrays of
 floats (a lightweight, Lean-readable projection of a PyTorch `state_dict`). The model-agnostic
 adapter emitted by `NN.Runtime.PyTorch.Export.StateDict` is the intended path from `.pt` / `.pth`
 checkpoints into this JSON format.
@@ -21,14 +21,14 @@ checkpoints into this JSON format.
 Design note:
 
 In typical PyTorch workflows, weights are often serialized via `torch.save(model.state_dict(), ...)`
-or related checkpoint wrappers. Gondlin deliberately avoids parsing those PyTorch binary formats
+or related checkpoint wrappers. Gondolin deliberately avoids parsing those PyTorch binary formats
 directly in Lean. Instead, PyTorch loads the checkpoint and emits a small JSON representation that
 is easy to validate against a Lean `Shape` and easy to diff in tests.
 
 This importer is about **weights only**. Importing a captured *graph* (e.g. ONNX or `torch.export`)
 is a separate problem and lives at a different abstraction layer than this JSON `state_dict` shim.
 
-This module is where we keep the shared logic that most PyTorch → Gondlin importers need:
+This module is where we keep the shared logic that most PyTorch → Gondolin importers need:
 
 - parse nested JSON arrays into shape-checked `Tensor Float s`,
 - handle a small amount of “state_dict ergonomics” (key lookup, optional wrappers, index parsing),
@@ -107,7 +107,7 @@ def parseTensor : (s : Shape) → Json → Option (Tensor Float s)
 ## state_dict helpers
 
 We use JSON objects keyed by strings because that mirrors PyTorch’s `state_dict` convention.
-Some Gondlin Python scripts wrap the object as `{ "params": { ... } }`; `loadWeights?` accepts
+Some Gondolin Python scripts wrap the object as `{ "params": { ... } }`; `loadWeights?` accepts
 both formats.
 -/
 

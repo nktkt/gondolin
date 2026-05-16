@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -14,7 +14,7 @@ public import NN.Floats.IEEEExec.BridgeFP32Total
 
 Extended-real (`EReal`) semantics for `IEEE32Exec`.
 
-We use `toReal?` as the main “finite-only” semantic function in Gondlin. For some statements,
+We use `toReal?` as the main “finite-only” semantic function in Gondolin. For some statements,
 though, we really want to distinguish `+∞` from `-∞` instead of collapsing both to `none`.
 
 This file packages a slightly richer view:
@@ -35,9 +35,9 @@ Background:
 @[expose] public section
 
 
-namespace Gondlin.Floats.IEEE754
+namespace Gondolin.Floats.IEEE754
 
-open Gondlin.Floats
+open Gondolin.Floats
 
 namespace IEEE32Exec
 
@@ -170,4 +170,4 @@ end
 
 end IEEE32Exec
 
-end Gondlin.Floats.IEEE754
+end Gondolin.Floats.IEEE754

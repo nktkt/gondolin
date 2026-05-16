@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Idempotent post-create hook for the Gondlin devcontainer.
+# Idempotent post-create hook for the Gondolin devcontainer.
 #
 # Installs elan (Lean version manager), pins the toolchain declared in
 # `lean-toolchain`, and warms the Mathlib build cache via `lake exe cache get`.
@@ -11,17 +11,17 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$REPO_ROOT"
 
-echo "[gondlin] post-create starting in $REPO_ROOT"
+echo "[gondolin] post-create starting in $REPO_ROOT"
 
 # ---------------------------------------------------------------------------
 # 1. Install elan (Lean toolchain manager) if not already on PATH.
 # ---------------------------------------------------------------------------
 if ! command -v elan >/dev/null 2>&1; then
-  echo "[gondlin] installing elan ..."
+  echo "[gondolin] installing elan ..."
   curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf \
     | sh -s -- -y --default-toolchain none
 else
-  echo "[gondlin] elan already installed: $(elan --version)"
+  echo "[gondolin] elan already installed: $(elan --version)"
 fi
 
 # Make elan visible to the current shell for the remaining steps.
@@ -36,21 +36,21 @@ export PATH="$HOME/.elan/bin:$PATH"
 # ---------------------------------------------------------------------------
 if [ -f "$REPO_ROOT/lean-toolchain" ]; then
   PINNED_TOOLCHAIN="$(tr -d '[:space:]' < "$REPO_ROOT/lean-toolchain")"
-  echo "[gondlin] pinning Lean toolchain: ${PINNED_TOOLCHAIN}"
+  echo "[gondolin] pinning Lean toolchain: ${PINNED_TOOLCHAIN}"
   elan toolchain install "${PINNED_TOOLCHAIN}"
   elan override set "${PINNED_TOOLCHAIN}"
 else
-  echo "[gondlin] WARNING: lean-toolchain not found; skipping toolchain install"
+  echo "[gondolin] WARNING: lean-toolchain not found; skipping toolchain install"
 fi
 
 # ---------------------------------------------------------------------------
 # 3. Warm the Mathlib cache (best-effort; do not fail the container).
 # ---------------------------------------------------------------------------
 if command -v lake >/dev/null 2>&1; then
-  echo "[gondlin] warming Mathlib build cache (lake exe cache get) ..."
-  lake exe cache get || echo "[gondlin] cache get failed (non-fatal); continuing"
+  echo "[gondolin] warming Mathlib build cache (lake exe cache get) ..."
+  lake exe cache get || echo "[gondolin] cache get failed (non-fatal); continuing"
 else
-  echo "[gondlin] WARNING: lake not on PATH after elan install"
+  echo "[gondolin] WARNING: lake not on PATH after elan install"
 fi
 
 # ---------------------------------------------------------------------------
@@ -59,7 +59,7 @@ fi
 cat <<'BANNER'
 
 ============================================================
- Gondlin devcontainer ready -- try `lake build NN.Library`
+ Gondolin devcontainer ready -- try `lake build NN.Library`
 ============================================================
 
 BANNER

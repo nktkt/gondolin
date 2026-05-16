@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -24,7 +24,7 @@ public import NN.Proofs.Autograd.Tape.Ops.Transformer.ResidualAttention
 /-!
 # Autograd Proof Coverage
 
-This module is a curated import surface and roadmap for Gondlin's proved reverse-mode
+This module is a curated import surface and roadmap for Gondolin's proved reverse-mode
 autograd stack. It does not introduce new theorems; it gathers the pieces users should import when
 working with the proof-level layer rather than only executable training.
 
@@ -61,7 +61,7 @@ Pointwise / condition-carrying coverage includes:
 
 These hypotheses are not bookkeeping noise: they are the mathematical reason we avoid claiming that
 nonsmooth primitives have ordinary Fréchet derivatives everywhere. Runtime systems such as PyTorch
-choose subgradient conventions at kinks; Gondlin can model those conventions, but the classical
+choose subgradient conventions at kinks; Gondolin can model those conventions, but the classical
 `HasFDerivAt` theorem must state the domain condition explicitly.
 
 ## Structured block coverage
@@ -125,7 +125,7 @@ work rather than already-proved claims:
 
 ## Trust boundary
 
-These are source-level mathematical theorems about Gondlin specs and the proof tape. CUDA kernels,
+These are source-level mathematical theorems about Gondolin specs and the proof tape. CUDA kernels,
 cuBLAS/cuDNN/cuFFT, and compiler backends remain engineering trust boundaries. The intended bridge is:
 prove the spec/VJP rule here, then test and contract-check each executable fast path against that
 spec.

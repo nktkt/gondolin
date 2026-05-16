@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -15,12 +15,12 @@ public meta import ProofWidgets.Demos.Macro
 /-!
 # GPT-2 Training Log Viewer
 
-Gondlin's generic `TrainLog` widget (`#train_log_view` / `#train_log_file_view`) is great for
+Gondolin's generic `TrainLog` widget (`#train_log_view` / `#train_log_file_view`) is great for
 curves and small scalar summaries, but language-model examples benefit from a "prompt → sample"
 panel that keeps the generated text readable.
 
 This module provides GPT-2 specific viewers that:
-- extract `prompt=...` and `generated=...` notes (as written by the `gondlin gpt2` example),
+- extract `prompt=...` and `generated=...` notes (as written by the `gondolin gpt2` example),
 - render them as separate monospace blocks, and
 - delegate the remaining metrics/notes to the generic training-log renderer.
 
@@ -70,7 +70,7 @@ private def block (title : String) (body : String) : ProofWidgets.Html :=
     }}>{.text body}</pre>
   </details>
 
-/-- Render a `TrainLog` produced by `gondlin gpt2` with prompt/sample blocks. -/
+/-- Render a `TrainLog` produced by `gondolin gpt2` with prompt/sample blocks. -/
 def gpt2TrainLogHtml (log : TrainLog) : ProofWidgets.Html :=
   let prompt := noteValue? "prompt=" log.notes |>.getD "";
   let generated := noteValue? "generated=" log.notes |>.getD "";
@@ -91,27 +91,27 @@ def gpt2TrainLogHtml (log : TrainLog) : ProofWidgets.Html :=
 /-!
 ## One-shot Prompt Runner
 
-`#gpt2_prompt_view "..."` runs the `gondlin gpt2` executable (CUDA) with a small default
+`#gpt2_prompt_view "..."` runs the `gondolin gpt2` executable (CUDA) with a small default
 configuration, writes a temporary JSON `TrainLog`, then renders it.
 
 This is meant for quick "does it run?" checks inside the infoview. It is not a replacement for
 the CLI interactive loop, and it will still take noticeable time if you increase `--steps`.
 -/
 
-private def gondlinBin : System.FilePath :=
-  ".lake/build/bin/gondlin"
+private def gondolinBin : System.FilePath :=
+  ".lake/build/bin/gondolin"
 
 private def gpt2PromptHtml (prompt : String) (steps : Nat := 5) (generate : Nat := 96) :
     IO ProofWidgets.Html := do
-  if !(← gondlinBin.pathExists) then
+  if !(← gondolinBin.pathExists) then
     pure <|
       <div style={json% {"padding": "10px"}}>
         {warnBadge "gpt2_prompt_view"}
         <div style={json% {"margin-top": "8px"}}>
-          {.text "Could not find the Gondlin executable at: "}{monospace gondlinBin.toString}
+          {.text "Could not find the Gondolin executable at: "}{monospace gondolinBin.toString}
         </div>
         <div style={json% {"margin-top": "6px", "opacity": "0.9"}}>
-          {.text "Build it with "}{monospace "lake build -R -K cuda=true gondlin:exe"}{.text "."}
+          {.text "Build it with "}{monospace "lake build -R -K cuda=true gondolin:exe"}{.text "."}
         </div>
       </div>
   else
@@ -131,7 +131,7 @@ private def gpt2PromptHtml (prompt : String) (steps : Nat := 5) (generate : Nat 
           "--sample-seed", "7",
           "--ascii-only", "true",
           "--log", p.toString]
-      let procOut ← IO.Process.output { cmd := gondlinBin.toString, args := args }
+      let procOut ← IO.Process.output { cmd := gondolinBin.toString, args := args }
       if procOut.exitCode != 0 then
         return (
           <div style={json% {"padding": "10px"}}>
@@ -191,7 +191,7 @@ macro "#gpt2_train_log_file_view " path:term : command =>
           </div>
           <div style={json% {"margin-top": "6px", "opacity": "0.9"}}>
             {.text "Tip: create this file by running "}
-            {monospace "lake exe gondlin gpt2 --cuda --log <path> ..."}
+            {monospace "lake exe gondolin gpt2 --cuda --log <path> ..."}
             {.text "."}
           </div>
           <div style={json% {"margin-top": "6px"}}>{monospace (toString e)}</div>

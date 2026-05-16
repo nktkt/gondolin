@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -78,12 +78,12 @@ def missingCifarHint : String :=
 
 def missingImageNet64Hint : String :=
   "Prepare an ImageNet-style 64x64 subset with:\n" ++
-  "  python3 scripts/datasets/gondlin_data_convert.py image-folder \\\n" ++
+  "  python3 scripts/datasets/gondolin_data_convert.py image-folder \\\n" ++
   "    --input /path/to/imagenet/train \\\n" ++
   "    --x-output data/real/imagenet64/imagenet64_train_X.npy \\\n" ++
   "    --y-output data/real/imagenet64/imagenet64_train_y.npy \\\n" ++
   "    --height 64 --width 64 --labels-from-dirs --limit 2000\n" ++
-  "Gondlin does not redistribute ImageNet; this path expects a local image-folder dataset."
+  "Gondolin does not redistribute ImageNet; this path expects a local image-folder dataset."
 
 def missingTextHint : String :=
   "Prepare the text corpus with:\n" ++
@@ -105,7 +105,7 @@ def parseCifarFlags (args : List String) :
 /--
 Parse the shared flags for an ImageNet-style 64x64 NPY dataset.
 
-The expected input is produced by `scripts/datasets/gondlin_data_convert.py image-folder`; that converter
+The expected input is produced by `scripts/datasets/gondolin_data_convert.py image-folder`; that converter
 handles JPEG/PNG decoding, RGB conversion, resizing, class-directory labels, and the final NCHW
 layout. Lean then reads only the simple `.npy` tensors.
 -/

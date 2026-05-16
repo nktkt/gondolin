@@ -1,6 +1,6 @@
 # `NN/Spec`: specification layer (reference definitions)
 
-This folder is Gondlin's specification layer. It holds the reference definitions of tensors, ops,
+This folder is Gondolin's specification layer. It holds the reference definitions of tensors, ops,
 layers, and models that we reuse for:
 
 - execution (instantiating scalars as `Float`, IEEE-754 models, etc.),
@@ -10,7 +10,7 @@ layers, and models that we reuse for:
 The practical goal is to avoid a gap between the network we run and the network we reason about:
 define it once, then reuse the same definition for execution and verification.
 
-This layout mirrors the Gondlin paper (`arXiv:2602.22631`): we separate the focused
+This layout mirrors the Gondolin paper (`arXiv:2602.22631`): we separate the focused
 `NN.Spec.*` modules, runtime entrypoints, and verification entrypoints, but we keep them aligned by
 building everything on top of the same core semantics. The public spec doorway is
 `NN.Entrypoint.Spec` (or `import NN` / `import NN.Library` for downstream users).

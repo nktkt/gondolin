@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -11,7 +11,7 @@ public import NN.Spec.Core.TensorReductionShape
 /-!
 # Activation functions (spec layer)
 
-This module is Gondlin's "activation toolbox": **pure** mathematical definitions of common
+This module is Gondolin's "activation toolbox": **pure** mathematical definitions of common
 nonlinearities and their derivatives.
 
 Design intent:
@@ -30,7 +30,7 @@ PyTorch mental model:
 
 Notes on scalar polymorphism:
 
-Gondlin tries hard not to bake "Float everywhere" into the spec. All definitions are written
+Gondolin tries hard not to bake "Float everywhere" into the spec. All definitions are written
 against a `Context α` plus the exact algebra/analysis typeclasses they need. That is what lets
 the same layer definitions instantiate over:
 
@@ -67,7 +67,7 @@ variable {α : Type} [Context α]
 
 PyTorch analogy: `torch.nn.functional.relu`.
 
-This is the simplest nonlinearity we use throughout Gondlin because it stays meaningful across
+This is the simplest nonlinearity we use throughout Gondolin because it stays meaningful across
 many scalar backends (including ones that do not support `exp/log`).
 -/
 def reluSpec {α : Type} [Zero α] [Max α] (x : α) : α :=
@@ -157,7 +157,7 @@ This is mathematically the same sigmoid function as `sigmoidSpec`; we keep it as
 because several scalar approximation proofs reason about this `exp(x)` numerator form directly.
 
 Important naming choice: this is **not** called scalar softmax. A one-entry softmax is always `1`;
-the real softmax API in Gondlin is the tensor-level `Activation.softmaxSpec` below.
+the real softmax API in Gondolin is the tensor-level `Activation.softmaxSpec` below.
 -/
 def logisticSpec (x : α) : α :=
   MathFunctions.exp x / (MathFunctions.exp x + 1)

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -11,7 +11,7 @@ public import NN.API.Public
 /-!
 # GPT-2-Style Model Helpers (API)
 
-This module collects compact, reusable GPT-2-style building blocks for Gondlin examples:
+This module collects compact, reusable GPT-2-style building blocks for Gondolin examples:
 
 - a single “causal LM over one-hot tokens” model constructor, and
 - a small configuration record that keeps the hyperparameter inventory explicit.

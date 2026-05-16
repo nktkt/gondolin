@@ -1,4 +1,4 @@
-# Gondlin Dependency Audit
+# Gondolin Dependency Audit
 
 Inspired by Li, Peng, Severini, and Shafto, "The Network Structure of Mathlib" (arXiv:2604.24797).
 

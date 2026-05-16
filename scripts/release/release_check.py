@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Gondlin pre-release gate.
+Gondolin pre-release gate.
 
 A maintainer cutting a release runs this single command to verify every
 hygiene check is green. The script ties together the individual checks under
@@ -9,7 +9,7 @@ produces one pass/fail summary with per-check status.
 
 Pipeline
 --------
-1. Read Gondlin's package version from ``lakefile.lean`` and optionally
+1. Read Gondolin's package version from ``lakefile.lean`` and optionally
    compare it against ``--expected-version``.
 2. Run every check in ``scripts/checks/`` (case collisions, trust
    boundaries, proof debt, API surface, docs links, docstring coverage,
@@ -116,7 +116,7 @@ def _tail(text: str, lines: int = 20) -> str:
 
 
 def _read_lakefile_version() -> str | None:
-    """Extract the Gondlin package version from ``lakefile.lean``.
+    """Extract the Gondolin package version from ``lakefile.lean``.
 
     Returns ``None`` when the file cannot be read or the regex misses; the
     caller turns that into a hard failure since every subsequent step needs a
@@ -536,13 +536,13 @@ def _emit_summary(
 
     # Decide aggregate status.
     if fails > 0 or (strict and warns > 0):
-        headline = f"RELEASE BLOCKED: gondlin v{version}"
+        headline = f"RELEASE BLOCKED: gondolin v{version}"
         exit_code = 1
     elif warns > 0:
-        headline = f"RELEASE READY (with warnings): gondlin v{version}"
+        headline = f"RELEASE READY (with warnings): gondolin v{version}"
         exit_code = 0
     else:
-        headline = f"RELEASE READY: gondlin v{version}"
+        headline = f"RELEASE READY: gondolin v{version}"
         exit_code = 0
 
     if as_json:

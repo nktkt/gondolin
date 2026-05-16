@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -12,7 +12,7 @@ public import NN.Spec.Core.TensorOps
 /-!
 # Diffusion core (spec layer)
 
-This module defines the common vocabulary used by Gondlin's diffusion / flow specs:
+This module defines the common vocabulary used by Gondolin's diffusion / flow specs:
 
 - `EpsModel`: an `ε_θ(x,t)` denoiser interface (noise prediction), and
 - a couple of **total** scalar helpers (`sqrtNonneg`, `safeDiv`) that keep specs robust across

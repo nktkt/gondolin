@@ -46,7 +46,7 @@ Some declarations are `class ... : Prop` or `structure ... : Prop` rather than
 axioms. A theorem using one is conditional on the caller supplying the fields.
 Important examples:
 
-- `Gondlin.Floats.IEEE754.Float32Bridge.RuntimeFloat32MatchesIEEE32Exec` — runtime
+- `Gondolin.Floats.IEEE754.Float32Bridge.RuntimeFloat32MatchesIEEE32Exec` — runtime
   contract that Lean `Float32` primitives match the executable IEEE32 model bit-for-bit.
 - `NN.MLTheory.CROWN.CrownTransferSound` — transfer-rule soundness for graph-CROWN
   certificate theorems where backends or oracles supply the relaxation.
@@ -67,7 +67,7 @@ Important examples:
   not associative.
 - Opt-in deterministic reductions replace the `atomicAdd` paths with fixed-order
   algorithms (slower, bit-stable across runs on the same GPU). Enable from Lean or
-  via `GONDLIN_CUDA_DETERMINISTIC_REDUCTIONS=1`.
+  via `GONDOLIN_CUDA_DETERMINISTIC_REDUCTIONS=1`.
 
 ## Executable Floating Point
 

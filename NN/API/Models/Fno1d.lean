@@ -1,13 +1,13 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
 
 public import NN.API.Public
-public import NN.Runtime.Autograd.Gondlin.Fno1d
+public import NN.Runtime.Autograd.Gondolin.Fno1d
 
 /-!
 # Fourier Neural Operator Model Helpers (API)
@@ -56,7 +56,7 @@ def fno1dReal (cfg : Fno1dConfig)
     (hModesFit : 2 * cfg.modes ≤ cfg.grid := by decide) :
     nn.M (nn.Sequential (fno1dInShape cfg) (fno1dOutShape cfg)) :=
   pure <|
-    _root_.Runtime.Autograd.Gondlin.NN.FNO1D.Real.model
+    _root_.Runtime.Autograd.Gondolin.NN.FNO1D.Real.model
       (grid := cfg.grid) (width := cfg.width) (modes := cfg.modes) (blocks := cfg.blocks)
       (seed := cfg.seed) (hModes := hModesFit)
 

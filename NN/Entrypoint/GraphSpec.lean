@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -13,7 +13,7 @@ public import NN.GraphSpec.Models.MlpDeterministicInit
 public import NN.GraphSpec.Models.MlpSpecEquivalence
 public import NN.GraphSpec.Primitives
 public import NN.GraphSpec.Primitives.Embedding
-public import NN.GraphSpec.ToGondlin
+public import NN.GraphSpec.ToGondolin
 
 /-!
 # GraphSpec entrypoint
@@ -32,11 +32,11 @@ It gives you:
 - the canonical DAG model surface (`NN.GraphSpec.DAG.Term`, `NN.GraphSpec.DAG.Model`),
 - the sequential authoring sugar (`NN.GraphSpec.Graph` + `>>>`) for chain models and its lowering
   into DAG,
-- the Spec semantics (`NN.GraphSpec.Interp.spec`) and Gondlin compiler
+- the Spec semantics (`NN.GraphSpec.Interp.spec`) and Gondolin compiler
   (`NN.GraphSpec.Compile.torchProgram`),
 - sequential and DAG primitive packs,
 - the GraphSpec example architectures (`NN.GraphSpec.Models`),
-- the optional lowering to `Gondlin.NN.Seq` when primitives provide `toLayerDefM?`,
+- the optional lowering to `Gondolin.NN.Seq` when primitives provide `toLayerDefM?`,
 - and the model/primitive bridge theorems that connect GraphSpec syntax to Spec references.
 
 We keep this file as an umbrella re-export (no real logic here) so the import path stays stable
@@ -73,7 +73,7 @@ abbrev specFwd {ps ins : List Spec.Shape} {τ : Spec.Shape} (m : Model ps ins τ
 @[inherit_doc DAG.Model.torchProgram]
 abbrev torchProgram {ps ins : List Spec.Shape} {τ : Spec.Shape} (m : Model ps ins τ)
     {α : Type 0} [Context α] [DecidableEq Spec.Shape] :
-    Runtime.Autograd.Gondlin.Program α (ps ++ ins) τ :=
+    Runtime.Autograd.Gondolin.Program α (ps ++ ins) τ :=
   DAG.Model.torchProgram (ps := ps) (ins := ins) (τ := τ) m
 
 end Model

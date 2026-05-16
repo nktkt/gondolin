@@ -1,13 +1,13 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
 
 public import NN.GraphSpec.DAG.Core
-public import NN.Runtime.Autograd.Gondlin.NN
+public import NN.Runtime.Autograd.Gondolin.NN
 import Mathlib.Algebra.Order.Algebra
 
 /-!
@@ -37,8 +37,8 @@ goal of being usable in two complementary ways:
 1. **Reference / proof semantics**: interpret the graph as a *pure* Lean function on tensors
    (`Interp.spec`). This is the semantics we want to reason about: shape safety, algebraic
    identities, equivalence of model refactorings, etc.
-2. **Executable semantics**: compile the same graph into a backend-generic `Gondlin.Program`
-   (`Compile.torchProgram`) so it can run on the Gondlin runtime (which can target eager or
+2. **Executable semantics**: compile the same graph into a backend-generic `Gondolin.Program`
+   (`Compile.torchProgram`) so it can run on the Gondolin runtime (which can target eager or
    compiled execution backends).
 
 Shapes and parameter shapes are part of the graph type.
@@ -71,13 +71,13 @@ give us *inside Lean*:
 In practice, the expected workflow is:
 
 - use GraphSpec to write down a model architecture in a shape-typed way,
-- run it via Gondlin for concrete execution/training experiments, and
+- run it via Gondolin for concrete execution/training experiments, and
 - use `Interp.spec` and proof libraries to prove properties of the same architecture.
 
-## Why do this if Gondlin already exists?
+## Why do this if Gondolin already exists?
 
-Gondlin is the **runtime and operator** layer: it gives us typed tensors, a backend interface,
-and executable programs (`Gondlin.Program`) that can run under the autograd/training runtime.
+Gondolin is the **runtime and operator** layer: it gives us typed tensors, a backend interface,
+and executable programs (`Gondolin.Program`) that can run under the autograd/training runtime.
 
 GraphSpec is the **architecture/specification** layer: it gives us a small typed syntax for model
 structure that comes with *two linked meanings*:
@@ -85,14 +85,14 @@ structure that comes with *two linked meanings*:
 - a **pure** semantics (`Interp.spec`) that is amenable to proofs in Lean, and
 - a **compiler** (`Compile.torchProgram`) that turns the same description into something runnable.
 
-You *can* write models directly in Gondlin, but then the “thing you reason about” is already in
+You *can* write models directly in Gondolin, but then the “thing you reason about” is already in
 the executable world (monadic references + backend ops). For many proofs, it is much cleaner to
 reason about a pure function `Params → Tensor → Tensor` and separately prove that compilation to
 the runtime preserves that meaning.
 
 In other words:
 
-- Gondlin answers: “Given ops, how do we run/train them?”
+- Gondolin answers: “Given ops, how do we run/train them?”
 - GraphSpec answers: “How do we describe models so we can both run them and prove things about
   them?”
 
@@ -111,16 +111,16 @@ In this file, that semantics is implemented by `Interp.spec`, and it is defined 
   compute `⟦g₂⟧ params₂ (⟦g₁⟧ params₁ x)`.
 
 The compiler `Compile.torchProgram` follows the same structure, but targets a monadic Torch
-interface and expects arguments as `params ++ [input]` (matching `Gondlin.NN.Seq.program`).
+interface and expects arguments as `params ++ [input]` (matching `Gondolin.NN.Seq.program`).
 
 ## Scope of `Core.lean`
 
 This file defines only the sequential core:
 
-- `Primitive` — a single typed operation with both a pure spec and a Gondlin implementation.
+- `Primitive` — a single typed operation with both a pure spec and a Gondolin implementation.
 - `Graph` — sequential composition (`>>>`) of primitives with a typed parameter list.
 - `Interp.spec` — pure interpreter.
-- `Compile.torchProgram` — compiler to `Gondlin.Program`.
+- `Compile.torchProgram` — compiler to `Gondolin.Program`.
 - `LowerToDAG.Graph.toDAGTerm` / `toDAGModelZeroInit` — the bridge from chain syntax to the
   canonical DAG representation.
 
@@ -167,17 +167,17 @@ A *primitive node* in the GraphSpec language.
 GraphSpec primitives package both sides of the “spec vs runtime” interface:
 
 - a **pure spec forward** function (`specFwd`) used by the reference interpreter, and
-- a **Gondlin program** (`torchProgram`) used by the compiler.
+- a **Gondolin program** (`torchProgram`) used by the compiler.
 
-Optionally, a primitive may also provide a lowering to a Gondlin `LayerDef` (used to build a
-`Gondlin.NN.Seq` for training ergonomics + deterministic parameter initialization). Not every
+Optionally, a primitive may also provide a lowering to a Gondolin `LayerDef` (used to build a
+`Gondolin.NN.Seq` for training ergonomics + deterministic parameter initialization). Not every
 primitive needs this (e.g. control-flow-ish nodes kept outside the sequential layer).
 
 Why a record?
 
 - It lets us grow the op set by adding new primitives in new files (rather than editing a single
   global inductive just to extend the vocabulary).
-- It keeps the “spec vs Gondlin” linkage explicit: when you add an op, you must define both
+- It keeps the “spec vs Gondolin” linkage explicit: when you add an op, you must define both
   interpretations side-by-side.
 
 Type indices:
@@ -197,23 +197,23 @@ structure Primitive (ps : List Shape) (σ τ : Shape) where
     ∀ {α : Type 0}, [Context α] →
       Runtime.Autograd.Torch.TList α ps → Tensor α σ → Tensor α τ
   /--
-  Executable Gondlin program.
+  Executable Gondolin program.
 
   The program expects its arguments as `ps ++ [σ]` (all parameters first, then the input).
-  This convention aligns with how sequential Gondlin models (`Gondlin.NN.Seq`) expose their
+  This convention aligns with how sequential Gondolin models (`Gondolin.NN.Seq`) expose their
   program interfaces.
   -/
   torchProgram :
     ∀ {α : Type 0}, [Context α] → [DecidableEq Shape] →
-      Runtime.Autograd.Gondlin.Program α (ps ++ [σ]) τ
+      Runtime.Autograd.Gondolin.Program α (ps ++ [σ]) τ
   /--
-  Optional lowering to a Gondlin `LayerDef`.
+  Optional lowering to a Gondolin `LayerDef`.
 
   We thread an occurrence index (`Nat`) so primitives can implement deterministic “per-layer”
   initialization (e.g. seed = f(index)).
   -/
   toLayerDefM? :
-    Option (Nat → { l : Runtime.Autograd.Gondlin.NN.LayerDef σ τ // l.paramShapes = ps }) := none
+    Option (Nat → { l : Runtime.Autograd.Gondolin.NN.LayerDef σ τ // l.paramShapes = ps }) := none
   /-- Whether encountering this primitive should increment the layer-occurrence counter. -/
   countsAsLayer : Bool := false
 
@@ -277,12 +277,12 @@ References:
 - For the semantics used by the spec interpreter, see `NN.Spec.Module.Linear` (`Spec.linear_spec`).
 
 Initialization semantics:
-- we attach a Gondlin `LayerDef` so graphs can be lowered to `Gondlin.NN.Seq`,
+- we attach a Gondolin `LayerDef` so graphs can be lowered to `Gondolin.NN.Seq`,
 - and we seed `W,b` deterministically from the layer-occurrence index:
   - `seedW = 2*i`, `seedB = 2*i + 1`.
 
 The deterministic occurrence-index rule keeps end-to-end examples reproducible while preserving a
-single GraphSpec → Gondlin → training path.
+single GraphSpec → Gondolin → training path.
 -/
 def linear (inDim outDim : Nat) :
     Primitive
@@ -298,10 +298,10 @@ def linear (inDim outDim : Nat) :
       -- Program takes args as `W → b → x → ...`.
       fun {m} _instM _instOps =>
         fun w b x =>
-          Runtime.Autograd.Gondlin.linear (m := m) (α := α)
+          Runtime.Autograd.Gondolin.linear (m := m) (α := α)
             (inDim := inDim) (outDim := outDim) w b x
     toLayerDefM? := some (fun i =>
-      ⟨ Runtime.Autograd.Gondlin.NN.linear inDim outDim (seedW := 2 * i) (seedB := 2 * i + 1)
+      ⟨ Runtime.Autograd.Gondolin.NN.linear inDim outDim (seedW := 2 * i) (seedB := 2 * i + 1)
       , by rfl ⟩)
     countsAsLayer := true
   }
@@ -323,8 +323,8 @@ def relu (s : Shape) : Primitive [] s s :=
     specFwd := fun {α} _ctx _params x => Activation.reluSpec (α := α) x
     torchProgram := fun {α} _ctx _deq =>
       fun {m} _ _ =>
-        fun x => Runtime.Autograd.Gondlin.relu (m := m) (α := α) (s := s) x
-    toLayerDefM? := some (fun _i => ⟨Runtime.Autograd.Gondlin.NN.relu (s := s), by rfl⟩)
+        fun x => Runtime.Autograd.Gondolin.relu (m := m) (α := α) (s := s) x
+    toLayerDefM? := some (fun _i => ⟨Runtime.Autograd.Gondolin.NN.relu (s := s), by rfl⟩)
     countsAsLayer := false
   }
 
@@ -335,7 +335,7 @@ Softmax turns “logits” into a probability distribution along the *last* axis
 
 `softmax(x)_i = exp(x_i) / (∑_j exp(x_j))`.
 
-In Gondlin’s spec layer, this is implemented as a genuine last-axis tensor softmax (recursing
+In Gondolin’s spec layer, this is implemented as a genuine last-axis tensor softmax (recursing
 over outer dimensions), analogous to `torch.softmax(x, dim=-1)` in PyTorch.
 
 Notes:
@@ -353,14 +353,14 @@ def softmax (s : Shape) : Primitive [] s s :=
     specFwd := fun {α} _ctx _params x => Activation.softmaxSpec (α := α) (s := s) x
     torchProgram := fun {α} _ctx _deq =>
       fun {m} _ _ =>
-        fun x => Runtime.Autograd.Gondlin.softmax (m := m) (α := α) (s := s) x
-    -- Gondlin has the op; treat it as a parameter-free layer for Seq lowering.
+        fun x => Runtime.Autograd.Gondolin.softmax (m := m) (α := α) (s := s) x
+    -- Gondolin has the op; treat it as a parameter-free layer for Seq lowering.
     toLayerDefM? := some (fun _i =>
       ⟨ { paramShapes := []
           initParams := .nil
           forward := fun _ {α} _ _ =>
             fun {m} _ _ =>
-              fun x => Runtime.Autograd.Gondlin.softmax (m := m) (α := α) (s := s) x }
+              fun x => Runtime.Autograd.Gondolin.softmax (m := m) (α := α) (s := s) x }
       , by rfl ⟩)
     countsAsLayer := false
   }
@@ -773,8 +773,8 @@ def zeroInitParams : (ps : List Shape) → TList Float ps
 `Graph.toDAGModelZeroInit` is total, but its parameters are all-zero tensors, which is convenient
 for proofs and shape-only examples but not representative of training setups.
 
-For graphs whose primitives provide `Primitive.toLayerDefM?`, we can reuse Gondlin’s deterministic
-initializers (e.g. Xavier init for linear weights) in a way that matches `ToGondlin.toSeq`:
+For graphs whose primitives provide `Primitive.toLayerDefM?`, we can reuse Gondolin’s deterministic
+initializers (e.g. Xavier init for linear weights) in a way that matches `ToGondolin.toSeq`:
 
 - we thread an occurrence index `i : Nat`,
 - primitives with `countsAsLayer = true` increment it,
@@ -788,7 +788,7 @@ it fails if any primitive lacks a `toLayerDefM?` lowering.
 Compute deterministic initialization tensors for a sequential `Graph`, threading a “layer
 occurrence index”.
 
-This matches `ToGondlin.toSeq`’s notion of “occurrence”: only primitives with
+This matches `ToGondolin.toSeq`’s notion of “occurrence”: only primitives with
 `countsAsLayer = true` advance the counter.
 -/
 def Graph.detInitParamsAux
@@ -860,7 +860,7 @@ def Graph.toDAGTerm {ps : List Shape} {σ τ : Shape} (g : Graph ps σ τ) :
 Lower a sequential `Graph` to a DAG `Model` with a simple default init (all zeros).
 
 This is mainly a convenience for GraphSpec example organization; for training-oriented init,
-see `NN.GraphSpec.ToGondlin` (Seq lowering) and/or provide your own initializer.
+see `NN.GraphSpec.ToGondolin` (Seq lowering) and/or provide your own initializer.
  -/
 def Graph.toDAGModelZeroInit {ps : List Shape} {σ τ : Shape} (g : Graph ps σ τ) :
     DAG.Model ps [σ] τ :=
@@ -871,8 +871,8 @@ def Graph.toDAGModelZeroInit {ps : List Shape} {σ τ : Shape} (g : Graph ps σ 
 /--
 Lower a sequential `Graph` to a DAG `Model`, using deterministic initialization.
 
-This is the DAG analogue of `ToGondlin.toSeq`’s initialization semantics: it uses each primitive’s
-`toLayerDefM?` to obtain a Gondlin `LayerDef`, then reuses the `LayerDef.initParams`.
+This is the DAG analogue of `ToGondolin.toSeq`’s initialization semantics: it uses each primitive’s
+`toLayerDefM?` to obtain a Gondolin `LayerDef`, then reuses the `LayerDef.initParams`.
 
 This returns `Except String` because not every primitive necessarily admits a `LayerDef` lowering.
 -/
@@ -893,7 +893,7 @@ end LowerToDAG
 The sequential DSL (`Graph` with `>>>`) has *direct* semantics:
 
 - `Interp.spec` evaluates a sequential graph as a pure function on tensors, and
-- `Compile.torchProgram` compiles it to a backend-generic `Gondlin.Program`.
+- `Compile.torchProgram` compiles it to a backend-generic `Gondolin.Program`.
 
 Even though a sequential graph is semantically a path-shaped DAG, we keep the sequential
 interpreter/compiler direct for two pragmatic reasons:
@@ -953,13 +953,13 @@ end Interp
 namespace Compile
 
 /--
-Compile a sequential `Graph` to a backend-generic Gondlin `Program`.
+Compile a sequential `Graph` to a backend-generic Gondolin `Program`.
  -/
 def torchProgram
     {ps : List Shape} {σ τ : Shape}
     (g : Graph ps σ τ)
     {α : Type 0} [Context α] [DecidableEq Shape] :
-    Runtime.Autograd.Gondlin.Program α (ps ++ [σ]) τ :=
+    Runtime.Autograd.Gondolin.Program α (ps ++ [σ]) τ :=
   fun {m} _instM _instOps =>
     let Ref := fun s => Runtime.Autograd.Torch.Ops.Ref (m := m) (α := α) s
 

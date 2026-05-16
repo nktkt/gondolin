@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -15,7 +15,7 @@ import Mathlib.Algebra.Order.Algebra
 Proof-linked imperative Session (eager-style API, proved IR under the hood).
 
 Background:
-- `Runtime.Autograd.Gondlin.Session` provides a unified imperative API for training/debugging
+- `Runtime.Autograd.Gondolin.Session` provides a unified imperative API for training/debugging
   (eager) and verification-friendly execution (compiled).
 - `Proofs.Autograd.Algebra.GraphData` is the proved/typed SSA(DAG) IR used by the
   proof-compiled pipeline (`Proofs.Autograd.Algebra.Graph.compileAuxData`), and
@@ -33,7 +33,7 @@ Practical note:
 - This session enforces a simple invariant: **all leaf tensors are created before any op node**.
   This matches the standard training pattern (reset → add leaves → forward → backward).
 - `const` is available as a graph node, so you can still introduce literal constants mid-graph.
-- This is the fully proof-linked variant used by `Gondlin.Session` when `opts.backend :=
+- This is the fully proof-linked variant used by `Gondolin.Session` when `opts.backend :=
   .compiled`.
 -/
 

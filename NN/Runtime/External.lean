@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -14,7 +14,7 @@ public import NN.Runtime.External.Julia
 
 `NN.Runtime.External` is the umbrella for optional subprocess integrations.
 
-Gondlin uses external programs in a narrow, explicit way: the external process may produce an
+Gondolin uses external programs in a narrow, explicit way: the external process may produce an
 artifact, but Lean-side code must still parse, validate, or check that artifact before it becomes
 trusted. This is the same “untrusted producer, trusted checker” boundary used by the Arb oracle,
 Julia demos, PyTorch export smoke tests, and future certificate-producing tools.

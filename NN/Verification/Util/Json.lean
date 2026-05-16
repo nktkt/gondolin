@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -11,7 +11,7 @@ public import NN.API.Json
 /-!
 # Json
 
-Shared JSON helpers for Gondlin verification tools.
+Shared JSON helpers for Gondolin verification tools.
 
 Many verification workflows consume small JSON “certificates” produced by Python tooling
 (often PyTorch-based). This module centralizes:

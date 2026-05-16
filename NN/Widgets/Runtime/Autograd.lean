@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -17,7 +17,7 @@ public meta import ProofWidgets.Demos.Macro
 
 Autograd widgets (tapes + gradients).
 
-This module provides infoview panels for Gondlin’s eager-mode autograd tape:
+This module provides infoview panels for Gondolin’s eager-mode autograd tape:
 
 - `#tape_view t` renders the tape nodes, showing parents, stored forward values, and a DOT snippet.
 - `#tape_grads_view t, outId` runs reverse-mode from a scalar output (`outId`) and shows which node

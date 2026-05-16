@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -14,7 +14,7 @@ boundary bugs across real serving stacks:
 
 https://arxiv.org/abs/2506.09713
 
-Gondlin does not model every production RoPE kernel. It can make the
+Gondolin does not model every production RoPE kernel. It can make the
 position schedule explicit. A KV-cache or decode importer should not infer positions from ambient
 mutable state; it should hand over a schedule that Lean can inspect.
 -/

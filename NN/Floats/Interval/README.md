@@ -41,7 +41,7 @@ reusable across the codebase, while keeping the trust boundary explicit.
 ## Running an example workflow
 
 ```bash
-lake exe gondlin floats_arb_ieee_compare
+lake exe gondolin floats_arb_ieee_compare
 ```
 
 ## References

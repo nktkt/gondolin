@@ -9,10 +9,10 @@ This folder contains PyTorch interop examples. The reusable bridge lives in
 
 - Lean entrypoint: `TorchExportSmoke.lean`
 - Runtime bridge: `NN.Runtime.PyTorch.Export.TorchExport` and `NN.Runtime.PyTorch.Import.TorchExport`
-- Command: `lake exe gondlin pytorch_export_smoke`
+- Command: `lake exe gondolin pytorch_export_smoke`
 
 This path writes a generated Python adapter, captures small `nn.Module`s through `torch.export`/FX,
-emits `gondlin.ir.v1` JSON, and then asks Lean to parse and validate the graph. The importer has a
+emits `gondolin.ir.v1` JSON, and then asks Lean to parse and validate the graph. The importer has a
 value graph layer: tensor valued FX nodes lower into `NN.IR.Graph`; tuple valued FX nodes are kept
 explicit, and the deterministic `batch_first=True`, `num_heads=1` self attention output of
 `nn.MultiheadAttention(...)[0]` is decomposed into ordinary tensor IR primitives. Broader MHA cases
@@ -26,10 +26,10 @@ still fail loudly with the unsupported feature named in the error.
 
 Run:
 
-- `lake exe gondlin pytorch_roundtrip --model mlp --action export`
-- `lake exe gondlin pytorch_roundtrip --model mlp --action import`
-- `lake exe gondlin pytorch_roundtrip --model cnn --action import`
-- `lake exe gondlin pytorch_roundtrip --model transformer --action import`
+- `lake exe gondolin pytorch_roundtrip --model mlp --action export`
+- `lake exe gondolin pytorch_roundtrip --model mlp --action import`
+- `lake exe gondolin pytorch_roundtrip --model cnn --action import`
+- `lake exe gondolin pytorch_roundtrip --model transformer --action import`
 
 These examples are intentionally model specific: they show how a known MLP/CNN/Transformer JSON
 `state_dict` becomes typed Lean tensors and how generated PyTorch code can be produced for the same

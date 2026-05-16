@@ -1,6 +1,6 @@
-# Gondlin Website (Jekyll)
+# Gondolin Website (Jekyll)
 
-This folder contains the Gondlin landing page and the small amount of glue that assembles the
+This folder contains the Gondolin landing page and the small amount of glue that assembles the
 public site:
 
 - API docs under `/docs/` (built by DocGen4)
@@ -72,13 +72,13 @@ cp -r _out/blueprint/html-multi/* home_page/blueprint/
 
 The `/graphs/` page uses a compact JSON audit generated from Lean imports. It is inspired by
 Li, Peng, Severini, and Shafto, "The Network Structure of Mathlib" (arXiv:2604.24797), but keeps
-Gondlin's public site lightweight by starting at module/import granularity.
+Gondolin's public site lightweight by starting at module/import granularity.
 
 ```bash
 cd ..
 python3 scripts/checks/dependency_audit.py \
   --json home_page/graphs/dependency-audit.json \
-  --markdown _out/gondlin_dependency_audit.md \
+  --markdown _out/gondolin_dependency_audit.md \
   --fail-on-error
 ```
 

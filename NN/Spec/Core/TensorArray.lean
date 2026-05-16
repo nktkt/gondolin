@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -305,7 +305,7 @@ def relu {α : Type} [LT α] [Zero α] [DecidableLT α] {shape : List Nat} (t : 
 Matrix-vector multiplication: (m x n) matrix times (n) vector gives (m) vector.
 
 This is a direct reference implementation intended for small sizes and clarity.
-If you need performance, you generally want the runtime/Gondlin path instead.
+If you need performance, you generally want the runtime/Gondolin path instead.
 -/
 def matvec {α : Type} [Add α] [Mul α] [Zero α] [Inhabited α]
   {m n : Nat} (mat : Tensor α [m, n]) (vec : Tensor α [n]) : Tensor α [m] :=

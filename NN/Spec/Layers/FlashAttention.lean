@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -13,7 +13,7 @@ public import NN.Spec.Layers.Attention
 
 FlashAttention is an IO-aware implementation strategy for scaled dot-product attention: it tiles
 the attention computation and maintains online softmax summaries so the full `n × n` attention
-matrix does not need to be materialized. Gondlin models that idea in three layers:
+matrix does not need to be materialized. Gondolin models that idea in three layers:
 
 - this file gives the proof-facing semantic contract for a fused FlashAttention operator;
 - `NN/Runtime/Autograd/Engine/Cuda/Kernels.lean` exposes native CUDA/stub FFI kernels for the
@@ -31,7 +31,7 @@ The theorems in this file are deliberately small but important:
 - `onlineSoftmaxTiledAttention_eq_scaledDotProductAttention` proves the named FlashAttention
   algorithmic contract has the same denotation as standard attention.
 - `flashAttention_eq_scaledDotProductAttention` proves the fused forward operator is semantically
-  equal to Gondlin's existing standard attention spec.
+  equal to Gondolin's existing standard attention spec.
 - `flashAttentionBackward_eq_scaledDotProductAttentionBackward` proves the fused VJP contract is
   semantically equal to the existing standard attention backward spec.
 - `cudaLoopFlashAttention_eq_onlineSoftmaxTiledAttention` gives a Lean functional model of the
@@ -98,7 +98,7 @@ The original FlashAttention algorithm streams over blocks of keys/values and mai
 online softmax summary. The exact CUDA schedule is an implementation detail, but the mathematical
 result is the same as the closed-form stabilized softmax over the full masked score row.
 
-Gondlin names the stages below so proofs and compiler passes can point at a real algorithmic
+Gondolin names the stages below so proofs and compiler passes can point at a real algorithmic
 contract rather than only at an opaque fused primitive:
 
 1. build scaled scores `QKᵀ / sqrt(d)`;

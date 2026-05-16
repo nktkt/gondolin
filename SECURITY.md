@@ -1,6 +1,6 @@
 # Security Policy
 
-Gondlin is a Lean 4 framework for stating and checking mathematical claims about
+Gondolin is a Lean 4 framework for stating and checking mathematical claims about
 neural-network artifacts. Security in this project means protecting the
 soundness of those claims, the integrity of the artifacts that feed them, and
 the isolation of code that runs untrusted Lean.
@@ -115,7 +115,7 @@ allowlists are all in scope for this policy.
 
 ## Reproducible Builds
 
-Gondlin pins its build inputs:
+Gondolin pins its build inputs:
 
 - [`lean-toolchain`](lean-toolchain) pins the Lean compiler version.
 - [`lake-manifest.json`](lake-manifest.json) locks every transitive Lake

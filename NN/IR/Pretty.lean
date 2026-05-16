@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -44,7 +44,7 @@ namespace Node
 /-!
 Render a parent id list in a compact form.
 
-`parents` in Gondlin's IR are **data dependencies**: an edge `p -> n` means "node `n` consumes
+`parents` in Gondolin's IR are **data dependencies**: an edge `p -> n` means "node `n` consumes
 the value produced by node `p`."
 
 We keep this concise because it shows up in logs; for more context you typically want the whole

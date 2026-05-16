@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Gondlin Tier 1 frozen API-surface check.
+Gondolin Tier 1 frozen API-surface check.
 
-Gondlin's PyTorch-shaped public facade lives under `NN/API/`. Once that surface is published, the
+Gondolin's PyTorch-shaped public facade lives under `NN/API/`. Once that surface is published, the
 maintainers want changes to be loud: CI should warn when any declaration head visible from
 `NN/API/Public.lean` (and its transitive imports within `NN/API/`) is added, removed, or edited.
 
@@ -80,7 +80,7 @@ _ANSI_BOLD = "\x1b[1m"
 
 @dataclass(frozen=True, order=True)
 class Declaration:
-    """One declaration in Gondlin's Tier 1 public API surface."""
+    """One declaration in Gondolin's Tier 1 public API surface."""
 
     kind: str
     name: str  # fully qualified, including namespaces
@@ -257,7 +257,7 @@ def _is_internal_file(text: str) -> bool:
 
 
 def _file_has_expose_public_section(text: str) -> bool:
-    """Detect the `@[expose] public section` pattern Gondlin uses for facade files."""
+    """Detect the `@[expose] public section` pattern Gondolin uses for facade files."""
     return bool(FILE_PUBLIC_SECTION_RE.search(text))
 
 
@@ -465,7 +465,7 @@ def _format_lock(declarations: list[Declaration]) -> str:
     """Render the deterministic, line-sorted lock file."""
     sorted_decls = sorted(declarations, key=lambda d: (d.kind, d.name))
     header_lines = [
-        "# Gondlin API surface lock",
+        "# Gondolin API surface lock",
         "# Regenerate with: python3 scripts/checks/api_surface.py --write",
         "# scan_root: NN/API",
         f"# total_declarations: {len(sorted_decls)}",
@@ -607,7 +607,7 @@ def _render_diff(diff: SurfaceDiff, *, color: bool) -> str:
 
 
 def scan_surface() -> list[Declaration]:
-    """Scan Gondlin's Tier 1 API surface starting from `NN/API/Public.lean`."""
+    """Scan Gondolin's Tier 1 API surface starting from `NN/API/Public.lean`."""
     modules = _collect_api_modules(PUBLIC_ENTRY)
     declarations: list[Declaration] = []
     for path in modules:
@@ -663,7 +663,7 @@ def main(argv: list[str] | None = None) -> int:
     if not PUBLIC_ENTRY.exists():
         print(
             f"api_surface: expected entry point at {PUBLIC_ENTRY.relative_to(REPO_ROOT)} "
-            "(is the working directory inside Gondlin?)",
+            "(is the working directory inside Gondolin?)",
             file=sys.stderr,
         )
         return 2

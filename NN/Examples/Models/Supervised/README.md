@@ -1,4 +1,4 @@
-# Supervised Examples (Gondlin)
+# Supervised Examples (Gondolin)
 
 This folder is for runnable examples where the task is ordinary input and target training:
 
@@ -14,8 +14,8 @@ Useful commands:
 
 ```bash
 python3 scripts/datasets/download_example_data.py --auto-mpg
-lake exe gondlin mlp --cpu --steps 10
+lake exe gondolin mlp --cpu --steps 10
 
 python3 scripts/datasets/download_example_data.py --household-power --household-power-windows 512
-lake exe -K cuda=true gondlin lstm_regression --cuda --steps 200 --windows 96
+lake exe -K cuda=true gondolin lstm_regression --cuda --steps 200 --windows 96
 ```

@@ -1,10 +1,10 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 
 CUDA/cuBLAS FFI: host `FloatArray` DGEMM (FP64 / Lean `Float`).
-Implementation: `csrc/cuda/blas/gondlin_dgemm_cuda.cu` (`cublasDgemm`).
+Implementation: `csrc/cuda/blas/gondolin_dgemm_cuda.cu` (`cublasDgemm`).
 
 The FP32 matmul path lives in `Engine.Cuda.Kernels` as `Buffer.bmm`, which uses the CUDA buffer
 stack and cuBLAS SGEMM.
@@ -24,7 +24,7 @@ This intentionally stays in its own small module instead of `Cuda.Kernels`:
 - `Cuda.Kernels` is the float32 `Cuda.Buffer` surface used by the CUDA eager tape.
 - `DGemm` is a host `FloatArray → FloatArray` bridge for Lean `Float` tensors and the
   `FastKernels` CPU-tape acceleration path.
-- It links through a separate native archive (`gondlin_dgemm_cuda`) because the implementation
+- It links through a separate native archive (`gondolin_dgemm_cuda`) because the implementation
   is a cuBLAS-DGEMM wrapper rather than a tensor-buffer kernel.
 
 -/
@@ -35,8 +35,8 @@ namespace Runtime
 namespace Autograd
 namespace Cuda
 
-@[extern "gondlin_dgemm_cuda"]
-opaque gondlinDgemmCuda (A : FloatArray) (B : FloatArray)
+@[extern "gondolin_dgemm_cuda"]
+opaque gondolinDgemmCuda (A : FloatArray) (B : FloatArray)
                           (m n p : UInt32) : FloatArray
 
 end Cuda

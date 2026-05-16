@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -21,7 +21,7 @@ This module keeps the interval arithmetic fact separate from the IEEEExec32 soun
 
 @[expose] public section
 
-namespace Gondlin.Floats.Interval
+namespace Gondolin.Floats.Interval
 
 /-- Minimum of four real numbers, grouped as `min (min a b) (min c d)`. -/
 def min4R (a b c d : ℝ) : ℝ :=
@@ -143,4 +143,4 @@ theorem mul_bounds_Icc (a b c d x y : ℝ)
 
   exact ⟨h_lower, h_upper⟩
 
-end Gondlin.Floats.Interval
+end Gondolin.Floats.Interval

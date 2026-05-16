@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -13,7 +13,7 @@ public import NN.Proofs.RL.Tactics
 /-!
 # RL Float32 Semantics (IEEE32Exec)
 
-Gondlin provides multiple “views” of float32:
+Gondolin provides multiple “views” of float32:
 
 - `IEEE32Exec`: executable, bit-level IEEE-754 binary32 (can run inside Lean),
 - `FP32`: proof-oriented “round-on-ℝ” float32 model (finite-only).
@@ -47,10 +47,10 @@ namespace Float32Exec
 
 open Spec.RL
 
-open Gondlin.Floats
-open Gondlin.Floats.IEEE754
+open Gondolin.Floats
+open Gondolin.Floats.IEEE754
 
-open Gondlin.Floats.IEEE754.IEEE32Exec
+open Gondolin.Floats.IEEE754.IEEE32Exec
 
 /--
 Refinement theorem for the RL one-step discounted backup in executable float32 semantics.

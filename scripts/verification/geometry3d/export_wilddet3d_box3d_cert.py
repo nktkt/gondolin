@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run WildDet3D and export a Gondlin 3D camera-box certificate.
+"""Run WildDet3D and export a Gondolin 3D camera-box certificate.
 
 WildDet3D is a promptable monocular 3D detection model hosted by Ai2 on Hugging Face.  Unlike the
 DETR+Depth Anything bridge, WildDet3D directly predicts 3D boxes.  This script treats WildDet3D as
@@ -8,7 +8,7 @@ an untrusted external producer:
 1. download the WildDet3D Hugging Face Space source and model checkpoint;
 2. run one text-prompt monocular 3D detection pass;
 3. convert the selected predicted 3D box to eight camera-frame corners;
-4. export a `gondlin.camera.box3d.v1` JSON artifact; and
+4. export a `gondolin.camera.box3d.v1` JSON artifact; and
 5. optionally ask Lean to verify the exported projection contract.
 
 Lean does not trust WildDet3D, PyTorch, vis4d, or this exporter.  Lean only checks the final JSON:
@@ -33,7 +33,7 @@ from PIL import Image
 from safe_image_io import load_local_rgb_image, load_remote_rgb_image
 
 
-FORMAT = "gondlin.camera.box3d.v1"
+FORMAT = "gondolin.camera.box3d.v1"
 HF_MODEL_REPO = "allenai/WildDet3D"
 HF_SPACE_REPO = "allenai/WildDet3D"
 HF_CKPT_NAME = "wilddet3d_alldata_all_prompt_v1.0.pt"
@@ -228,7 +228,7 @@ def bbox_encloses(projected: list[tuple[float, float, float]], bbox: list[float]
 
 
 def export_cert(args: argparse.Namespace) -> dict[str, Any]:
-    """Run WildDet3D and return one Gondlin certificate dictionary."""
+    """Run WildDet3D and return one Gondolin certificate dictionary."""
     prepare_wilddet3d_source()
     from wilddet3d.inference import build_model
     from wilddet3d.preprocessing import preprocess

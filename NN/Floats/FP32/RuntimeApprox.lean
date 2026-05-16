@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -43,7 +43,7 @@ Two small conventions show up everywhere below:
 @[expose] public section
 
 
-namespace Gondlin.Floats
+namespace Gondolin.Floats
 namespace FP32
 
 open Proofs.RuntimeApprox
@@ -293,4 +293,4 @@ example :
 end Examples
 
 end FP32
-end Gondlin.Floats
+end Gondolin.Floats

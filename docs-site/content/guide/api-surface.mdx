@@ -13,7 +13,7 @@ stable set of imports whose names stay fixed even when runtime or spec internals
 ```lean
 import NN                 -- the ordinary public surface for most users
 import NN.API.Public      -- PyTorch-style facade: NN.API.nn, NN.API.optim, NN.API.train, ...
-import NN.API.Runtime     -- lower-level runtime surface (NN.API.Gondlin.*)
+import NN.API.Runtime     -- lower-level runtime surface (NN.API.Gondolin.*)
 import NN.Library         -- broad umbrella: spec, IR, proof, verification, examples, widgets
 ```
 
@@ -22,10 +22,10 @@ runtime modules under `NN/Runtime/*` evolve without asking users to chase import
 
 ## Use TorchLean From Another Lean Project
 
-The `Gondlin` package is an ordinary Lake dependency. You can depend on the Git repo:
+The `Gondolin` package is an ordinary Lake dependency. You can depend on the Git repo:
 
 ```lean
-require Gondlin from git "https://github.com/nktkt/gondlin.git" @ "main"
+require Gondolin from git "https://github.com/nktkt/gondolin.git" @ "main"
 ```
 
 Then run:
@@ -52,7 +52,7 @@ import NN.Library
 For local development against a checkout, use a path dependency instead:
 
 ```lean
-require Gondlin from "../gondlin"
+require Gondolin from "../gondolin"
 ```
 
 ## Surface Reference For Examples

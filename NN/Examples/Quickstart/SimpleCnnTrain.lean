@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -34,7 +34,7 @@ Check this tutorial module directly:
 For the maintained command-line CNN trainer, use `NN/Examples/Models/Vision/Cnn.lean`:
 
 - `python3 scripts/datasets/download_example_data.py --cifar10`
-- `lake exe gondlin cnn --cpu --n-total 20 --steps 1`
+- `lake exe gondolin cnn --cpu --n-total 20 --steps 1`
 
 Optional flags:
 
@@ -92,7 +92,7 @@ def runOnce {batch : Nat} (task : train.Task (Shape.Images batch 1 4 4) (shape![
     (runner : train.Runner α task) (epochs : Nat := 20) (seed : Nat := 0) : IO Unit := do
   let samplesF := API.Samples.Bands.trainCHWFloat
   let probes := API.Samples.Bands.probesCHW (α := α) API.Runtime.ofFloat
-  let dataset : Data.Dataset (Gondlin.TList α [Shape.CHW 1 4 4, Shape.Vec 2]) :=
+  let dataset : Data.Dataset (Gondolin.TList α [Shape.CHW 1 4 4, Shape.Vec 2]) :=
     Data.labeled (α := α) (σ := Shape.CHW 1 4 4) 2 samplesF
   let loader := Data.batchLoader dataset batch (shuffle := true) (seed := seed) (dropLast := true)
   let batchedDs ← API.Common.orThrow "SimpleCNNTrain" <| Data.BatchLoader.batchDataset loader

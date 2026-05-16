@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -11,7 +11,7 @@ public import NN.Runtime.Autograd.Train.IoLoader.Common
 /-!
 # CSV loaders
 
-Small CSV helpers for Gondlin examples and runtime regression tests.
+Small CSV helpers for Gondolin examples and runtime regression tests.
 
 The parser is deliberately narrow: unquoted delimiter-separated numeric cells only. It does not
 support quoted fields, escaped delimiters, locale-specific number formats, `NaN`, or `inf`.

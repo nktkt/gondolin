@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -24,7 +24,7 @@ the infoview. It is designed for:
 - inspecting runtime output,
 - teaching/exposition in the manual.
 
-It is **not** intended to be used inside proofs, and it is kept out of Gondlin’s default build
+It is **not** intended to be used inside proofs, and it is kept out of Gondolin’s default build
 surface (you must explicitly import `NN.Entrypoint.Widgets` or a concrete widget module such as
 `NN.Widgets.Core.Tensor`).
 

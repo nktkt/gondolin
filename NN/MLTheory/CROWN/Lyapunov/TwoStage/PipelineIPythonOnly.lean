@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -11,7 +11,7 @@ public import NN.MLTheory.CROWN.Lyapunov.Verification
 /-!
 # Pipeline (i): Python-only training/verification, oracle-backed Lean theorem packaging
 
-This file corresponds to **Figure 7 (i)** in the Gondlin paper (`arXiv:2602.22631`):
+This file corresponds to **Figure 7 (i)** in the Gondolin paper (`arXiv:2602.22631`):
 
 - Stage 1 + Stage 2 run in PyTorch (float32) and produce candidate networks + numeric bounds.
 - Lean **does not** re-run α/β-CROWN here.

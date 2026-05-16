@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -17,7 +17,7 @@ public import NN.Spec.Generative.Diffusion.Loss
 /-!
 # Diffusion / flow specs (umbrella)
 
-This is the curated public entrypoint for Gondlin's diffusion / flow spec layer.
+This is the curated public entrypoint for Gondolin's diffusion / flow spec layer.
 
 It re-exports:
 

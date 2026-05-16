@@ -1,14 +1,14 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
 
 public import NN.Proofs.Autograd.Tape.Algebra.Soundness
 public import NN.Runtime.Autograd.Engine.Core
-public import NN.Runtime.Autograd.Gondlin.Random
+public import NN.Runtime.Autograd.Gondolin.Random
 
 /-!
 # GraphM
@@ -28,7 +28,7 @@ This module defines a small `StateT` builder (`GraphM`) that:
 
 - `GraphM.arg` and `GraphM.args` name inputs from the initial context.
 - `GraphM.const` and `GraphM.rand_uniform` add constant and deterministic runtime nodes.
-- The remaining op builders mirror the `Runtime.Autograd.Gondlin.Backend` surface one-for-one.
+- The remaining op builders mirror the `Runtime.Autograd.Gondolin.Backend` surface one-for-one.
 -/
 
 @[expose] public section
@@ -42,7 +42,7 @@ namespace GraphM
 open Spec
 open Tensor
 open Proofs.Autograd.Algebra
-open Runtime.Autograd.Gondlin
+open Runtime.Autograd.Gondolin
 
 /-- Shorthand for the underlying executable SSA graph type from `Proofs.Autograd.Algebra`. -/
 abbrev PGraphData (α : Type) (Δ : Type) (Γ : List Shape) (ss : List Shape) : Type :=
@@ -277,8 +277,8 @@ def randUniform {α : Type} [Context α] {Δ : Type} {Γ : List Shape} {s : Shap
     MWith α Δ Γ (Var s) := do
   let ⟨ss, g⟩ ← get
   let counter := ss.length
-  let key := Gondlin.Random.keyOf seed counter
-  let t : Tensor α s := Gondlin.Random.uniform (α := α) key (s := s)
+  let key := Gondolin.Random.keyOf seed counter
+  let t : Tensor α s := Gondolin.Random.uniform (α := α) key (s := s)
   let node : NodeData α Δ (Γ ++ ss) s :=
     { forward := fun _ctx _d => t
       jvp := fun _ctx _dctx _d => fill (0 : α) s
@@ -299,7 +299,7 @@ def bernoulliMask {α : Type} [Context α] [DecidableEq Shape]
     MWith α Δ Γ (Var s) := do
   let ⟨ss, g⟩ ← get
   let counter := ss.length
-  let key := Gondlin.Random.keyOf seed counter
+  let key := Gondolin.Random.keyOf seed counter
   let ikp ← liftM (mkIdx (_α := α) (Γ := Γ) ss keepProb)
   let node : NodeData α Δ (Γ ++ ss) s :=
     { forward := fun ctx _d =>
@@ -307,7 +307,7 @@ def bernoulliMask {α : Type} [Context α] [DecidableEq Shape]
         let kp : α :=
           match kpT with
           | Tensor.scalar v => v
-        Gondlin.Random.mask (α := α) key kp (s := s)
+        Gondolin.Random.mask (α := α) key kp (s := s)
       jvp := fun _ctx _dctx _d => fill (0 : α) s
       vjp := fun _ctx _d _δ => TList.zero (α := α) (ss := Γ ++ ss) }
   push (α := α) (Δ := Δ) (Γ := Γ) (ss := ss) (s := s) g node

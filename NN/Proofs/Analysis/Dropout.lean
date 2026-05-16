@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -12,7 +12,7 @@ public import NN.Runtime.Context
 /-!
 # Dropout analysis properties
 
-Gondlin splits stochastic training-mode dropout into two pieces:
+Gondolin splits stochastic training-mode dropout into two pieces:
 
 - a mask/seed producer, treated as non-differentiated data in autograd proofs, and
 - a deterministic tensor map once the mask or inference probability is fixed.

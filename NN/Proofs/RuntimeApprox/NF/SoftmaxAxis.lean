@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -13,7 +13,7 @@ public import NN.Proofs.RuntimeApprox.NF.Ops
 
 NF (rounded) backend: notes on *axis softmax*.
 
-Gondlin's NF proof stack provides end-to-end approximation bounds for the scalar
+Gondolin's NF proof stack provides end-to-end approximation bounds for the scalar
 logistic helper used throughout the NF runtime layer and the autograd proofs.
 
 Important: the NF node named `softmax` below is the scalar logistic-like function

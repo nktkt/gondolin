@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -40,7 +40,7 @@ Failure modes (reported as `Except String`):
 PyTorch context (comments only):
 
 PyTorch’s ONNX exporter and `torch.export` can capture graphs for execution in other runtimes.
-Gondlin’s emitter here prints readable Python that mirrors the IR, rather than producing an
+Gondolin’s emitter here prints readable Python that mirrors the IR, rather than producing an
 execution-focused serialized graph artifact.
 -/
 
@@ -185,7 +185,7 @@ private def isConstId (g : NN.IR.Graph) (id : Nat) : Bool :=
 
 /--
 Detect constant node ids that correspond to **LayerNorm affine parameters** (gamma/beta) emitted
-by the Gondlin→IR compiler.
+by the Gondolin→IR compiler.
 
 In the IR backend, `layer_norm(x, gamma, beta)` is lowered into:
 1) `layernorm(x)` (pure normalization)

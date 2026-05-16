@@ -1,15 +1,15 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 
 CUDA-only minGPT-style addition walkthrough:
   lake build -R -K cuda=true
-  lake exe gondlin gpt_adder --steps 500 --log-every 100 --optim adam --lr 0.005 --a 7 --b 8
-  lake exe gondlin gpt_adder --steps 500 --log-every 100 --optim sgd --lr 0.05 --a 7 --b 8
+  lake exe gondolin gpt_adder --steps 500 --log-every 100 --optim adam --lr 0.005 --a 7 --b 8
+  lake exe gondolin gpt_adder --steps 500 --log-every 100 --optim sgd --lr 0.05 --a 7 --b 8
 
 Interactive addition REPL:
-  lake exe gondlin gpt_adder --steps 1000 --interactive
+  lake exe gondolin gpt_adder --steps 1000 --interactive
 -/
 
 module
@@ -17,12 +17,12 @@ module
 public import NN
 public import NN.API.Models.Gpt2
 public import NN.Runtime.Autograd.Torch.Core
-public import NN.Runtime.Autograd.Gondlin.NN
+public import NN.Runtime.Autograd.Gondolin.NN
 
 /-!
 # minGPT-Style Addition Demo
 
-This file is a Gondlin-native version of the spirit of Karpathy's `minGPT/projects/adder`
+This file is a Gondolin-native version of the spirit of Karpathy's `minGPT/projects/adder`
 experiment.  The original minGPT adder trains a compact GPT to complete digit strings of the form
 
 `digits(a) ++ digits(b) ++ reverseDigits(a+b)`.
@@ -35,7 +35,7 @@ This is intentionally not a text chatbot.  It is a controlled "does the CUDA GPT
 actually learn an algorithmic task?" walkthrough:
 
 * synthetic data is generated in Lean,
-* the model is a GPT-style causal Transformer built from Gondlin layers,
+* the model is a GPT-style causal Transformer built from Gondolin layers,
 * training is CUDA-only by default,
 * optimizer choices are deliberately close to minGPT (`adamw`, `adam`, or `sgd`),
 * evaluation greedily completes every one-digit addition problem.
@@ -61,7 +61,7 @@ open NN.API
 namespace NN.Examples.Models.Sequence.GptAdder
 
 /-- Runner subcommand name. -/
-def exeName : String := "gondlin gpt_adder"
+def exeName : String := "gondolin gpt_adder"
 def defaultLogJson : System.FilePath := "data/model_zoo/gpt_adder_trainlog.json"
 
 /--
@@ -101,9 +101,9 @@ def seqLen : Nat := 3 * ndigit
 /--
 Number of attention heads.
 
-Karpathy's minGPT default for the adder is `gpt-nano` (`3` heads, width `48`). Gondlin's eager
+Karpathy's minGPT default for the adder is `gpt-nano` (`3` heads, width `48`). Gondolin's eager
 CUDA trainer is tape-based, so we use a middle-sized model that is substantially larger than the
-original compact setup (1,050 params) while keeping `gondlin gpt_adder` practical to run.
+original compact setup (1,050 params) while keeping `gondolin gpt_adder` practical to run.
 -/
 def numHeads : Nat := 2
 
@@ -173,9 +173,9 @@ def modelParamTensorCount : Nat :=
 def adderLoss {α : Type} [Context α] [DecidableEq Shape]
     {m : Type → Type} [Monad m] [_root_.Runtime.Autograd.Torch.Ops (m := m) (α := α)]
     (logits targetOneHot :
-      _root_.Runtime.Autograd.Gondlin.RefTy (m := m) (α := α) τ) :
-    m (_root_.Runtime.Autograd.Gondlin.RefTy (m := m) (α := α) Shape.scalar) := do
-  let summed ← _root_.Runtime.Autograd.Gondlin.Loss.crossEntropyOneHot
+      _root_.Runtime.Autograd.Gondolin.RefTy (m := m) (α := α) τ) :
+    m (_root_.Runtime.Autograd.Gondolin.RefTy (m := m) (α := α) Shape.scalar) := do
+  let summed ← _root_.Runtime.Autograd.Gondolin.Loss.crossEntropyOneHot
     (m := m) (α := α) (s := τ) logits targetOneHot (reduction := .sum)
   _root_.Runtime.Autograd.Torch.Ops.scale (m := m) (α := α) (s := Shape.scalar)
     summed ((1 : α) / (activeTargetCount : α))
@@ -189,7 +189,7 @@ active target positions, matching minGPT's `ignore_index`-style normalization ra
 over ignored prefix rows.
 -/
 def adderScalarModuleDef (model : nn.Sequential σ τ) :
-    Gondlin.Module.ScalarModuleDef (nn.paramShapes model) [σ, τ] :=
+    Gondolin.Module.ScalarModuleDef (nn.paramShapes model) [σ, τ] :=
   nn.scalarModuleDef model (loss := fun {α} _ _ =>
     fun {m} _ _ =>
       fun logits targetOneHot =>
@@ -214,7 +214,7 @@ def renderExample (a b : Nat) : List Nat :=
 Karpathy/minGPT masks the loss on the operand-prefix positions.
 
 In `projects/adder/adder.py`, the target vector `y` is shifted by one token and then
-`y[:ndigit*2-1] = -1`, where `-1` is PyTorch's "ignore index" for cross entropy. Gondlin's
+`y[:ndigit*2-1] = -1`, where `-1` is PyTorch's "ignore index" for cross entropy. Gondolin's
 current one-hot cross entropy does not have an ignore-index target, so we represent the same idea by
 using an all-zero one-hot vector on ignored positions. Because the loss is `-sum(y * log p)`, these
 positions contribute exactly zero gradient.
@@ -326,7 +326,7 @@ adder executable focused on the task-specific data and evaluation path.
 -/
 def runtimePredictFloat {σ τ : Shape}
     (opts : Runtime.Autograd.Torch.Options) (model : nn.Sequential σ τ)
-    (m : Gondlin.Module.ScalarModule Float (Gondlin.NN.Seq.paramShapes model) [σ, τ])
+    (m : Gondolin.Module.ScalarModule Float (Gondolin.NN.Seq.paramShapes model) [σ, τ])
     (x : Tensor Float σ) : IO (Tensor Float τ) := do
   nn.eval1
     (α := Float) opts model m.trainer.params x
@@ -340,7 +340,7 @@ position `k - 1`, not always at the final padded position.
 def generateResultDigits
     (opts : Runtime.Autograd.Torch.Options)
     (model : nn.Sequential σ τ)
-    (m : Gondlin.Module.ScalarModule Float (Gondlin.NN.Seq.paramShapes model) [σ, τ])
+    (m : Gondolin.Module.ScalarModule Float (Gondolin.NN.Seq.paramShapes model) [σ, τ])
     (a b : Nat) : IO (List Nat) := do
   let mut digits := fixedDigits ndigit a ++ fixedDigits ndigit b
   let mut out : List Nat := []
@@ -356,7 +356,7 @@ def generateResultDigits
 def predictSum
     (opts : Runtime.Autograd.Torch.Options)
     (model : nn.Sequential σ τ)
-    (m : Gondlin.Module.ScalarModule Float (Gondlin.NN.Seq.paramShapes model) [σ, τ])
+    (m : Gondolin.Module.ScalarModule Float (Gondolin.NN.Seq.paramShapes model) [σ, τ])
     (a b : Nat) : IO Nat := do
   let revDigits ← generateResultDigits opts model m a b
   pure (decodeResult revDigits)
@@ -365,7 +365,7 @@ def predictSum
 def evalAllSlow
     (opts : Runtime.Autograd.Torch.Options)
     (model : nn.Sequential σ τ)
-    (m : Gondlin.Module.ScalarModule Float (Gondlin.NN.Seq.paramShapes model) [σ, τ]) :
+    (m : Gondolin.Module.ScalarModule Float (Gondolin.NN.Seq.paramShapes model) [σ, τ]) :
     IO Nat := do
   let mut correct := 0
   for i in [0:100] do
@@ -390,7 +390,7 @@ rows `[a,b]`, append it, and then predict the carry/tens digit from rows `[a,b,p
 def evalBatched
     (opts : Runtime.Autograd.Torch.Options)
     (model : nn.Sequential σ τ)
-    (m : Gondlin.Module.ScalarModule Float (Gondlin.NN.Seq.paramShapes model) [σ, τ]) :
+    (m : Gondolin.Module.ScalarModule Float (Gondolin.NN.Seq.paramShapes model) [σ, τ]) :
     IO EvalScore := do
   let operandRows : Fin batch → List Nat := fun bi =>
     let (a, b) := pairAt bi.val
@@ -419,7 +419,7 @@ def evalBatched
 def evalAllBatched
     (opts : Runtime.Autograd.Torch.Options)
     (model : nn.Sequential σ τ)
-    (m : Gondlin.Module.ScalarModule Float (Gondlin.NN.Seq.paramShapes model) [σ, τ]) :
+    (m : Gondolin.Module.ScalarModule Float (Gondolin.NN.Seq.paramShapes model) [σ, τ]) :
     IO Nat := do
   pure (← evalBatched opts model m).allCorrect
 
@@ -427,7 +427,7 @@ def evalAllBatched
 def printProbe
     (opts : Runtime.Autograd.Torch.Options)
     (model : nn.Sequential σ τ)
-    (m : Gondlin.Module.ScalarModule Float (Gondlin.NN.Seq.paramShapes model) [σ, τ])
+    (m : Gondolin.Module.ScalarModule Float (Gondolin.NN.Seq.paramShapes model) [σ, τ])
     (a b : Nat) : IO Unit := do
   let revDigits ← generateResultDigits opts model m a b
   let pred := decodeResult revDigits
@@ -547,7 +547,7 @@ def forceCudaArgs (args : List String) : Except String (List String) := do
 partial def interactiveLoop
     (opts : Runtime.Autograd.Torch.Options)
     (model : nn.Sequential σ τ)
-    (m : Gondlin.Module.ScalarModule Float (Gondlin.NN.Seq.paramShapes model) [σ, τ]) :
+    (m : Gondolin.Module.ScalarModule Float (Gondolin.NN.Seq.paramShapes model) [σ, τ]) :
     IO Unit := do
   IO.println "  interactive: enter one-digit prompts like 7+8; empty line or :q exits"
   let stdin ← IO.getStdin
@@ -572,9 +572,9 @@ def trainAdderFloat (opts : Runtime.Autograd.Torch.Options) (trainOpts : TrainOp
     IO Unit := do
   nn.withModel mkModel fun model => do
     let modDef := adderScalarModuleDef model
-    let m ← Gondlin.Module.instantiateWithOptions (α := Float) modDef id opts
+    let m ← Gondolin.Module.instantiateWithOptions (α := Float) modDef id opts
     let sample0 := mkSample (α := Float) 0 0
-    let loss0 ← Gondlin.Module.forward (α := Float) m sample0
+    let loss0 ← Gondolin.Module.forward (α := Float) m sample0
     IO.println s!"  mode=adder ndigit={ndigit} vocab={vocab} seqLen={seqLen} steps={trainOpts.steps}"
     IO.println s!"  model layers={layers} heads={numHeads} headDim={headDim} dModel={dModel} ffnHidden={ffnHidden}"
     IO.println s!"  parameters={modelParamCount} tensors={modelParamTensorCount} activeTargets/step={activeTargetCount}"
@@ -601,41 +601,41 @@ def trainAdderFloat (opts : Runtime.Autograd.Torch.Options) (trainOpts : TrainOp
         mkSample (α := Float) trainOpts.a trainOpts.b
       else
         mkTrainSample (α := Float) trainOpts.trainSplit
-    let trainLoss0 ← Gondlin.Module.forward (α := Float) m trainSample
+    let trainLoss0 ← Gondolin.Module.forward (α := Float) m trainSample
     let trainLoss0Val := Tensor.toScalar trainLoss0
 
     let stepSample : sample.Supervised Float σ τ → IO Unit ←
       match trainOpts.optim with
       | .sgd =>
-          let opt := Gondlin.Optim.sgd (α := Float)
+          let opt := Gondolin.Optim.sgd (α := Float)
             (paramShapes := nn.paramShapes model) trainOpts.lr
-          let optH ← Gondlin.Optim.handle (α := Float) m opt
+          let optH ← Gondolin.Optim.handle (α := Float) m opt
           pure optH.step
       | .adam =>
-          let opt := Gondlin.Optim.adam (α := Float)
+          let opt := Gondolin.Optim.adam (α := Float)
             (paramShapes := nn.paramShapes model)
             (lr := trainOpts.lr)
             (beta1 := 0.9)
             (beta2 := 0.95)
             (epsilon := 1e-8)
-          let optH ← Gondlin.Optim.handle (α := Float) m opt
+          let optH ← Gondolin.Optim.handle (α := Float) m opt
           pure optH.step
       | .adamw =>
-          let opt := Gondlin.Optim.adamw (α := Float)
+          let opt := Gondolin.Optim.adamw (α := Float)
             (paramShapes := nn.paramShapes model)
             (lr := trainOpts.lr)
             (weightDecay := 0.1)
             (beta1 := 0.9)
             (beta2 := 0.95)
             (epsilon := 1e-8)
-          let optH ← Gondlin.Optim.handle (α := Float) m opt
+          let optH ← Gondolin.Optim.handle (α := Float) m opt
           pure optH.step
 
     for step in [0:trainOpts.steps] do
       stepSample trainSample
       let done := step + 1
       if trainOpts.logEvery != 0 && done % trainOpts.logEvery == 0 then
-        let loss ← Gondlin.Module.forward (α := Float) m trainSample
+        let loss ← Gondolin.Module.forward (α := Float) m trainSample
         let lossVal := Tensor.toScalar loss
         Common.check exeName s!"non-finite training loss at step {done}" (lossVal == lossVal)
         if trainOpts.overfitProbe then
@@ -657,7 +657,7 @@ def trainAdderFloat (opts : Runtime.Autograd.Torch.Options) (trainOpts : TrainOp
       else
         let score ← evalAllBatched opts model m
         IO.println s!"  final exact={score}/100"
-    let trainLoss1 ← Gondlin.Module.forward (α := Float) m trainSample
+    let trainLoss1 ← Gondolin.Module.forward (α := Float) m trainSample
     let trainLoss1Val := Tensor.toScalar trainLoss1
     Common.writeBeforeAfterLossLog trainOpts.logPath "GPT adder training" trainOpts.steps
       trainLoss0Val trainLoss1Val
@@ -677,7 +677,7 @@ def main (args : List String) : IO UInt32 := do
       IO.eprintln s!"{exeName}: {e}"
       pure 1
   | .ok args =>
-      Gondlin.Module.run exeName args
+      Gondolin.Module.run exeName args
         (.float (fun opts rest => do
           if !opts.useGpu then
             throw <| IO.userError s!"{exeName}: CUDA runtime was not selected"

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -31,9 +31,9 @@ import cycles.
 
 @[expose] public section
 
-namespace Gondlin.Floats.IEEE754
+namespace Gondolin.Floats.IEEE754
 
-open Gondlin.Floats
+open Gondolin.Floats
 
 namespace IEEE32Exec
 
@@ -47,7 +47,7 @@ lemma scaleRat_ofNat (num den sh : Nat) :
     ((num : ℝ) / (den : ℝ)) * neuralBpow binaryRadix (Int.ofNat sh) =
       ((Nat.shiftLeft num sh : Nat) : ℝ) / (den : ℝ) := by
   have hb : neuralBpow binaryRadix (Int.ofNat sh) = (2 : ℝ) ^ sh := by
-    simp [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal]
+    simp [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal]
   rw [hb]
   have hnumShift : (num : ℝ) * ((2 : ℝ) ^ sh) = ((Nat.shiftLeft num sh : Nat) : ℝ) := by
     have hp : (2 : ℝ) ^ sh = ((2 ^ sh : Nat) : ℝ) := by
@@ -65,7 +65,7 @@ lemma scaleRat_negSucc (num den sh : Nat) :
     ((num : ℝ) / (den : ℝ)) * neuralBpow binaryRadix (Int.negSucc sh) =
       (num : ℝ) / ((Nat.shiftLeft den (sh + 1) : Nat) : ℝ) := by
   have hb : neuralBpow binaryRadix (Int.negSucc sh) = (1 : ℝ) / (2 : ℝ) ^ (sh + 1) := by
-    simp [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal, zpow_negSucc,
+    simp [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal, zpow_negSucc,
       div_eq_mul_inv]
   rw [hb]
   calc
@@ -198,4 +198,4 @@ lemma dyadicToReal_div_eq_signedRat (dx dy : Dyadic) (hy0 : dy.mant ≠ 0) :
       (dyadicToReal_div_eq_signedRat_mul (dx := dx) (dy := dy) hy0)
 
 end IEEE32Exec
-end Gondlin.Floats.IEEE754
+end Gondolin.Floats.IEEE754

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run Hugging Face vision pipelines and export a Gondlin 3D-box certificate.
+"""Run Hugging Face vision pipelines and export a Gondolin 3D-box certificate.
 
 This is the PyTorch-to-Lean Geometry3D path:
 
@@ -12,7 +12,7 @@ The learned models are not trusted.  The certificate says only:
 
     Given the exported camera matrix, 3D corners, image size, and 2D box, the geometry is coherent.
 
-The trust boundary is explicit: PyTorch proposes geometry, and Gondlin checks the contract before
+The trust boundary is explicit: PyTorch proposes geometry, and Gondolin checks the contract before
 downstream code relies on it.
 """
 
@@ -33,7 +33,7 @@ from transformers import pipeline
 from safe_image_io import load_local_rgb_image, load_remote_rgb_image
 
 
-FORMAT = "gondlin.camera.box3d.v1"
+FORMAT = "gondolin.camera.box3d.v1"
 DEFAULT_IMAGE_URL = (
     "https://images.cocodataset.org/val2017/000000039769.jpg"
 )
@@ -351,7 +351,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--image", type=Path, default=None, help="local image path")
     parser.add_argument("--image-url", default=None, help="image URL; default: COCO val image")
-    parser.add_argument("--out", type=Path, default=DEFAULT_OUT, help="Gondlin cert output path")
+    parser.add_argument("--out", type=Path, default=DEFAULT_OUT, help="Gondolin cert output path")
     parser.add_argument("--batch-manifest", type=Path, default=None, help="JSON manifest of real-image cases")
     parser.add_argument("--batch-out-dir", type=Path, default=Path("_external/geometry3d/realworld"))
     parser.add_argument("--detector-model", default="facebook/detr-resnet-50")

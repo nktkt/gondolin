@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -10,17 +10,17 @@ module
 
 public import NN.API.Common
 public import NN.API.TList
-public import NN.Runtime.Autograd.Gondlin.Metrics
-public import NN.Runtime.Autograd.Gondlin.Random
+public import NN.Runtime.Autograd.Gondolin.Metrics
+public import NN.Runtime.Autograd.Gondolin.Random
 
 import Mathlib.Algebra.Order.Algebra
 
 /-!
 # API Text
 
-Small text / NLP helpers for Gondlin examples.
+Small text / NLP helpers for Gondolin examples.
 
-Gondlin’s executable runtime expects inputs as floating tensors, so runtime and autograd
+Gondolin’s executable runtime expects inputs as floating tensors, so runtime and autograd
 code can handle them with the same typed tensor APIs as parameters. For language models this means
 we commonly represent
 token ids as **one-hot / token-distribution** tensors of shape:
@@ -83,7 +83,7 @@ def byte : Tokenizer where
 /--
 Build a character-level tokenizer from an explicit alphabet.
 
-This is the Gondlin analogue of the `stoi/itos` tables used in many educational GPT demos
+This is the Gondolin analogue of the `stoi/itos` tables used in many educational GPT demos
 (including Karpathy's "char-gpt" / minGPT walkthroughs): `encode` maps characters to ids
 `0..alphabet.size-1`, and `decode` maps ids back to characters.
 
@@ -359,8 +359,8 @@ without using ambient IO randomness.  This is the text equivalent of a shuffled 
 -/
 def randomBatchOffsets (tokenCount seqLen batch seed step : Nat) : Fin batch → Nat :=
   let usable := usableTokenStarts tokenCount seqLen
-  let key : UInt64 := _root_.Runtime.Autograd.Gondlin.Random.keyOf seed step
-  fun bi => _root_.Runtime.Autograd.Gondlin.Random.sampleNat key bi.val usable
+  let key : UInt64 := _root_.Runtime.Autograd.Gondolin.Random.keyOf seed step
+  fun bi => _root_.Runtime.Autograd.Gondolin.Random.sampleNat key bi.val usable
 
 /--
 Build token windows for one deterministic random text batch.
@@ -511,9 +511,9 @@ def sampleTopKIndex (scores : Array Float) (temperature : Float) (topK seed coun
     let total := weights.foldl (fun acc p => acc + p.2) 0.0
     if total <= 0.0 then
       return candidates.head?.getD 0
-    let key := _root_.Runtime.Autograd.Gondlin.Random.keyOf seed counter
+    let key := _root_.Runtime.Autograd.Gondolin.Random.keyOf seed counter
     let denom : Nat := (2 : Nat) ^ 32
-    let uNat := _root_.Runtime.Autograd.Gondlin.Random.sampleNat key 0 denom
+    let uNat := _root_.Runtime.Autograd.Gondolin.Random.sampleNat key 0 denom
     let u := Float.ofNat uNat / Float.ofNat denom
     let target := u * total
     let init : Nat := candidates.head?.getD 0
@@ -537,7 +537,7 @@ def argmaxTokenIdsFromLogits {α : Type} [LT α]
   match logits with
   | Tensor.dim rows =>
       (List.finRange seqLen).map (fun t =>
-        match _root_.Runtime.Autograd.Gondlin.Metrics.argmax? (α := α) (n := vocab) (rows t) with
+        match _root_.Runtime.Autograd.Gondolin.Metrics.argmax? (α := α) (n := vocab) (rows t) with
         | some i => i.val
         | none => 0)
 

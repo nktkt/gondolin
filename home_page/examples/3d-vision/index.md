@@ -4,7 +4,7 @@ usemathjax: true
 ---
 
 This example treats a 3D detector as an artifact producer. The detector/exporter emits a camera
-matrix, eight 3D box corners, image dimensions, and a claimed 2D box. Gondlin reloads that JSON,
+matrix, eight 3D box corners, image dimensions, and a claimed 2D box. Gondolin reloads that JSON,
 recomputes the projection in Lean, and checks whether the claimed box really encloses the projected
 corners.
 
@@ -110,7 +110,7 @@ WildDet3D.
 
 ```json
 {
-  "format": "gondlin.camera.box3d.v1",
+  "format": "gondolin.camera.box3d.v1",
   "width": 640.0,
   "height": 480.0,
   "tol": 1.0,

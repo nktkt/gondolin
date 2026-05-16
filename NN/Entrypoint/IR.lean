@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -16,7 +16,7 @@ public import NN.IR.Semantics
 /-!
 # IR entrypoint
 
-Curated umbrella import for Gondlin's op-tagged intermediate representation.
+Curated umbrella import for Gondolin's op-tagged intermediate representation.
 
 Use this when you want the whole IR subsystem: graph syntax, operation contracts, shape inference,
 validation wrappers, denotational semantics, and pretty-printers. The individual `NN.IR.*` files

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -14,7 +14,7 @@ public import NN.Runtime.RL.Algorithms.DQN
 
 This module proves small but high-value algebraic facts about the DQN runtime helpers.
 
-The main target is target-network soft updates. Gondlin's scalar runtime interface is intentionally
+The main target is target-network soft updates. Gondolin's scalar runtime interface is intentionally
 law-light, so algebraic identities are stated over `ℝ`, where ring laws are available. This avoids
 claiming that arbitrary executable scalar backends satisfy mathematical ring axioms definitionally.
 

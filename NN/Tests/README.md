@@ -1,6 +1,6 @@
 # NN/Tests
 
-`NN/Tests` is Gondlin's executable regression suite.
+`NN/Tests` is Gondolin's executable regression suite.
 
 The proofs live under `NN/Proofs`; these tests have a different job. They run small deterministic
 programs through the same public APIs, FFI paths, and CUDA kernels that users exercise in training
@@ -40,4 +40,4 @@ scripts/checks/cuda_sanitize_tests.sh --all-tools
 ```
 
 The sanitizer harness is intentionally Lean driven: it checks the CUDA kernels through the same FFI
-surface used by Gondlin training and inference.
+surface used by Gondolin training and inference.

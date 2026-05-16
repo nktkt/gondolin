@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -17,7 +17,7 @@ public meta import ProofWidgets.Demos.Macro
 
 Training/testing loop visualizations (logs, curves, and small reports).
 
-Gondlin’s core runtime and specs are purely mathematical; "training loops" are just repeated
+Gondolin’s core runtime and specs are purely mathematical; "training loops" are just repeated
 application of an update rule. In practice, the first thing you want when debugging training is:
 
 - a loss curve (did it decrease? did it blow up?),
@@ -399,7 +399,7 @@ renders it using the same viewer as `#train_log_view`.
 Read a saved `Runtime.Training.TrainLog` JSON file and render it in the infoview.
 
 The expected JSON schema is the one produced by `Runtime.Training.TrainLog.writeJson` and
-Gondlin's executable training examples (for example PPO examples under `NN/Examples/Models/*`).
+Gondolin's executable training examples (for example PPO examples under `NN/Examples/Models/*`).
 
 When the file is missing or malformed, this command renders an error panel instead of failing the
 build, so widget-view files stay safe to import.
@@ -421,7 +421,7 @@ macro "#train_log_file_view " path:term : command =>
             {monospace p.toString}
           </div>
           <div style={json% {"margin-top": "6px", "opacity": "0.9"}}>
-            {.text "Tip: this file is usually produced by a Gondlin executable training run. "}
+            {.text "Tip: this file is usually produced by a Gondolin executable training run. "}
             {.text "Run the matching `lake exe ...` command (often with `-- --log <path>`), "}
             {.text "or pass an absolute path here."}
           </div>

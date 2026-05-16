@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -43,12 +43,12 @@ noncomputable section
 
 namespace NFBackend
 
-open Gondlin.Floats
+open Gondolin.Floats
 
 variable {β : NeuralRadix} {fexp : ℤ → ℤ} [NeuralValidExp fexp]
 variable {rnd : ℝ → ℤ} [NeuralValidRndToNearest rnd]
 
-local notation "R" => Gondlin.Floats.NF β fexp rnd
+local notation "R" => Gondolin.Floats.NF β fexp rnd
 
 set_option maxHeartbeats 4000000
 

@@ -393,7 +393,7 @@ def main():
         "--pde-expr",
         type=str,
         default="uxx + uyy",
-        help="PDE residual expression in Gondlin DSL",
+        help="PDE residual expression in Gondolin DSL",
     )
     ap.add_argument(
         "--bc-expr",

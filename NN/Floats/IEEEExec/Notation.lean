@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -16,7 +16,7 @@ public import NN.Floats.IEEEExec.Exec32
 Mathlib tends to keep non-trivial notation **scoped** (see e.g. `scoped[FinsetFamily] notation …`),
 so downstream code can opt in with `open scoped …` rather than inheriting new syntax globally.
 
-This file follows that pattern for Gondlin's executable IEEE-754 binary32 model:
+This file follows that pattern for Gondolin's executable IEEE-754 binary32 model:
 
 ```lean
 open scoped IEEE754
@@ -36,29 +36,29 @@ The notation here is kept small: it targets readability in docs/proofs, not a fu
 
 @[expose] public section
 
-namespace Gondlin.Floats.IEEE754
+namespace Gondolin.Floats.IEEE754
 
 namespace IEEE32Exec
 
 /-! ## Scoped constants -/
 
 @[inherit_doc]
-scoped[IEEE754] notation "∞₃₂" => _root_.Gondlin.Floats.IEEE754.IEEE32Exec.posInf
+scoped[IEEE754] notation "∞₃₂" => _root_.Gondolin.Floats.IEEE754.IEEE32Exec.posInf
 
 @[inherit_doc]
-scoped[IEEE754] notation "-∞₃₂" => _root_.Gondlin.Floats.IEEE754.IEEE32Exec.negInf
+scoped[IEEE754] notation "-∞₃₂" => _root_.Gondolin.Floats.IEEE754.IEEE32Exec.negInf
 
 @[inherit_doc]
-scoped[IEEE754] notation "NaN₃₂" => _root_.Gondlin.Floats.IEEE754.IEEE32Exec.canonicalNaN
+scoped[IEEE754] notation "NaN₃₂" => _root_.Gondolin.Floats.IEEE754.IEEE32Exec.canonicalNaN
 
 /-! ## Scoped decoding notation -/
 
 /-- Scoped notation for decoding an executable float32 to `ℝ` (via `IEEE32Exec.toReal`). -/
-scoped[IEEE754] notation "⟦" x "⟧₃₂" => _root_.Gondlin.Floats.IEEE754.IEEE32Exec.toReal x
+scoped[IEEE754] notation "⟦" x "⟧₃₂" => _root_.Gondolin.Floats.IEEE754.IEEE32Exec.toReal x
 
 /-- Scoped notation for decoding an executable float32 to `EReal` (via `IEEE32Exec.toEReal`). -/
-scoped[IEEE754] notation "⟦" x "⟧₃₂ᴱ" => _root_.Gondlin.Floats.IEEE754.IEEE32Exec.toEReal x
+scoped[IEEE754] notation "⟦" x "⟧₃₂ᴱ" => _root_.Gondolin.Floats.IEEE754.IEEE32Exec.toEReal x
 
 end IEEE32Exec
 
-end Gondlin.Floats.IEEE754
+end Gondolin.Floats.IEEE754

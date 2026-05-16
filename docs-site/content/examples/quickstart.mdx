@@ -21,13 +21,13 @@ under `NN/Verification`.
 
 ## Recommended Order
 
-1. **`TensorBasics.lean`** — `lake exe gondlin quickstart_tensors`
+1. **`TensorBasics.lean`** — `lake exe gondolin quickstart_tensors`
 2. **`Widgets.lean`** — editor-only: open the file and put the cursor on the
    `#tensor_view`, `#ir_view`, or `#train_log_view` commands.
 3. **`AutogradBasics.lean`** —
-   `lake exe gondlin quickstart_autograd --dtype float --backend eager`
+   `lake exe gondolin quickstart_autograd --dtype float --backend eager`
 4. **`SimpleMlpTrain.lean`** —
-   `lake exe gondlin quickstart_mlp --steps 200 --dtype float --backend compiled`
+   `lake exe gondolin quickstart_mlp --steps 200 --dtype float --backend compiled`
 5. **`Proofs.lean`** — `lake build NN.Examples.Quickstart.Proofs`
 
 ## CNN / ResNet Files

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -16,7 +16,7 @@ This module adds a distillation-style certificate:
 > prove that a Student network matches a Teacher network up to `ε`
 > on an input box, i.e. `|T(x) - S(x)| ≤ ε` componentwise for all inputs `x` in the domain.
 
-The implementation is deliberately simple and reuses Gondlin's existing, proved
+The implementation is deliberately simple and reuses Gondolin's existing, proved
 IBP soundness theorem for 2-layer MLPs (`NN.MLTheory.CROWN.Theorems.bound_ibp_sound`).
 -/
 

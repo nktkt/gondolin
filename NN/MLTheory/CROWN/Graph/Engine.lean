@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -22,7 +22,7 @@ reuses the same affine-transfer helpers as the forward CROWN pass. Keeping those
 is cleaner than exposing a broad internal helper API just to split the file more aggressively.
 Proof-facing shape/enclosure facts live separately in `Graph/Theorems`.
 
-The executable engine covers the verifier dialect used by Gondlin certificates, including
+The executable engine covers the verifier dialect used by Gondolin certificates, including
 input/const/add/sub/relu/reshape/flatten/linear/matmul and selected convolution, normalization,
 softmax, and elementwise rules. Operators outside a specific transfer rule are kept conservative:
 they either return interval-only state or an explicit `none`, depending on the pass.
@@ -1281,7 +1281,7 @@ def propagateIBPNode (nodes : Array Node) (ps : ParamStore α) (boxes : Array (O
     | _ => boxes
   | .layernorm axis =>
     -- Last-axis LayerNorm bounds (without affine gamma/beta).
-    -- We only implement `axis = rank-1` (the Gondlin usage); other axes are left unsupported.
+    -- We only implement `axis = rank-1` (the Gondolin usage); other axes are left unsupported.
     match node.parents with
     | p1 :: _ =>
       let Xin := get! p1
@@ -5967,7 +5967,7 @@ def runCROWNBackwardObjective
 Backward CROWN objective lower bound with externally-provided ReLU alpha slopes.
 
 This is an integration hook for alpha-CROWN style workflows where ReLU slopes are chosen/optimized outside
-Gondlin and then imported as a per-node vector in `reluAlpha`.
+Gondolin and then imported as a per-node vector in `reluAlpha`.
 -/
 def runCROWNBackwardObjectiveLowerWithReluAlpha
   (g : Graph) (ps : ParamStore α) (ctx : AffineCtx)

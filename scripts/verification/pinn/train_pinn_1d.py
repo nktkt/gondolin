@@ -428,7 +428,7 @@ def main():
         "--pde-expr",
         type=str,
         default="u_t + u * u_x - nu * u_xx",
-        help="PDE residual expression in Gondlin DSL",
+        help="PDE residual expression in Gondolin DSL",
     )
     ap.add_argument(
         "--ic-expr",

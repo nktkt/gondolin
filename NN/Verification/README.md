@@ -1,6 +1,6 @@
 # `NN/Verification` (verification library support)
 
-This directory is the library layer for Gondlin verification workflows: it contains reusable
+This directory is the library layer for Gondolin verification workflows: it contains reusable
 checkers, parsers, certificate kernels, and bridges from models to verifier IR that examples and
 CLIs import.
 
@@ -21,7 +21,7 @@ Key themes:
 
 ## Subfolders
 
-- `Gondlin/`: compilation and spec evaluation glue for reusing the same Gondlin model
+- `Gondolin/`: compilation and spec evaluation glue for reusing the same Gondolin model
   definition/program for execution and verification.
 - `ODE/`: ODE corridor verifier for subsolution and supersolution certificates, inspired by
   arXiv:2601.19818.

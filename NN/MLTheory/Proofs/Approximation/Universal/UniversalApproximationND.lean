@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -24,14 +24,14 @@ What we *do* prove here is a standard “expressivity sanity check” in approxi
 Equivalently: functions on a compact set can be uniformly approximated by polynomial expressions in
 the coordinates (Stone–Weierstrass).
 
-We phrase this for Gondlin’s vector tensors `Tensor ℝ (.dim n .scalar)`, using the equivalence
+We phrase this for Gondolin’s vector tensors `Tensor ℝ (.dim n .scalar)`, using the equivalence
 `Tensor.dimScalarEquiv` to transport the standard product topology.
 
 This module is therefore a topology/approximation bridge, not a claim about one particular neural
 architecture.  The cited classical lineage is Stone--Weierstrass for polynomial density, with the
 neural-network universal-approximation motivation coming from Cybenko, Hornik, Leshno et al., and
 Pinkus. The ReLU compact-set file uses this bridge as one ingredient when relating
-tensor-valued inputs to Gondlin network semantics.
+tensor-valued inputs to Gondolin network semantics.
 -/
 
 @[expose] public section
@@ -70,7 +70,7 @@ lemma continuous_invFun (n : Nat) :
     (continuous_induced_rng (f := (Tensor.dimScalarEquiv (α := ℝ) n).toFun)
       (g := (Tensor.dimScalarEquiv (α := ℝ) n).invFun)).2 this
 
-/-- Homeomorphism between Gondlin tensor vectors and ordinary `Fin n → ℝ` vectors. -/
+/-- Homeomorphism between Gondolin tensor vectors and ordinary `Fin n → ℝ` vectors. -/
 noncomputable def homeomorph (n : Nat) : TensorVec n ≃ₜ (Fin n → ℝ) where
   toEquiv := Tensor.dimScalarEquiv (α := ℝ) n
   continuous_toFun := continuous_toFun n

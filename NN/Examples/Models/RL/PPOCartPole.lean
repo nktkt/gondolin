@@ -1,9 +1,9 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 
-End-to-end PPO example: train an actor-critic on Gymnasium `CartPole-v1` using Gondlin.
+End-to-end PPO example: train an actor-critic on Gymnasium `CartPole-v1` using Gondolin.
 -/
 
 module
@@ -20,7 +20,7 @@ This example is intentionally “small but complete”:
 - **Environment**: external Python Gymnasium (started as a subprocess).
 - **Trust boundary**: every step is checked against a Lean-side contract
   (`Runtime.RL.Boundary.Contract`) before being used for training data.
-- **Algorithm**: PPO with GAE (all update math is Lean definitions; the PPO loss is a Gondlin
+- **Algorithm**: PPO with GAE (all update math is Lean definitions; the PPO loss is a Gondolin
   autograd program).
 
 More concretely:
@@ -34,7 +34,7 @@ More concretely:
 ## CLI flags
 
 - `--cuda`: run the Torch backend on CUDA (requires building with `-K cuda=true`).
-- `--seed <n>`: deterministic seed for Gondlin RNG streams (and evaluation seeding).
+- `--seed <n>`: deterministic seed for Gondolin RNG streams (and evaluation seeding).
 - `--updates <n>`: limit the number of PPO rollout/update cycles.
 - `--log <path>`: write the widget log JSON to a custom path.
 
@@ -42,8 +42,8 @@ Run (from the repo root):
 
 ```bash
 python3 -m pip install --user 'gymnasium>=1.0'
-lake exe gondlin ppo_cartpole
-lake build -R -K cuda=true && lake exe gondlin ppo_cartpole --cuda
+lake exe gondolin ppo_cartpole
+lake build -R -K cuda=true && lake exe gondolin ppo_cartpole --cuda
 ```
 
 Artifacts:
@@ -55,7 +55,7 @@ Artifacts:
 
 - The PPO/GAE math and the autograd loss program are Lean definitions, so they are suitable targets
   for formal reasoning.
-- When Gymnasium is external, Gondlin cannot prove the environment satisfies Markov/measurability
+- When Gymnasium is external, Gondolin cannot prove the environment satisfies Markov/measurability
   assumptions. The trust-boundary contract turns some common assumptions (finite tensors, reward
   bounds, done-flag semantics) into checked preconditions.
 - This is not a tuned “benchmark PPO” implementation. It is designed to be readable, typed, and
@@ -80,7 +80,7 @@ open NN.API
 namespace NN.Examples.Models.RL.PPOCartPole
 
 /-- Name of this executable target (used in CLI error messages and banners). -/
-def exeName : String := "gondlin ppo_cartpole"
+def exeName : String := "gondolin ppo_cartpole"
 
 /-!
 ## Configuration
@@ -184,7 +184,7 @@ Evaluation helpers live in `NN.API.rl.eval` (runtime module `NN.Runtime.RL.Eval`
 ## Main Training Loop
 -/
 
-/-- Entry point for `lake exe gondlin ppo_cartpole`.
+/-- Entry point for `lake exe gondolin ppo_cartpole`.
 
 This executable:
 - launches a Python Gymnasium subprocess for `CartPole-v1`,
@@ -193,7 +193,7 @@ This executable:
 - writes a widget-friendly training curve JSON (default: `data/rl/ppo_cartpole_trainlog.json`).
 -/
 def main (args : List String) : IO UInt32 := do
-  Gondlin.Module.run exeName args
+  Gondolin.Module.run exeName args
     (.float (fun opts rest => do
       let (logPath?, rest) ← Common.orThrow exeName <| CLI.takePathFlagOnce rest "log"
       let (updates?, rest) ← Common.orThrow exeName <| CLI.takeNatFlagOnce rest "updates"
@@ -228,12 +228,12 @@ def main (args : List String) : IO UInt32 := do
         let criticC ← nn.compileOut criticObs
 
         let modDef :=
-          API.Gondlin.RL.Autograd.ppoActorCriticScalarModuleDef (stateShape := sStateBatch)
+          API.Gondolin.RL.Autograd.ppoActorCriticScalarModuleDef (stateShape := sStateBatch)
             (batch := horizon) (nActions := nActions) actorRollout criticRollout
-        let m ← Gondlin.Module.instantiateWithOptions (α := Float) modDef id opts
+        let m ← Gondolin.Module.instantiateWithOptions (α := Float) modDef id opts
 
-        let opt := Gondlin.Optim.adam (α := Float) lr 0.9 0.999 1e-8
-        let optH ← Gondlin.Optim.handle (α := Float) m opt
+        let opt := Gondolin.Optim.adam (α := Float) lr 0.9 0.999 1e-8
+        let optH ← Gondolin.Optim.handle (α := Float) m opt
 
         let mut rngSeed : Nat := opts.seed
         let mut rngCounter : Nat := 0
@@ -250,7 +250,7 @@ def main (args : List String) : IO UInt32 := do
 
         -- Evaluate the untrained policy once (step=0).
         do
-          let psAll0 ← Gondlin.Module.params (α := Float) m
+          let psAll0 ← Gondolin.Module.params (α := Float) m
           let (psActor0, _psCritic0) :=
             rl.ppo.splitActorCriticParams actorRollout criticRollout psAll0
           let psActorObs0 : Runtime.Autograd.Torch.TList Float (nn.paramShapes actorObs) := by
@@ -265,7 +265,7 @@ def main (args : List String) : IO UInt32 := do
           IO.println s!"  eval(step=0) avg_return={avg0}"
 
         for update in [0:updatesLimit] do
-          let psAll ← Gondlin.Module.params (α := Float) m
+          let psAll ← Gondolin.Module.params (α := Float) m
           let (psActor, psCritic) :=
             rl.ppo.splitActorCriticParams actorRollout criticRollout psAll
           let psActorObs : Runtime.Autograd.Torch.TList Float (nn.paramShapes actorObs) := by
@@ -291,7 +291,7 @@ def main (args : List String) : IO UInt32 := do
             optH.step sample
 
           if update % evalEvery == 0 then
-            let psAll' ← Gondlin.Module.params (α := Float) m
+            let psAll' ← Gondolin.Module.params (α := Float) m
             let (psActor', _psCritic') :=
               rl.ppo.splitActorCriticParams actorRollout criticRollout psAll'
             let psActorObs' : Runtime.Autograd.Torch.TList Float (nn.paramShapes actorObs) := by
@@ -313,7 +313,7 @@ def main (args : List String) : IO UInt32 := do
 
         let trainLog : rl.train.TrainLog :=
           curve.toTrainLog
-            (title := s!"PPO {envId} (Gondlin)")
+            (title := s!"PPO {envId} (Gondolin)")
             (seriesName := "avg_return")
             (color := "#4e79a7")
             (notes := #[

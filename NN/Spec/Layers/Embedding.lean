@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -17,7 +17,7 @@ We model embeddings through **single-scalar** one-hot tensors: inputs have the s
 as the embedding matrix, so they compose cleanly with the rest of the tensor language.
 
 If you want index-based embeddings (integer token ids) in runtime graphs, that lives at the
-Gondlin/session layer via Nat channels; the spec layer stays purely numeric by default.
+Gondolin/session layer via Nat channels; the spec layer stays purely numeric by default.
 
 References / analogies:
 - In most ML frameworks, an embedding table is a matrix `W : (vocab x embedDim)` and an index-based

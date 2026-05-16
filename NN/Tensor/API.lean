@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -14,7 +14,7 @@ import Mathlib.Algebra.Order.Algebra
 /-!
 # Tensor API Implementation
 
-User-facing tensor API for Gondlin.
+User-facing tensor API for Gondolin.
 
 This is the implementation leaf behind the public `NN.Tensor` umbrella. It is the ergonomic layer
 that sits on top of the spec-first tensor semantics in `NN.Spec.*`. It does not introduce new math;
@@ -186,7 +186,7 @@ abbrev Batch (n : Nat) (s : Spec.Shape) : Spec.Shape := .dim n s
 end Shape
 
 /--
-Canonical Gondlin shape alias inside the `NN` namespace.
+Canonical Gondolin shape alias inside the `NN` namespace.
 
 Most user examples live under `namespace NN...`, where unqualified `Shape` resolves through `NN`.
 This alias keeps those examples readable while the underlying type remains `Spec.Shape`.
@@ -646,12 +646,12 @@ It builds a `Tensor Float _` from a nested bracket literal, then casts elementwi
 
 Example:
 ```lean
-def w : Tensor Gondlin.Floats.IEEE32Exec (shape![2, 2]) :=
+def w : Tensor Gondolin.Floats.IEEE32Exec (shape![2, 2]) :=
   tensor32! [[0.1, 0.2], [0.3, 0.4]]
 ```
 -/
 macro "tensor32!" xs:term:max : term =>
-  `(Spec.mapTensor Gondlin.Floats.IEEE754.IEEE32Exec.ofFloat (tensor! $xs))
+  `(Spec.mapTensor Gondolin.Floats.IEEE754.IEEE32Exec.ofFloat (tensor! $xs))
 
 /-! ## Dynamic tensor wrapper (shape not in the type) -/
 
@@ -676,15 +676,15 @@ def tensorDynND {α : Type} (dims : List Nat) (xs : List α) : Except String (Dy
 
 /-- 1-D tensor from Float literals, cast into the executable IEEE-754 FP32 backend. -/
 def tensorF321d (xs : List Float) :
-    Tensor (Gondlin.Floats.F32 .ieee754Exec) (.dim xs.length .scalar) :=
-  Spec.mapTensor Gondlin.Floats.IEEE754.IEEE32Exec.ofFloat (tensor1d (α := Float) xs)
+    Tensor (Gondolin.Floats.F32 .ieee754Exec) (.dim xs.length .scalar) :=
+  Spec.mapTensor Gondolin.Floats.IEEE754.IEEE32Exec.ofFloat (tensor1d (α := Float) xs)
 
 /-- 2-D tensor from Float literals, cast into the executable IEEE-754 FP32 backend. -/
 def tensorF322d (xss : List (List Float)) :
-    Except String (Tensor (Gondlin.Floats.F32 .ieee754Exec)
+    Except String (Tensor (Gondolin.Floats.F32 .ieee754Exec)
       (.dim xss.length (.dim (if xss.isEmpty then 0 else xss.head!.length) .scalar))) := do
   let t ← tensor2d (α := Float) xss
-  pure (Spec.mapTensor Gondlin.Floats.IEEE754.IEEE32Exec.ofFloat t)
+  pure (Spec.mapTensor Gondolin.Floats.IEEE754.IEEE32Exec.ofFloat t)
 
 /-! ## Printing -/
 
@@ -705,17 +705,17 @@ instance : DTypeName ℚ where
 instance : DTypeName Int where
   name := "Int"
 /-- Display name for proof-level `FP32` rounding-model tensors in `NN.Tensor.print`. -/
-instance : DTypeName Gondlin.Floats.FP32 where
+instance : DTypeName Gondolin.Floats.FP32 where
   name := "FP32"
 /-- Display name for executable IEEE-754 FP32 tensors in `NN.Tensor.print`. -/
-instance : DTypeName Gondlin.Floats.IEEE32Exec where
+instance : DTypeName Gondolin.Floats.IEEE32Exec where
   name := "IEEE32Exec"
 /-- Display name for proof-level real-valued tensors in `NN.Tensor.print`. -/
 instance : DTypeName ℝ where
   name := "ℝ"
 
-/-- Display name for Gondlin complex scalars in `NN.Tensor.print`. -/
-instance {α : Type} [DTypeName α] : DTypeName (Gondlin.Complex α) where
+/-- Display name for Gondolin complex scalars in `NN.Tensor.print`. -/
+instance {α : Type} [DTypeName α] : DTypeName (Gondolin.Complex α) where
   name := s!"Complex[{DTypeName.name (α := α)}]"
 
 /-- A “pretty-printer with failure”.
@@ -737,7 +737,7 @@ instance (priority := 100) : TensorPrintable ℝ where
       "Refusing to print `Tensor ℝ` (proof-level); cast to `Float`/`IEEE32Exec`/`ℚ` to display."
 
 /-- Printing is intentionally disabled for the proof-only rounding model `FP32`. -/
-instance (priority := 100) : TensorPrintable Gondlin.Floats.FP32 where
+instance (priority := 100) : TensorPrintable Gondolin.Floats.FP32 where
   pretty := fun {_s} _ =>
     .error
       ("Refusing to print `Tensor FP32` (proof-only rounding model); " ++

@@ -1,12 +1,12 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 
 Trusted boundary for CUDA FFI.
 
 Why this file exists:
-- Gondlin’s repo policy forbids axioms in general library code.
+- Gondolin’s repo policy forbids axioms in general library code.
 - The CUDA runtime types are produced by external C/CUDA code, so we need a small trusted bridge
   to make them usable in compiled Lean code.
 
@@ -20,7 +20,7 @@ module
 
 This module contains the opaque CUDA buffer type and the single inhabitance axiom needed to make the
 external FFI type usable from Lean. It is intentionally compact: all declarations here are part of the
-Gondlin trusted computing base for CUDA execution.
+Gondolin trusted computing base for CUDA execution.
 -/
 
 @[expose] public section
@@ -34,8 +34,8 @@ Opaque handle to a contiguous float32 buffer (CUDA device memory when built with
 otherwise a CPU stub buffer).
 
 Implementation:
-- CUDA: `csrc/cuda/tensor/gondlin_cuda_tensor.cu`
-- CPU stub (default `lake build`): `csrc/cuda/tensor/gondlin_cuda_tensor_stub.c`
+- CUDA: `csrc/cuda/tensor/gondolin_cuda_tensor.cu`
+- CPU stub (default `lake build`): `csrc/cuda/tensor/gondolin_cuda_tensor_stub.c`
 -/
 opaque Buffer : Type
 

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -31,8 +31,8 @@ open Spec
 open Tensor
 open Spec.RL
 
-open Gondlin.Floats
-open Gondlin.Floats.IEEE754
+open Gondolin.Floats
+open Gondolin.Floats.IEEE754
 
 /-!
 ## Interval Enclosures (IEEE32Exec endpoint intervals)
@@ -52,14 +52,14 @@ Reference:
 def discountedBackupInterval32
     (reward gamma bootstrap : Float32Exec) (done : Bool) : Interval32 :=
   if done then
-    Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.point reward
+    Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.point reward
   else
-    let r : Interval32 := Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.point reward
+    let r : Interval32 := Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.point reward
     let prod : Interval32 :=
-      Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.mul
-        (Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.point gamma)
-        (Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.point bootstrap)
-    Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.add r prod
+      Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.mul
+        (Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.point gamma)
+        (Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.point bootstrap)
+    Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.add r prod
 
 /--
 Outward-rounded interval enclosure for the TD residual:
@@ -74,8 +74,8 @@ Reference:
 def tdResidualInterval32
     (value reward gamma nextValue : Float32Exec) (done : Bool) : Interval32 :=
   let target : Interval32 := discountedBackupInterval32 reward gamma nextValue done
-  Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.sub target
-    (Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.point value)
+  Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.sub target
+    (Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.point value)
 
 /--
 Outward-rounded interval enclosure for the PPO clipped surrogate objective from a precomputed ratio.
@@ -92,19 +92,19 @@ def ppoClippedObjectiveFromRatioInterval32
   let one : Float32Exec := (1 : Float32Exec)
   -- Clipping thresholds are computed as float32 values (round-to-nearest). The main goal of this
   -- enclosure is to bound the subsequent products.
-  let lo : Float32Exec := Gondlin.Floats.IEEE754.IEEE32Exec.sub one clipEps
-  let hi : Float32Exec := Gondlin.Floats.IEEE754.IEEE32Exec.add one clipEps
+  let lo : Float32Exec := Gondolin.Floats.IEEE754.IEEE32Exec.sub one clipEps
+  let hi : Float32Exec := Gondolin.Floats.IEEE754.IEEE32Exec.add one clipEps
   let clippedRatio : Float32Exec :=
-    Gondlin.Floats.IEEE754.IEEE32Exec.minimum hi (Gondlin.Floats.IEEE754.IEEE32Exec.maximum lo ratio)
+    Gondolin.Floats.IEEE754.IEEE32Exec.minimum hi (Gondolin.Floats.IEEE754.IEEE32Exec.maximum lo ratio)
   let unclipped : Interval32 :=
-    Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.mul
-      (Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.point ratio)
-      (Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.point advantage)
+    Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.mul
+      (Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.point ratio)
+      (Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.point advantage)
   let clipped : Interval32 :=
-    Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.mul
-      (Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.point clippedRatio)
-      (Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.point advantage)
-  Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.hull unclipped clipped
+    Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.mul
+      (Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.point clippedRatio)
+      (Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.point advantage)
+  Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.hull unclipped clipped
 
 /--
 Outward-rounded interval enclosure for fixed-horizon discounted returns.
@@ -127,15 +127,15 @@ def discountedReturnsIntervals32 {n : Nat}
   let out : Array Interval32 :=
     Id.run do
       let mut out : Array Interval32 :=
-        Array.replicate n (Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.point 0)
-      let mut g : Interval32 := Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.point bootstrap
-      let γ : Interval32 := Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.point gamma
+        Array.replicate n (Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.point 0)
+      let mut g : Interval32 := Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.point bootstrap
+      let γ : Interval32 := Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.point gamma
       for t in [0:n] do
         let idx := n - 1 - t
-        let r : Interval32 := Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.point (rArr[idx]!)
+        let r : Interval32 := Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.point (rArr[idx]!)
         g :=
-          Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.add r
-            (Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.mul γ g)
+          Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.add r
+            (Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.mul γ g)
         out := out.set! idx g
       return out
   Tensor.dim (fun i : Fin n => Tensor.scalar (out[i.val]!))
@@ -167,29 +167,29 @@ def generalizedAdvantageEstimationIntervals32 {n : Nat}
   let out : Array Interval32 :=
     Id.run do
       let mut out : Array Interval32 :=
-        Array.replicate n (Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.point 0)
-      let mut advNext : Interval32 := Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.point 0
-      let γ : Interval32 := Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.point gamma
-      let lamI : Interval32 := Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.point lam
+        Array.replicate n (Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.point 0)
+      let mut advNext : Interval32 := Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.point 0
+      let γ : Interval32 := Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.point gamma
+      let lamI : Interval32 := Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.point lam
       for t in [0:n] do
         let idx := n - 1 - t
         let done := dArr[idx]!
         let mask : Interval32 :=
-          Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.point (continueMask (α := Float32Exec) done)
-        let r : Interval32 := Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.point (rArr[idx]!)
-        let v : Interval32 := Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.point (vArr[idx]!)
-        let nv : Interval32 := Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.point (nvArr[idx]!)
+          Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.point (continueMask (α := Float32Exec) done)
+        let r : Interval32 := Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.point (rArr[idx]!)
+        let v : Interval32 := Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.point (vArr[idx]!)
+        let nv : Interval32 := Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.point (nvArr[idx]!)
 
         -- delta = r + γ*mask*nv - v
-        let t1 := Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.mul γ mask
-        let t2 := Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.mul t1 nv
-        let t3 := Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.add r t2
-        let delta := Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.sub t3 v
+        let t1 := Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.mul γ mask
+        let t2 := Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.mul t1 nv
+        let t3 := Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.add r t2
+        let delta := Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.sub t3 v
         -- adv = delta + γ*λ*mask*advNext
-        let u1 := Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.mul γ lamI
-        let u2 := Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.mul u1 mask
-        let u3 := Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.mul u2 advNext
-        let adv := Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.add delta u3
+        let u1 := Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.mul γ lamI
+        let u2 := Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.mul u1 mask
+        let u3 := Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.mul u2 advNext
+        let adv := Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.add delta u3
         advNext := adv
         out := out.set! idx adv
       return out
@@ -209,8 +209,8 @@ def returnsWithinIntervals32 {n : Nat}
   idxs.all fun i =>
     let x : Float32Exec := Tensor.toScalar (get returns i)
     let I : Interval32 := Tensor.toScalar (get intervals i)
-    Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.leB I.lo x &&
-      Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.leB x I.hi
+    Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.leB I.lo x &&
+      Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.leB x I.hi
 
 end Float32
 end Numerics

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -39,7 +39,7 @@ References:
 @[expose] public section
 
 
-namespace Gondlin.Floats.Interval
+namespace Gondolin.Floats.Interval
 
 open scoped BigOperators
 

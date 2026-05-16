@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -15,7 +15,7 @@ public import Mathlib.Probability.Distributions.Gaussian.Real
 /-!
 # VAE theory
 
-This file records the executable-theory facts for Gondlin's VAE spec.
+This file records the executable-theory facts for Gondolin's VAE spec.
 
 The full VAE theory involves an evidence lower bound (ELBO), expectations over posterior samples,
 and measure-theoretic assumptions. We keep those assumptions explicit while proving the deterministic
@@ -25,7 +25,7 @@ Gaussian reparameterization law.
 
 The extra real-valued lemmas below formalize the mathematical spine behind the implementation:
 the diagonal-Gaussian KL term is nonnegative and vanishes exactly at the standard-normal posterior
-parameters; scalar VAE reparameterization preserves Gaussian laws; and the Gondlin β-VAE loss is
+parameters; scalar VAE reparameterization preserves Gaussian laws; and the Gondolin β-VAE loss is
 the negative-ELBO objective once reconstruction negative log-likelihood and KL terms are identified.
 
 References:
@@ -130,7 +130,7 @@ noncomputable def coordinateKlToStandard (mu logvar : ℝ) : ℝ :=
 /--
 Diagonal-Gaussian KL against a standard normal prior, represented as finite coordinates.
 
-For tensors, Gondlin's executable spec uses `Spec.meanOver`.  This theorem layer uses a
+For tensors, Gondolin's executable spec uses `Spec.meanOver`.  This theorem layer uses a
 coordinate sum because it is the cleanest interface for mathlib big-operator reasoning and for
 stating "zero iff every coordinate is zero".
 -/
@@ -237,7 +237,7 @@ Scalar VAE reparameterization law.
 
 If `ε ~ N(0, 1)`, then `μ + σ ε ~ N(μ, σ²)`.  The diagonal multivariate statement is
 obtained by applying this coordinatewise together with the usual independence/product-measure
-assumptions; Gondlin keeps this scalar theorem as the reusable primitive because it already
+assumptions; Gondolin keeps this scalar theorem as the reusable primitive because it already
 matches each coordinate in the diagonal-Gaussian reparameterization trick.
 -/
 theorem scalar_reparameterization_law
@@ -295,7 +295,7 @@ Formal ELBO decomposition.
 Under the explicit identifications that a concrete reconstruction scalar is the reconstruction
 negative log-likelihood and a concrete KL scalar is the posterior-prior KL, the β-VAE scalar loss
 is exactly the β-weighted negative ELBO. We state those identifications as hypotheses so the
-boundary between probabilistic modeling assumptions and executable Gondlin losses stays visible.
+boundary between probabilistic modeling assumptions and executable Gondolin losses stays visible.
 -/
 theorem betaVae_loss_matches_named_elbo_terms
     (beta reconstructionLossScalar klScalar : ℝ) (terms : ElboTerms)

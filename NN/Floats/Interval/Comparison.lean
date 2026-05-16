@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -20,17 +20,17 @@ This module contains small, reusable baselines for numerical-audit examples:
 - conversions from finite `IEEE32Exec` / runtime `Float32` endpoints into rational intervals.
 
 The important design point is separation: examples should print comparisons, not quietly define a
-second interval library. The primary Gondlin interval implementation is
+second interval library. The primary Gondolin interval implementation is
 `IEEE32Exec.Interval32`; this module only provides baselines that make examples and regression tests easier
 to read.
 -/
 
 @[expose] public section
 
-namespace Gondlin.Floats.Interval.Comparison
+namespace Gondolin.Floats.Interval.Comparison
 
-open Gondlin.Floats.IEEE754
-open Gondlin.Floats.IEEE754.IEEE32Exec
+open Gondolin.Floats.IEEE754
+open Gondolin.Floats.IEEE754.IEEE32Exec
 
 /-- Pretty-print an executable `IEEE32Exec.Interval32`, including endpoint bits. -/
 def showInterval32 (I : Interval32) : String :=
@@ -236,4 +236,4 @@ def intervalUnaryEndpointsF32 (f : Float32 → Float32) (lo hi : Float32) :
   let b := f hi
   ⟨min a b, max a b⟩
 
-end Gondlin.Floats.Interval.Comparison
+end Gondolin.Floats.Interval.Comparison

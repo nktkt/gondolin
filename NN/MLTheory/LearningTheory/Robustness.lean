@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -12,7 +12,7 @@ public import NN.MLTheory.LearningTheory.Robustness.Runtime
 /-!
 # Robustness
 
-This entrypoint pairs the two layers of Gondlin's robustness vocabulary:
+This entrypoint pairs the two layers of Gondolin's robustness vocabulary:
 
 - `Robustness.Spec` gives scalar-polymorphic definitions over shape-indexed tensors: tensor norms,
   distances, adversarial robustness, certified robustness, Lipschitz continuity, and contractions.

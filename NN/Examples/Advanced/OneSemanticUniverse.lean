@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -35,7 +35,7 @@ Notes:
 - `IEEE32Exec` is fully executable inside Lean, so we use it for the runnable sanity check.
 
 Run:
-  `lake exe gondlin one_semantic_universe --samples 50`
+  `lake exe gondolin one_semantic_universe --samples 50`
 -/
 
 @[expose] public section
@@ -52,7 +52,7 @@ open NN.IR
 open NN.MLTheory.CROWN
 open NN.MLTheory.CROWN.Graph
 
-open Gondlin.Floats
+open Gondolin.Floats
 
 def inDim : Nat := 4
 def hidDim : Nat := 5
@@ -149,16 +149,16 @@ noncomputable example : True := by
         Except String (Spec.Tensor ℝ Spec.Shape.scalar) :=
     fun p x => evalOut (α := ℝ) p x
   have _ :
-      ∀ (p : Params Gondlin.Floats.FP32) (x : Spec.Tensor Gondlin.Floats.FP32 xShape),
-        Except String (Spec.Tensor Gondlin.Floats.FP32 Spec.Shape.scalar) :=
-    fun p x => evalOut (α := Gondlin.Floats.FP32) p x
+      ∀ (p : Params Gondolin.Floats.FP32) (x : Spec.Tensor Gondolin.Floats.FP32 xShape),
+        Except String (Spec.Tensor Gondolin.Floats.FP32 Spec.Shape.scalar) :=
+    fun p x => evalOut (α := Gondolin.Floats.FP32) p x
   have _ :
       ∀ (ps : ParamStore ℝ), Array (Option (FlatBox ℝ)) :=
     fun ps => runIBP (α := ℝ) g ps
   have _ :
-      ∀ (ps : ParamStore Gondlin.Floats.FP32),
-        Array (Option (FlatBox Gondlin.Floats.FP32)) :=
-    fun ps => runIBP (α := Gondlin.Floats.FP32) g ps
+      ∀ (ps : ParamStore Gondolin.Floats.FP32),
+        Array (Option (FlatBox Gondolin.Floats.FP32)) :=
+    fun ps => runIBP (α := Gondolin.Floats.FP32) g ps
   trivial
 
 end ProofOnly

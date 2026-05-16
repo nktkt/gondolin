@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -13,7 +13,7 @@ public import NN.Runtime.Optim.Schedulers
 /-!
 # Runtime Optim
 
-`NN.Runtime.Optim` is the small umbrella for Gondlin's reusable optimizer math.
+`NN.Runtime.Optim` is the small umbrella for Gondolin's reusable optimizer math.
 
 This subsystem intentionally contains only pure, tensor-level pieces:
 
@@ -30,7 +30,7 @@ What this file does **not** contain:
 - CUDA / PyTorch fused optimizer kernels.
 
 Those are separate on purpose. The high-level runtime bridge in
-`NN.Runtime.Autograd.Gondlin.Optim` lifts these pure single-tensor equations to parameter lists,
+`NN.Runtime.Autograd.Gondolin.Optim` lifts these pure single-tensor equations to parameter lists,
 and `NN.API.Runtime` exposes user-facing optimizer configs. Keeping this layer pure gives proofs,
 tests, and runtime code one shared source of truth for the actual update formulas.
 -/

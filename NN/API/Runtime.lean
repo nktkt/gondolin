@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -10,10 +10,10 @@ module
 
 public import NN.API.Core
 public import NN.API.Rand
-public import NN.API.Gondlin.ParamIO
-public import NN.API.Gondlin.Schedulers
-public import NN.GraphSpec.Models.Gondlin
-public import NN.Runtime.Autograd.Gondlin
+public import NN.API.Gondolin.ParamIO
+public import NN.API.Gondolin.Schedulers
+public import NN.GraphSpec.Models.Gondolin
+public import NN.Runtime.Autograd.Gondolin
 public import NN.Runtime.Autograd.Train.Dataset
 public import NN.Runtime.RL
 public import NN.Spec.RL.MDP
@@ -24,10 +24,10 @@ import Mathlib.Algebra.Order.Algebra
 import NN.Spec.Autograd.AutogradSpec
 
 /-!
-# Gondlin Runtime Facade
+# Gondolin Runtime Facade
 
-This module defines the `NN.API.Gondlin` namespace: the main re-export layer over the executable
-Gondlin runtime:
+This module defines the `NN.API.Gondolin` namespace: the main re-export layer over the executable
+Gondolin runtime:
 - tensor primitives (`add`, `matmul`, `reshape`, ...)
 - derived functional ops (`F.*`)
 - losses / norms
@@ -45,15 +45,15 @@ fewer proof arguments, etc.).
 
 ## PyTorch Mapping
 
-- `API.Gondlin.NN.*` corresponds to pieces of `torch.nn` and `torch.nn.functional`
+- `API.Gondolin.NN.*` corresponds to pieces of `torch.nn` and `torch.nn.functional`
   (`https://pytorch.org/docs/stable/nn.html`, `https://pytorch.org/docs/stable/nn.functional.html`)
-- `API.Gondlin.Optim.*` / `API.Gondlin.Trainer.*` correspond to `torch.optim`
+- `API.Gondolin.Optim.*` / `API.Gondolin.Trainer.*` correspond to `torch.optim`
   (`https://pytorch.org/docs/stable/optim.html`)
 
 Most layer helpers keep the PyTorch name but append a shape/layout suffix such as `CHW` or `NCHW`
 so the expected tensor layout stays visible at the call site.
 
-Gondlin differs in two crucial ways:
+Gondolin differs in two crucial ways:
 - Shapes are part of types, so "wrong shape" often becomes a type error.
 - Some backends are *proof-only*; use `NN.API.DType` selection when writing executables.
 
@@ -63,7 +63,7 @@ This is the canonical module for the runtime facade: `import NN.API.Runtime`.
 
 For most user-facing code, prefer `NN.API.Public` instead. It keeps the same runtime machinery
 behind a smaller, more PyTorch-shaped surface, while this module stays closer to the executable
-Gondlin internals and lower-level compatibility re-exports.
+Gondolin internals and lower-level compatibility re-exports.
 -/
 
 @[expose] public section
@@ -72,12 +72,12 @@ Gondlin internals and lower-level compatibility re-exports.
 namespace NN
 namespace API
 
-namespace Gondlin
+namespace Gondolin
 
 /-!
 ### Core Exports
 
-Most of this namespace is a curated re-export of `_root_.Runtime.Autograd.Gondlin.*`, so users can
+Most of this namespace is a curated re-export of `_root_.Runtime.Autograd.Gondolin.*`, so users can
 `import NN.API.Runtime` and get a stable API surface without importing internal runtime modules.
 
 Rough grouping:
@@ -87,16 +87,16 @@ Rough grouping:
 - training utilities: `trainCycle*`, `meanLoss`
 -/
 
-export _root_.Runtime.Autograd.Gondlin (Backend Options TensorRef Param AnyParam)
+export _root_.Runtime.Autograd.Gondolin (Backend Options TensorRef Param AnyParam)
 export _root_.Runtime.Autograd.FastKernels (GpuMatmulPrecision)
-export _root_.Runtime.Autograd.Gondlin (CompiledScalar compileScalar)
-export _root_.Runtime.Autograd.Gondlin (CompiledOut compileOut)
-export _root_.Runtime.Autograd.Gondlin (ParamList ScalarTrainer scalarTrainer)
-export _root_.Runtime.Autograd.Gondlin (TList Ops Ref RefList CurriedRef RefTy Program)
-export _root_.Runtime.Autograd.Gondlin.Curried (Fn curry uncurry)
-export _root_.Runtime.Autograd.Gondlin.CurriedRef (uncurry applyVarList)
-export _root_.Runtime.Autograd.Gondlin.RefList (append)
-export _root_.Runtime.Autograd.Gondlin
+export _root_.Runtime.Autograd.Gondolin (CompiledScalar compileScalar)
+export _root_.Runtime.Autograd.Gondolin (CompiledOut compileOut)
+export _root_.Runtime.Autograd.Gondolin (ParamList ScalarTrainer scalarTrainer)
+export _root_.Runtime.Autograd.Gondolin (TList Ops Ref RefList CurriedRef RefTy Program)
+export _root_.Runtime.Autograd.Gondolin.Curried (Fn curry uncurry)
+export _root_.Runtime.Autograd.Gondolin.CurriedRef (uncurry applyVarList)
+export _root_.Runtime.Autograd.Gondolin.RefList (append)
+export _root_.Runtime.Autograd.Gondolin
   (const add sub mul scale abs sqrt clamp max min
    broadcastTo reshape transpose2d reduceSum reduceMean
    gatherScalar gatherRow gatherScalarNat gatherVecNat gatherRowsNat scatterAddVec
@@ -107,7 +107,7 @@ export _root_.Runtime.Autograd.Gondlin
    globalAvgPool2dChw globalAvgPool2dNchw
    sum flatten
    linear mseLoss layerNorm batchnormChannelFirst multiHeadAttention conv2d)
-export _root_.Runtime.Autograd.Gondlin
+export _root_.Runtime.Autograd.Gondolin
   (scalarOf tlist1 tlist2 tlist3 tlist4 trainCycleSGD trainCycleOptim meanLoss)
 
 /-
@@ -124,14 +124,14 @@ namespace RefList
 
 /-- Unpack a 2-element `RefList` into a pair. -/
 def unpack2 {Ref : Spec.Shape → Type} {s₁ s₂ : Spec.Shape} :
-    Gondlin.RefList Ref [s₁, s₂] → (Ref s₁ × Ref s₂)
+    Gondolin.RefList Ref [s₁, s₂] → (Ref s₁ × Ref s₂)
   | .cons x₁ (.cons x₂ .nil) => (x₁, x₂)
 
 end RefList
 
 namespace F
 /- Functional tensor helpers mirroring `torch.nn.functional`-style building blocks. -/
-export _root_.Runtime.Autograd.Gondlin.F
+export _root_.Runtime.Autograd.Gondolin.F
   (square checkpoint
    addB mulB
    embedding mean
@@ -141,14 +141,14 @@ end F
 
 namespace Loss
 /- Loss helpers mirroring the usual `torch.nn.functional` loss family. -/
-export _root_.Runtime.Autograd.Gondlin.Loss
+export _root_.Runtime.Autograd.Gondolin.Loss
   (Reduction mse nllOneHot crossEntropyOneHot nllIndex nllNat crossEntropyIndex crossEntropyNat
     bceWithLogits bce)
 end Loss
 
 namespace Norm
 /- Normalization helpers exposed at the runtime facade. -/
-export _root_.Runtime.Autograd.Gondlin.Norm
+export _root_.Runtime.Autograd.Gondolin.Norm
   (rmsNormLast instanceNorm2dNchw groupNorm2dNchw
    batchNorm2dNchwTrain batchNorm2dNchwTrainStats batchNormRunningUpdate
    batchNorm2dNchwEval batchNorm2dChwEval)
@@ -156,7 +156,7 @@ end Norm
 
 namespace Autodiff
 /- Autodiff entrypoints for compiled and eager runtime programs. -/
-export _root_.Runtime.Autograd.Gondlin.Autodiff
+export _root_.Runtime.Autograd.Gondolin.Autodiff
   (compileLoss compileOut
    gradParams gradInputs
    vjpOutParams vjpOutInputs
@@ -169,25 +169,25 @@ end Autodiff
 
 namespace Metrics
 /- Small post-processing metrics such as argmax and classification correctness. -/
-export _root_.Runtime.Autograd.Gondlin.Metrics
+export _root_.Runtime.Autograd.Gondolin.Metrics
   (argmax? classOfOneHot? correctOneHot?)
 end Metrics
 
 namespace Optim
 /- Optimizer constructors used by the runtime trainer facade. -/
-export _root_.Runtime.Autograd.Gondlin.Optim (StateList Optimizer)
-export _root_.Runtime.Autograd.Gondlin.Optim
+export _root_.Runtime.Autograd.Gondolin.Optim (StateList Optimizer)
+export _root_.Runtime.Autograd.Gondolin.Optim
   (sgd momentumSGD adagrad rmsprop adam adamw adadelta projectedSGD muon)
 
 /-!
 ### Optimizer Handles (PyTorch-Like)
 
-Gondlin optimizers are purely functional in their state: `opt.step` returns a new state.
+Gondolin optimizers are purely functional in their state: `opt.step` returns a new state.
 
 This small wrapper stores the optimizer state in an `IO.Ref` so users can write:
 
 ```
-let h ← API.Gondlin.Optim.handle m (Gondlin.Optim.sgd lr)
+let h ← API.Gondolin.Optim.handle m (Gondolin.Optim.sgd lr)
 h.step sample
 ```
 
@@ -195,14 +195,14 @@ without manually threading the optimizer state through the training loop.
 -/
 
 /--
-A mutable optimizer handle bound to a concrete Gondlin `ScalarModule`.
+A mutable optimizer handle bound to a concrete Gondolin `ScalarModule`.
 
 The internal optimizer state is stored in an `IO.Ref` and updated when you call `h.step sample`.
 -/
 structure Handle (α : Type) [Context α] [DecidableEq Spec.Shape]
     (paramShapes inputShapes : List Spec.Shape) (State : Type) where
   /-- The module whose parameters will be updated in-place. -/
-  module : _root_.Runtime.Autograd.Gondlin.Module.ScalarModule α paramShapes inputShapes
+  module : _root_.Runtime.Autograd.Gondolin.Module.ScalarModule α paramShapes inputShapes
   /-- Mutable optimizer state. -/
   state : IO.Ref State
   /-- One training step on a single sample, updating the internal optimizer state. -/
@@ -214,14 +214,14 @@ parameters.
 -/
 def handle {α : Type} [Context α] [DecidableEq Spec.Shape]
     {paramShapes inputShapes : List Spec.Shape}
-    (m : _root_.Runtime.Autograd.Gondlin.Module.ScalarModule α paramShapes inputShapes)
+    (m : _root_.Runtime.Autograd.Gondolin.Module.ScalarModule α paramShapes inputShapes)
     (opt : Optimizer α paramShapes) :
     IO (Handle α paramShapes inputShapes opt.State) := do
-  let st0 ← _root_.Runtime.Autograd.Gondlin.Module.ScalarModule.initOptim (m := m) opt
+  let st0 ← _root_.Runtime.Autograd.Gondolin.Module.ScalarModule.initOptim (m := m) opt
   let stRef ← IO.mkRef st0
   let step (sample : TList α inputShapes) : IO Unit := do
     let st ← stRef.get
-    let st' ← _root_.Runtime.Autograd.Gondlin.Module.ScalarModule.stepWith (m := m) opt st sample
+    let st' ← _root_.Runtime.Autograd.Gondolin.Module.ScalarModule.stepWith (m := m) opt st sample
     stRef.set st'
   pure { module := m, state := stRef, step := step }
 end Optim
@@ -279,7 +279,7 @@ export _root_.Runtime.RL.Tabular
      importanceRatio ppoClippedObjective ppoLoss)
 
   namespace Autograd
-  /- Differentiable (autograd-capable) policy-gradient objectives over Gondlin `Ops`. -/
+  /- Differentiable (autograd-capable) policy-gradient objectives over Gondolin `Ops`. -/
   export _root_.Runtime.RL.PolicyGradient.Autograd
     (actionLogProbOneHotBatch
      entropyMean
@@ -291,7 +291,7 @@ export _root_.Runtime.RL.Tabular
 
 namespace NN
 /- Neural-network layer constructors and sequential-model helpers. -/
-export _root_.Runtime.Autograd.Gondlin.NN
+export _root_.Runtime.Autograd.Gondolin.NN
   (Mode LayerDef Seq
    linear rnn gru mamba lstm
    relu silu gelu sigmoid tanh softmax square sum flatten dropout
@@ -342,10 +342,10 @@ This is the helper used by the `seq! ...` macro so examples can write
 def compAny {σ τ υ : Spec.Shape}
     {F : Spec.Shape → Spec.Shape → Sort u} {G : Spec.Shape → Spec.Shape → Sort v}
     [AsSeqK F] [AsSeqK G] (f : F σ τ) (g : G τ υ) : Seq σ υ :=
-  _root_.Runtime.Autograd.Gondlin.NN.Seq.comp (AsSeqK.asSeq f) (AsSeqK.asSeq g)
+  _root_.Runtime.Autograd.Gondolin.NN.Seq.comp (AsSeqK.asSeq f) (AsSeqK.asSeq g)
 
 namespace Seq
-export _root_.Runtime.Autograd.Gondlin.NN.Seq
+export _root_.Runtime.Autograd.Gondolin.NN.Seq
   (paramShapes paramRequiresGrad initParams comp updateBuffers
    programWithMode program
    scalarModuleDefWithMode scalarModuleDef
@@ -362,7 +362,7 @@ Deterministic RNG helpers re-exported for the runtime facade.
 
 These are small utilities used by demos and training loops (`keyOf`, `nextSeed`, `uniform`, `mask`).
 -/
-export _root_.Runtime.Autograd.Gondlin.Random (keyOf nextSeed uniform mask)
+export _root_.Runtime.Autograd.Gondolin.Random (keyOf nextSeed uniform mask)
 end Random
 
 namespace Layers
@@ -370,7 +370,7 @@ namespace Layers
 /-!
 ### Sequential Layer Helpers
 
-`Runtime.Autograd.Gondlin.NN` exposes *layers* (`LayerDef σ τ`) and *sequential models*
+`Runtime.Autograd.Gondolin.NN` exposes *layers* (`LayerDef σ τ`) and *sequential models*
 (`Seq σ τ`). For demos we often want to "just stack layers", so this namespace provides small
 helpers that return `Seq` directly (and compute a few common derived shapes like `flattenLinear`).
 
@@ -379,58 +379,58 @@ For the more fully-documented public surface (named-field configs, blocks, etc.)
 -/
 
 /-- Lift a single layer into a sequential model. -/
-def of {σ τ : Spec.Shape} (layer : API.Gondlin.NN.LayerDef σ τ) :
-    API.Gondlin.NN.Seq σ τ :=
-  API.Gondlin.NN.seq1 layer
+def of {σ τ : Spec.Shape} (layer : API.Gondolin.NN.LayerDef σ τ) :
+    API.Gondolin.NN.Seq σ τ :=
+  API.Gondolin.NN.seq1 layer
 
 /-- Linear layer over vectors (returns a 1-layer `Seq`). -/
 def linear (inDim outDim : Nat) (seedW seedB : Nat := 0) :
-    API.Gondlin.NN.Seq (NN.Tensor.Shape.Vec inDim) (NN.Tensor.Shape.Vec outDim) :=
-  of <| API.Gondlin.NN.linear inDim outDim seedW seedB
+    API.Gondolin.NN.Seq (NN.Tensor.Shape.Vec inDim) (NN.Tensor.Shape.Vec outDim) :=
+  of <| API.Gondolin.NN.linear inDim outDim seedW seedB
 
 /-- Elementwise ReLU. -/
-def relu {s : Spec.Shape} : API.Gondlin.NN.Seq s s :=
-  of <| API.Gondlin.NN.relu (s := s)
+def relu {s : Spec.Shape} : API.Gondolin.NN.Seq s s :=
+  of <| API.Gondolin.NN.relu (s := s)
 
 /-- Elementwise SiLU/Swish. -/
-def silu {s : Spec.Shape} : API.Gondlin.NN.Seq s s :=
-  of <| API.Gondlin.NN.silu (s := s)
+def silu {s : Spec.Shape} : API.Gondolin.NN.Seq s s :=
+  of <| API.Gondolin.NN.silu (s := s)
 
 /-- Elementwise GELU. -/
-def gelu {s : Spec.Shape} : API.Gondlin.NN.Seq s s :=
-  of <| API.Gondlin.NN.gelu (s := s)
+def gelu {s : Spec.Shape} : API.Gondolin.NN.Seq s s :=
+  of <| API.Gondolin.NN.gelu (s := s)
 
 /-- Elementwise sigmoid. -/
-def sigmoid {s : Spec.Shape} : API.Gondlin.NN.Seq s s :=
-  of <| API.Gondlin.NN.sigmoid (s := s)
+def sigmoid {s : Spec.Shape} : API.Gondolin.NN.Seq s s :=
+  of <| API.Gondolin.NN.sigmoid (s := s)
 
 /-- Elementwise tanh. -/
-def tanh {s : Spec.Shape} : API.Gondlin.NN.Seq s s :=
-  of <| API.Gondlin.NN.tanh (s := s)
+def tanh {s : Spec.Shape} : API.Gondolin.NN.Seq s s :=
+  of <| API.Gondolin.NN.tanh (s := s)
 
 /-- Softmax layer. -/
-def softmax {s : Spec.Shape} : API.Gondlin.NN.Seq s s :=
-  of <| API.Gondlin.NN.softmax (s := s)
+def softmax {s : Spec.Shape} : API.Gondolin.NN.Seq s s :=
+  of <| API.Gondolin.NN.softmax (s := s)
 
 /-- Elementwise square. -/
-def square {s : Spec.Shape} : API.Gondlin.NN.Seq s s :=
-  of <| API.Gondlin.NN.square (s := s)
+def square {s : Spec.Shape} : API.Gondolin.NN.Seq s s :=
+  of <| API.Gondolin.NN.square (s := s)
 
 /-- Reduce-sum to a scalar. -/
-def sum {s : Spec.Shape} : API.Gondlin.NN.Seq s Spec.Shape.scalar :=
-  of <| API.Gondlin.NN.sum (s := s)
+def sum {s : Spec.Shape} : API.Gondolin.NN.Seq s Spec.Shape.scalar :=
+  of <| API.Gondolin.NN.sum (s := s)
 
 /-- Flatten any input shape into a 1D vector of length `Spec.Shape.size s`. -/
-def flatten {s : Spec.Shape} : API.Gondlin.NN.Seq s (.dim (Spec.Shape.size s) .scalar) :=
-  of <| API.Gondlin.NN.flatten (s := s)
+def flatten {s : Spec.Shape} : API.Gondolin.NN.Seq s (.dim (Spec.Shape.size s) .scalar) :=
+  of <| API.Gondolin.NN.flatten (s := s)
 
 /-- Dropout layer that is active in training mode and identity in eval mode. -/
-def dropout {s : Spec.Shape} (p : Float) (seed : Nat := 0) : API.Gondlin.NN.Seq s s :=
-  of <| API.Gondlin.NN.dropout (s := s) p seed
+def dropout {s : Spec.Shape} (p : Float) (seed : Nat := 0) : API.Gondolin.NN.Seq s s :=
+  of <| API.Gondolin.NN.dropout (s := s) p seed
 
 /-- `Flatten -> Linear` head, with the input dimension computed from the input shape. -/
 def flattenLinear {s : Spec.Shape} (outDim : Nat) (seedW seedB : Nat := 0) :
-    API.Gondlin.NN.Seq s (NN.Tensor.Shape.Vec outDim) :=
+    API.Gondolin.NN.Seq s (NN.Tensor.Shape.Vec outDim) :=
   (flatten (s := s)) >>> (linear (Spec.Shape.size s) outDim seedW seedB)
 
 /-- Sequential 2D convolution layer for CHW inputs. -/
@@ -438,11 +438,11 @@ def conv2d (inC outC kH kW stride padding inH inW : Nat)
     {hInC : inC ≠ 0} {hKH : kH ≠ 0} {hKW : kW ≠ 0}
     (seedK seedB : Nat := 0)
     (kInit : _root_.Runtime.Autograd.Torch.Init.Scheme := .uniform (-0.1) 0.1) :
-    API.Gondlin.NN.Seq
+    API.Gondolin.NN.Seq
       (NN.Tensor.Shape.CHW inC inH inW)
       (NN.Tensor.Shape.CHW outC ((inH + 2 * padding - kH) / stride + 1) ((inW + 2 * padding - kW) /
         stride + 1)) :=
-  of <| API.Gondlin.NN.conv2d
+  of <| API.Gondolin.NN.conv2d
     (inC := inC) (outC := outC) (kH := kH) (kW := kW) (stride := stride) (padding := padding)
     (inH := inH) (inW := inW) (h1 := hInC) (h2 := hKH) (h3 := hKW)
     (seedK := seedK) (seedB := seedB) (kInit := kInit)
@@ -450,21 +450,21 @@ def conv2d (inC outC kH kW stride padding inH inW : Nat)
 /-- Sequential max-pooling layer for CHW inputs. -/
 def maxPool2d (kH kW inH inW inC stride : Nat)
     {hKH : kH ≠ 0} {hKW : kW ≠ 0} :
-    API.Gondlin.NN.Seq
+    API.Gondolin.NN.Seq
       (NN.Tensor.Shape.CHW inC inH inW)
       (NN.Tensor.Shape.CHW inC ((inH - kH) / stride + 1) ((inW - kW) / stride + 1)) :=
-  of <| API.Gondlin.NN.maxPool2d
+  of <| API.Gondolin.NN.maxPool2d
     (kH := kH) (kW := kW) (inH := inH) (inW := inW) (inC := inC) (stride := stride)
     (h1 := hKH) (h2 := hKW)
 
 /-- Sequential padded max-pooling layer for CHW inputs. -/
 def maxPool2dPad (kH kW inH inW inC stride padding : Nat)
     {hKH : kH ≠ 0} {hKW : kW ≠ 0} :
-    API.Gondlin.NN.Seq
+    API.Gondolin.NN.Seq
       (NN.Tensor.Shape.CHW inC inH inW)
       (NN.Tensor.Shape.CHW inC ((inH + 2 * padding - kH) / stride + 1) ((inW + 2 * padding - kW) /
         stride + 1)) :=
-  of <| API.Gondlin.NN.maxPool2dPad
+  of <| API.Gondolin.NN.maxPool2dPad
     (kH := kH) (kW := kW) (inH := inH) (inW := inW) (inC := inC) (stride := stride) (padding :=
       padding)
     (h1 := hKH) (h2 := hKW)
@@ -472,21 +472,21 @@ def maxPool2dPad (kH kW inH inW inC stride padding : Nat)
 /-- Sequential average-pooling layer for CHW inputs. -/
 def avgPool2d (kH kW inH inW inC stride : Nat)
     {hKH : kH ≠ 0} {hKW : kW ≠ 0} :
-    API.Gondlin.NN.Seq
+    API.Gondolin.NN.Seq
       (NN.Tensor.Shape.CHW inC inH inW)
       (NN.Tensor.Shape.CHW inC ((inH - kH) / stride + 1) ((inW - kW) / stride + 1)) :=
-  of <| API.Gondlin.NN.avgPool2d
+  of <| API.Gondolin.NN.avgPool2d
     (kH := kH) (kW := kW) (inH := inH) (inW := inW) (inC := inC) (stride := stride)
     hKH hKW
 
 /-- Sequential padded average-pooling layer for CHW inputs. -/
 def avgPool2dPad (kH kW inH inW inC stride padding : Nat)
     {hKH : kH ≠ 0} {hKW : kW ≠ 0} :
-    API.Gondlin.NN.Seq
+    API.Gondolin.NN.Seq
       (NN.Tensor.Shape.CHW inC inH inW)
       (NN.Tensor.Shape.CHW inC ((inH + 2 * padding - kH) / stride + 1) ((inW + 2 * padding - kW) /
         stride + 1)) :=
-  of <| API.Gondlin.NN.avgPool2dPad
+  of <| API.Gondolin.NN.avgPool2dPad
     (kH := kH) (kW := kW) (inH := inH) (inW := inW) (inC := inC) (stride := stride) (padding :=
       padding)
     hKH hKW
@@ -499,8 +499,8 @@ flattening the spatial axes.
 -/
 def globalAvgPoolCHW (c h w : Nat)
     {hC : c > 0} {hH : h > 0} {hW : w > 0} :
-    API.Gondlin.NN.Seq (NN.Tensor.Shape.CHW c h w) (NN.Tensor.Shape.Vec c) :=
-  of <| API.Gondlin.NN.globalAvgPool2dChw (c := c) (h := h) (w := w)
+    API.Gondolin.NN.Seq (NN.Tensor.Shape.CHW c h w) (NN.Tensor.Shape.Vec c) :=
+  of <| API.Gondolin.NN.globalAvgPool2dChw (c := c) (h := h) (w := w)
     (h_c_pos := hC) (h_h_pos := hH) (h_w_pos := hW)
 
 /--
@@ -511,8 +511,8 @@ to `(N, C)`.
 -/
 def globalAvgPoolNCHW (n c h w : Nat)
     {hN : n > 0} {hC : c > 0} {hH : h > 0} {hW : w > 0} :
-    API.Gondlin.NN.Seq (NN.Tensor.Shape.NCHW n c h w) (.dim n (.dim c .scalar)) :=
-  of <| API.Gondlin.NN.globalAvgPool2dNchw (n := n) (c := c) (h := h) (w := w)
+    API.Gondolin.NN.Seq (NN.Tensor.Shape.NCHW n c h w) (.dim n (.dim c .scalar)) :=
+  of <| API.Gondolin.NN.globalAvgPool2dNchw (n := n) (c := c) (h := h) (w := w)
     (h_n_pos := hN) (h_c_pos := hC) (h_h_pos := hH) (h_w_pos := hW)
 
 /--
@@ -523,9 +523,9 @@ PyTorch analogy: `torch.nn.LayerNorm(embedDim)` applied to each position in a se
 def layerNorm (batch seqLen embedDim : Nat)
     {hSeq : seqLen > 0} {hEmbed : embedDim > 0}
     (seedGamma seedBeta : Nat := 0) :
-    API.Gondlin.NN.Seq (.dim batch (.dim seqLen (.dim embedDim .scalar)))
+    API.Gondolin.NN.Seq (.dim batch (.dim seqLen (.dim embedDim .scalar)))
       (.dim batch (.dim seqLen (.dim embedDim .scalar))) :=
-  of <| API.Gondlin.NN.layerNorm (batch := batch)
+  of <| API.Gondolin.NN.layerNorm (batch := batch)
     (seqLen := seqLen) (embedDim := embedDim)
     (h_seq_pos := hSeq) (h_embed_pos := hEmbed)
     (seedGamma := seedGamma) (seedBeta := seedBeta)
@@ -538,9 +538,9 @@ PyTorch analogy: an `RMSNorm`-style layer over `(seqLen × embedDim)` tensors.
 def rmsNorm (batch seqLen embedDim : Nat)
     {hSeq : seqLen > 0} {hEmbed : embedDim > 0}
     (seedGamma : Nat := 0) :
-    API.Gondlin.NN.Seq (.dim batch (.dim seqLen (.dim embedDim .scalar)))
+    API.Gondolin.NN.Seq (.dim batch (.dim seqLen (.dim embedDim .scalar)))
       (.dim batch (.dim seqLen (.dim embedDim .scalar))) :=
-  of <| API.Gondlin.NN.rmsNorm (batch := batch)
+  of <| API.Gondolin.NN.rmsNorm (batch := batch)
     (seqLen := seqLen) (embedDim := embedDim)
     (h_seq_pos := hSeq) (h_embed_pos := hEmbed)
     (seedGamma := seedGamma)
@@ -554,10 +554,10 @@ controlling whether running statistics are updated or reused.
 def batchNormCHW (channels height width : Nat)
     {hC : channels > 0} {hH : height > 0} {hW : width > 0}
     (seedGamma seedBeta seedMean seedVar : Nat := 0) :
-    API.Gondlin.NN.Seq
+    API.Gondolin.NN.Seq
       (NN.Tensor.Shape.CHW channels height width)
       (NN.Tensor.Shape.CHW channels height width) :=
-  of <| API.Gondlin.NN.batchnormChannelFirstMode
+  of <| API.Gondolin.NN.batchnormChannelFirstMode
     (channels := channels) (height := height) (width := width)
     (h_c := hC) (h_h := hH) (h_w := hW)
     (seedGamma := seedGamma) (seedBeta := seedBeta)
@@ -571,10 +571,10 @@ PyTorch analogy: `torch.nn.BatchNorm2d(...).eval()` with `running_mean` and `run
 def batchNormEvalCHW (channels height width : Nat)
     {hC : channels > 0} {hH : height > 0} {hW : width > 0}
     (seedGamma seedBeta seedMean seedVar : Nat := 0) :
-    API.Gondlin.NN.Seq
+    API.Gondolin.NN.Seq
       (NN.Tensor.Shape.CHW channels height width)
       (NN.Tensor.Shape.CHW channels height width) :=
-  of <| API.Gondlin.NN.batchnormChannelFirstEval
+  of <| API.Gondolin.NN.batchnormChannelFirstEval
     (channels := channels) (height := height) (width := width)
     (h_c := hC) (h_h := hH) (h_w := hW)
     (seedGamma := seedGamma) (seedBeta := seedBeta)
@@ -588,8 +588,8 @@ PyTorch analogy: `torch.nn.InstanceNorm2d(c, affine=True)` with `NCHW` layout.
 def instanceNorm2dNCHW (n c h w : Nat)
     {hN : n > 0} {hC : c > 0} {hH : h > 0} {hW : w > 0}
     (seedGamma seedBeta : Nat := 0) :
-    API.Gondlin.NN.Seq (NN.Tensor.Shape.NCHW n c h w) (NN.Tensor.Shape.NCHW n c h w) :=
-  of <| API.Gondlin.NN.instanceNorm2dNchw
+    API.Gondolin.NN.Seq (NN.Tensor.Shape.NCHW n c h w) (NN.Tensor.Shape.NCHW n c h w) :=
+  of <| API.Gondolin.NN.instanceNorm2dNchw
     (n := n) (c := c) (h := h) (w := w)
     (h_n_pos := hN) (h_c_pos := hC) (h_h_pos := hH) (h_w_pos := hW)
     (seedGamma := seedGamma) (seedBeta := seedBeta)
@@ -603,8 +603,8 @@ def groupNorm2dNCHW (n c h w groups : Nat)
     {hN : n > 0} {hC : c > 0} {hH : h > 0} {hW : w > 0} {hG : groups > 0}
     (hGE : c ≥ groups) (hDiv : c % groups = 0)
     (seedGamma seedBeta : Nat := 0) :
-    API.Gondlin.NN.Seq (NN.Tensor.Shape.NCHW n c h w) (NN.Tensor.Shape.NCHW n c h w) :=
-  of <| API.Gondlin.NN.groupNorm2dNchw
+    API.Gondolin.NN.Seq (NN.Tensor.Shape.NCHW n c h w) (NN.Tensor.Shape.NCHW n c h w) :=
+  of <| API.Gondolin.NN.groupNorm2dNchw
     (n := n) (c := c) (h := h) (w := w) (groups := groups)
     (h_n_pos := hN) (h_c_pos := hC) (h_h_pos := hH) (h_w_pos := hW) (h_g_pos := hG)
     hGE hDiv
@@ -618,8 +618,8 @@ PyTorch analogy: `torch.nn.BatchNorm2d(c)` during training, where batch statisti
 def batchNorm2dNCHW (n c h w : Nat)
     {hN : n > 0} {hC : c > 0} {hH : h > 0} {hW : w > 0}
     (seedGamma seedBeta seedMean seedVar : Nat := 0) :
-    API.Gondlin.NN.Seq (NN.Tensor.Shape.NCHW n c h w) (NN.Tensor.Shape.NCHW n c h w) :=
-  of <| API.Gondlin.NN.batchNorm2dNchwMode
+    API.Gondolin.NN.Seq (NN.Tensor.Shape.NCHW n c h w) (NN.Tensor.Shape.NCHW n c h w) :=
+  of <| API.Gondolin.NN.batchNorm2dNchwMode
     (n := n) (c := c) (h := h) (w := w)
     (h_n_pos := hN) (h_c_pos := hC) (h_h_pos := hH) (h_w_pos := hW)
     (seedGamma := seedGamma) (seedBeta := seedBeta)
@@ -635,9 +635,9 @@ def attention (batch n dModel numHeads headDim : Nat)
     {hN : n ≠ 0}
     (seedW : Nat := 0)
     (mask : Option (_root_.Spec.Tensor Bool (.dim n (.dim n .scalar))) := none) :
-    API.Gondlin.NN.Seq (.dim batch (.dim n (.dim dModel .scalar)))
+    API.Gondolin.NN.Seq (.dim batch (.dim n (.dim dModel .scalar)))
       (.dim batch (.dim n (.dim dModel .scalar))) :=
-  of <| API.Gondlin.NN.multiHeadAttention (batch := batch)
+  of <| API.Gondolin.NN.multiHeadAttention (batch := batch)
     (n := n) (dModel := dModel) (numHeads := numHeads) (headDim := headDim)
     (h1 := hN) (seedW := seedW) (mask := mask)
 
@@ -653,13 +653,13 @@ This section provides "model-shaped" autodiff helpers:
 - an `OutputLoss τ υ` (loss built from model output + target),
 - and convenience wrappers for VJP/Jacobian/HVP/JVP and gradient extraction.
 
-These are thin wrappers over `Runtime.Autograd.Gondlin.Autodiff` that hide the program/argument
+These are thin wrappers over `Runtime.Autograd.Gondolin.Autodiff` that hide the program/argument
 packing boilerplate and keep call sites readable.
 -/
 
 /-- Parameter list type for a given model (a `TList` over `Seq.paramShapes`). -/
-abbrev Params {σ τ : Spec.Shape} (model : API.Gondlin.NN.Seq σ τ) (α : Type) :=
-  API.Gondlin.TList α (API.Gondlin.NN.Seq.paramShapes model)
+abbrev Params {σ τ : Spec.Shape} (model : API.Gondolin.NN.Seq σ τ) (α : Type) :=
+  API.Gondolin.TList α (API.Gondolin.NN.Seq.paramShapes model)
 
 /--
 Loss function over a model output and a target.
@@ -669,21 +669,21 @@ execution.
 -/
 abbrev OutputLoss (τ υ : Spec.Shape) :=
   ∀ {α : Type}, [Context α] → [DecidableEq Spec.Shape] →
-    {m : Type → Type} → [Monad m] → [API.Gondlin.Ops (m := m) (α := α)] →
-      API.Gondlin.RefTy (m := m) (α := α) τ →
-      API.Gondlin.RefTy (m := m) (α := α) υ →
-      m (API.Gondlin.RefTy (m := m) (α := α) Spec.Shape.scalar)
+    {m : Type → Type} → [Monad m] → [API.Gondolin.Ops (m := m) (α := α)] →
+      API.Gondolin.RefTy (m := m) (α := α) τ →
+      API.Gondolin.RefTy (m := m) (α := α) υ →
+      m (API.Gondolin.RefTy (m := m) (α := α) Spec.Shape.scalar)
 
 /--
 Initialize model parameters by casting the model's `Float` initializers elementwise using `cast`.
 -/
-def initParamsWith {σ τ : Spec.Shape} (model : API.Gondlin.NN.Seq σ τ)
+def initParamsWith {σ τ : Spec.Shape} (model : API.Gondolin.NN.Seq σ τ)
     {α : Type} (cast : Float → α) :
     Params model α :=
-  _root_.Runtime.Autograd.Gondlin.Module.castTList cast (API.Gondlin.NN.Seq.initParams model)
+  _root_.Runtime.Autograd.Gondolin.Module.castTList cast (API.Gondolin.NN.Seq.initParams model)
 
 /-- Initialize model parameters using the runtime literal injection `API.Runtime.ofFloat`. -/
-def initParams {σ τ : Spec.Shape} (model : API.Gondlin.NN.Seq σ τ)
+def initParams {σ τ : Spec.Shape} (model : API.Gondolin.NN.Seq σ τ)
     {α : Type} [API.Runtime.Scalar α] :
     Params model α :=
   Model.initParamsWith (model := model) API.Runtime.ofFloat
@@ -692,25 +692,25 @@ def initParams {σ τ : Spec.Shape} (model : API.Gondlin.NN.Seq σ τ)
 def linearParams {α : Type} {inDim outDim : Nat} {seedW seedB : Nat}
     (w : _root_.Spec.Tensor α (NN.Tensor.Shape.Mat outDim inDim))
     (b : _root_.Spec.Tensor α (NN.Tensor.Shape.Vec outDim)) :
-    Params (API.Gondlin.Layers.linear inDim outDim seedW seedB) α :=
-  API.Gondlin.tlist2 w b
+    Params (API.Gondolin.Layers.linear inDim outDim seedW seedB) α :=
+  API.Gondolin.tlist2 w b
 
 namespace OutputLoss
 
 /-- Mean-squared error loss (`mse`) between `yhat` and `y`. -/
-def mse {τ : Spec.Shape} (reduction : API.Gondlin.Loss.Reduction := .mean) :
+def mse {τ : Spec.Shape} (reduction : API.Gondolin.Loss.Reduction := .mean) :
     OutputLoss τ τ :=
   fun {α} _ _ =>
     fun {m} _ _ yhat y =>
-      API.Gondlin.Loss.mse (m := m) (α := α) (s := τ) yhat y (reduction := reduction)
+      API.Gondolin.Loss.mse (m := m) (α := α) (s := τ) yhat y (reduction := reduction)
 
 /-- Cross-entropy loss between logits and one-hot targets. PyTorch analogue: `nn.CrossEntropyLoss`.
   -/
-def crossEntropyOneHot {τ : Spec.Shape} (reduction : API.Gondlin.Loss.Reduction := .mean) :
+def crossEntropyOneHot {τ : Spec.Shape} (reduction : API.Gondolin.Loss.Reduction := .mean) :
     OutputLoss τ τ :=
   fun {α} _ _ =>
     fun {m} _ _ logits targetOneHot =>
-      API.Gondlin.Loss.crossEntropyOneHot (m := m) (α := α) (s := τ) logits targetOneHot
+      API.Gondolin.Loss.crossEntropyOneHot (m := m) (α := α) (s := τ) logits targetOneHot
         (reduction := reduction)
 
 /--
@@ -721,120 +721,120 @@ This is useful when you want to compute a metric loss without backpropagating th
 def detach {τ υ : Spec.Shape} (loss : OutputLoss τ υ) : OutputLoss τ υ :=
   fun {α} _ _ =>
     fun {m} _ _ yhat y => do
-      let yhat' ← API.Gondlin.F.detach (m := m) (α := α) (s := τ) yhat
+      let yhat' ← API.Gondolin.F.detach (m := m) (α := α) (s := τ) yhat
       loss (α := α) (m := m) yhat' y
 
 end OutputLoss
 
 /--
-Build a Gondlin `Program` that computes a scalar loss from `(params, x, target)`.
+Build a Gondolin `Program` that computes a scalar loss from `(params, x, target)`.
 
 This is the bridge between `Seq.program` (which produces model outputs) and the autograd entry
 points (which expect a scalar-valued program).
 -/
-def lossProgram {σ τ υ : Spec.Shape} (model : API.Gondlin.NN.Seq σ τ) (loss : OutputLoss τ υ) :
+def lossProgram {σ τ υ : Spec.Shape} (model : API.Gondolin.NN.Seq σ τ) (loss : OutputLoss τ υ) :
     ∀ {α : Type}, [Context α] → [DecidableEq Spec.Shape] →
-      API.Gondlin.Program α (API.Gondlin.NN.Seq.paramShapes model ++ [σ, υ]) Spec.Shape.scalar
+      API.Gondolin.Program α (API.Gondolin.NN.Seq.paramShapes model ++ [σ, υ]) Spec.Shape.scalar
         :=
   fun {α} _ _ =>
     fun {m} _ _ =>
       _root_.Runtime.Autograd.Torch.CurriedRef.curry
-        (Ref := fun s => API.Gondlin.RefTy (m := m) (α := α) s)
-        (ss := API.Gondlin.NN.Seq.paramShapes model ++ [σ, υ])
-        (β := m (API.Gondlin.RefTy (m := m) (α := α) Spec.Shape.scalar))
+        (Ref := fun s => API.Gondolin.RefTy (m := m) (α := α) s)
+        (ss := API.Gondolin.NN.Seq.paramShapes model ++ [σ, υ])
+        (β := m (API.Gondolin.RefTy (m := m) (α := α) Spec.Shape.scalar))
         (fun args => do
           let (ps, xy) :=
             _root_.Runtime.Autograd.Torch.RefList.split
-              (Ref := fun s => API.Gondlin.RefTy (m := m) (α := α) s)
-              (ss₁ := API.Gondlin.NN.Seq.paramShapes model) (ss₂ := [σ, υ]) args
+              (Ref := fun s => API.Gondolin.RefTy (m := m) (α := α) s)
+              (ss₁ := API.Gondolin.NN.Seq.paramShapes model) (ss₂ := [σ, υ]) args
           let (x, y) := RefList.unpack2 xy
           let yhat ←
             _root_.Runtime.Autograd.Torch.CurriedRef.uncurry
-              (Ref := fun s => API.Gondlin.RefTy (m := m) (α := α) s)
-              (ss := API.Gondlin.NN.Seq.paramShapes model ++ [σ])
-              (β := m (API.Gondlin.RefTy (m := m) (α := α) τ))
-              (API.Gondlin.NN.Seq.program (model := model) (α := α))
+              (Ref := fun s => API.Gondolin.RefTy (m := m) (α := α) s)
+              (ss := API.Gondolin.NN.Seq.paramShapes model ++ [σ])
+              (β := m (API.Gondolin.RefTy (m := m) (α := α) τ))
+              (API.Gondolin.NN.Seq.program (model := model) (α := α))
               (_root_.Runtime.Autograd.Torch.RefList.append ps (.cons x .nil))
           loss (α := α) (m := m) yhat y)
 
 /-- VJP of the model output w.r.t. parameters. -/
-def vjpParams {σ τ : Spec.Shape} (model : API.Gondlin.NN.Seq σ τ)
+def vjpParams {σ τ : Spec.Shape} (model : API.Gondolin.NN.Seq σ τ)
     {α : Type} [Context α] [DecidableEq Spec.Shape]
     (params : Params model α) (x : Spec.Tensor α σ) (seedOut : Spec.Tensor α τ) :
     IO (Params model α) :=
-  _root_.Runtime.Autograd.Gondlin.Autodiff.vjpOutParams
+  _root_.Runtime.Autograd.Gondolin.Autodiff.vjpOutParams
     (α := α)
-    (paramShapes := API.Gondlin.NN.Seq.paramShapes model) (inputShapes := [σ]) (τ := τ)
-    (fun {β} _ _ => API.Gondlin.NN.Seq.program (model := model) (α := β))
-    params (API.Gondlin.tlist1 x) seedOut
+    (paramShapes := API.Gondolin.NN.Seq.paramShapes model) (inputShapes := [σ]) (τ := τ)
+    (fun {β} _ _ => API.Gondolin.NN.Seq.program (model := model) (α := β))
+    params (API.Gondolin.tlist1 x) seedOut
 
 /-- VJP of the model output w.r.t. inputs. -/
-def vjpInputs {σ τ : Spec.Shape} (model : API.Gondlin.NN.Seq σ τ)
+def vjpInputs {σ τ : Spec.Shape} (model : API.Gondolin.NN.Seq σ τ)
     {α : Type} [Context α] [DecidableEq Spec.Shape]
     (params : Params model α) (x : Spec.Tensor α σ) (seedOut : Spec.Tensor α τ) :
-    IO (API.Gondlin.TList α [σ]) :=
-  _root_.Runtime.Autograd.Gondlin.Autodiff.vjpOutInputs
+    IO (API.Gondolin.TList α [σ]) :=
+  _root_.Runtime.Autograd.Gondolin.Autodiff.vjpOutInputs
     (α := α)
-    (paramShapes := API.Gondlin.NN.Seq.paramShapes model) (inputShapes := [σ]) (τ := τ)
-    (fun {β} _ _ => API.Gondlin.NN.Seq.program (model := model) (α := β))
-    params (API.Gondlin.tlist1 x) seedOut
+    (paramShapes := API.Gondolin.NN.Seq.paramShapes model) (inputShapes := [σ]) (τ := τ)
+    (fun {β} _ _ => API.Gondolin.NN.Seq.program (model := model) (α := β))
+    params (API.Gondolin.tlist1 x) seedOut
 
 /-- Jacobian (reverse-mode) of the model output w.r.t. parameters, returned as rows. -/
-def jacrevParams {σ τ : Spec.Shape} (model : API.Gondlin.NN.Seq σ τ)
+def jacrevParams {σ τ : Spec.Shape} (model : API.Gondolin.NN.Seq σ τ)
     {α : Type} [Context α] [DecidableEq Spec.Shape]
     (params : Params model α) (x : Spec.Tensor α σ) :
     IO (Array (Params model α)) :=
-  _root_.Runtime.Autograd.Gondlin.Autodiff.jacrevOutParams
+  _root_.Runtime.Autograd.Gondolin.Autodiff.jacrevOutParams
     (α := α)
-    (paramShapes := API.Gondlin.NN.Seq.paramShapes model) (inputShapes := [σ]) (τ := τ)
-    (fun {β} _ _ => API.Gondlin.NN.Seq.program (model := model) (α := β))
-    params (API.Gondlin.tlist1 x)
+    (paramShapes := API.Gondolin.NN.Seq.paramShapes model) (inputShapes := [σ]) (τ := τ)
+    (fun {β} _ _ => API.Gondolin.NN.Seq.program (model := model) (α := β))
+    params (API.Gondolin.tlist1 x)
 
 /-- Gradient of `loss(model(params, x), target)` w.r.t. parameters. -/
-def gradParams {σ τ υ : Spec.Shape} (model : API.Gondlin.NN.Seq σ τ) (loss : OutputLoss τ υ)
+def gradParams {σ τ υ : Spec.Shape} (model : API.Gondolin.NN.Seq σ τ) (loss : OutputLoss τ υ)
     {α : Type} [Context α] [DecidableEq Spec.Shape]
     (params : Params model α) (x : Spec.Tensor α σ) (target : Spec.Tensor α υ) :
     IO (Params model α) :=
-  _root_.Runtime.Autograd.Gondlin.Autodiff.gradParams
+  _root_.Runtime.Autograd.Gondolin.Autodiff.gradParams
     (α := α)
-    (paramShapes := API.Gondlin.NN.Seq.paramShapes model) (inputShapes := [σ, υ])
+    (paramShapes := API.Gondolin.NN.Seq.paramShapes model) (inputShapes := [σ, υ])
     (lossProgram (model := model) loss)
-    params (API.Gondlin.tlist2 x target)
+    params (API.Gondolin.tlist2 x target)
 
 /-- Gradient of `loss(model(params, x), target)` w.r.t. inputs (`x` and `target`). -/
-def gradInputs {σ τ υ : Spec.Shape} (model : API.Gondlin.NN.Seq σ τ) (loss : OutputLoss τ υ)
+def gradInputs {σ τ υ : Spec.Shape} (model : API.Gondolin.NN.Seq σ τ) (loss : OutputLoss τ υ)
     {α : Type} [Context α] [DecidableEq Spec.Shape]
     (params : Params model α) (x : Spec.Tensor α σ) (target : Spec.Tensor α υ) :
-    IO (API.Gondlin.TList α [σ, υ]) :=
-  _root_.Runtime.Autograd.Gondlin.Autodiff.gradInputs
+    IO (API.Gondolin.TList α [σ, υ]) :=
+  _root_.Runtime.Autograd.Gondolin.Autodiff.gradInputs
     (α := α)
-    (paramShapes := API.Gondlin.NN.Seq.paramShapes model) (inputShapes := [σ, υ])
+    (paramShapes := API.Gondolin.NN.Seq.paramShapes model) (inputShapes := [σ, υ])
     (lossProgram (model := model) loss)
-    params (API.Gondlin.tlist2 x target)
+    params (API.Gondolin.tlist2 x target)
 
 /-- JVP of a scalar loss w.r.t. parameters in direction `vparams`. -/
-def jvpParams {σ τ υ : Spec.Shape} (model : API.Gondlin.NN.Seq σ τ) (loss : OutputLoss τ υ)
+def jvpParams {σ τ υ : Spec.Shape} (model : API.Gondolin.NN.Seq σ τ) (loss : OutputLoss τ υ)
     {α : Type} [Context α] [DecidableEq Spec.Shape]
     (params : Params model α) (x : Spec.Tensor α σ) (target : Spec.Tensor α υ)
     (vparams : Params model α) :
     IO α :=
-  _root_.Runtime.Autograd.Gondlin.Autodiff.jvpLossParams
+  _root_.Runtime.Autograd.Gondolin.Autodiff.jvpLossParams
     (α := α)
-    (paramShapes := API.Gondlin.NN.Seq.paramShapes model) (inputShapes := [σ, υ])
+    (paramShapes := API.Gondolin.NN.Seq.paramShapes model) (inputShapes := [σ, υ])
     (lossProgram (model := model) loss)
-    params (API.Gondlin.tlist2 x target) vparams
+    params (API.Gondolin.tlist2 x target) vparams
 
 /-- HVP (Hessian-vector product) of a scalar loss w.r.t. parameters in direction `vparams`. -/
-def hvpParams {σ τ υ : Spec.Shape} (model : API.Gondlin.NN.Seq σ τ) (loss : OutputLoss τ υ)
+def hvpParams {σ τ υ : Spec.Shape} (model : API.Gondolin.NN.Seq σ τ) (loss : OutputLoss τ υ)
     {α : Type} [Context α] [DecidableEq Spec.Shape]
     (params : Params model α) (x : Spec.Tensor α σ) (target : Spec.Tensor α υ)
     (vparams : Params model α) :
     IO (Params model α) :=
-  _root_.Runtime.Autograd.Gondlin.Autodiff.hvpParams
+  _root_.Runtime.Autograd.Gondolin.Autodiff.hvpParams
     (α := α)
-    (paramShapes := API.Gondlin.NN.Seq.paramShapes model) (inputShapes := [σ, υ])
+    (paramShapes := API.Gondolin.NN.Seq.paramShapes model) (inputShapes := [σ, υ])
     (lossProgram (model := model) loss)
-    params (API.Gondlin.tlist2 x target) vparams
+    params (API.Gondolin.tlist2 x target) vparams
 
 end Model
 
@@ -850,22 +850,22 @@ thing we differentiate, rather than a model with an explicit parameter list.
 /--
 Type of a pure tensor function expressed in `RefTy` form.
 
-This matches the calling convention expected by `Gondlin.Program`/autodiff compilation.
+This matches the calling convention expected by `Gondolin.Program`/autodiff compilation.
 -/
 abbrev Fn (σ τ : Spec.Shape) :=
   ∀ {α : Type}, [Context α] → [DecidableEq Spec.Shape] →
-    {m : Type → Type} → [Monad m] → [API.Gondlin.Ops (m := m) (α := α)] →
-      API.Gondlin.RefTy (m := m) (α := α) σ →
-      m (API.Gondlin.RefTy (m := m) (α := α) τ)
+    {m : Type → Type} → [Monad m] → [API.Gondolin.Ops (m := m) (α := α)] →
+      API.Gondolin.RefTy (m := m) (α := α) σ →
+      m (API.Gondolin.RefTy (m := m) (α := α) τ)
 
-/-- Turn an `Fn` into a single-input Gondlin `Program`. -/
+/-- Turn an `Fn` into a single-input Gondolin `Program`. -/
 def program {σ τ : Spec.Shape} (f : Fn σ τ) :
-    ∀ {α : Type}, [Context α] → [DecidableEq Spec.Shape] → API.Gondlin.Program α [σ] τ :=
+    ∀ {α : Type}, [Context α] → [DecidableEq Spec.Shape] → API.Gondolin.Program α [σ] τ :=
   fun {α} _ _ =>
     fun {m} _ _ =>
       _root_.Runtime.Autograd.Torch.CurriedRef.curry
-        (Ref := fun s => API.Gondlin.RefTy (m := m) (α := α) s)
-        (ss := [σ]) (β := m (API.Gondlin.RefTy (m := m) (α := α) τ))
+        (Ref := fun s => API.Gondolin.RefTy (m := m) (α := α) s)
+        (ss := [σ]) (β := m (API.Gondolin.RefTy (m := m) (α := α) τ))
         (fun args =>
           match args with
           | .cons x .nil => f (α := α) (m := m) x)
@@ -875,7 +875,7 @@ def jacfwd {σ τ : Spec.Shape} (f : Fn σ τ)
     {α : Type} [Context α] [DecidableEq Spec.Shape]
     (x : Spec.Tensor α σ) :
     IO (Array (Spec.Tensor α τ)) :=
-  _root_.Runtime.Autograd.Gondlin.Autodiff.jacfwd1
+  _root_.Runtime.Autograd.Gondolin.Autodiff.jacfwd1
     (α := α) (σ := σ) (τ := τ) (program f) x
 
 /-- Hessian for a scalar-valued pure function. -/
@@ -883,7 +883,7 @@ def hessian {σ : Spec.Shape} (f : Fn σ Spec.Shape.scalar)
     {α : Type} [Context α] [DecidableEq Spec.Shape]
     (x : Spec.Tensor α σ) :
     IO (Array (Spec.Tensor α σ)) :=
-  _root_.Runtime.Autograd.Gondlin.Autodiff.hessian1
+  _root_.Runtime.Autograd.Gondolin.Autodiff.hessian1
     (α := α) (σ := σ) (program f) x
 
 end Function1
@@ -898,10 +898,10 @@ namespace Models
 This namespace re-exports a small set of ready-made model constructors (MLP/CNN/ResNet18/etc.),
 primarily for runnable demos and smoke tests.
 
-For compositional building blocks, prefer `API.Gondlin.NN` and `API.Gondlin.Layers`.
+For compositional building blocks, prefer `API.Gondolin.NN` and `API.Gondolin.Layers`.
 -/
 
-export _root_.NN.GraphSpec.Models.Gondlin
+export _root_.NN.GraphSpec.Models.Gondolin
   (mlp autoencoder cnn2 softmaxRegression mlpClassifier transformerBlock
    resnet18Model resnet18Program resnet18InitParams)
 end Models
@@ -911,17 +911,17 @@ namespace Module
 /-!
 ### ScalarModule API (Session-Like Interface)
 
-The `ScalarModule` interface is the Gondlin equivalent of "instantiate a model, then do forward,
+The `ScalarModule` interface is the Gondolin equivalent of "instantiate a model, then do forward,
 backward, and optimizer steps" in an imperative runtime.
 
-This section mostly re-exports `Runtime.Autograd.Gondlin.Module.*` and adds small CLI-friendly
+This section mostly re-exports `Runtime.Autograd.Gondolin.Module.*` and adds small CLI-friendly
 helpers (`Module.withModule` / `Module.withModuleRuntime`) that select dtype/backend from flags.
 -/
 
-export _root_.Runtime.Autograd.Gondlin.Module (ScalarModuleDef ScalarModule)
-export _root_.Runtime.Autograd.Gondlin.Module.ScalarModule
+export _root_.Runtime.Autograd.Gondolin.Module (ScalarModuleDef ScalarModule)
+export _root_.Runtime.Autograd.Gondolin.Module.ScalarModule
   (create forward backward step initOptim stepWith params setParams trainSGD trainWith meanLoss)
-export _root_.Runtime.Autograd.Gondlin.Module.ScalarModuleDef (instantiate)
+export _root_.Runtime.Autograd.Gondolin.Module.ScalarModuleDef (instantiate)
 
 /--
 Instantiate a `ScalarModuleDef` under explicit Torch options (`backend`, `fastKernels`, `useGpu`,
@@ -940,7 +940,7 @@ def instantiateWithOptions
     (defn : ScalarModuleDef paramShapes inputShapes)
     (cast : Float → α) (opts : Options) :
     IO (ScalarModule α paramShapes inputShapes) :=
-  _root_.Runtime.Autograd.Gondlin.Module.ScalarModuleDef.instantiateWith
+  _root_.Runtime.Autograd.Gondolin.Module.ScalarModuleDef.instantiateWith
     (α := α) (paramShapes := paramShapes) (inputShapes := inputShapes) defn cast opts
 
 /--
@@ -961,7 +961,7 @@ structure ExecConfig where
   /--
   Eager execution device selector.
 
-  When `true` and `backend = .eager`, Gondlin uses the CUDA tape backend.
+  When `true` and `backend = .eager`, Gondolin uses the CUDA tape backend.
   -/
   useGpu : Bool := false
   /-- Enable runtime-only eager fast kernels (tight-loop implementations for a few hot ops). -/
@@ -1040,7 +1040,7 @@ def parseAndStripWithDefaultDType (args : List String) (defaultDType : DType) :
     fastGpuMatmulPrecision := fastGpuMatmulPrecision
   }, rest)
 
-/-- Parse CLI flags with the standard Gondlin default dtype policy. -/
+/-- Parse CLI flags with the standard Gondolin default dtype policy. -/
 def parseAndStrip (args : List String) : Except String (ExecConfig × List String) := do
   let defaultDType : DType := if args.contains "--cuda" then .float else .float32 {}
   parseAndStripWithDefaultDType args defaultDType
@@ -1048,10 +1048,10 @@ def parseAndStrip (args : List String) : Except String (ExecConfig × List Strin
 /-- Log the chosen execution config to stdout (for reproducible demos). -/
 def log (cfg : ExecConfig) : IO Unit := do
   DType.log cfg.dtype
-  IO.println s!"[Gondlin] backend: {reprStr cfg.backend}"
-  IO.println s!"[Gondlin] device: {if cfg.useGpu then "cuda" else "cpu"}"
-  IO.println s!"[Gondlin] fastKernels: {cfg.fastKernels}"
-  IO.println s!"[Gondlin] fastGpuMatmulPrecision: {reprStr cfg.fastGpuMatmulPrecision}"
+  IO.println s!"[Gondolin] backend: {reprStr cfg.backend}"
+  IO.println s!"[Gondolin] device: {if cfg.useGpu then "cuda" else "cpu"}"
+  IO.println s!"[Gondolin] fastKernels: {cfg.fastKernels}"
+  IO.println s!"[Gondolin] fastGpuMatmulPrecision: {reprStr cfg.fastGpuMatmulPrecision}"
 
 end ExecConfig
 
@@ -1109,7 +1109,7 @@ def withModule
     | .error msg => throw <| IO.userError msg
   ExecConfig.log cfg
   match (← DType.withExec cfg.dtype (fun {α} _ _ _ cast => do
-        let m ← _root_.Runtime.Autograd.Gondlin.Module.ScalarModuleDef.instantiateWith
+        let m ← _root_.Runtime.Autograd.Gondolin.Module.ScalarModuleDef.instantiateWith
           (α := α) (paramShapes := paramShapes) (inputShapes := inputShapes)
           defn cast
             { backend := cfg.backend
@@ -1139,7 +1139,7 @@ def withModuleRuntime
     | .error msg => throw <| IO.userError msg
   ExecConfig.log cfg
   match (← DType.withRuntime cfg.dtype (fun {α} _ _ _ _ => do
-        let m ← _root_.Runtime.Autograd.Gondlin.Module.ScalarModuleDef.instantiateWith
+        let m ← _root_.Runtime.Autograd.Gondolin.Module.ScalarModuleDef.instantiateWith
           (α := α) (paramShapes := paramShapes) (inputShapes := inputShapes)
           defn (API.Runtime.ofFloat (α := α))
             { backend := cfg.backend
@@ -1154,14 +1154,14 @@ def withModuleRuntime
 /-!
 ## Executable `main` Helpers
 
-Gondlin has a lot of pure, type-indexed code (models live in `Type 2`), but runnable scripts still
+Gondolin has a lot of pure, type-indexed code (models live in `Type 2`), but runnable scripts still
 want a "single entrypoint" that handles:
 - parsing `--seed`,
 - selecting an executable dtype/backend/device from flags,
-- seeding Gondlin's global RNG stream (`API.rand`) so `nn.freshSeed`/`nn.withModel` are deterministic.
+- seeding Gondolin's global RNG stream (`API.rand`) so `nn.freshSeed`/`nn.withModel` are deterministic.
 -/
 
-/-- Options for `Gondlin.Module.run` (banner printing, trailing ok, etc.). -/
+/-- Options for `Gondolin.Module.run` (banner printing, trailing ok, etc.). -/
 structure RunOptions where
   /-- Optional banner to print before executing the program. -/
   banner? : Option (Options → String) := none
@@ -1207,7 +1207,7 @@ This parses:
   `--fast-kernels`, `--fast-gpu-matmul-precision`),
 then executes the chosen `RunAction`.
 
-It also seeds Gondlin's global RNG stream (`API.rand`) so code that draws init seeds via
+It also seeds Gondolin's global RNG stream (`API.rand`) so code that draws init seeds via
 `API.nn.freshSeed`/`API.nn.withModel` is deterministic by default, matching the PyTorch pattern of
 calling `torch.manual_seed` once in `main`.
 -/
@@ -1272,13 +1272,13 @@ This is a slightly lower-level layer than `NN.API.Public.train`: it is designed 
 
 /-- Built-in loss choices for `SeqTask`. -/
 inductive SeqLoss where
-  | mse (reduction : API.Gondlin.Loss.Reduction := .mean)
-  | crossEntropyOneHot (reduction : API.Gondlin.Loss.Reduction := .mean)
+  | mse (reduction : API.Gondolin.Loss.Reduction := .mean)
+  | crossEntropyOneHot (reduction : API.Gondolin.Loss.Reduction := .mean)
 
 /-- A supervised task is just a model plus a choice of loss. -/
 structure SeqTask (σ τ : Spec.Shape) where
   /-- Model to run. -/
-  model : API.Gondlin.NN.Seq σ τ
+  model : API.Gondolin.NN.Seq σ τ
   /-- Loss function. -/
   loss : SeqLoss
 
@@ -1288,32 +1288,32 @@ Build a `ScalarModuleDef` for a task, choosing an explicit model mode (train/eva
 This is the underlying "instantiate me as a runnable module" step for training.
 -/
 def SeqTask.moduleDefWithMode {σ τ : Spec.Shape} (task : SeqTask σ τ)
-    (mode : API.Gondlin.NN.Mode) :
-    API.Gondlin.Module.ScalarModuleDef (API.Gondlin.NN.Seq.paramShapes task.model) [σ, τ] :=
+    (mode : API.Gondolin.NN.Mode) :
+    API.Gondolin.Module.ScalarModuleDef (API.Gondolin.NN.Seq.paramShapes task.model) [σ, τ] :=
   match task.loss with
   | .mse reduction =>
-      API.Gondlin.NN.Seq.mseScalarModuleDefWithMode mode (model := task.model) (reduction :=
+      API.Gondolin.NN.Seq.mseScalarModuleDefWithMode mode (model := task.model) (reduction :=
         reduction)
   | .crossEntropyOneHot reduction =>
-      API.Gondlin.NN.Seq.crossEntropyOneHotScalarModuleDefWithMode mode
+      API.Gondolin.NN.Seq.crossEntropyOneHotScalarModuleDefWithMode mode
         (model := task.model) (reduction := reduction)
 
 /-- Default module definition for a task (training mode). -/
 def SeqTask.moduleDef {σ τ : Spec.Shape} (task : SeqTask σ τ) :
-    API.Gondlin.Module.ScalarModuleDef (API.Gondlin.NN.Seq.paramShapes task.model) [σ, τ] :=
+    API.Gondolin.Module.ScalarModuleDef (API.Gondolin.NN.Seq.paramShapes task.model) [σ, τ] :=
   task.moduleDefWithMode .train
 
 namespace SeqTask
 
 /-- Constructor: regression task (MSE loss). -/
-def mse {σ τ : Spec.Shape} (model : API.Gondlin.NN.Seq σ τ)
-    (reduction : API.Gondlin.Loss.Reduction := .mean) :
+def mse {σ τ : Spec.Shape} (model : API.Gondolin.NN.Seq σ τ)
+    (reduction : API.Gondolin.Loss.Reduction := .mean) :
     SeqTask σ τ :=
   { model := model, loss := .mse reduction }
 
 /-- Constructor: one-hot classification task (cross-entropy loss). -/
-def crossEntropyOneHot {σ τ : Spec.Shape} (model : API.Gondlin.NN.Seq σ τ)
-    (reduction : API.Gondlin.Loss.Reduction := .mean) :
+def crossEntropyOneHot {σ τ : Spec.Shape} (model : API.Gondolin.NN.Seq σ τ)
+    (reduction : API.Gondolin.Loss.Reduction := .mean) :
     SeqTask σ τ :=
   { model := model, loss := .crossEntropyOneHot reduction }
 
@@ -1321,7 +1321,7 @@ end SeqTask
 
 /-- Parameter shapes for a task (delegates to `Seq.paramShapes`). -/
 abbrev paramShapes {σ τ : Spec.Shape} (task : SeqTask σ τ) : List Spec.Shape :=
-  API.Gondlin.NN.Seq.paramShapes task.model
+  API.Gondolin.NN.Seq.paramShapes task.model
 
 /--
 Optimizer hyperparameter configuration for the supervised training helpers.
@@ -1360,7 +1360,7 @@ structure FitConfig where
   /-- Optimizer configuration. -/
   optimizer : OptimizerConfig := .sgd 0.01
   /-- Scheduler configuration. -/
-  scheduler : Option API.Gondlin.Schedulers.Config := none
+  scheduler : Option API.Gondolin.Schedulers.Config := none
   /-- Log once every this many steps. -/
   logEvery : Nat := 1
   deriving Repr
@@ -1392,7 +1392,7 @@ structure LoaderFitConfig where
   /-- Optimizer configuration. -/
   optimizer : OptimizerConfig := .sgd 0.01
   /-- Scheduler configuration. -/
-  scheduler : Option API.Gondlin.Schedulers.Config := none
+  scheduler : Option API.Gondolin.Schedulers.Config := none
   /-- Log once every this many steps. -/
   logEvery : Nat := 1
   deriving Repr
@@ -1409,37 +1409,37 @@ Resolve the learning rate to use at a given training step.
 If a scheduler is present, it takes precedence over the optimizer's baked-in base learning rate.
 Otherwise this simply returns `optimizerLR cfg`.
 -/
-def stepLR (scheduler : Option API.Gondlin.Schedulers.Config) (cfg : OptimizerConfig)
+def stepLR (scheduler : Option API.Gondolin.Schedulers.Config) (cfg : OptimizerConfig)
     (step : Nat) : Float :=
   match scheduler with
-  | some sched => API.Gondlin.Schedulers.lrAt sched step
+  | some sched => API.Gondolin.Schedulers.lrAt sched step
   | none => optimizerLR cfg
 
 /-- Map a state update over every optimizer-state entry in a shape-indexed parameter list. -/
 def mapStateList {State : Type → Spec.Shape → Type} {α : Type} :
     {ss : List Spec.Shape} →
     ({s : Spec.Shape} → State α s → State α s) →
-    API.Gondlin.Optim.StateList State α ss →
-    API.Gondlin.Optim.StateList State α ss
+    API.Gondolin.Optim.StateList State α ss →
+    API.Gondolin.Optim.StateList State α ss
   | [], _, .nil => .nil
   | _ :: ss, f, .cons st rest => .cons (f st) (mapStateList (ss := ss) f rest)
 
 /-- Set the learning rate field of every Adam optimizer state entry to `lr`. -/
 def adamStateWithLR {α : Type} (lr : α) {paramShapes : List Spec.Shape} :
-    API.Gondlin.Optim.StateList _root_.Optim.Adam.State α paramShapes →
-    API.Gondlin.Optim.StateList _root_.Optim.Adam.State α paramShapes :=
+    API.Gondolin.Optim.StateList _root_.Optim.Adam.State α paramShapes →
+    API.Gondolin.Optim.StateList _root_.Optim.Adam.State α paramShapes :=
   mapStateList (ss := paramShapes) (fun st => { st with lr := lr })
 
 /-- Set the learning rate field of every momentum-SGD optimizer state entry to `lr`. -/
 def momentumSGDStateWithLR {α : Type} (lr : α) {paramShapes : List Spec.Shape} :
-    API.Gondlin.Optim.StateList _root_.Optim.MomentumSGD.State α paramShapes →
-    API.Gondlin.Optim.StateList _root_.Optim.MomentumSGD.State α paramShapes :=
+    API.Gondolin.Optim.StateList _root_.Optim.MomentumSGD.State α paramShapes →
+    API.Gondolin.Optim.StateList _root_.Optim.MomentumSGD.State α paramShapes :=
   mapStateList (ss := paramShapes) (fun st => { st with lr := lr })
 
 /-- Set the learning rate field of every AdamW optimizer state entry to `lr`. -/
 def adamwStateWithLR {α : Type} (lr : α) {paramShapes : List Spec.Shape} :
-    API.Gondlin.Optim.StateList _root_.Optim.AdamW.State α paramShapes →
-    API.Gondlin.Optim.StateList _root_.Optim.AdamW.State α paramShapes :=
+    API.Gondolin.Optim.StateList _root_.Optim.AdamW.State α paramShapes →
+    API.Gondolin.Optim.StateList _root_.Optim.AdamW.State α paramShapes :=
   mapStateList (ss := paramShapes) (fun st => { st with lr := lr })
 
 /--
@@ -1457,7 +1457,7 @@ during training.
 structure Runner (α : Type) [API.Semantics.Scalar α] [DecidableEq Spec.Shape]
     {σ τ : Spec.Shape} (task : SeqTask σ τ) where
   /-- Instantiated scalar module storing parameters/buffers in mutable refs. -/
-  module : API.Gondlin.Module.ScalarModule α (paramShapes task) [σ, τ]
+  module : API.Gondolin.Module.ScalarModule α (paramShapes task) [σ, τ]
   /-- Compiled forward predictor specialized to training-mode behavior. -/
   predictorTrain : _root_.Runtime.Autograd.Torch.CompiledOut α (paramShapes task ++ [σ]) τ
   /-- Compiled forward predictor specialized to eval-mode behavior. -/
@@ -1467,7 +1467,7 @@ structure Runner (α : Type) [API.Semantics.Scalar α] [DecidableEq Spec.Shape]
   /-- Compiled loss function for eval-mode behavior. -/
   lossEval : _root_.Runtime.Autograd.Torch.CompiledScalar α (paramShapes task ++ [σ, τ])
   /-- Mutable mode flag (`.train` / `.eval`) used by stateful layers (e.g. dropout/batchnorm). -/
-  mode : IO.Ref API.Gondlin.NN.Mode
+  mode : IO.Ref API.Gondolin.NN.Mode
 
 /--
 Instantiate a `Runner` by explicitly providing a `Float → α` cast and backend.
@@ -1478,18 +1478,18 @@ Use this when you want to run the same task over different numeric backends (e.g
 def instantiateWithOptions {σ τ : Spec.Shape} (task : SeqTask σ τ)
     {α : Type} [API.Semantics.Scalar α] [DecidableEq Spec.Shape]
     [_root_.Runtime.Autograd.Torch.Internal.CudaBridge.TensorConv α]
-    (cast : Float → α) (opts : API.Gondlin.Options := {}) :
+    (cast : Float → α) (opts : API.Gondolin.Options := {}) :
     IO (Runner α task) := do
-  let module ← API.Gondlin.Module.instantiateWithOptions (α := α) task.moduleDef cast opts
-  let predictorTrain ← API.Gondlin.NN.Seq.compileOutWithMode .train (α := α) task.model
-  let predictorEval ← API.Gondlin.NN.Seq.compileOutWithMode .eval (α := α) task.model
-  let lossTrain ← API.Gondlin.Autodiff.compileLoss (α := α)
+  let module ← API.Gondolin.Module.instantiateWithOptions (α := α) task.moduleDef cast opts
+  let predictorTrain ← API.Gondolin.NN.Seq.compileOutWithMode .train (α := α) task.model
+  let predictorEval ← API.Gondolin.NN.Seq.compileOutWithMode .eval (α := α) task.model
+  let lossTrain ← API.Gondolin.Autodiff.compileLoss (α := α)
     (paramShapes := paramShapes task) (inputShapes := [σ, τ])
     (task.moduleDefWithMode .train).loss
-  let lossEval ← API.Gondlin.Autodiff.compileLoss (α := α)
+  let lossEval ← API.Gondolin.Autodiff.compileLoss (α := α)
     (paramShapes := paramShapes task) (inputShapes := [σ, τ])
     (task.moduleDefWithMode .eval).loss
-  let mode : IO.Ref API.Gondlin.NN.Mode ← IO.mkRef .eval
+  let mode : IO.Ref API.Gondolin.NN.Mode ← IO.mkRef .eval
   pure {
     module := module
     predictorTrain := predictorTrain
@@ -1507,7 +1507,7 @@ This is a backward-compatible wrapper over `instantiateWithOptions`.
 def instantiateWith {σ τ : Spec.Shape} (task : SeqTask σ τ)
     {α : Type} [API.Semantics.Scalar α] [DecidableEq Spec.Shape]
     [_root_.Runtime.Autograd.Torch.Internal.CudaBridge.TensorConv α]
-    (cast : Float → α) (backend : API.Gondlin.Backend := .eager) :
+    (cast : Float → α) (backend : API.Gondolin.Backend := .eager) :
     IO (Runner α task) := do
   instantiateWithOptions (task := task) (α := α) cast { backend := backend }
 
@@ -1519,7 +1519,7 @@ This is the common entrypoint for executable examples.
 def instantiateWithRuntimeOptions {σ τ : Spec.Shape} (task : SeqTask σ τ)
     {α : Type} [API.Semantics.Scalar α] [DecidableEq Spec.Shape] [API.Runtime.Scalar α]
     [_root_.Runtime.Autograd.Torch.Internal.CudaBridge.TensorConv α]
-    (opts : API.Gondlin.Options := {}) :
+    (opts : API.Gondolin.Options := {}) :
     IO (Runner α task) :=
   instantiateWithOptions (task := task) (α := α) API.Runtime.ofFloat opts
 
@@ -1532,12 +1532,12 @@ This is a backward-compatible wrapper over `instantiateWithRuntimeOptions`.
 def instantiate {σ τ : Spec.Shape} (task : SeqTask σ τ)
     {α : Type} [API.Semantics.Scalar α] [DecidableEq Spec.Shape] [API.Runtime.Scalar α]
     [_root_.Runtime.Autograd.Torch.Internal.CudaBridge.TensorConv α]
-    (backend : API.Gondlin.Backend := .eager) :
+    (backend : API.Gondolin.Backend := .eager) :
     IO (Runner α task) :=
   instantiateWithRuntimeOptions (task := task) (α := α) { backend := backend }
 
 /--
-Run a Gondlin task with CLI-style dtype/backend selection, then call `k` with a fully constructed
+Run a Gondolin task with CLI-style dtype/backend selection, then call `k` with a fully constructed
   runner.
 
 This is used by `lake exe` entrypoints: `run` takes care of parsing dtype flags and instantiating
@@ -1549,16 +1549,16 @@ def run {σ τ : Spec.Shape} (task : SeqTask σ τ) (args : List String)
         [API.Runtime.Scalar α] →
         Runner α task → List String → IO Unit) :
     IO Unit := do
-  API.Gondlin.Module.withModuleRuntime task.moduleDef args (fun {α} _ _ _ _ module rest => do
-    let predictorTrain ← API.Gondlin.NN.Seq.compileOutWithMode .train (α := α) task.model
-    let predictorEval ← API.Gondlin.NN.Seq.compileOutWithMode .eval (α := α) task.model
-    let lossTrain ← API.Gondlin.Autodiff.compileLoss (α := α)
+  API.Gondolin.Module.withModuleRuntime task.moduleDef args (fun {α} _ _ _ _ module rest => do
+    let predictorTrain ← API.Gondolin.NN.Seq.compileOutWithMode .train (α := α) task.model
+    let predictorEval ← API.Gondolin.NN.Seq.compileOutWithMode .eval (α := α) task.model
+    let lossTrain ← API.Gondolin.Autodiff.compileLoss (α := α)
       (paramShapes := paramShapes task) (inputShapes := [σ, τ])
       (task.moduleDefWithMode .train).loss
-    let lossEval ← API.Gondlin.Autodiff.compileLoss (α := α)
+    let lossEval ← API.Gondolin.Autodiff.compileLoss (α := α)
       (paramShapes := paramShapes task) (inputShapes := [σ, τ])
       (task.moduleDefWithMode .eval).loss
-    let mode : IO.Ref API.Gondlin.NN.Mode ← IO.mkRef .eval
+    let mode : IO.Ref API.Gondolin.NN.Mode ← IO.mkRef .eval
     k (α := α)
       { module := module
         predictorTrain := predictorTrain
@@ -1573,19 +1573,19 @@ def run {σ τ : Spec.Shape} (task : SeqTask σ τ) (args : List String)
 def params {σ τ : Spec.Shape} {task : SeqTask σ τ}
     {α : Type} [API.Semantics.Scalar α] [DecidableEq Spec.Shape]
     (runner : Runner α task) :
-    IO (API.Gondlin.TList α (paramShapes task)) :=
-  API.Gondlin.Module.params runner.module
+    IO (API.Gondolin.TList α (paramShapes task)) :=
+  API.Gondolin.Module.params runner.module
 
 /-- Read the runner's current mode (`.train` or `.eval`). -/
 def mode {σ τ : Spec.Shape} {task : SeqTask σ τ}
     {α : Type} [API.Semantics.Scalar α] [DecidableEq Spec.Shape]
-    (runner : Runner α task) : IO API.Gondlin.NN.Mode :=
+    (runner : Runner α task) : IO API.Gondolin.NN.Mode :=
   runner.mode.get
 
 /-- Set the runner mode (`.train` or `.eval`). -/
 def setMode {σ τ : Spec.Shape} {task : SeqTask σ τ}
     {α : Type} [API.Semantics.Scalar α] [DecidableEq Spec.Shape]
-    (runner : Runner α task) (value : API.Gondlin.NN.Mode) : IO Unit :=
+    (runner : Runner α task) (value : API.Gondolin.NN.Mode) : IO Unit :=
   runner.mode.set value
 
 /-- Convenience: `setMode runner .train`. -/
@@ -1633,32 +1633,32 @@ for layers such as normalization. In `.eval` mode it is a no-op.
 -/
 def updateRunnerBuffers {σ τ : Spec.Shape} {task : SeqTask σ τ}
     {α : Type} [API.Semantics.Scalar α] [DecidableEq Spec.Shape]
-    (runner : Runner α task) (sample : API.Gondlin.TList α [σ, τ]) : IO Unit := do
+    (runner : Runner α task) (sample : API.Gondolin.TList α [σ, τ]) : IO Unit := do
   let currentMode ← mode runner
   if currentMode == .train then
     match sample with
     | .cons x (.cons _y .nil) => do
         let ps ← params runner
-        let ps' ← API.Gondlin.NN.Seq.updateBuffers currentMode task.model ps x
-        API.Gondlin.Module.setParams runner.module ps'
+        let ps' ← API.Gondolin.NN.Seq.updateBuffers currentMode task.model ps x
+        API.Gondolin.Module.setParams runner.module ps'
   else
     pure ()
 
 /--
 Run one forward/backward pass on a single supervised sample and return gradients for all parameters.
 
-This is the Gondlin analogue of the `loss.backward()` payload in PyTorch, except Gondlin returns
+This is the Gondolin analogue of the `loss.backward()` payload in PyTorch, except Gondolin returns
 the gradients explicitly instead of storing them in `.grad` fields.
 -/
 def backward {σ τ : Spec.Shape} {task : SeqTask σ τ}
     {α : Type} [API.Semantics.Scalar α] [DecidableEq Spec.Shape]
-    (runner : Runner α task) (sample : API.Gondlin.TList α [σ, τ]) :
-    IO (API.Gondlin.TList α (paramShapes task)) := do
+    (runner : Runner α task) (sample : API.Gondolin.TList α [σ, τ]) :
+    IO (API.Gondolin.TList α (paramShapes task)) := do
   -- The instantiated scalar module always uses the training-mode program; keep the runner mode
   -- aligned so `updateRunnerBuffers` is not accidentally skipped.
   trainMode runner
   updateRunnerBuffers runner sample
-  API.Gondlin.Module.backward runner.module sample
+  API.Gondolin.Module.backward runner.module sample
 
 /-- Predict on one input tensor using the runner's active mode (`.train` or `.eval`). -/
 def predict {σ τ : Spec.Shape} {task : SeqTask σ τ}
@@ -1667,7 +1667,7 @@ def predict {σ τ : Spec.Shape} {task : SeqTask σ τ}
     IO (Spec.Tensor α τ) := do
   let ps ← params runner
   let predictor ← activePredictor runner
-  pure (API.Gondlin.NN.Seq.predict1 task.model predictor ps x)
+  pure (API.Gondolin.NN.Seq.predict1 task.model predictor ps x)
 
 /-- Predict on a list of inputs by repeatedly calling `predict`. -/
 def predictBatch {σ τ : Spec.Shape} {task : SeqTask σ τ}
@@ -1676,7 +1676,7 @@ def predictBatch {σ τ : Spec.Shape} {task : SeqTask σ τ}
     IO (List (Spec.Tensor α τ)) := do
   let ps ← params runner
   let predictor ← activePredictor runner
-  pure <| xs.map (API.Gondlin.NN.Seq.predict1 task.model predictor ps)
+  pure <| xs.map (API.Gondolin.NN.Seq.predict1 task.model predictor ps)
 
 /-- For classification heads: run `predict`, then take `argmax` over the logits (if defined). -/
 def predictClass? {σ : Spec.Shape} {n : Nat} {task : SeqTask σ (.dim n .scalar)}
@@ -1685,16 +1685,16 @@ def predictClass? {σ : Spec.Shape} {n : Nat} {task : SeqTask σ (.dim n .scalar
     (runner : Runner α task) (x : Spec.Tensor α σ) :
     IO (Option (Fin n)) := do
   let logits ← predict runner x
-  pure <| API.Gondlin.Metrics.argmax? (α := α) (n := n) logits
+  pure <| API.Gondolin.Metrics.argmax? (α := α) (n := n) logits
 
 /-- Compute `(correct, total)` for a one-hot classification dataset. -/
 def accuracyOneHot {σ : Spec.Shape} {n : Nat} {task : SeqTask σ (.dim n .scalar)}
     {α : Type} [API.Semantics.Scalar α] [DecidableEq Spec.Shape]
     [LT α] [DecidableRel ((· > ·) : α → α → Prop)]
-    (runner : Runner α task) (samples : List (API.Gondlin.TList α [σ, .dim n .scalar])) :
+    (runner : Runner α task) (samples : List (API.Gondolin.TList α [σ, .dim n .scalar])) :
     IO (Nat × Nat) := do
   let rec go (correct total : Nat) :
-      List (API.Gondlin.TList α [σ, .dim n .scalar]) → IO (Nat × Nat)
+      List (API.Gondolin.TList α [σ, .dim n .scalar]) → IO (Nat × Nat)
     | [] => pure (correct, total)
     | sample :: rest =>
         do
@@ -1702,7 +1702,7 @@ def accuracyOneHot {σ : Spec.Shape} {n : Nat} {task : SeqTask σ (.dim n .scala
             match sample with
             | .cons x (.cons y .nil) => (x, y)
           let logits ← predict runner x
-          let ok := API.Gondlin.Metrics.correctOneHot? (α := α) (n := n) logits y
+          let ok := API.Gondolin.Metrics.correctOneHot? (α := α) (n := n) logits y
           go (if ok = some true then correct + 1 else correct) (total + 1) rest
   go 0 0 samples
 
@@ -1710,12 +1710,12 @@ def accuracyOneHot {σ : Spec.Shape} {n : Nat} {task : SeqTask σ (.dim n .scala
 def meanLoss {σ τ : Spec.Shape} {task : SeqTask σ τ}
     {α : Type} [API.Semantics.Scalar α] [DecidableEq Spec.Shape] [ToString α] [Add α] [Div α] [Zero
       α] [Coe Nat α]
-    (runner : Runner α task) (samples : List (API.Gondlin.TList α [σ, τ])) :
+    (runner : Runner α task) (samples : List (API.Gondolin.TList α [σ, τ])) :
     IO α := do
   let compiled ← activeLoss runner
   let ps ← params runner
   let values ← samples.mapM (fun sample => do
-    let args : API.Gondlin.TList α (paramShapes task ++ [σ, τ]) :=
+    let args : API.Gondolin.TList α (paramShapes task ++ [σ, τ]) :=
       _root_.Runtime.Autograd.Torch.Proofs.Autograd.Algebra.TList.append
         (α := α) (ss₁ := paramShapes task) (ss₂ := [σ, τ]) ps sample
     pure (Spec.Tensor.toScalar <| _root_.Runtime.Autograd.Torch.CompiledScalar.forward compiled
@@ -1729,15 +1729,15 @@ def meanLossDataset {σ τ : Spec.Shape} {task : SeqTask σ τ}
     {α : Type} [API.Semantics.Scalar α] [DecidableEq Spec.Shape] [ToString α] [Add α] [Div α] [Zero
       α] [Coe Nat α]
     (runner : Runner α task)
-    (dataset : _root_.Runtime.Autograd.Train.Dataset (API.Gondlin.TList α [σ, τ])) :
+    (dataset : _root_.Runtime.Autograd.Train.Dataset (API.Gondolin.TList α [σ, τ])) :
     IO α :=
   meanLoss runner dataset.toList
 
 /-- Scalar loss for one sample through the instantiated runtime module. -/
 def moduleLoss {σ τ : Spec.Shape} {task : SeqTask σ τ}
     {α : Type} [API.Semantics.Scalar α] [DecidableEq Spec.Shape]
-    (runner : Runner α task) (sample : API.Gondlin.TList α [σ, τ]) : IO α := do
-  let loss ← API.Gondlin.Module.forward runner.module sample
+    (runner : Runner α task) (sample : API.Gondolin.TList α [σ, τ]) : IO α := do
+  let loss ← API.Gondolin.Module.forward runner.module sample
   pure (Spec.Tensor.toScalar loss)
 
 /--
@@ -1750,7 +1750,7 @@ def fit {σ τ : Spec.Shape} {task : SeqTask σ τ}
     {α : Type} [API.Semantics.Scalar α] [DecidableEq Spec.Shape] [ToString α] [Add α] [Div α] [Zero
       α] [Coe Nat α]
     [API.Runtime.Scalar α]
-    (runner : Runner α task) (cfg : FitConfig) (samples : List (API.Gondlin.TList α [σ, τ])) :
+    (runner : Runner α task) (cfg : FitConfig) (samples : List (API.Gondolin.TList α [σ, τ])) :
     IO (FitReport α) := do
   trainMode runner
   let before ← meanLoss runner samples
@@ -1773,26 +1773,26 @@ def fit {σ τ : Spec.Shape} {task : SeqTask σ τ}
                     pure sample
               updateRunnerBuffers runner sample
               let lrα := API.Runtime.ofFloat (stepLR cfg.scheduler cfg.optimizer stepIdx)
-              API.Gondlin.Module.step runner.module lrα sample
+              API.Gondolin.Module.step runner.module lrα sample
               if cfg.logEvery > 0 && stepIdx % cfg.logEvery = 0 then
-                let loss ← API.Gondlin.Module.forward runner.module sample
+                let loss ← API.Gondolin.Module.forward runner.module sample
                 IO.println s!"step {stepIdx}: loss={Spec.Tensor.toScalar loss}"
         else
           match cfg.scheduler with
           | none =>
-              let opt := API.Gondlin.Optim.momentumSGD
+              let opt := API.Gondolin.Optim.momentumSGD
                 (α := α) (lr := API.Runtime.ofFloat lr) (momentum := API.Runtime.ofFloat momentum)
-              let st0 ← API.Gondlin.Module.initOptim runner.module opt
-              let _ ← API.Gondlin.Module.trainWith runner.module opt st0 cfg.steps samples
+              let st0 ← API.Gondolin.Module.initOptim runner.module opt
+              let _ ← API.Gondolin.Module.trainWith runner.module opt st0 cfg.steps samples
                 (logEvery := cfg.logEvery)
               pure ()
           | some _ =>
-              let opt := API.Gondlin.Optim.momentumSGD
+              let opt := API.Gondolin.Optim.momentumSGD
                 (α := α) (paramShapes := paramShapes task)
                 (lr := API.Runtime.ofFloat lr) (momentum := API.Runtime.ofFloat momentum)
-              let st0 : API.Gondlin.Optim.StateList _root_.Optim.MomentumSGD.State α (paramShapes
+              let st0 : API.Gondolin.Optim.StateList _root_.Optim.MomentumSGD.State α (paramShapes
                 task) ←
-                API.Gondlin.Module.initOptim runner.module opt
+                API.Gondolin.Module.initOptim runner.module opt
               let mut st := st0
               if samples.isEmpty then
                 pure ()
@@ -1810,31 +1810,31 @@ def fit {σ τ : Spec.Shape} {task : SeqTask σ τ}
                   updateRunnerBuffers runner sample
                   let lrα := API.Runtime.ofFloat (stepLR cfg.scheduler cfg.optimizer stepIdx)
                   st := momentumSGDStateWithLR (paramShapes := paramShapes task) lrα st
-                  st ← API.Gondlin.Module.stepWith runner.module opt st sample
+                  st ← API.Gondolin.Module.stepWith runner.module opt st sample
                   if cfg.logEvery > 0 && stepIdx % cfg.logEvery = 0 then
-                    let loss ← API.Gondlin.Module.forward runner.module sample
+                    let loss ← API.Gondolin.Module.forward runner.module sample
                     IO.println s!"step {stepIdx}: loss={Spec.Tensor.toScalar loss}"
     | .adam lr beta1 beta2 epsilon =>
         match cfg.scheduler with
         | none =>
-            let opt := API.Gondlin.Optim.adam
+            let opt := API.Gondolin.Optim.adam
               (α := α) (lr := API.Runtime.ofFloat lr)
               (beta1 := API.Runtime.ofFloat beta1)
               (beta2 := API.Runtime.ofFloat beta2)
               (epsilon := API.Runtime.ofFloat epsilon)
-            let st0 ← API.Gondlin.Module.initOptim runner.module opt
-            let _ ← API.Gondlin.Module.trainWith runner.module opt st0 cfg.steps samples
+            let st0 ← API.Gondolin.Module.initOptim runner.module opt
+            let _ ← API.Gondolin.Module.trainWith runner.module opt st0 cfg.steps samples
               (logEvery := cfg.logEvery)
             pure ()
         | some _ =>
-            let opt := API.Gondlin.Optim.adam
+            let opt := API.Gondolin.Optim.adam
               (α := α) (paramShapes := paramShapes task)
               (lr := API.Runtime.ofFloat lr)
               (beta1 := API.Runtime.ofFloat beta1)
               (beta2 := API.Runtime.ofFloat beta2)
               (epsilon := API.Runtime.ofFloat epsilon)
-            let st0 : API.Gondlin.Optim.StateList _root_.Optim.Adam.State α (paramShapes task) ←
-              API.Gondlin.Module.initOptim runner.module opt
+            let st0 : API.Gondolin.Optim.StateList _root_.Optim.Adam.State α (paramShapes task) ←
+              API.Gondolin.Module.initOptim runner.module opt
             let mut st := st0
             if samples.isEmpty then
               pure ()
@@ -1852,32 +1852,32 @@ def fit {σ τ : Spec.Shape} {task : SeqTask σ τ}
                 updateRunnerBuffers runner sample
                 let lrα := API.Runtime.ofFloat (stepLR cfg.scheduler cfg.optimizer stepIdx)
                 st := adamStateWithLR (paramShapes := paramShapes task) lrα st
-                st ← API.Gondlin.Module.stepWith runner.module opt st sample
+                st ← API.Gondolin.Module.stepWith runner.module opt st sample
                 if cfg.logEvery > 0 && stepIdx % cfg.logEvery = 0 then
-                  let loss ← API.Gondlin.Module.forward runner.module sample
+                  let loss ← API.Gondolin.Module.forward runner.module sample
                   IO.println s!"step {stepIdx}: loss={Spec.Tensor.toScalar loss}"
     | .adamw lr weightDecay beta1 beta2 epsilon =>
         match cfg.scheduler with
         | none =>
-            let opt := API.Gondlin.Optim.adamw
+            let opt := API.Gondolin.Optim.adamw
               (α := α) (lr := API.Runtime.ofFloat lr) (weightDecay := API.Runtime.ofFloat
                 weightDecay)
               (beta1 := API.Runtime.ofFloat beta1)
               (beta2 := API.Runtime.ofFloat beta2)
               (epsilon := API.Runtime.ofFloat epsilon)
-            let st0 ← API.Gondlin.Module.initOptim runner.module opt
-            let _ ← API.Gondlin.Module.trainWith runner.module opt st0 cfg.steps samples
+            let st0 ← API.Gondolin.Module.initOptim runner.module opt
+            let _ ← API.Gondolin.Module.trainWith runner.module opt st0 cfg.steps samples
               (logEvery := cfg.logEvery)
             pure ()
         | some _ =>
-            let opt := API.Gondlin.Optim.adamw
+            let opt := API.Gondolin.Optim.adamw
               (α := α) (paramShapes := paramShapes task)
               (lr := API.Runtime.ofFloat lr) (weightDecay := API.Runtime.ofFloat weightDecay)
               (beta1 := API.Runtime.ofFloat beta1)
               (beta2 := API.Runtime.ofFloat beta2)
               (epsilon := API.Runtime.ofFloat epsilon)
-            let st0 : API.Gondlin.Optim.StateList _root_.Optim.AdamW.State α (paramShapes task) ←
-              API.Gondlin.Module.initOptim runner.module opt
+            let st0 : API.Gondolin.Optim.StateList _root_.Optim.AdamW.State α (paramShapes task) ←
+              API.Gondolin.Module.initOptim runner.module opt
             let mut st := st0
             if samples.isEmpty then
               pure ()
@@ -1895,9 +1895,9 @@ def fit {σ τ : Spec.Shape} {task : SeqTask σ τ}
                 updateRunnerBuffers runner sample
                 let lrα := API.Runtime.ofFloat (stepLR cfg.scheduler cfg.optimizer stepIdx)
                 st := adamwStateWithLR (paramShapes := paramShapes task) lrα st
-                st ← API.Gondlin.Module.stepWith runner.module opt st sample
+                st ← API.Gondolin.Module.stepWith runner.module opt st sample
                 if cfg.logEvery > 0 && stepIdx % cfg.logEvery = 0 then
-                  let loss ← API.Gondlin.Module.forward runner.module sample
+                  let loss ← API.Gondolin.Module.forward runner.module sample
                   IO.println s!"step {stepIdx}: loss={Spec.Tensor.toScalar loss}"
   let after ← meanLoss runner samples
   pure { before := before, after := after }
@@ -1908,7 +1908,7 @@ def fitDataset {σ τ : Spec.Shape} {task : SeqTask σ τ}
       α] [Coe Nat α]
     [API.Runtime.Scalar α]
     (runner : Runner α task) (cfg : FitConfig)
-    (dataset : _root_.Runtime.Autograd.Train.Dataset (API.Gondlin.TList α [σ, τ])) :
+    (dataset : _root_.Runtime.Autograd.Train.Dataset (API.Gondolin.TList α [σ, τ])) :
     IO (FitReport α) :=
   fit runner cfg dataset.toList
 
@@ -1923,13 +1923,13 @@ def fitLoader {σ τ : Spec.Shape} {task : SeqTask σ τ}
       α] [Coe Nat α]
     [API.Runtime.Scalar α]
     (runner : Runner α task) (cfg : LoaderFitConfig)
-    (dl : _root_.Runtime.Autograd.Train.DataLoader (API.Gondlin.TList α [σ, τ])) :
-    IO (FitReport α × _root_.Runtime.Autograd.Train.DataLoader (API.Gondlin.TList α [σ, τ])) := do
+    (dl : _root_.Runtime.Autograd.Train.DataLoader (API.Gondolin.TList α [σ, τ])) :
+    IO (FitReport α × _root_.Runtime.Autograd.Train.DataLoader (API.Gondolin.TList α [σ, τ])) := do
   trainMode runner
   let nextEpoch
-      (loader : _root_.Runtime.Autograd.Train.DataLoader (API.Gondlin.TList α [σ, τ])) :
-      IO (_root_.Runtime.Autograd.Train.DataLoader (API.Gondlin.TList α [σ, τ]) ×
-        List (List (API.Gondlin.TList α [σ, τ]))) :=
+      (loader : _root_.Runtime.Autograd.Train.DataLoader (API.Gondolin.TList α [σ, τ])) :
+      IO (_root_.Runtime.Autograd.Train.DataLoader (API.Gondolin.TList α [σ, τ]) ×
+        List (List (API.Gondolin.TList α [σ, τ]))) :=
     match _root_.Runtime.Autograd.Train.DataLoader.epoch "Supervised.fitLoader" loader with
     | .ok out => pure out
     | .error msg => throw <| IO.userError s!"Supervised.fitLoader: {msg}"
@@ -1941,7 +1941,7 @@ def fitLoader {σ τ : Spec.Shape} {task : SeqTask σ τ}
       if momentum == 0.0 then
         let rec trainSgdBatches
             (epoch : Nat)
-            (batches : List (List (API.Gondlin.TList α [σ, τ]))) :
+            (batches : List (List (API.Gondolin.TList α [σ, τ]))) :
             IO Unit := do
           match batches with
           | [] => pure ()
@@ -1949,13 +1949,13 @@ def fitLoader {σ τ : Spec.Shape} {task : SeqTask σ τ}
               let lrα := API.Runtime.ofFloat (stepLR cfg.scheduler cfg.optimizer epoch)
               for sample in batch do
                 updateRunnerBuffers runner sample
-                API.Gondlin.Module.step runner.module lrα sample
+                API.Gondolin.Module.step runner.module lrα sample
               trainSgdBatches epoch rest
 
         let rec runSgdEpochs (remaining : Nat)
             (epoch : Nat)
-            (loader : _root_.Runtime.Autograd.Train.DataLoader (API.Gondlin.TList α [σ, τ])) :
-            IO (_root_.Runtime.Autograd.Train.DataLoader (API.Gondlin.TList α [σ, τ])) := do
+            (loader : _root_.Runtime.Autograd.Train.DataLoader (API.Gondolin.TList α [σ, τ])) :
+            IO (_root_.Runtime.Autograd.Train.DataLoader (API.Gondolin.TList α [σ, τ])) := do
           match remaining with
           | 0 => pure loader
           | n + 1 =>
@@ -1967,25 +1967,25 @@ def fitLoader {σ τ : Spec.Shape} {task : SeqTask σ τ}
         let after ← meanLossDataset runner dl'.dataset
         pure ({ before := before, after := after }, dl')
       else
-        let opt := API.Gondlin.Optim.momentumSGD
+        let opt := API.Gondolin.Optim.momentumSGD
           (α := α) (lr := API.Runtime.ofFloat lr) (momentum := API.Runtime.ofFloat momentum)
-        let st0 ← API.Gondlin.Module.initOptim runner.module opt
+        let st0 ← API.Gondolin.Module.initOptim runner.module opt
 
         let rec trainMomSamples (epoch stepIdx : Nat) (state : opt.State)
-            (samples : List (API.Gondlin.TList α [σ, τ])) :
+            (samples : List (API.Gondolin.TList α [σ, τ])) :
             IO (opt.State × Nat) := do
           match samples with
           | [] => pure (state, stepIdx)
           | sample :: rest =>
               updateRunnerBuffers runner sample
-              let state' ← API.Gondlin.Module.stepWith runner.module opt state sample
+              let state' ← API.Gondolin.Module.stepWith runner.module opt state sample
               if cfg.logEvery > 0 && stepIdx % cfg.logEvery = 0 then
-                let loss ← API.Gondlin.Module.forward runner.module sample
+                let loss ← API.Gondolin.Module.forward runner.module sample
                 IO.println s!"step {epoch}:{stepIdx}: loss={Spec.Tensor.toScalar loss}"
               trainMomSamples epoch (stepIdx + 1) state' rest
 
         let rec trainMomBatches (epoch stepIdx : Nat) (state : opt.State)
-            (batches : List (List (API.Gondlin.TList α [σ, τ]))) :
+            (batches : List (List (API.Gondolin.TList α [σ, τ]))) :
             IO (opt.State × Nat) := do
           match batches with
           | [] => pure (state, stepIdx)
@@ -1994,9 +1994,9 @@ def fitLoader {σ τ : Spec.Shape} {task : SeqTask σ τ}
               trainMomBatches epoch stepIdx' state' rest
 
         let rec runMomEpochs (epoch remaining : Nat)
-            (loader : _root_.Runtime.Autograd.Train.DataLoader (API.Gondlin.TList α [σ, τ]))
+            (loader : _root_.Runtime.Autograd.Train.DataLoader (API.Gondolin.TList α [σ, τ]))
             (st : opt.State) :
-            IO (_root_.Runtime.Autograd.Train.DataLoader (API.Gondlin.TList α [σ, τ]) × opt.State)
+            IO (_root_.Runtime.Autograd.Train.DataLoader (API.Gondolin.TList α [σ, τ]) × opt.State)
               := do
           match remaining with
           | 0 => pure (loader, st)
@@ -2018,28 +2018,28 @@ def fitLoader {σ τ : Spec.Shape} {task : SeqTask σ τ}
         pure ({ before := before, after := after }, dl')
 
   | .adam lr beta1 beta2 epsilon =>
-      let opt := API.Gondlin.Optim.adam
+      let opt := API.Gondolin.Optim.adam
         (α := α) (lr := API.Runtime.ofFloat lr)
         (beta1 := API.Runtime.ofFloat beta1)
         (beta2 := API.Runtime.ofFloat beta2)
         (epsilon := API.Runtime.ofFloat epsilon)
-      let st0 ← API.Gondlin.Module.initOptim runner.module opt
+      let st0 ← API.Gondolin.Module.initOptim runner.module opt
 
       let rec trainAdamSamples (epoch stepIdx : Nat) (state : opt.State)
-          (samples : List (API.Gondlin.TList α [σ, τ])) :
+          (samples : List (API.Gondolin.TList α [σ, τ])) :
           IO (opt.State × Nat) := do
         match samples with
         | [] => pure (state, stepIdx)
         | sample :: rest =>
             updateRunnerBuffers runner sample
-            let state' ← API.Gondlin.Module.stepWith runner.module opt state sample
+            let state' ← API.Gondolin.Module.stepWith runner.module opt state sample
             if cfg.logEvery > 0 && stepIdx % cfg.logEvery = 0 then
-              let loss ← API.Gondlin.Module.forward runner.module sample
+              let loss ← API.Gondolin.Module.forward runner.module sample
               IO.println s!"step {epoch}:{stepIdx}: loss={Spec.Tensor.toScalar loss}"
             trainAdamSamples epoch (stepIdx + 1) state' rest
 
       let rec trainAdamBatches (epoch stepIdx : Nat) (state : opt.State)
-          (batches : List (List (API.Gondlin.TList α [σ, τ]))) :
+          (batches : List (List (API.Gondolin.TList α [σ, τ]))) :
           IO (opt.State × Nat) := do
         match batches with
         | [] => pure (state, stepIdx)
@@ -2048,9 +2048,9 @@ def fitLoader {σ τ : Spec.Shape} {task : SeqTask σ τ}
             trainAdamBatches epoch stepIdx' state' rest
 
       let rec runAdamEpochs (epoch remaining : Nat)
-          (loader : _root_.Runtime.Autograd.Train.DataLoader (API.Gondlin.TList α [σ, τ]))
+          (loader : _root_.Runtime.Autograd.Train.DataLoader (API.Gondolin.TList α [σ, τ]))
           (st : opt.State) :
-          IO (_root_.Runtime.Autograd.Train.DataLoader (API.Gondlin.TList α [σ, τ]) × opt.State)
+          IO (_root_.Runtime.Autograd.Train.DataLoader (API.Gondolin.TList α [σ, τ]) × opt.State)
             := do
         match remaining with
         | 0 => pure (loader, st)
@@ -2072,28 +2072,28 @@ def fitLoader {σ τ : Spec.Shape} {task : SeqTask σ τ}
       pure ({ before := before, after := after }, dl')
 
   | .adamw lr weightDecay beta1 beta2 epsilon =>
-      let opt := API.Gondlin.Optim.adamw
+      let opt := API.Gondolin.Optim.adamw
         (α := α) (lr := API.Runtime.ofFloat lr) (weightDecay := API.Runtime.ofFloat weightDecay)
         (beta1 := API.Runtime.ofFloat beta1)
         (beta2 := API.Runtime.ofFloat beta2)
         (epsilon := API.Runtime.ofFloat epsilon)
-      let st0 ← API.Gondlin.Module.initOptim runner.module opt
+      let st0 ← API.Gondolin.Module.initOptim runner.module opt
 
       let rec trainAdamWSamples (epoch stepIdx : Nat) (state : opt.State)
-          (samples : List (API.Gondlin.TList α [σ, τ])) :
+          (samples : List (API.Gondolin.TList α [σ, τ])) :
           IO (opt.State × Nat) := do
         match samples with
         | [] => pure (state, stepIdx)
         | sample :: rest =>
             updateRunnerBuffers runner sample
-            let state' ← API.Gondlin.Module.stepWith runner.module opt state sample
+            let state' ← API.Gondolin.Module.stepWith runner.module opt state sample
             if cfg.logEvery > 0 && stepIdx % cfg.logEvery = 0 then
-              let loss ← API.Gondlin.Module.forward runner.module sample
+              let loss ← API.Gondolin.Module.forward runner.module sample
               IO.println s!"step {epoch}:{stepIdx}: loss={Spec.Tensor.toScalar loss}"
             trainAdamWSamples epoch (stepIdx + 1) state' rest
 
       let rec trainAdamWBatches (epoch stepIdx : Nat) (state : opt.State)
-          (batches : List (List (API.Gondlin.TList α [σ, τ]))) :
+          (batches : List (List (API.Gondolin.TList α [σ, τ]))) :
           IO (opt.State × Nat) := do
         match batches with
         | [] => pure (state, stepIdx)
@@ -2102,9 +2102,9 @@ def fitLoader {σ τ : Spec.Shape} {task : SeqTask σ τ}
             trainAdamWBatches epoch stepIdx' state' rest
 
       let rec runAdamWEpochs (epoch remaining : Nat)
-          (loader : _root_.Runtime.Autograd.Train.DataLoader (API.Gondlin.TList α [σ, τ]))
+          (loader : _root_.Runtime.Autograd.Train.DataLoader (API.Gondolin.TList α [σ, τ]))
           (st : opt.State) :
-          IO (_root_.Runtime.Autograd.Train.DataLoader (API.Gondlin.TList α [σ, τ]) × opt.State)
+          IO (_root_.Runtime.Autograd.Train.DataLoader (API.Gondolin.TList α [σ, τ]) × opt.State)
             := do
         match remaining with
         | 0 => pure (loader, st)
@@ -2128,7 +2128,7 @@ def fitLoader {σ τ : Spec.Shape} {task : SeqTask σ τ}
 /--
 Stateful training loop object: a `Runner` plus an optimizer state and a step counter.
 
-This is the Gondlin analogue of holding a PyTorch `optimizer` object plus the model, ready to
+This is the Gondolin analogue of holding a PyTorch `optimizer` object plus the model, ready to
 `step()` on batches.
 -/
 structure Stepper (α : Type) [API.Semantics.Scalar α] [DecidableEq Spec.Shape]
@@ -2136,9 +2136,9 @@ structure Stepper (α : Type) [API.Semantics.Scalar α] [DecidableEq Spec.Shape]
   /-- Underlying task runner (module + compiled predictors/losses). -/
   runner : Runner α task
   /-- Run a single optimization step on one supervised sample, returning the loss value. -/
-  stepSample : API.Gondlin.TList α [σ, τ] → IO α
+  stepSample : API.Gondolin.TList α [σ, τ] → IO α
   /-- Run an epoch over an explicit list of samples, returning the per-step loss values. -/
-  epochSamples : List (API.Gondlin.TList α [σ, τ]) → IO (List α)
+  epochSamples : List (API.Gondolin.TList α [σ, τ]) → IO (List α)
   /-- Read the total number of `stepSample` calls performed so far. -/
   stepCount : IO Nat
 
@@ -2153,20 +2153,20 @@ def stepper {σ τ : Spec.Shape} {task : SeqTask σ τ}
     {α : Type} [API.Semantics.Scalar α] [DecidableEq Spec.Shape] [ToString α]
     [Add α] [Div α] [Zero α] [Coe Nat α] [API.Runtime.Scalar α]
     (runner : Runner α task) (optimizer : OptimizerConfig)
-    (scheduler : Option API.Gondlin.Schedulers.Config := none) :
+    (scheduler : Option API.Gondolin.Schedulers.Config := none) :
     IO (Stepper α task) := do
   trainMode runner
   let stepRef ← IO.mkRef 0
   match optimizer with
   | .sgd lr momentum =>
       if momentum == 0.0 then
-        let runStep := fun (sample : API.Gondlin.TList α [σ, τ]) => do
+        let runStep := fun (sample : API.Gondolin.TList α [σ, τ]) => do
           trainMode runner
           let stepIdx ← stepRef.get
           let loss ← moduleLoss runner sample
           updateRunnerBuffers runner sample
           let lrα := API.Runtime.ofFloat (stepLR scheduler optimizer stepIdx)
-          API.Gondlin.Module.step runner.module lrα sample
+          API.Gondolin.Module.step runner.module lrα sample
           stepRef.set (stepIdx + 1)
           pure loss
         pure {
@@ -2176,14 +2176,14 @@ def stepper {σ τ : Spec.Shape} {task : SeqTask σ τ}
           stepCount := stepRef.get
         }
       else
-        let opt := API.Gondlin.Optim.momentumSGD
+        let opt := API.Gondolin.Optim.momentumSGD
           (α := α) (paramShapes := paramShapes task)
           (lr := API.Runtime.ofFloat lr) (momentum := API.Runtime.ofFloat momentum)
-        let st0 : API.Gondlin.Optim.StateList _root_.Optim.MomentumSGD.State α (paramShapes task)
+        let st0 : API.Gondolin.Optim.StateList _root_.Optim.MomentumSGD.State α (paramShapes task)
           ←
-          API.Gondlin.Module.initOptim runner.module opt
+          API.Gondolin.Module.initOptim runner.module opt
         let stRef ← IO.mkRef st0
-        let runStep := fun (sample : API.Gondlin.TList α [σ, τ]) => do
+        let runStep := fun (sample : API.Gondolin.TList α [σ, τ]) => do
           trainMode runner
           let stepIdx ← stepRef.get
           let loss ← moduleLoss runner sample
@@ -2191,7 +2191,7 @@ def stepper {σ τ : Spec.Shape} {task : SeqTask σ τ}
           let lrα := API.Runtime.ofFloat (stepLR scheduler optimizer stepIdx)
           let st0 ← stRef.get
           let st := momentumSGDStateWithLR (paramShapes := paramShapes task) lrα st0
-          let st' ← API.Gondlin.Module.stepWith runner.module opt st sample
+          let st' ← API.Gondolin.Module.stepWith runner.module opt st sample
           stRef.set st'
           stepRef.set (stepIdx + 1)
           pure loss
@@ -2202,16 +2202,16 @@ def stepper {σ τ : Spec.Shape} {task : SeqTask σ τ}
           stepCount := stepRef.get
         }
   | .adam lr beta1 beta2 epsilon =>
-      let opt := API.Gondlin.Optim.adam
+      let opt := API.Gondolin.Optim.adam
         (α := α) (paramShapes := paramShapes task)
         (lr := API.Runtime.ofFloat lr)
         (beta1 := API.Runtime.ofFloat beta1)
         (beta2 := API.Runtime.ofFloat beta2)
         (epsilon := API.Runtime.ofFloat epsilon)
-      let st0 : API.Gondlin.Optim.StateList _root_.Optim.Adam.State α (paramShapes task) ←
-        API.Gondlin.Module.initOptim runner.module opt
+      let st0 : API.Gondolin.Optim.StateList _root_.Optim.Adam.State α (paramShapes task) ←
+        API.Gondolin.Module.initOptim runner.module opt
       let stRef ← IO.mkRef st0
-      let runStep := fun (sample : API.Gondlin.TList α [σ, τ]) => do
+      let runStep := fun (sample : API.Gondolin.TList α [σ, τ]) => do
         trainMode runner
         let stepIdx ← stepRef.get
         let loss ← moduleLoss runner sample
@@ -2219,7 +2219,7 @@ def stepper {σ τ : Spec.Shape} {task : SeqTask σ τ}
         let lrα := API.Runtime.ofFloat (stepLR scheduler optimizer stepIdx)
         let st0 ← stRef.get
         let st := adamStateWithLR (paramShapes := paramShapes task) lrα st0
-        let st' ← API.Gondlin.Module.stepWith runner.module opt st sample
+        let st' ← API.Gondolin.Module.stepWith runner.module opt st sample
         stRef.set st'
         stepRef.set (stepIdx + 1)
         pure loss
@@ -2230,16 +2230,16 @@ def stepper {σ τ : Spec.Shape} {task : SeqTask σ τ}
         stepCount := stepRef.get
       }
   | .adamw lr weightDecay beta1 beta2 epsilon =>
-      let opt := API.Gondlin.Optim.adamw
+      let opt := API.Gondolin.Optim.adamw
         (α := α) (paramShapes := paramShapes task)
         (lr := API.Runtime.ofFloat lr) (weightDecay := API.Runtime.ofFloat weightDecay)
         (beta1 := API.Runtime.ofFloat beta1)
         (beta2 := API.Runtime.ofFloat beta2)
         (epsilon := API.Runtime.ofFloat epsilon)
-      let st0 : API.Gondlin.Optim.StateList _root_.Optim.AdamW.State α (paramShapes task) ←
-        API.Gondlin.Module.initOptim runner.module opt
+      let st0 : API.Gondolin.Optim.StateList _root_.Optim.AdamW.State α (paramShapes task) ←
+        API.Gondolin.Module.initOptim runner.module opt
       let stRef ← IO.mkRef st0
-      let runStep := fun (sample : API.Gondlin.TList α [σ, τ]) => do
+      let runStep := fun (sample : API.Gondolin.TList α [σ, τ]) => do
         trainMode runner
         let stepIdx ← stepRef.get
         let loss ← moduleLoss runner sample
@@ -2247,7 +2247,7 @@ def stepper {σ τ : Spec.Shape} {task : SeqTask σ τ}
         let lrα := API.Runtime.ofFloat (stepLR scheduler optimizer stepIdx)
         let st0 ← stRef.get
         let st := adamwStateWithLR (paramShapes := paramShapes task) lrα st0
-        let st' ← API.Gondlin.Module.stepWith runner.module opt st sample
+        let st' ← API.Gondolin.Module.stepWith runner.module opt st sample
         stRef.set st'
         stepRef.set (stepIdx + 1)
         pure loss
@@ -2261,13 +2261,13 @@ def stepper {σ τ : Spec.Shape} {task : SeqTask σ τ}
 /-- Run one optimization step on a single supervised sample. -/
 def step {σ τ : Spec.Shape} {task : SeqTask σ τ}
     {α : Type} [API.Semantics.Scalar α] [DecidableEq Spec.Shape]
-    (loop : Stepper α task) (sample : API.Gondlin.TList α [σ, τ]) : IO α :=
+    (loop : Stepper α task) (sample : API.Gondolin.TList α [σ, τ]) : IO α :=
   loop.stepSample sample
 
 /-- Run one epoch over a list of supervised samples, returning the per-step losses. -/
 def epoch {σ τ : Spec.Shape} {task : SeqTask σ τ}
     {α : Type} [API.Semantics.Scalar α] [DecidableEq Spec.Shape]
-    (loop : Stepper α task) (samples : List (API.Gondlin.TList α [σ, τ])) : IO (List α) :=
+    (loop : Stepper α task) (samples : List (API.Gondolin.TList α [σ, τ])) : IO (List α) :=
   loop.epochSamples samples
 
 end Supervised
@@ -2275,12 +2275,12 @@ end Supervised
 namespace Trainer
 
 /-!
-`NN.API.Gondlin.Trainer` is a stable facade over the internal `Supervised` training machinery.
+`NN.API.Gondolin.Trainer` is a stable facade over the internal `Supervised` training machinery.
 
 Usage note:
 
 If you're writing tutorials or user code, prefer the PyTorch-shaped entrypoint `NN.API.train`
-(available after `import NN`). This `API.Gondlin.Trainer` namespace is the underlying runtime
+(available after `import NN`). This `API.Gondolin.Trainer` namespace is the underlying runtime
 layer that `API.train` delegates to, and it exposes more knobs than most users need.
 
 The intended workflow is:
@@ -2308,14 +2308,14 @@ abbrev FitReport := Supervised.FitReport
 abbrev Stepper := Supervised.Stepper
 
 /-- Regression task with mean-squared error loss by default. -/
-def regression {σ τ : Spec.Shape} (model : API.Gondlin.NN.Seq σ τ)
-    (reduction : API.Gondlin.Loss.Reduction := .mean) :
+def regression {σ τ : Spec.Shape} (model : API.Gondolin.NN.Seq σ τ)
+    (reduction : API.Gondolin.Loss.Reduction := .mean) :
     Task σ τ :=
   Supervised.SeqTask.mse model reduction
 
 /-- One-hot classification task with cross-entropy loss by default. -/
-def classificationOneHot {σ τ : Spec.Shape} (model : API.Gondlin.NN.Seq σ τ)
-    (reduction : API.Gondlin.Loss.Reduction := .mean) :
+def classificationOneHot {σ τ : Spec.Shape} (model : API.Gondolin.NN.Seq σ τ)
+    (reduction : API.Gondolin.Loss.Reduction := .mean) :
     Task σ τ :=
   Supervised.SeqTask.crossEntropyOneHot model reduction
 
@@ -2365,11 +2365,11 @@ def epochs (count : Nat) (optimizer : Optimizer := sgd 0.01) (logEvery : Nat := 
   { epochs := count, optimizer := optimizer, logEvery := logEvery }
 
 /-- Attach a scheduler to a step-based training config. -/
-def withScheduler (cfg : FitConfig) (scheduler : API.Gondlin.Schedulers.Config) : FitConfig :=
+def withScheduler (cfg : FitConfig) (scheduler : API.Gondolin.Schedulers.Config) : FitConfig :=
   { cfg with scheduler := some scheduler }
 
 /-- Attach a scheduler to an epoch-based loader training config. -/
-def withEpochScheduler (cfg : LoaderFitConfig) (scheduler : API.Gondlin.Schedulers.Config) :
+def withEpochScheduler (cfg : LoaderFitConfig) (scheduler : API.Gondolin.Schedulers.Config) :
     LoaderFitConfig :=
   { cfg with scheduler := some scheduler }
 
@@ -2402,12 +2402,12 @@ def exponentialEpochLR (cfg : LoaderFitConfig) (base : Float) (gamma : Float) : 
 Instantiate a runner under explicit Torch options (`backend`, `useGpu`, `fastKernels`, ...).
 
 This is the recommended entrypoint when you want CUDA eager execution from the training helpers
-without dropping down to `Gondlin.Module` directly.
+without dropping down to `Gondolin.Module` directly.
 -/
 def instantiateWithOptions {σ τ : Spec.Shape} (task : Task σ τ)
     {α : Type} [API.Semantics.Scalar α] [DecidableEq Spec.Shape] [API.Runtime.Scalar α]
     [_root_.Runtime.Autograd.Torch.Internal.CudaBridge.TensorConv α]
-    (opts : API.Gondlin.Options := {}) :
+    (opts : API.Gondolin.Options := {}) :
     IO (Runner α task) :=
   Supervised.instantiateWithRuntimeOptions (task := task) (α := α) opts
 
@@ -2420,7 +2420,7 @@ execution backend (`.eager` vs `.compiled`).
 def instantiate {σ τ : Spec.Shape} (task : Task σ τ)
     {α : Type} [API.Semantics.Scalar α] [DecidableEq Spec.Shape] [API.Runtime.Scalar α]
     [_root_.Runtime.Autograd.Torch.Internal.CudaBridge.TensorConv α]
-    (backend : API.Gondlin.Backend := .eager) :
+    (backend : API.Gondolin.Backend := .eager) :
     IO (Runner α task) :=
   instantiateWithOptions (task := task) (α := α) { backend := backend }
 
@@ -2441,19 +2441,19 @@ def run {σ τ : Spec.Shape} (task : Task σ τ) (args : List String)
 def params {σ τ : Spec.Shape} {task : Task σ τ}
     {α : Type} [API.Semantics.Scalar α] [DecidableEq Spec.Shape]
     (runner : Runner α task) :
-    IO (API.Gondlin.TList α (Supervised.paramShapes task)) :=
+    IO (API.Gondolin.TList α (Supervised.paramShapes task)) :=
   Supervised.params runner
 
 /-- Read the current mode (train vs eval). -/
 def mode {σ τ : Spec.Shape} {task : Task σ τ}
     {α : Type} [API.Semantics.Scalar α] [DecidableEq Spec.Shape]
-    (runner : Runner α task) : IO API.Gondlin.NN.Mode :=
+    (runner : Runner α task) : IO API.Gondolin.NN.Mode :=
   Supervised.mode runner
 
 /-- Set the mode (train vs eval). -/
 def setMode {σ τ : Spec.Shape} {task : Task σ τ}
     {α : Type} [API.Semantics.Scalar α] [DecidableEq Spec.Shape]
-    (runner : Runner α task) (value : API.Gondlin.NN.Mode) : IO Unit :=
+    (runner : Runner α task) (value : API.Gondolin.NN.Mode) : IO Unit :=
   Supervised.setMode runner value
 
 /-- Switch to training mode. -/
@@ -2477,8 +2477,8 @@ def isTraining {σ τ : Spec.Shape} {task : Task σ τ}
 /-- Run forward+backward on one supervised sample and return gradients for all parameters. -/
 def backward {σ τ : Spec.Shape} {task : Task σ τ}
     {α : Type} [API.Semantics.Scalar α] [DecidableEq Spec.Shape]
-    (runner : Runner α task) (sample : API.Gondlin.TList α [σ, τ]) :
-    IO (API.Gondlin.TList α (Supervised.paramShapes task)) :=
+    (runner : Runner α task) (sample : API.Gondolin.TList α [σ, τ]) :
+    IO (API.Gondolin.TList α (Supervised.paramShapes task)) :=
   Supervised.backward runner sample
 
 /--
@@ -2515,7 +2515,7 @@ def predictClass? {σ : Spec.Shape} {n : Nat} {task : Task σ (.dim n .scalar)}
 def accuracyOneHot {σ : Spec.Shape} {n : Nat} {task : Task σ (.dim n .scalar)}
     {α : Type} [API.Semantics.Scalar α] [DecidableEq Spec.Shape]
     [LT α] [DecidableRel ((· > ·) : α → α → Prop)]
-    (runner : Runner α task) (samples : List (API.Gondlin.TList α [σ, .dim n .scalar])) :
+    (runner : Runner α task) (samples : List (API.Gondolin.TList α [σ, .dim n .scalar])) :
     IO (Nat × Nat) :=
   Supervised.accuracyOneHot (task := task) runner samples
 
@@ -2523,7 +2523,7 @@ def accuracyOneHot {σ : Spec.Shape} {n : Nat} {task : Task σ (.dim n .scalar)}
 def meanLoss {σ τ : Spec.Shape} {task : Task σ τ}
     {α : Type} [API.Semantics.Scalar α] [DecidableEq Spec.Shape] [ToString α]
     [Add α] [Div α] [Zero α] [Coe Nat α]
-    (runner : Runner α task) (samples : List (API.Gondlin.TList α [σ, τ])) :
+    (runner : Runner α task) (samples : List (API.Gondolin.TList α [σ, τ])) :
     IO α :=
   Supervised.meanLoss runner samples
 
@@ -2532,7 +2532,7 @@ def meanLossDataset {σ τ : Spec.Shape} {task : Task σ τ}
     {α : Type} [API.Semantics.Scalar α] [DecidableEq Spec.Shape] [ToString α]
     [Add α] [Div α] [Zero α] [Coe Nat α]
     (runner : Runner α task)
-    (dataset : _root_.Runtime.Autograd.Train.Dataset (API.Gondlin.TList α [σ, τ])) :
+    (dataset : _root_.Runtime.Autograd.Train.Dataset (API.Gondolin.TList α [σ, τ])) :
     IO α :=
   Supervised.meanLossDataset runner dataset
 
@@ -2544,7 +2544,7 @@ Returns a small report with mean loss before/after.
 def fit {σ τ : Spec.Shape} {task : Task σ τ}
     {α : Type} [API.Semantics.Scalar α] [DecidableEq Spec.Shape] [ToString α]
     [Add α] [Div α] [Zero α] [Coe Nat α] [API.Runtime.Scalar α]
-    (runner : Runner α task) (cfg : FitConfig) (samples : List (API.Gondlin.TList α [σ, τ])) :
+    (runner : Runner α task) (cfg : FitConfig) (samples : List (API.Gondolin.TList α [σ, τ])) :
     IO (FitReport α) :=
   Supervised.fit runner cfg samples
 
@@ -2553,7 +2553,7 @@ def fitDataset {σ τ : Spec.Shape} {task : Task σ τ}
     {α : Type} [API.Semantics.Scalar α] [DecidableEq Spec.Shape] [ToString α]
     [Add α] [Div α] [Zero α] [Coe Nat α] [API.Runtime.Scalar α]
     (runner : Runner α task) (cfg : FitConfig)
-    (dataset : _root_.Runtime.Autograd.Train.Dataset (API.Gondlin.TList α [σ, τ])) :
+    (dataset : _root_.Runtime.Autograd.Train.Dataset (API.Gondolin.TList α [σ, τ])) :
     IO (FitReport α) :=
   Supervised.fitDataset runner cfg dataset
 
@@ -2562,8 +2562,8 @@ def fitLoader {σ τ : Spec.Shape} {task : Task σ τ}
     {α : Type} [API.Semantics.Scalar α] [DecidableEq Spec.Shape] [ToString α]
     [Add α] [Div α] [Zero α] [Coe Nat α] [API.Runtime.Scalar α]
     (runner : Runner α task) (cfg : LoaderFitConfig)
-    (loader : _root_.Runtime.Autograd.Train.DataLoader (API.Gondlin.TList α [σ, τ])) :
-    IO (FitReport α × _root_.Runtime.Autograd.Train.DataLoader (API.Gondlin.TList α [σ, τ])) :=
+    (loader : _root_.Runtime.Autograd.Train.DataLoader (API.Gondolin.TList α [σ, τ])) :
+    IO (FitReport α × _root_.Runtime.Autograd.Train.DataLoader (API.Gondolin.TList α [σ, τ])) :=
   Supervised.fitLoader runner cfg loader
 
 /--
@@ -2574,26 +2574,26 @@ This is useful if you want to control:
 - logging,
 - validation, early stopping, etc.
 
-The returned `Stepper` still uses Gondlin's optimizer/scheduler implementations.
+The returned `Stepper` still uses Gondolin's optimizer/scheduler implementations.
 -/
 def stepper {σ τ : Spec.Shape} {task : Task σ τ}
     {α : Type} [API.Semantics.Scalar α] [DecidableEq Spec.Shape] [ToString α]
     [Add α] [Div α] [Zero α] [Coe Nat α] [API.Runtime.Scalar α]
     (runner : Runner α task) (optimizer : Optimizer)
-    (scheduler : Option API.Gondlin.Schedulers.Config := none) :
+    (scheduler : Option API.Gondolin.Schedulers.Config := none) :
     IO (Stepper α task) :=
   Supervised.stepper runner optimizer scheduler
 
 /-- Run a single training step on one sample using a `Stepper`. -/
 def step {σ τ : Spec.Shape} {task : Task σ τ}
     {α : Type} [API.Semantics.Scalar α] [DecidableEq Spec.Shape]
-    (loop : Stepper α task) (sample : API.Gondlin.TList α [σ, τ]) : IO α :=
+    (loop : Stepper α task) (sample : API.Gondolin.TList α [σ, τ]) : IO α :=
   Supervised.step loop sample
 
 /-- Run an epoch over a list of samples using a `Stepper` (returns the per-step losses). -/
 def epoch {σ τ : Spec.Shape} {task : Task σ τ}
     {α : Type} [API.Semantics.Scalar α] [DecidableEq Spec.Shape]
-    (loop : Stepper α task) (samples : List (API.Gondlin.TList α [σ, τ])) : IO (List α) :=
+    (loop : Stepper α task) (samples : List (API.Gondolin.TList α [σ, τ])) : IO (List α) :=
   Supervised.epoch loop samples
 
 /--
@@ -2605,8 +2605,8 @@ def train {σ τ : Spec.Shape} {_task : Task σ τ}
     {α : Type} [API.Semantics.Scalar α] [DecidableEq Spec.Shape] [ToString α]
     [Add α] [Div α] [Zero α] [Coe Nat α] [API.Runtime.Scalar α]
     (task : Task σ τ) (cfg : FitConfig)
-    (samples : List (API.Gondlin.TList α [σ, τ]))
-    (backend : API.Gondlin.Backend := .eager) :
+    (samples : List (API.Gondolin.TList α [σ, τ]))
+    (backend : API.Gondolin.Backend := .eager) :
     IO (Runner α task × FitReport α) := do
   let runner ← instantiate (task := task) (α := α) backend
   let report ← fit runner cfg samples
@@ -2621,8 +2621,8 @@ def trainDataset {σ τ : Spec.Shape} {_task : Task σ τ}
     {α : Type} [API.Semantics.Scalar α] [DecidableEq Spec.Shape] [ToString α]
     [Add α] [Div α] [Zero α] [Coe Nat α] [API.Runtime.Scalar α]
     (task : Task σ τ) (cfg : FitConfig)
-    (dataset : _root_.Runtime.Autograd.Train.Dataset (API.Gondlin.TList α [σ, τ]))
-    (backend : API.Gondlin.Backend := .eager) :
+    (dataset : _root_.Runtime.Autograd.Train.Dataset (API.Gondolin.TList α [σ, τ]))
+    (backend : API.Gondolin.Backend := .eager) :
     IO (Runner α task × FitReport α) := do
   let runner ← instantiate (task := task) (α := α) backend
   let report ← fitDataset runner cfg dataset
@@ -2637,10 +2637,10 @@ def trainLoader {σ τ : Spec.Shape} {_task : Task σ τ}
     {α : Type} [API.Semantics.Scalar α] [DecidableEq Spec.Shape] [ToString α]
     [Add α] [Div α] [Zero α] [Coe Nat α] [API.Runtime.Scalar α]
     (task : Task σ τ) (cfg : LoaderFitConfig)
-    (loader : _root_.Runtime.Autograd.Train.DataLoader (API.Gondlin.TList α [σ, τ]))
-    (backend : API.Gondlin.Backend := .eager) :
+    (loader : _root_.Runtime.Autograd.Train.DataLoader (API.Gondolin.TList α [σ, τ]))
+    (backend : API.Gondolin.Backend := .eager) :
     IO (Runner α task × FitReport α ×
-      _root_.Runtime.Autograd.Train.DataLoader (API.Gondlin.TList α [σ, τ])) := do
+      _root_.Runtime.Autograd.Train.DataLoader (API.Gondolin.TList α [σ, τ])) := do
   let runner ← instantiate (task := task) (α := α) backend
   let (report, loader') ← fitLoader runner cfg loader
   pure (runner, report, loader')
@@ -2669,23 +2669,23 @@ namespace ScalarTrainer
 /-!
 Re-export of the low-level imperative scalar trainer interface.
 
-This exposes `forwardT`/`backwardT`/`stepT` from `Runtime.Autograd.Gondlin.ScalarTrainer`.
-Most users should prefer the higher-level `NN.API.train` / `API.Gondlin.Trainer` APIs.
+This exposes `forwardT`/`backwardT`/`stepT` from `Runtime.Autograd.Gondolin.ScalarTrainer`.
+Most users should prefer the higher-level `NN.API.train` / `API.Gondolin.Trainer` APIs.
 -/
-export _root_.Runtime.Autograd.Gondlin.ScalarTrainer (forwardT backwardT stepT)
+export _root_.Runtime.Autograd.Gondolin.ScalarTrainer (forwardT backwardT stepT)
 end ScalarTrainer
 
 namespace Session
 /-!
 Imperative session API: a tape-backed interface that can run in eager or compiled mode.
 
-This is roughly analogous to using PyTorch "eager tensors", except Gondlin makes the tape/session
+This is roughly analogous to using PyTorch "eager tensors", except Gondolin makes the tape/session
 explicit. The `Session` surface is useful for:
 - interactive experiments in `IO`,
 - debugging (inspect intermediate values),
 - building higher-level runners.
 -/
-export _root_.Runtime.Autograd.Gondlin.Session
+export _root_.Runtime.Autograd.Gondolin.Session
   (new resetTape param use input inputNat getNat setNat inputNatVec getNatVec setNatVec const
     getValue
    withFreshTape sgdStepScalarGraph
@@ -2702,7 +2702,7 @@ export _root_.Runtime.Autograd.Gondlin.Session
    backwardDenseAll backwardScalarDenseAll grad sgdStepAll)
 end Session
 
-end Gondlin
+end Gondolin
 
 end API
 end NN

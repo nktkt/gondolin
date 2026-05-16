@@ -3,8 +3,8 @@ title: Verification Bounds
 usemathjax: true
 ---
 
-This page is the tutorial entry point for Gondlin’s verification demos. It explains what interval
-bound propagation computes, what CROWN-style affine bounds add, how a Gondlin model becomes a
+This page is the tutorial entry point for Gondolin’s verification demos. It explains what interval
+bound propagation computes, what CROWN-style affine bounds add, how a Gondolin model becomes a
 verification graph, and what it means to check an external certificate.
 
 <div class="media-slab">
@@ -18,7 +18,7 @@ Most neural-network verification examples start with a robustness question:
 > For every input inside a small box around this example, can the model’s output still satisfy the
 > desired margin or safety condition?
 
-Gondlin represents that question with four concrete objects:
+Gondolin represents that question with four concrete objects:
 
 - a model, written in the same API used for training examples;
 - a compiled `NN.IR.Graph`, so verifier code can traverse named nodes;
@@ -27,13 +27,13 @@ Gondlin represents that question with four concrete objects:
 
 The common path is therefore:
 
-1. write or import a Gondlin model,
+1. write or import a Gondolin model,
 2. compile it to `NN.IR.Graph`,
 3. attach an input box,
 4. run a bound engine,
 5. inspect or check the output bounds.
 
-The examples under `NN/Examples/Verification/Gondlin/` are compact enough that the whole bound
+The examples under `NN/Examples/Verification/Gondolin/` are compact enough that the whole bound
 path can be read without opening a large benchmark harness.
 
 The seed box is built explicitly. For the small MLP example, `x0` is the center point, `eps` is the
@@ -69,7 +69,7 @@ lower and upper tensors. If the output box satisfies a margin condition such as
 
 ## IBP: Propagate Boxes Through The Graph
 
-Interval bound propagation is the simplest sound bound engine in this part of Gondlin. Each node
+Interval bound propagation is the simplest sound bound engine in this part of Gondolin. Each node
 gets a lower and upper bound. The transformer for each operation must enclose all possible outputs
 of that operation when its inputs range over their current boxes.
 
@@ -174,16 +174,16 @@ refer to the same node ids and tensor shapes.
 
 ## What Each Command Shows
 
-Start with the small Gondlin-native examples:
+Start with the small Gondolin-native examples:
 
 ```bash
-lake exe verify -- gondlin-crown-ops --dtype float
-lake exe verify -- gondlin-robustness --dtype float
+lake exe verify -- gondolin-crown-ops --dtype float
+lake exe verify -- gondolin-robustness --dtype float
 lake exe verify -- margin-cert
 ```
 
-`gondlin-crown-ops` compiles a compact graph, seeds an input box, runs IBP, then runs forward and
-backward CROWN-style affine passes over supported operations. `gondlin-robustness` prints IBP,
+`gondolin-crown-ops` compiles a compact graph, seeds an input box, runs IBP, then runs forward and
+backward CROWN-style affine passes over supported operations. `gondolin-robustness` prints IBP,
 CROWN, and backward-CROWN certification booleans for a small robustness workflow. `margin-cert`
 checks an exported margin JSON artifact by recomputing the margin predicate.
 
@@ -234,10 +234,10 @@ lake exe verify -- abcrown-leaf \
 
 ## Where To Read The Source
 
-- Gondlin-native graph and IBP demo:
-  [`NN/Examples/Verification/Gondlin/GondlinIBP.lean`]({{ '/docs/NN/Examples/Verification/Gondlin/GondlinIBP.html' | relative_url }})
+- Gondolin-native graph and IBP demo:
+  [`NN/Examples/Verification/Gondolin/GondolinIBP.lean`]({{ '/docs/NN/Examples/Verification/Gondolin/GondolinIBP.html' | relative_url }})
 - CROWN operation demo:
-  [`NN/Examples/Verification/Gondlin/GondlinCrownOps.lean`]({{ '/docs/NN/Examples/Verification/Gondlin/GondlinCrownOps.html' | relative_url }})
+  [`NN/Examples/Verification/Gondolin/GondolinCrownOps.lean`]({{ '/docs/NN/Examples/Verification/Gondolin/GondolinCrownOps.html' | relative_url }})
 - α,β-CROWN leaf certificate checker:
   [`NN.Verification.Cert.AbCrownLeafCert`]({{ '/docs/NN/Verification/Cert/AbCrownLeafCert.html' | relative_url }})
 - Verification guide chapter:

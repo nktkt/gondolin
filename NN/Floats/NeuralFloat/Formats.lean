@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -29,7 +29,7 @@ In particular:
 - `FLT_*` is the IEEE-like finite model (bounded exponent, gradual underflow).
 
 If you want NaN/Inf/signed-zero and an *executable* kernel, that is `NN/Floats/IEEEExec/`.
-For Gondlin-specific “which precision do we use in each phase?” configuration helpers, see
+For Gondolin-specific “which precision do we use in each phase?” configuration helpers, see
 `NN/Floats/NeuralFloat/Metadata.lean`.
 
 References:
@@ -44,7 +44,7 @@ References:
 @[expose] public section
 
 
-namespace Gondlin.Floats
+namespace Gondolin.Floats
 
 variable {β : NeuralRadix}
 
@@ -222,4 +222,4 @@ def FLTFormat (emin prec : ℤ) (x : ℝ) : Prop :=
   ∃ f : NeuralFloat β, x = neuralToReal f ∧
     Int.natAbs f.mantissa < β.base ^ prec.natAbs ∧ emin ≤ f.exponent
 
-end Gondlin.Floats
+end Gondolin.Floats

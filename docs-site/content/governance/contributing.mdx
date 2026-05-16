@@ -44,10 +44,10 @@ executables and tests.
 lake exe nn_tests_suite
 
 lake env lean --run NN/Examples/Quickstart/TensorBasics.lean
-lake exe gondlin mlp --cpu --steps 10
+lake exe gondolin mlp --cpu --steps 10
 
 lake exe verify -- list
-lake exe verify -- gondlin-ibp
+lake exe verify -- gondolin-ibp
 ```
 
 When you add behavior, add at least one stabilizer: a theorem, a test, a small

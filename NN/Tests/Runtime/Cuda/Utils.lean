@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -21,7 +21,7 @@ These tests compare:
 - CPU eager tape results (`Runtime.Autograd.Tape`, `Float`), against
 - CUDA eager tape results (`Runtime.Autograd.Cuda.Tape`, float32 buffers).
 
-When Gondlin is built without CUDA (`lake build` default), the CUDA externs run via CPU stub
+When Gondolin is built without CUDA (`lake build` default), the CUDA externs run via CPU stub
 implementations, so these tests still run on CI without a GPU.
 -/
 

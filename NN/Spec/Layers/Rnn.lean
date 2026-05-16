@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -13,7 +13,7 @@ public import NN.Spec.Layers.Activation
 
 Defines a vanilla RNN cell and sequence semantics, along with BPTT-style gradients.
 
-This is the recurrent core that Gondlin builds on:
+This is the recurrent core that Gondolin builds on:
 
 - a single-step cell (`rnnCellSpec`),
 - an explicit unrolling over time (`rnnSequenceSpec`),
@@ -77,7 +77,7 @@ This is equivalent to the common split-parameter form:
 
 `h_t = tanh(W_ih x_t + W_hh h_{t-1} + b)`,
 
-just packaged to reuse the same tensor primitives elsewhere in Gondlin.
+just packaged to reuse the same tensor primitives elsewhere in Gondolin.
 -/
 structure RNNSpec (α : Type) (inputSize hiddenSize : Nat) where
   /-- weights. -/

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -18,7 +18,7 @@ public import NN.Floats.Interval.Rounders
 /-!
 # `NN.Floats.Interval`
 
-This folder collects **interval / enclosure** utilities used across Gondlin:
+This folder collects **interval / enclosure** utilities used across Gondolin:
 
 - proof-friendly interval enclosures for rounding-on-`ℝ` formats (e.g. `FP32`),
 - quantized intervals (endpoints snapped to a chosen NeuralFloat/Flocq-style grid),

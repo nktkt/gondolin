@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -28,8 +28,8 @@ implies exact interval images for every finite rounded target on `[-1,1]^d`.
 
 namespace NN.MLTheory.Proofs.UniversalApproximation
 
-open Gondlin.Floats
-open Gondlin.Floats.IEEE754
+open Gondolin.Floats
+open Gondolin.Floats.IEEE754
 
 namespace FloatIntervalApprox
 

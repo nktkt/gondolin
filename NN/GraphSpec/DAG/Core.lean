@@ -1,12 +1,12 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
 
-public import NN.Runtime.Autograd.Gondlin.Backend
+public import NN.Runtime.Autograd.Gondolin.Backend
 import Mathlib.Algebra.Order.Algebra
 
 /-!
@@ -51,7 +51,7 @@ For a fixed scalar type `α` with `[Context α]`, we interpret an environment as
 tensors `TList α Γ`. Then:
 
 - `Term.eval : TList α Γ → Term Γ τ → Tensor α τ` is the *pure* reference semantics.
-- `Term.compile` produces a backend-generic Gondlin program that computes the same graph, but in
+- `Term.compile` produces a backend-generic Gondolin program that computes the same graph, but in
   the executable (monadic, reference-based) runtime world.
 
 ## Small example (residual add)
@@ -108,10 +108,10 @@ structure PrimOp (ins : List Shape) (τ : Shape) where
   name : String
   /-- Pure reference semantics (`ins` arguments packed as a typed list). -/
   specFwd : ∀ {α : Type 0}, [Context α] → Runtime.Autograd.Torch.TList α ins → Tensor α τ
-  /-- Executable Gondlin program with arguments of shapes `ins`. -/
+  /-- Executable Gondolin program with arguments of shapes `ins`. -/
   torchProgram :
     ∀ {α : Type 0}, [Context α] → [DecidableEq Shape] →
-      Runtime.Autograd.Gondlin.Program α ins τ
+      Runtime.Autograd.Gondolin.Program α ins τ
 
 /-! ## DAG terms + arguments (mutual) -/
 
@@ -256,7 +256,7 @@ mutual
         eval (Γ := Γ ++ [σ]) (α := α) env' body
 end
 
-/-! ### Gondlin compiler -/
+/-! ### Gondolin compiler -/
 
 /--
 `RefT` is the backend’s reference type for tensors of a given shape.
@@ -356,14 +356,14 @@ def specFwd {ps ins : List Shape} {τ : Shape} (m : Model ps ins τ)
   Term.eval (Γ := ps ++ ins) (α := α) env m.body
 
 /--
-Compile a DAG model to a backend-generic Gondlin program.
+Compile a DAG model to a backend-generic Gondolin program.
 
 The resulting program expects arguments in the order `ps ++ ins` (parameters first, then inputs),
 matching the environment discipline used by `specFwd`.
  -/
 def torchProgram {ps ins : List Shape} {τ : Shape} (m : Model ps ins τ)
     {α : Type 0} [Context α] [DecidableEq Shape] :
-    Runtime.Autograd.Gondlin.Program α (ps ++ ins) τ :=
+    Runtime.Autograd.Gondolin.Program α (ps ++ ins) τ :=
   fun {μ} _ _ =>
     Runtime.Autograd.Torch.CurriedRef.curry
       (Ref := Term.RefT (m := μ) (α := α))

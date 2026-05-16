@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -16,7 +16,7 @@ multi-head wrapper.
 
 `Attention(Q,K,V) = softmax(Q Kᵀ / √d) V`
 
-Gondlin goal here is to mirror the math you see in deep learning libraries (especially PyTorch),
+Gondolin goal here is to mirror the math you see in deep learning libraries (especially PyTorch),
 but keep everything as pure functions on `Spec.Tensor` so the same definitions can be reused for:
 
 - proofs (e.g. reasoning about shapes and gradients),
@@ -77,7 +77,7 @@ We separate out the single-head primitive (`scaledDotProductAttention`) because:
 /-!
 ## Boolean masks
 
-Gondlin uses the same boolean mask convention as PyTorch SDPA:
+Gondolin uses the same boolean mask convention as PyTorch SDPA:
 
 - `true` means a key/value position is **allowed to be attended to**,
 - `false` means it is blocked (its softmax numerator is exactly zero).
@@ -127,7 +127,7 @@ structure AttentionContext (α : Type) [Context α] [DecidableRel ((· > ·) : �
 /-!
 ## Exact hard masking
 
-Gondlin encodes the usual "true `-∞` before softmax" behavior without requiring the tensor scalar
+Gondolin encodes the usual "true `-∞` before softmax" behavior without requiring the tensor scalar
 type itself to contain infinities. Instead of replacing blocked logits by a finite sentinel, we form
 softmax numerators directly:
 

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -522,7 +522,7 @@ def convTransposeBackwardSpec
 /-!
 ## 2D specializations (compat)
 
-Gondlin also exposes compatibility names for 2D convolution specs. They are implemented as
+Gondolin also exposes compatibility names for 2D convolution specs. They are implemented as
 specializations of the generic N-D convolution spec above.
 -/
 

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -37,13 +37,13 @@ correctness bugs where compiled models return incorrect outputs without an excep
 - Li et al., “Demystifying the Silence of Correctness Bugs in PyTorch Compiler”, 2026.
   https://arxiv.org/abs/2604.08720
 
-Gondlin's answer is a semantic boundary. For the supported IR fragment, successful compilation to
+Gondolin's answer is a semantic boundary. For the supported IR fragment, successful compilation to
 the executable graph should be justified by a theorem that executable evaluation agrees with the
 denotational source semantics. External compilers and GPU kernels still need their own conformance
 evidence; this file spells out the contract shape so that “we tested it once” is not confused with a
 semantic guarantee.
 
-The full Gondlin compiler-correctness chapter contains the stronger IR-specific theorem. This
+The full Gondolin compiler-correctness chapter contains the stronger IR-specific theorem. This
 BugZoo card stays lightweight so that importing the examples chapter does not force every heavy
 compiler proof to elaborate.
 -/

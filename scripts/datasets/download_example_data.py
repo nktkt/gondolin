@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Download and prepare real datasets used by Gondlin examples.
+"""Download and prepare real datasets used by Gondolin examples.
 
 The Lean examples stay offline and deterministic by default.  This script is the opt-in bridge for
 people who want the same examples to run on real public datasets.

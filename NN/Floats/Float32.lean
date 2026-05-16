@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -13,7 +13,7 @@ import Mathlib.Algebra.Order.Algebra
 /-!
 # Float32
 
-Unified Float32 entrypoint (Gondlin).
+Unified Float32 entrypoint (Gondolin).
 
 This file keeps several common meanings of "float32" separate and explicit: the trusted runtime
 `Float` implementation, a proof-oriented rounding model (`FP32`), and an executable bit-level model
@@ -21,7 +21,7 @@ This file keeps several common meanings of "float32" separate and explicit: the 
 
 ## What “32-bit precision” means here
 
-Throughout Gondlin, *float32* refers to **IEEE-754 binary32**: a 32-bit floating-point format with
+Throughout Gondolin, *float32* refers to **IEEE-754 binary32**: a 32-bit floating-point format with
 
 - 1 sign bit,
 - 8 exponent bits,
@@ -55,19 +55,19 @@ keeping the boundary easy to see and easy to swap:
 - runnable demos typically use `IEEE32Exec`,
 - runtime `Float32` is treated as an explicitly trusted/assumed implementation detail.
 
-This design is described in the Gondlin paper appendix ("Appendix C (Numerical Semantics)"):
+This design is described in the Gondolin paper appendix ("Appendix C (Numerical Semantics)"):
 `arXiv:2602.22631` (https://arxiv.org/abs/2602.22631).
 -/
 
 @[expose] public section
 
 
-namespace Gondlin.Floats
+namespace Gondolin.Floats
 
 /-! ## Backend selection -/
 
 /--
-Selects which float32 semantics Gondlin should use.
+Selects which float32 semantics Gondolin should use.
 
 `.fp32` is the proof-oriented rounding-on-`ℝ` model.
 `.ieee754Exec` is the executable, bit-level IEEE-754 binary32 model.
@@ -85,10 +85,10 @@ Executable float32 backend (bit-level IEEE-754 binary32).
 This is the scalar type you pick when you want runs inside Lean to have an explicit float32 meaning
 (including NaN/Inf and signed-zero behavior), rather than depending on the platform runtime.
 -/
-abbrev IEEE32Exec : Type := Gondlin.Floats.IEEE754.IEEE32Exec
+abbrev IEEE32Exec : Type := Gondolin.Floats.IEEE754.IEEE32Exec
 
 /--
-Gondlin’s “float32” surface with selectable semantics.
+Gondolin’s “float32” surface with selectable semantics.
 
 Default is `.ieee754Exec` because it is the closest to real float32 execution you can *define*
 inside Lean. For theorem statements and compositional error reasoning, prefer `.fp32`.
@@ -112,6 +112,6 @@ def float32ModeSummary : Float32Mode → String
 
 /-- Print a one-line summary of the selected float32 semantics. -/
 def logFloat32Mode (mode : Float32Mode) : IO Unit :=
-  IO.println s!"[Gondlin] Float32 mode: {float32ModeSummary mode}"
+  IO.println s!"[Gondolin] Float32 mode: {float32ModeSummary mode}"
 
-end Gondlin.Floats
+end Gondolin.Floats

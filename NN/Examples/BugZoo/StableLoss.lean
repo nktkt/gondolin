@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -25,7 +25,7 @@ failures: invalid domains for `log`, `sqrt`, division, `exp`, and related math A
 - Wang et al., “An Empirical Study on Numerical Bugs in Deep Learning Programs”, ASE NIER 2022.
   https://conf.researchr.org/details/ase-2022/ase-2022-nier-track/18/An-Empirical-Study-on-Numerical-Bugs-in-Deep-Learning-Programs
 
-Gondlin cannot repair an arbitrary hand-written unstable loss after the fact. The design instead
+Gondolin cannot repair an arbitrary hand-written unstable loss after the fact. The design instead
 gives stable primitives and domain-aware variants a named place in the spec. For example,
 `crossEntropyLogitsSpec` is the logits API users should reach for: it is defined through
 `logSoftmaxSpec`, rather than through a fragile `softmax` followed by `log`. Likewise, `safedivSpec`
@@ -42,7 +42,7 @@ loss = -(target * torch.log(probs)).sum()
 loss = -(target * torch.log_softmax(logits, dim=-1)).sum()
 ```
 
-Gondlin equivalent:
+Gondolin equivalent:
 
 ```lean
 Spec.crossEntropyLogitsSpec logits target
@@ -55,7 +55,7 @@ For division/domain bugs:
 y = x / denom
 ```
 
-Gondlin makes the protected variant visible:
+Gondolin makes the protected variant visible:
 
 ```lean
 Spec.Tensor.safedivSpec x denom
@@ -77,7 +77,7 @@ The logits cross-entropy spec is literally the log-softmax form.
 
 This small theorem is useful as a public “contract card”: if a model uses
 `crossEntropyLogitsSpec`, the intended decomposition is stable-logits first, then target weighting
-and mean reduction. That is the Gondlin answer to the TensorFuzz-style broken-cross-entropy class
+and mean reduction. That is the Gondolin answer to the TensorFuzz-style broken-cross-entropy class
 inside the verified fragment.
 -/
 theorem crossEntropyLogits_uses_logSoftmax {s : Spec.Shape}

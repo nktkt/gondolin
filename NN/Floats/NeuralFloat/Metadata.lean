@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -12,7 +12,7 @@ import Mathlib.Analysis.SpecialFunctions.Pow.Real
 /-!
 # NeuralFloat metadata (training phase, named precisions)
 
-The Flocq-style core model is "rounded arithmetic on `ℝ`". In Gondlin we sometimes want a little
+The Flocq-style core model is "rounded arithmetic on `ℝ`". In Gondolin we sometimes want a little
 extra structure *around* that core:
 
 - a coarse notion of which part of training we're in (forward vs backward vs parameter update),
@@ -25,7 +25,7 @@ mantissa/exponent machinery while still letting higher-level layers talk about m
 @[expose] public section
 
 
-namespace Gondlin.Floats
+namespace Gondolin.Floats
 
 /--
 Training phases for neural networks.
@@ -121,7 +121,7 @@ structure NeuralMixedFormat where
   loss_format : NeuralPrecision
 
 /--
-A conservative default used by Gondlin demos:
+A conservative default used by Gondolin demos:
 
 - FP16 forward (for speed),
 - FP32 for gradients/params/loss (for stability).
@@ -133,4 +133,4 @@ def NeuralMixedFormat.default : NeuralMixedFormat where
   grad_format := NeuralPrecision.ieee_single
   loss_format := NeuralPrecision.ieee_single
 
-end Gondlin.Floats
+end Gondolin.Floats

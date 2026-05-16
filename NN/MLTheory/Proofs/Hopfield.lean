@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -24,7 +24,7 @@ This entrypoint collects the discrete Hopfield proof development:
 - convergence to a fixed point within a finite bound.
 
 The proofs follow the standard Lyapunov-energy analysis of Hopfield networks, stated over
-Gondlin's spec-level model so the theorem layer and model layer share one semantics.
+Gondolin's spec-level model so the theorem layer and model layer share one semantics.
 
 References:
 - Hopfield, "Neural networks and physical systems with emergent collective computational

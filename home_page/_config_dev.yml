@@ -1,6 +1,6 @@
 # Local development overrides.
 #
-# GitHub Pages project sites are hosted at `/<repo>/` (so `baseurl: "/Gondlin"` is correct for
+# GitHub Pages project sites are hosted at `/<repo>/` (so `baseurl: "/Gondolin"` is correct for
 # deployment), but that breaks local preview links unless you serve under that subpath.
 #
 # Use with:
