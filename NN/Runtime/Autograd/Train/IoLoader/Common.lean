@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -16,7 +16,7 @@ This module contains the small pieces shared by the CSV and NPY loaders:
 - ASCII digit/sign parsing used by numeric CSV cells and NPY headers; and
 - small string helpers for parsing Python/NumPy-style header fragments.
 
-The helpers are intentionally modest. They support Gondlin examples and regression tests, not a
+The helpers are intentionally modest. They support Gondolin examples and regression tests, not a
 full data-ingestion framework.
 -/
 

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -38,7 +38,7 @@ Trust boundary:
 
 @[expose] public section
 
-namespace Gondlin.Floats
+namespace Gondolin.Floats
 
 /--
 Rounded scalar value at a given radix/format/rounding mode.
@@ -195,7 +195,7 @@ noncomputable instance : Numbers (NF β fexp rnd) where
   neg_thousand   := ofReal (β := β) (fexp := fexp) (rnd := rnd) (-1000)
 
 /--
-`Context` instance used by Gondlin specs.
+`Context` instance used by Gondolin specs.
 
 We provide a decidable `>` relation by classical reasoning on `ℝ` (noncomputable, but fine for the
 spec layer).
@@ -241,4 +241,4 @@ noncomputable def formatIntervalRadix (lo hi : NF β fexp rnd) : String :=
 
 end NF
 
-end Gondlin.Floats
+end Gondolin.Floats

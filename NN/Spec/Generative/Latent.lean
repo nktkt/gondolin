@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -65,7 +65,7 @@ For each latent coordinate:
 
 `KL(N(μ, σ²) || N(0,1)) = 0.5 * (exp(logσ²) + μ² - 1 - logσ²)`.
 
-We return the mean across the latent shape, matching Gondlin's existing loss convention.
+We return the mean across the latent shape, matching Gondolin's existing loss convention.
 -/
 def diagonalGaussianKlToStandard
     {latent : Shape} (mu logvar : Tensor α latent) : α :=

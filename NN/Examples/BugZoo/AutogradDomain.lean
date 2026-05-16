@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -18,7 +18,7 @@ entry:
 
 https://docs.pytorch.org/docs/main/notes/autograd.html#division-by-zero-in-autograd
 
-Gondlin's useful claim here is deliberately narrow. We do not prove every user graph is finite.
+Gondolin's useful claim here is deliberately narrow. We do not prove every user graph is finite.
 Instead, the safe-domain choice is an explicit spec node: use `safedivSpec` in the computation that
 is recorded, then mask or weight the resulting tensor.
 -/
@@ -57,7 +57,7 @@ def unsafeDivThenMask {s : Spec.Shape}
 /--
 The safe-domain contract expands to division by `denominator + epsilon`, followed by the mask.
 
-This is the checked Gondlin hook: downstream proofs and importers can distinguish the protected
+This is the checked Gondolin hook: downstream proofs and importers can distinguish the protected
 graph from the "divide first, mask later" graph.
 -/
 theorem maskAfterSafeDiv_uses_epsilon_denominator {s : Spec.Shape}

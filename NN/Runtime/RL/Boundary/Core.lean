@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -12,7 +12,7 @@ public import NN.Tensor.API
 /-!
 # RL Trust Boundary (External Rollouts)
 
-Gondlin’s RL update rules (Bellman backups, returns/GAE, PPO objectives, etc.) are defined in Lean
+Gondolin’s RL update rules (Bellman backups, returns/GAE, PPO objectives, etc.) are defined in Lean
 and can therefore be reasoned about and proved correct **inside Lean**. When you collect experience
 with an **external** environment (for example Python Gymnasium), you cross a trust boundary:
 
@@ -34,7 +34,7 @@ lets downstream training code share one common input type for both:
 - Gymnasium API (`reset`/`step`, `terminated` vs `truncated`): https://gymnasium.farama.org/
 - The original Gym API paper (background on the env interface): https://arxiv.org/abs/1606.01540
 - Schulman et al., "Proximal Policy Optimization Algorithms" (2017): https://arxiv.org/abs/1707.06347
-- Trust-boundary pattern used elsewhere in Gondlin (e.g. the Arb oracle): `NN.Floats.Arb`.
+- Trust-boundary pattern used elsewhere in Gondolin (e.g. the Arb oracle): `NN.Floats.Arb`.
 -/
 
 @[expose] public section

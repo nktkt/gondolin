@@ -1,13 +1,13 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
 
 public import NN.Runtime.RL.Core
-public import NN.Runtime.Autograd.Gondlin.Metrics
+public import NN.Runtime.Autograd.Gondolin.Metrics
 public import NN.Spec.Layers.Activation
 
 /-!
@@ -22,7 +22,7 @@ This module implements typed, total update rules for classic finite-state / fini
 - Double Q-learning.
 
 The updates operate on shape-indexed vectors / Q-tables, so they fit naturally into the rest of
-Gondlin's typed tensor surface.
+Gondolin's typed tensor surface.
 
 Primary references:
 
@@ -60,14 +60,14 @@ def actionRow {nStates nActions : Nat} (q : Tensor α (.dim nStates (.dim nActio
 def maxActionValue {nStates nActions : Nat} (q : Tensor α (.dim nStates (.dim nActions .scalar)))
     (state : Fin nStates) : α :=
   let row := actionRow (α := α) q state
-  match Runtime.Autograd.Gondlin.Metrics.argmax? (α := α) (n := nActions) row with
+  match Runtime.Autograd.Gondolin.Metrics.argmax? (α := α) (n := nActions) row with
   | some action => Tensor.vecGet row action
   | none => 0
 
 /-- Greedy action at a state, if the action space is nonempty. -/
 def greedyAction? {nStates nActions : Nat} (q : Tensor α (.dim nStates (.dim nActions .scalar)))
     (state : Fin nStates) : Option (Fin nActions) :=
-  Runtime.Autograd.Gondlin.Metrics.argmax? (α := α) (n := nActions) (actionRow (α := α) q state)
+  Runtime.Autograd.Gondolin.Metrics.argmax? (α := α) (n := nActions) (actionRow (α := α) q state)
 
 /-- Expected action value under an explicit policy over the next state. -/
 def expectedActionValue {nStates nActions : Nat}

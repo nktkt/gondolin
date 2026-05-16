@@ -1,4 +1,4 @@
-# Gondlin Scripts
+# Gondolin Scripts
 
 This directory contains support commands for local checks, repository hygiene audits,
 site generation, dataset preparation, artifact producers, and optional sandboxed Lean checking.
@@ -29,7 +29,7 @@ These are part of the release/check/build path and should stay:
 - `checks/cuda_profile_tests.sh`
 - `checks/check_case_collisions.py`
 - `checks/repo_lint.py`
-- `checks/GondlinLint.lean`
+- `checks/GondolinLint.lean`
 - `checks/dependency_audit.py`
 - `docs/build_site.sh`
 - `docs/polish_docgen.py`
@@ -39,7 +39,7 @@ These are part of the release/check/build path and should stay:
 
 `docs/polish_docgen.py` and `docs/polish_verso_guide.py` are not verification logic. They are the
 final website post-processors called by `docs/build_site.sh`: DocGen and Verso generate correct
-HTML, then these scripts add the Gondlin landing page, navigation polish, responsive figures, copy
+HTML, then these scripts add the Gondolin landing page, navigation polish, responsive figures, copy
 buttons, asset copying, and public-site styling. Delete them only together with a matching
 `docs/build_site.sh` and accept rough generated docs.
 
@@ -48,7 +48,7 @@ buttons, asset copying, and public-site styling. Delete them only together with 
 These are referenced by examples, docs, or artifact-regeneration workflows:
 
 - `datasets/download_example_data.py`
-- `datasets/gondlin_data_convert.py`
+- `datasets/gondolin_data_convert.py`
 - `datasets/plot_trainlog.py`
 - `verification/regenerate_assets.py`
 - `verification/robustness/*`
@@ -88,7 +88,7 @@ intentional documentation assets that are referenced by Markdown or Verso pages.
 Keep tracked:
 
 - `home_page/assets/media/**` when referenced by homepage Markdown.
-- `blueprint/GondlinBlueprint/Guide/Assets/**` when referenced by the Verso guide.
+- `blueprint/GondolinBlueprint/Guide/Assets/**` when referenced by the Verso guide.
 
 Do not track:
 
@@ -113,7 +113,7 @@ Do not track:
   Li et al., "The Network Structure of Mathlib" (arXiv:2604.24797). It reports
   broad imports, layer-boundary smells, fan-in/fan-out hubs, and Markdown/JSON
   summaries for repository hygiene.
-- `checks/GondlinLint.lean`: Lean-side lint entry point used by Lake.
+- `checks/GondolinLint.lean`: Lean-side lint entry point used by Lake.
 
 Useful commands:
 
@@ -121,7 +121,7 @@ Useful commands:
 scripts/checks/check.sh --ci-all
 scripts/checks/cuda_profile_tests.sh --both
 python3 scripts/checks/repo_lint.py --fail-on-warn
-python3 scripts/checks/dependency_audit.py --markdown /tmp/gondlin_dependency_audit.md --fail-on-error
+python3 scripts/checks/dependency_audit.py --markdown /tmp/gondolin_dependency_audit.md --fail-on-error
 python3 scripts/checks/check_case_collisions.py
 ```
 
@@ -132,13 +132,13 @@ python3 scripts/checks/check_case_collisions.py
   windows, and tiny text corpora.
 - `datasets/download_wikitext.py`: optional WikiText preparation helper for text-model
   experiments. Requires `pyarrow`.
-- `datasets/gondlin_data_convert.py`: converts `.npy`, `.npz`, `.mat`, `.pt/.pth`, CSV,
-  and image-folder datasets into Gondlin's `.npy` tensor format. Optional formats require the
+- `datasets/gondolin_data_convert.py`: converts `.npy`, `.npz`, `.mat`, `.pt/.pth`, CSV,
+  and image-folder datasets into Gondolin's `.npy` tensor format. Optional formats require the
   corresponding Python package (`scipy`, `torch`, or `pillow`).
   For ImageNet-style diffusion demos, use:
 
   ```bash
-  python3 scripts/datasets/gondlin_data_convert.py image-folder \
+  python3 scripts/datasets/gondolin_data_convert.py image-folder \
     --input /path/to/imagenet/train \
     --x-output data/real/imagenet64/imagenet64_train_X.npy \
     --y-output data/real/imagenet64/imagenet64_train_y.npy \

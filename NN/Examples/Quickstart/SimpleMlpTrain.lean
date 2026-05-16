@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -11,7 +11,7 @@ public import NN
 /-!
 # Simple MLP training example (regression)
 
-This is a focused end-to-end example of training a small MLP in Gondlin.
+This is a focused end-to-end example of training a small MLP in Gondolin.
 
 It mirrors the simplest PyTorch workflow:
 
@@ -22,8 +22,8 @@ It mirrors the simplest PyTorch workflow:
 
 Run:
 
-- `lake exe gondlin quickstart_mlp`
-- `lake exe gondlin quickstart_mlp --steps 200 --dtype float --backend eager`
+- `lake exe gondolin quickstart_mlp`
+- `lake exe gondolin quickstart_mlp --steps 200 --dtype float --backend eager`
 
 Optional flags (tutorial-specific):
 

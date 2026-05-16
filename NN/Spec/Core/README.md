@@ -1,6 +1,6 @@
 # `NN.Spec.Core`
 
-This directory defines the spec level core of Gondlin: shapes, scalar contexts, and a
+This directory defines the spec level core of Gondolin: shapes, scalar contexts, and a
 shape-indexed tensor type with the minimal set of operations we want to reason about (and, for
 executable scalar backends, also run).
 

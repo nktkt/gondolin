@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -29,11 +29,11 @@ as long as it implements the same mathematical VJP behavior.
 PyTorch analogy:
 
 - `OpSpec.forward` corresponds to the `forward(...)` method of a `torch.autograd.Function`.
-- `OpSpec.backward` corresponds to the `backward(ctx, grad_output)` method, except that in Gondlin
+- `OpSpec.backward` corresponds to the `backward(ctx, grad_output)` method, except that in Gondolin
   we pass the input `x` explicitly instead of a mutable `ctx`. At the spec level that is the same
   information: the derivative may depend on the forward inputs (and sometimes intermediate values).
 
-In Gondlin we deliberately keep this file smaller than a graph IR: `OpSpec` is the math contract
+In Gondolin we deliberately keep this file smaller than a graph IR: `OpSpec` is the math contract
 (forward + VJP + composition). We do not want to invent yet another graph/IR here, because the repo
 already has canonical graph representations:
 

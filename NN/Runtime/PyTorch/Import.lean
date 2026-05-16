@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -19,13 +19,13 @@ The general import path is JSON-first:
 
 1. PyTorch loads the original checkpoint / `state_dict`.
 2. The adapter emitted by `NN.Runtime.PyTorch.Export.StateDict` writes nested-list JSON.
-3. `Import.Core` parses that JSON into shape-checked Gondlin tensors.
+3. `Import.Core` parses that JSON into shape-checked Gondolin tensors.
 
 For graphs, the matching path is:
 
 1. PyTorch captures an `nn.Module` with the adapter emitted by
    `NN.Runtime.PyTorch.Export.TorchExport`.
-2. `Import.TorchExport` parses the resulting `gondlin.ir.v1` graph JSON into `NN.IR.Graph`.
+2. `Import.TorchExport` parses the resulting `gondolin.ir.v1` graph JSON into `NN.IR.Graph`.
 3. The parser runs the shared IR well-formedness and shape checkers before accepting the graph.
 
 Architecture-specific example loaders live beside their fixtures under

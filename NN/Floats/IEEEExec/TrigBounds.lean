@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -26,7 +26,7 @@ proofs. Tighter bounds for higher-degree truncations can be added later if neede
 
 @[expose] public section
 
-namespace Gondlin.Floats.IEEE754
+namespace Gondolin.Floats.IEEE754
 namespace IEEE32Exec
 
 noncomputable section
@@ -50,5 +50,5 @@ theorem abs_cos_sub_cosTaylor2_le (x : ℝ) (hx : |x| ≤ 1) :
 end
 
 end IEEE32Exec
-end Gondlin.Floats.IEEE754
+end Gondolin.Floats.IEEE754
 

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -11,23 +11,23 @@ public import NN.MLTheory.CROWN.Core
 public import NN.MLTheory.CROWN.Graph
 public import NN.MLTheory.CROWN.Lyapunov.TwoStage.Core
 public import NN.MLTheory.CROWN.Lyapunov.TwoStage.ExecUtils
-public import NN.Runtime.Autograd.Gondlin.Autodiff
-public import NN.Runtime.Autograd.Gondlin.Backend
-public import NN.Runtime.Autograd.Gondlin.Module
-public import NN.Verification.Gondlin.Compile
+public import NN.Runtime.Autograd.Gondolin.Autodiff
+public import NN.Runtime.Autograd.Gondolin.Backend
+public import NN.Runtime.Autograd.Gondolin.Module
+public import NN.Verification.Gondolin.Compile
 public import NN.Verification.Util.Json
 
 /-!
-# Pipeline (ii): Hybrid PyTorch → Gondlin (exact float32) → IBP/CROWN post-check
+# Pipeline (ii): Hybrid PyTorch → Gondolin (exact float32) → IBP/CROWN post-check
 
-This file corresponds to **Figure 7 (ii)** in the Gondlin paper (`arXiv:2602.22631`).
+This file corresponds to **Figure 7 (ii)** in the Gondolin paper (`arXiv:2602.22631`).
 
 What is “hybrid” here:
 - **Stage 1** (outside Lean): train in PyTorch using ordinary float32.
   The output is exported as *bit-exact* float32 parameters (a JSON array of uint32 bit patterns).
 - **Stage 2** (inside Lean): load those exact bits into `α = IEEE32Exec` (Lean's executable model of
   IEEE-754 float32), run a small refinement loop (PGD on input, SGD on parameters), and then
-  compile the Gondlin loss to the shared verifier IR and run in-repo IBP/CROWN bounds on a box.
+  compile the Gondolin loss to the shared verifier IR and run in-repo IBP/CROWN bounds on a box.
 
 Trust boundary:
 - Stage-1 training is untrusted and only provides an initialization.
@@ -61,7 +61,7 @@ open Lean.Data
 open Lean.Json
 open NN.Verification.Json
 
-open _root_.Gondlin.Floats.IEEE754
+open _root_.Gondolin.Floats.IEEE754
 open Runtime
 open Runtime.Autograd
 open NN.MLTheory.CROWN.Graph
@@ -98,7 +98,7 @@ def epsCheck : α := ExecUtils.defaultEpsCheck
 
 def lossProg (width : Nat) :
     ∀ {β : Type}, [Context β] → [DecidableEq Shape] →
-      Gondlin.Program β (paramShapes width ++ [xShape]) Shape.scalar :=
+      Gondolin.Program β (paramShapes width ++ [xShape]) Shape.scalar :=
   Core.lossProgram width
 
 /-- Convert a `Nat` JSON payload into a `UInt32`, or raise a user-facing error with context. -/
@@ -148,7 +148,7 @@ Load stage-1 parameters exported by PyTorch as *float32 bit patterns*.
 We do this (instead of parsing JSON floats) so stage-2 runs under *bit-exact* float32 semantics
 (`IEEE32Exec`) without decimal conversion error.
 -/
-def loadStage1Params (width : Nat) (path : String) : IO (Gondlin.TList α (paramShapes
+def loadStage1Params (width : Nat) (path : String) : IO (Gondolin.TList α (paramShapes
   width)) := do
   let jsonStr ← IO.FS.readFile path
   let j ← match Json.parse jsonStr with
@@ -188,14 +188,14 @@ then clamp to the training box `[-rad, rad]^2`.
 def pgdStepCompiled
     (width : Nat)
     (cLoss : _root_.Runtime.Autograd.Torch.CompiledScalar α (lossΓ width))
-    (params : Gondlin.TList α (paramShapes width))
+    (params : Gondolin.TList α (paramShapes width))
     (x : Tensor α xShape) : Tensor α xShape :=
-  let args : Gondlin.TList α (lossΓ width) :=
+  let args : Gondolin.TList α (lossΓ width) :=
     _root_.Runtime.Autograd.Torch.Proofs.Autograd.Algebra.TList.append (α := α)
       (ss₁ := paramShapes width) (ss₂ := [xShape]) params (.cons x .nil)
-  let gAll : Gondlin.TList α (lossΓ width) :=
+  let gAll : Gondolin.TList α (lossΓ width) :=
     _root_.Runtime.Autograd.Torch.CompiledScalar.backward (α := α) (Γ := lossΓ width) cLoss args
-  let gx : Gondlin.TList α [xShape] :=
+  let gx : Gondolin.TList α [xShape] :=
     (_root_.Runtime.Autograd.Torch.Proofs.Autograd.Algebra.TList.splitAppend (α := α)
       (ss₁ := paramShapes width) (ss₂ := [xShape]) gAll).2
   let .cons g .nil := gx
@@ -203,17 +203,17 @@ def pgdStepCompiled
   clampVec2 (-rad) rad x'
 
 /--
-Final post-check: compile the Gondlin loss to the shared verifier IR, then run IBP and CROWN
+Final post-check: compile the Gondolin loss to the shared verifier IR, then run IBP and CROWN
 over a small box around the origin.
 
 This is a *sanity check* that the training objective is provably small on that box; it is not
 claimed to match α/β-CROWN tightness.
 -/
-def checkBox (width : Nat) (params : Gondlin.TList α (paramShapes width)) (eps : α :=
+def checkBox (width : Nat) (params : Gondolin.TList α (paramShapes width)) (eps : α :=
   epsCheck) : IO Unit := do
   IO.println "Stage 2 check: IBP + CROWN on the scalar loss over a small box"
   let compiled ←
-    match NN.Verification.Gondlin.compileForward1
+    match NN.Verification.Gondolin.compileForward1
           (α := α) (paramShapes := paramShapes width) (inShape := xShape) (outShape := Shape.scalar)
           (lossProg width (β := α)) params with
     | .ok c => pure c
@@ -308,13 +308,13 @@ def run (width : Nat) (args : List String) : IO Unit := do
     | some a => (a.drop 13).toNat?.getD 1
     | none => 1
 
-  IO.println "== TwoStage Hybrid workflow: Stage1=PyTorch (bits), Stage2=Gondlin (IEEE32Exec) =="
+  IO.println "== TwoStage Hybrid workflow: Stage1=PyTorch (bits), Stage2=Gondolin (IEEE32Exec) =="
   IO.println
     (s!"weights={weightsPath} width={width} stage2Rounds={stage2Rounds} " ++
       s!"candidates={candidates} pgdSteps={pgdSteps}")
 
   let initParams ← loadStage1Params width weightsPath
-  let mod ← _root_.Runtime.Autograd.Gondlin.Module.ScalarModule.create
+  let mod ← _root_.Runtime.Autograd.Gondolin.Module.ScalarModule.create
     (α := α) (paramShapes := paramShapes width) (inputShapes := [xShape])
     (opts := { backend := .compiled })
     (initRequiresGrad := List.replicate (paramShapes width).length true)
@@ -322,7 +322,7 @@ def run (width : Nat) (args : List String) : IO Unit := do
     initParams
   let tr := mod.trainer
 
-  let cLoss ← Gondlin.Autodiff.compileLoss
+  let cLoss ← Gondolin.Autodiff.compileLoss
     (α := α) (paramShapes := paramShapes width) (inputShapes := [xShape]) (lossProg width)
 
   -- Stage 2: PGD on x to find violations, then train on them
@@ -338,7 +338,7 @@ def run (width : Nat) (args : List String) : IO Unit := do
       let mut x := x0
       for _k in [0:pgdSteps] do
         x := pgdStepCompiled width cLoss params x
-      let xs : Gondlin.TList α [xShape] := .cons x .nil
+      let xs : Gondolin.TList α [xShape] := .cons x .nil
       let lossFound := _root_.Runtime.Autograd.Torch.scalarOf (←
         _root_.Runtime.Autograd.Torch.ScalarTrainer.forwardT tr xs)
       if (0 : α) < lossFound then

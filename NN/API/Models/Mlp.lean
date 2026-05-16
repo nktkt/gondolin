@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -11,7 +11,7 @@ public import NN.API.Public
 /-!
 # MLP Model Helpers (API)
 
-Compact, reusable MLP-shaped model constructors for Gondlin examples.
+Compact, reusable MLP-shaped model constructors for Gondolin examples.
 
 These live in the API layer so runnable examples can stay focused on:
 data loading, training loops, and CLI flags, rather than repeating the same

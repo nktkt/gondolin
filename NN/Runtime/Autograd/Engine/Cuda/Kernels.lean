@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 
 CUDA FFI: additional kernels over `Cuda.Buffer` (float32) to support composite ops.
 
@@ -21,7 +21,7 @@ public import NN.Runtime.Autograd.Engine.Cuda.Buffer
 /-!
 # CUDA Buffer Kernels FFI
 
-Foreign-function declarations for Gondlin's float32 `Cuda.Buffer` kernels: reductions, indexing,
+Foreign-function declarations for Gondolin's float32 `Cuda.Buffer` kernels: reductions, indexing,
 matmul/BMM, attention, broadcast/view helpers, and related tensor operations. The declarations here
 are the Lean side of the explicit CUDA trust boundary documented in `TRUST_BOUNDARIES.md`.
 -/
@@ -40,7 +40,7 @@ Sum over axis 0 of a 2D buffer in row-major order.
 Input `b` has shape `(rows, cols)` and is stored as length `rows*cols`.
 Output is length `cols` (sum down the rows for each column).
 -/
-@[extern "gondlin_cuda_buffer_reduce_sum_axis0"]
+@[extern "gondolin_cuda_buffer_reduce_sum_axis0"]
 opaque reduceSumAxis0 (b : Buffer) (rows cols : UInt32) : Buffer
 
 /--
@@ -49,7 +49,7 @@ Sum over axis 1 of a 2D buffer in row-major order.
 Input `b` has shape `(rows, cols)` and is stored as length `rows*cols`.
 Output is length `rows` (sum across the columns for each row).
 -/
-@[extern "gondlin_cuda_buffer_reduce_sum_axis1"]
+@[extern "gondolin_cuda_buffer_reduce_sum_axis1"]
 opaque reduceSumAxis1 (b : Buffer) (rows cols : UInt32) : Buffer
 
 /--
@@ -58,7 +58,7 @@ Max over axis 0 of a 2D buffer in row-major order.
 Input `b` has shape `(rows, cols)` and is stored as length `rows*cols`.
 Output is length `cols` (max down the rows for each column).
 -/
-@[extern "gondlin_cuda_buffer_reduce_max_axis0"]
+@[extern "gondolin_cuda_buffer_reduce_max_axis0"]
 opaque reduceMaxAxis0 (b : Buffer) (rows cols : UInt32) : Buffer
 
 /--
@@ -67,11 +67,11 @@ Max over axis 1 of a 2D buffer in row-major order.
 Input `b` has shape `(rows, cols)` and is stored as length `rows*cols`.
 Output is length `rows` (max across the columns for each row).
 -/
-@[extern "gondlin_cuda_buffer_reduce_max_axis1"]
+@[extern "gondolin_cuda_buffer_reduce_max_axis1"]
 opaque reduceMaxAxis1 (b : Buffer) (rows cols : UInt32) : Buffer
 
 /-- Concatenate two 1D buffers `a` (length `n`) and `b` (length `m`). -/
-@[extern "gondlin_cuda_buffer_concat1d"]
+@[extern "gondolin_cuda_buffer_concat1d"]
 opaque concat1d (a b : Buffer) (n m : UInt32) : Buffer
 
 /--
@@ -79,7 +79,7 @@ Slice a 1D buffer `b` (length `n`) starting at `start` for `len` elements.
 
 Requires `start + len ≤ n`.
 -/
-@[extern "gondlin_cuda_buffer_slice1d"]
+@[extern "gondolin_cuda_buffer_slice1d"]
 opaque slice1d (b : Buffer) (n start len : UInt32) : Buffer
 
 /--
@@ -87,7 +87,7 @@ Broadcast a row-vector (length `cols`) to a `(rows, cols)` matrix.
 
 Output is row-major of length `rows*cols`, with `out[i, j] = vec[j]`.
 -/
-@[extern "gondlin_cuda_buffer_broadcast_vec_to_rows"]
+@[extern "gondolin_cuda_buffer_broadcast_vec_to_rows"]
 opaque broadcastVecToRows (vec : Buffer) (rows cols : UInt32) : Buffer
 
 /--
@@ -95,7 +95,7 @@ Broadcast a column-vector (length `rows`) to a `(rows, cols)` matrix.
 
 Output is row-major of length `rows*cols`, with `out[i, j] = vec[i]`.
 -/
-@[extern "gondlin_cuda_buffer_broadcast_vec_to_cols"]
+@[extern "gondolin_cuda_buffer_broadcast_vec_to_cols"]
 opaque broadcastVecToCols (vec : Buffer) (rows cols : UInt32) : Buffer
 
 /--
@@ -107,7 +107,7 @@ Input:
 Output:
 - length `batch*m*p` representing `batch` matrices of shape `(m, p)` (row-major)
 -/
-@[extern "gondlin_cuda_buffer_bmm"]
+@[extern "gondolin_cuda_buffer_bmm"]
 opaque bmm (A B : Buffer) (batch m n p : UInt32) : Buffer
 
 /--
@@ -125,7 +125,7 @@ remains available in non-CUDA builds for tests and portability. This is a low-le
 primitive; differentiable tensor/autograd wrappers should spell out their backward convention
 separately because half-spectrum packing has normalization and conjugate-symmetry edge cases.
 -/
-@[extern "gondlin_cuda_buffer_rfft1d_packed"]
+@[extern "gondolin_cuda_buffer_rfft1d_packed"]
 opaque rfft1dPacked (x : Buffer) (batch n : UInt32) : Buffer
 
 /--
@@ -140,7 +140,7 @@ Output:
 The CUDA implementation uses cuFFT `C2R` and explicitly scales by `1/n`, matching the CPU reference
 and the usual normalized inverse FFT convention used by high-level ML APIs.
 -/
-@[extern "gondlin_cuda_buffer_irfft1d_packed"]
+@[extern "gondolin_cuda_buffer_irfft1d_packed"]
 opaque irfft1dPacked (spec : Buffer) (batch n : UInt32) : Buffer
 
 /--
@@ -160,22 +160,22 @@ Semantics:
 This is the CUDA/cuFFT-backed runtime primitive intended to replace dense DFT matrix multiplies in
 float32 FNO examples. The three backward primitives below are its explicit VJP components.
 -/
-@[extern "gondlin_cuda_buffer_spectral_conv1d_rfft_fwd"]
+@[extern "gondolin_cuda_buffer_spectral_conv1d_rfft_fwd"]
 opaque spectralConv1dRfftFwd
     (x wRe wIm : Buffer) (grid width modes : UInt32) : Buffer
 
 /-- VJP component `∂L/∂x` for `spectralConv1dRfftFwd`. -/
-@[extern "gondlin_cuda_buffer_spectral_conv1d_rfft_bwd_x"]
+@[extern "gondolin_cuda_buffer_spectral_conv1d_rfft_bwd_x"]
 opaque spectralConv1dRfftBwdX
     (x wRe wIm dY : Buffer) (grid width modes : UInt32) : Buffer
 
 /-- VJP component `∂L/∂wRe` for `spectralConv1dRfftFwd`. -/
-@[extern "gondlin_cuda_buffer_spectral_conv1d_rfft_bwd_wre"]
+@[extern "gondolin_cuda_buffer_spectral_conv1d_rfft_bwd_wre"]
 opaque spectralConv1dRfftBwdWRe
     (x wRe wIm dY : Buffer) (grid width modes : UInt32) : Buffer
 
 /-- VJP component `∂L/∂wIm` for `spectralConv1dRfftFwd`. -/
-@[extern "gondlin_cuda_buffer_spectral_conv1d_rfft_bwd_wim"]
+@[extern "gondolin_cuda_buffer_spectral_conv1d_rfft_bwd_wim"]
 opaque spectralConv1dRfftBwdWIm
     (x wRe wIm dY : Buffer) (grid width modes : UInt32) : Buffer
 
@@ -193,7 +193,7 @@ Output:
 This is the runtime primitive corresponding to the proof-facing affine scan contract in
 `NN.Spec.Layers.SelectiveScan` and `NN.MLTheory.Proofs.StateSpace.Scan`.
 -/
-@[extern "gondlin_cuda_buffer_selective_scan_diag_fwd"]
+@[extern "gondolin_cuda_buffer_selective_scan_diag_fwd"]
 opaque selectiveScanDiagFwd (A B X h0 : Buffer) (seqLen state : UInt32) : Buffer
 
 /--
@@ -202,7 +202,7 @@ Backward kernel for `selectiveScanDiagFwd`.
 Given `out = selectiveScanDiagFwd A B X h0` and an upstream gradient `dY` with the same
 `seqLen*state` layout as `out`, returns `(dA, dB, dX, dH0)`.
 -/
-@[extern "gondlin_cuda_buffer_selective_scan_diag_bwd"]
+@[extern "gondolin_cuda_buffer_selective_scan_diag_bwd"]
 opaque selectiveScanDiagBwd (A B X h0 out dY : Buffer) (seqLen state : UInt32) :
     Buffer × Buffer × Buffer × Buffer
 
@@ -220,7 +220,7 @@ Output:
 This is the runtime primitive corresponding to full Mamba-style selective scans where the token
 controls the affine transition coefficients.
 -/
-@[extern "gondlin_cuda_buffer_selective_scan_diag_var_fwd"]
+@[extern "gondolin_cuda_buffer_selective_scan_diag_var_fwd"]
 opaque selectiveScanDiagVarFwd (A B X h0 : Buffer) (seqLen state : UInt32) : Buffer
 
 /--
@@ -231,28 +231,28 @@ Inputs are row-major buffers with shapes:
 - `mask`: `(batch, n, n)` encoded as `0.0/1.0` when `hasMask != 0`; otherwise ignored.
 
 Output has shape `(batch, n, d)` and computes the same no-dropout masked attention semantics as:
-`softmax((Q Kᵀ) * scale + maskFill) V`, where blocked mask entries use Gondlin's
+`softmax((Q Kᵀ) * scale + maskFill) V`, where blocked mask entries use Gondolin's
 `-1000.0` fill convention.
 
 This is a fused native runtime primitive, not a proof object. The proof-facing contract is
 `Spec.flashAttention` in `NN/Spec/Layers/FlashAttention.lean`.
 -/
-@[extern "gondlin_cuda_buffer_flash_attention_fwd"]
+@[extern "gondolin_cuda_buffer_flash_attention_fwd"]
 opaque flashAttentionFwd
     (Q K V mask : Buffer) (hasMask batch n d : UInt32) (scale : Float) : Buffer
 
 /-- Fused VJP component `∂L/∂Q` for `flashAttentionFwd`. -/
-@[extern "gondlin_cuda_buffer_flash_attention_bwd_q"]
+@[extern "gondolin_cuda_buffer_flash_attention_bwd_q"]
 opaque flashAttentionBwdQ
     (Q K V mask dOut : Buffer) (hasMask batch n d : UInt32) (scale : Float) : Buffer
 
 /-- Fused VJP component `∂L/∂K` for `flashAttentionFwd`. -/
-@[extern "gondlin_cuda_buffer_flash_attention_bwd_k"]
+@[extern "gondolin_cuda_buffer_flash_attention_bwd_k"]
 opaque flashAttentionBwdK
     (Q K V mask dOut : Buffer) (hasMask batch n d : UInt32) (scale : Float) : Buffer
 
 /-- Fused VJP component `∂L/∂V` for `flashAttentionFwd`. -/
-@[extern "gondlin_cuda_buffer_flash_attention_bwd_v"]
+@[extern "gondolin_cuda_buffer_flash_attention_bwd_v"]
 opaque flashAttentionBwdV
     (Q K V mask dOut : Buffer) (hasMask batch n d : UInt32) (scale : Float) : Buffer
 
@@ -262,7 +262,7 @@ Row-major transpose of a 2D buffer.
 Input `b` has shape `(rows, cols)` and is stored as length `rows*cols`.
 Output has shape `(cols, rows)` and is stored as length `rows*cols` (row-major).
 -/
-@[extern "gondlin_cuda_buffer_transpose2d"]
+@[extern "gondolin_cuda_buffer_transpose2d"]
 opaque transpose2d (b : Buffer) (rows cols : UInt32) : Buffer
 
 /--
@@ -275,7 +275,7 @@ Input:
 Indices that fit in `UInt32` but are out of bounds are totalized to `0`.
 Large `Nat` values outside the FFI index range are rejected by the runtime.
 -/
-@[extern "gondlin_cuda_buffer_gather_vec"]
+@[extern "gondolin_cuda_buffer_gather_vec"]
 opaque gatherVec (vec : Buffer) (n : UInt32) (indices : Array Nat) (k : UInt32) : Buffer
 
 /--
@@ -292,11 +292,11 @@ Semantics:
 - large `Nat` values outside the FFI index range are rejected by the runtime,
 - repeated indices accumulate (scatter-add semantics).
 -/
-@[extern "gondlin_cuda_buffer_scatter_add"]
+@[extern "gondolin_cuda_buffer_scatter_add"]
 opaque scatterAdd (x values : Buffer) (n : UInt32) (indices : Array Nat) (k : UInt32) : Buffer
 
 /--
-Broadcast a buffer to a new shape (Gondlin `Shape.CanBroadcastTo` semantics).
+Broadcast a buffer to a new shape (Gondolin `Shape.CanBroadcastTo` semantics).
 
 Arguments:
 - `x`: input buffer
@@ -308,7 +308,7 @@ Arguments:
 This shape-driven mapping is generated in Lean from a `Shape.CanBroadcastTo` proof so the kernel
 does not need to interpret the proof object.
 -/
-@[extern "gondlin_cuda_buffer_broadcast_to"]
+@[extern "gondolin_cuda_buffer_broadcast_to"]
 opaque broadcastTo (x : Buffer) (inDims outDims axisMap : Array Nat) : Buffer
 
 /--
@@ -317,7 +317,7 @@ shape by summing over broadcasted axes.
 
 This uses the same `(inDims,outDims,axisMap)` convention as `broadcastTo`.
 -/
-@[extern "gondlin_cuda_buffer_reduce_from_broadcast"]
+@[extern "gondolin_cuda_buffer_reduce_from_broadcast"]
 opaque reduceFromBroadcastTo (dOut : Buffer) (inDims outDims axisMap : Array Nat) : Buffer
 
 /--
@@ -325,7 +325,7 @@ Swap adjacent axes at `depth` for a contiguous buffer described by `dims`.
 
 `depth = 0` swaps the first two axes; `depth = 1` swaps axes 1 and 2; etc.
 -/
-@[extern "gondlin_cuda_buffer_swap_adjacent_at_depth"]
+@[extern "gondolin_cuda_buffer_swap_adjacent_at_depth"]
 opaque swapAdjacentAtDepth (x : Buffer) (dims : Array Nat) (depth : UInt32) : Buffer
 
 /--
@@ -333,7 +333,7 @@ Reduce-sum along `axis` for an N-D contiguous buffer described by `dims` (outerm
 
 The returned buffer is laid out row-major with shape `dims` with the `axis` dimension removed.
 -/
-@[extern "gondlin_cuda_buffer_reduce_sum_axis"]
+@[extern "gondolin_cuda_buffer_reduce_sum_axis"]
 opaque reduceSumAxis (x : Buffer) (dims : Array Nat) (axis : UInt32) : Buffer
 
 /--
@@ -349,7 +349,7 @@ Output:
 Indices that fit in `UInt32` but are out of bounds are totalized to `0` rows.
 Large `Nat` values outside the FFI index range are rejected by the runtime.
 -/
-@[extern "gondlin_cuda_buffer_gather_rows"]
+@[extern "gondolin_cuda_buffer_gather_rows"]
 opaque gatherRows (mat : Buffer) (rows cols : UInt32) (indices : Array Nat) (k : UInt32) : Buffer
 
 /--
@@ -357,7 +357,7 @@ Scatter-add into a single matrix row.
 
 Returns a copy of `mat` with `out[i,:] += rowVec`.
 -/
-@[extern "gondlin_cuda_buffer_scatter_add_row"]
+@[extern "gondolin_cuda_buffer_scatter_add_row"]
 opaque scatterAddRow (mat rowVec : Buffer) (rows cols : UInt32) (i : UInt32) : Buffer
 
 /--
@@ -367,7 +367,7 @@ Semantics: `out = mat` with `out[indices[r], j] += values[r, j]` for each `r < k
 Indices that fit in `UInt32` but are out of bounds are ignored; repeated indices accumulate
 (scatter-add). Large `Nat` values outside the FFI index range are rejected by the runtime.
 -/
-@[extern "gondlin_cuda_buffer_scatter_add_rows"]
+@[extern "gondolin_cuda_buffer_scatter_add_rows"]
 opaque scatterAddRows (mat values : Buffer) (rows cols : UInt32) (indices : Array Nat) (k : UInt32) :
   Buffer
 

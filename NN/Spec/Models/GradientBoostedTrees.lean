@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -384,7 +384,7 @@ PyTorch / sklearn analogies:
 - This is closest in spirit to `sklearn.tree.DecisionTreeClassifier` with `criterion="gini"`,
   expressed as a small pure spec.
 - The *boosting* semantics (adding many trees sequentially) matches the high-level idea of
-  `sklearn.ensemble.GradientBoostingClassifier`, but Gondlin does not try to reproduce all of
+  `sklearn.ensemble.GradientBoostingClassifier`, but Gondolin does not try to reproduce all of
   sklearn’s engineering details (regularization knobs, histogram binning, etc.).
 -/
 

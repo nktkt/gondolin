@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -28,7 +28,7 @@ The main helpers are:
 values, but it does not record the backward pass itself as a differentiable graph. So this layer is
 the right place for ordinary training losses, not for Hessians or differentiating-through-backward.
 
-For higher derivatives, use the functional autodiff surface in `NN.Runtime.Autograd.Gondlin`
+For higher derivatives, use the functional autodiff surface in `NN.Runtime.Autograd.Gondolin`
 (`hvpInputs`, `hessian1`, and the public API wrappers). That path rebuilds the program over dual
 numbers / compiled graph structure and is the correct architecture for JVP-over-VJP style
 derivatives.

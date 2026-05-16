@@ -1,7 +1,7 @@
 {
   "challenge_module": "NN.CI.ComparatorAll",
   "solution_module": "NN.CI.ComparatorAll",
-  "theorem_names": ["Gondlin.ciComparatorMarker"],
+  "theorem_names": ["Gondolin.ciComparatorMarker"],
   "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
   "enable_nanoda": false
 }

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -15,7 +15,7 @@ public meta import ProofWidgets.Demos.Macro
 /-!
 # RL Boundary Rollout Viewer
 
-This widget is the “trust boundary debugger” for Gondlin RL.
+This widget is the “trust boundary debugger” for Gondolin RL.
 
 It reads a Gymnasium-style rollout JSON file (typically produced by
 `scripts/rl/export_gymnasium_rollout.py`), validates every transition against a Lean-side
@@ -70,7 +70,7 @@ def rolloutBoundaryReportHtml {obsShape : _root_.Spec.Shape} {nActions : Nat}
     let more := errs.size - shown.size
 
     let header : ProofWidgets.Html :=
-      <div className="gondlin-panel">
+      <div className="gondolin-panel">
         <h3>RL rollout boundary report</h3>
         <div>{UI.monospace path.toString}</div>
         <ul>
@@ -84,13 +84,13 @@ def rolloutBoundaryReportHtml {obsShape : _root_.Spec.Shape} {nActions : Nat}
       pure <|
         <div>
           {header}
-          <div className="gondlin-ok">{.text "All transitions passed the boundary contract."}</div>
+          <div className="gondolin-ok">{.text "All transitions passed the boundary contract."}</div>
         </div>
     else
       pure <|
         <div>
           {header}
-          <div className="gondlin-warn">
+          <div className="gondolin-warn">
             {.text "Some transitions failed contract checks. First errors:"}
           </div>
           <ol>
@@ -109,7 +109,7 @@ def rolloutBoundaryReportHtml {obsShape : _root_.Spec.Shape} {nActions : Nat}
         </div>
   catch e =>
     pure <|
-      <div className="gondlin-error">
+      <div className="gondolin-error">
         <h3>{.text "RL rollout boundary report (error)"}</h3>
         <div>{UI.monospace path.toString}</div>
         <pre>{.text (toString e)}</pre>

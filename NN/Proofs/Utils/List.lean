@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -12,7 +12,7 @@ public import Mathlib.Data.List.FinRange
 /-!
 # List Utils
 
-Small list-fold lemmas used throughout Gondlin proof files.
+Small list-fold lemmas used throughout Gondolin proof files.
 
 These are intentionally generic (not NN-specific) and live in a single place so large proofs do not
 accumulate many near-duplicate "foldl max" / "foldl add" helper lemmas.

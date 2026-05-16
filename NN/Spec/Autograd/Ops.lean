@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -25,7 +25,7 @@ How to read this file:
 - Each operation below is an `OpSpec`: a pure `forward` plus a pure VJP `backward`.
 - Most ops here are thin wrappers around `*Spec` and derivative-spec definitions from `NN/Spec/*`.
 
-Where this sits in Gondlin:
+Where this sits in Gondolin:
 
 - `NN.Spec.*` files define pure denotational semantics: what tensors/layers mean.
 - This file packages some of those pure definitions as unary `OpSpec`s: `forward` plus VJP.
@@ -269,11 +269,11 @@ def safeLogOp {s : Shape} (ε : α := Numbers.epsilon) : OpSpec α s s :=
 /--
 Elementwise square root.
 
-Domain discipline: Gondlin's spec-level `sqrtSpec` is total by clamping the forward value on
+Domain discipline: Gondolin's spec-level `sqrtSpec` is total by clamping the forward value on
 nonpositive inputs. The VJP follows that convention and returns zero where `x <= 0`, rather than
 introducing an artificial `1/ε` spike.
 
-PyTorch analogy: `torch.sqrt(x)` on the positive region, with an explicit Gondlin subgradient
+PyTorch analogy: `torch.sqrt(x)` on the positive region, with an explicit Gondolin subgradient
 choice outside the classical domain.
 -/
 def sqrtOp  {s : Shape} : OpSpec α s s :=
@@ -693,7 +693,7 @@ The caller supplies:
   the left shape `s1`.
 
 PyTorch analogy: this is where PyTorch's implicit broadcasting rules and reduction-of-broadcasted
-gradients ("sum over broadcasted dimensions") happen. In Gondlin we keep those shape relations
+gradients ("sum over broadcasted dimensions") happen. In Gondolin we keep those shape relations
 explicit. -/
 def binaryBroadcastOp {s1 s2 t : Shape}
   [Inhabited α]

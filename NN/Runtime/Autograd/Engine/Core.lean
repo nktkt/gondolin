@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -71,7 +71,7 @@ abbrev Result (α : Type) := Except String α
 /--
 Convert an `Autograd.Result` into an `IO` action by throwing `IO.userError` on failure.
 
-This is mainly used by the imperative Torch/Gondlin front-ends to keep their code readable.
+This is mainly used by the imperative Torch/Gondolin front-ends to keep their code readable.
 -/
 def okOrThrow {α : Type} : Result α → IO α
   | .ok a => pure a

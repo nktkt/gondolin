@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -14,7 +14,7 @@ public import NN.Spec.Core.TensorOps
 /-!
 # Lyapunov oracle
 
-We isolate the single oracle assumption used by Gondlin's Lyapunov/CROWN workflow:
+We isolate the single oracle assumption used by Gondolin's Lyapunov/CROWN workflow:
 `crown_oracle`.
 
 Everything else in the Lyapunov verification workflow should reduce to ordinary theorems that *depend*

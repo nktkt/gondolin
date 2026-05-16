@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -19,11 +19,11 @@ import Mathlib.Tactic.Ring
 /-!
 # Mlp
 
-CROWN/DeepPoly-style propagation for MLPs (vector in/out) using Gondlin tensors.
+CROWN/DeepPoly-style propagation for MLPs (vector in/out) using Gondolin tensors.
 
 This file is a compact implementation that sits on top of:
 - `NN.MLTheory.CROWN.Core` (`Box`, `AffineVec`, and `IBP.linear`), and
-- Gondlin’s typed tensor layer (`Spec.Tensor`).
+- Gondolin’s typed tensor layer (`Spec.Tensor`).
 
 What is implemented:
 - Per-neuron ReLU linear relaxations derived from pre-activation bounds (`ReLU.relax_scalar*`).

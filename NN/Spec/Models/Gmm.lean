@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -89,7 +89,7 @@ def gmmForwardSpec {nComponents nFeatures : Nat}
       -- Compute the log-likelihood for the multivariate Gaussian
       let log_likelihood :=
         -- Determinant/inverse are only well-behaved when the covariance is positive definite.
-        -- Gondlin keeps that as an explicit modeling assumption, similar to how PyTorch can
+        -- Gondolin keeps that as an explicit modeling assumption, similar to how PyTorch can
         -- error/NaN if you pass an invalid covariance to `MultivariateNormal`.
         let det := determinantSpec covariance
         let cov_inv := inverseSpec covariance

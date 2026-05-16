@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -11,7 +11,7 @@ public import NN.API.Samples
 /-!
 # Small Band-Image Dataset (4×4)
 
-Several Gondlin tutorials use a compact 4×4 image classification task:
+Several Gondolin tutorials use a compact 4×4 image classification task:
 
 - class `0`: a vertical band
 - class `1`: a horizontal band

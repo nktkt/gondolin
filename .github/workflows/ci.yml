@@ -83,7 +83,7 @@ jobs:
       - name: Get Mathlib cache
         run: ~/.elan/bin/lake exe cache get || true
 
-      - name: Repo lint (Gondlin policies)
+      - name: Repo lint (Gondolin policies)
         run: ~/.elan/bin/lake lint
 
       - name: Clean curated library build artifacts

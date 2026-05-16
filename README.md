@@ -1,9 +1,9 @@
 <h1 align="center">
-  <img src="home_page/assets/media/brand/gondlin-logo.png" alt="Gondlin logo" width="88" align="center">
-  Gondlin — Formalizing Neural Networks in Lean
+  <img src="home_page/assets/media/brand/gondolin-logo.png" alt="Gondolin logo" width="88" align="center">
+  Gondolin — Formalizing Neural Networks in Lean
 </h1>
 
-Gondlin is a Lean 4 framework for writing, running, inspecting, and verifying
+Gondolin is a Lean 4 framework for writing, running, inspecting, and verifying
 neural-network programs. It provides typed tensors and model APIs, a shared
 graph IR, runtime and autograd support, finite-precision semantics, certificate
 checkers, a CUDA boundary, and examples across modern ML and scientific ML.
@@ -14,22 +14,22 @@ locate the docs, and find citation info.
 ## Quickstart
 
 ```bash
-git clone https://github.com/nktkt/gondlin.git
-cd gondlin
+git clone https://github.com/nktkt/gondolin.git
+cd gondolin
 lake build
-lake exe gondlin mlp --cpu --steps 10
+lake exe gondolin mlp --cpu --steps 10
 ```
 
-Gondlin is pinned by `lean-toolchain` and currently builds with
-`leanprover/lean4:v4.29.0`. The current Gondlin package version is `v0.1.0`;
+Gondolin is pinned by `lean-toolchain` and currently builds with
+`leanprover/lean4:v4.29.0`. The current Gondolin package version is `v0.1.0`;
 see [`CHANGELOG.md`](CHANGELOG.md) for release notes.
 
 ## First Things To Try
 
 ```bash
-lake exe gondlin --help
+lake exe gondolin --help
 lake exe verify --help
-lake exe verify -- gondlin-ibp
+lake exe verify -- gondolin-ibp
 ```
 
 For the maintained example surface:
@@ -45,7 +45,7 @@ in-repo sources instead:
 
 - Project website source: [`home_page/`](home_page/) (Jekyll; preview locally
   with `bundle exec jekyll serve` from that directory).
-- Guide source: [`blueprint/GondlinBlueprint/Guide/`](blueprint/GondlinBlueprint/Guide/)
+- Guide source: [`blueprint/GondolinBlueprint/Guide/`](blueprint/GondolinBlueprint/Guide/)
   (Verso-Blueprint; build locally with `cd blueprint && lake build blueprint-gen`).
 - API reference: generate locally with `lake build NN:docs`; output lands under
   `.lake/build/doc/`.
@@ -54,16 +54,16 @@ in-repo sources instead:
   [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 If GitHub Pages is enabled for this repository in the future, the published URLs
-will be `https://nktkt.github.io/gondlin/` for the site,
-`https://nktkt.github.io/gondlin/blueprint/` for the guide, and
-`https://nktkt.github.io/gondlin/docs/` for the API reference.
+will be `https://nktkt.github.io/gondolin/` for the site,
+`https://nktkt.github.io/gondolin/blueprint/` for the guide, and
+`https://nktkt.github.io/gondolin/docs/` for the API reference.
 
-## Use Gondlin From Another Lean Project
+## Use Gondolin From Another Lean Project
 
-Gondlin is a normal Lake package. You can depend on the Git repository directly:
+Gondolin is a normal Lake package. You can depend on the Git repository directly:
 
 ```lean
-require Gondlin from git "https://github.com/nktkt/gondlin.git" @ "main"
+require Gondolin from git "https://github.com/nktkt/gondolin.git" @ "main"
 ```
 
 Then run:
@@ -90,7 +90,7 @@ import NN.Library
 For local development against a checkout, use a path dependency instead:
 
 ```lean
-require Gondlin from "../gondlin"
+require Gondolin from "../gondolin"
 ```
 
 ## Repository Map
@@ -110,7 +110,7 @@ require Gondlin from "../gondlin"
 - `NN/Verification` — certificate checkers and CLI workflows.
 - `NN/Examples` — quickstarts, model zoo commands, widgets, verification
   fixtures, and interoperability demos.
-- `blueprint/GondlinBlueprint/Guide` — source for the public guide.
+- `blueprint/GondolinBlueprint/Guide` — source for the public guide.
 - `home_page` — project website sources.
 
 ## Correctness and Boundaries
@@ -128,4 +128,4 @@ checked, or assumed.
 
 ## License
 
-Gondlin is released under the MIT License. See `LICENSE`.
+Gondolin is released under the MIT License. See `LICENSE`.

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -11,7 +11,7 @@ public import NN.Runtime.Autograd.Train.IoLoader.Common
 /-!
 # NPY loaders for typed training tensors
 
-This module implements the small, explicit `.npy` subset that Gondlin's native training
+This module implements the small, explicit `.npy` subset that Gondolin's native training
 examples need:
 
 - NumPy format versions 1 and 2;
@@ -22,7 +22,7 @@ examples need:
 The loader deliberately stays narrow. It is a runtime bridge for trusted experiment artifacts, not
 a general NumPy parser and not part of the formal tensor semantics. Keeping it here, under
 `Runtime.Autograd.Train`, makes that boundary visible while still giving examples a convenient path
-from Python-produced arrays into Gondlin tensors.
+from Python-produced arrays into Gondolin tensors.
 
 Reference:
 - NumPy `.npy` format documentation:
@@ -40,7 +40,7 @@ open Tensor
 open IoLoader.Internal
 
 /--
-In-memory representation of a loaded `.npy` file in Gondlin's supported subset.
+In-memory representation of a loaded `.npy` file in Gondolin's supported subset.
 
 `values` is always flattened in C-order. If the source file declares `fortran_order = True`, we
 reorder the payload during parsing and store `fortran := false` in the returned value so downstream
@@ -62,7 +62,7 @@ namespace IoLoader.Internal
 Prefix products of a shape list.
 
 For a shape `[d₀, d₁, d₂]`, this returns `[1, d₀, d₀*d₁]`, which are exactly the
-Fortran-order strides. We use these strides to convert Fortran storage into Gondlin's ordinary
+Fortran-order strides. We use these strides to convert Fortran storage into Gondolin's ordinary
 C-order flattening convention.
 -/
 def prefixProducts (shape : List Nat) : List Nat :=
@@ -372,7 +372,7 @@ def readNpyPrefixDim0 (path : System.FilePath) (expectedShape : List Nat) : IO (
   pure (parseNpyPrefixDim0 (tag := "npy") expectedShape bs)
 
 /--
-Read a 1D `.npy` file as a typed Gondlin vector tensor.
+Read a 1D `.npy` file as a typed Gondolin vector tensor.
 
 The shape check is part of the loader contract: files with the wrong logical size are rejected
 instead of being reshaped implicitly.
@@ -390,7 +390,7 @@ def readNpyVector (path : System.FilePath) (n : Nat) :
         pure (.error (tagError "npy" "shape mismatch for vector"))
 
 /--
-Read a 2D `.npy` file as a typed Gondlin matrix tensor.
+Read a 2D `.npy` file as a typed Gondolin matrix tensor.
 
 The returned matrix uses the same row-major indexing convention as the rest of the runtime tensor
 helpers.

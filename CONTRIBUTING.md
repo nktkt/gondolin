@@ -1,6 +1,6 @@
-# Contributing to Gondlin
+# Contributing to Gondolin
 
-Thanks for helping improve Gondlin.
+Thanks for helping improve Gondolin.
 Good contributions usually improve one of four areas:
 
 - make a mathematical definition or theorem clearer,
@@ -13,14 +13,14 @@ easier to review than one large branch that touches every layer at once.
 
 ## What Good PRs Look Like
 
-A good Gondlin PR usually has one clear purpose. It might add one operator with its spec and
+A good Gondolin PR usually has one clear purpose. It might add one operator with its spec and
 tests, one theorem with supporting lemmas, one example with a documented command, or one
 trust-boundary clarification. Small changes are much easier to review than branches that touch the
 API, runtime, proofs, and website at once.
 
 ## First Build
 
-Gondlin is pinned by `lean-toolchain`. From a fresh checkout:
+Gondolin is pinned by `lean-toolchain`. From a fresh checkout:
 
 ```bash
 lake update
@@ -52,14 +52,14 @@ Run a few small examples:
 ```bash
 lake env lean --run NN/Examples/Quickstart/TensorBasics.lean
 lake env lean --run NN/Examples/Quickstart/AutogradBasics.lean -- --dtype float
-lake exe gondlin mlp --cpu --steps 10
+lake exe gondolin mlp --cpu --steps 10
 ```
 
 Run verifier demos:
 
 ```bash
 lake exe verify -- list
-lake exe verify -- gondlin-ibp
+lake exe verify -- gondolin-ibp
 ```
 
 When you add behavior, add at least one stabilizer: a theorem, a test, a small runnable example, or
@@ -102,7 +102,7 @@ tools.
 
 ## Trust Boundaries
 
-Gondlin keeps three categories separate:
+Gondolin keeps three categories separate:
 
 - Lean-checked definitions and theorems,
 - executable Lean code and tests,
@@ -123,7 +123,7 @@ Relevant files:
 
 ## Adding an Operator
 
-Gondlin's safest extension path starts at the semantics and works outward. Prefer one operator
+Gondolin's safest extension path starts at the semantics and works outward. Prefer one operator
 meaning shared by user code, graph execution, and verification. If an operator is deliberately
 runtime-only or checker-only, say so in the file that introduces it.
 
@@ -147,7 +147,7 @@ instead of quietly slipping it into the shared semantics layer.
 Examples live under `NN/Examples/*`. Most model examples are runnable through:
 
 ```bash
-lake exe gondlin <demo> [args...]
+lake exe gondolin <demo> [args...]
 ```
 
 Direct Lean examples usually look like:
@@ -162,7 +162,7 @@ small.
 
 ## Style and Proof Hygiene
 
-Gondlin aims to keep `NN/` free of `sorry`.
+Gondolin aims to keep `NN/` free of `sorry`.
 
 ```bash
 python3 scripts/checks/repo_lint.py
@@ -178,7 +178,7 @@ Project conventions:
 
 ## Local Checks
 
-Gondlin ships a set of Python-only repository checks under `scripts/checks/`. They have no Lean
+Gondolin ships a set of Python-only repository checks under `scripts/checks/`. They have no Lean
 dependency and are cheap to run locally. CI runs all of them in the `hygiene` job before any Lean
 build starts; the `slow_proofs` job is opt-in and only fires via `workflow_dispatch`.
 
@@ -258,7 +258,7 @@ repo. `.editorconfig` keeps indentation and line endings uniform across editors.
 
 ## Checking Untrusted Proofs
 
-Gondlin includes a wrapper for `leanprover/comparator`, which can compare a trusted
+Gondolin includes a wrapper for `leanprover/comparator`, which can compare a trusted
 `Challenge.lean` against an untrusted `Solution.lean` inside a `landrun` sandbox.
 
 Prerequisite:
@@ -269,12 +269,12 @@ Typical workflow:
 
 1. Create a separate small Lake project with `Challenge.lean`, `Solution.lean`, and a comparator
    JSON config.
-2. Make that project depend on Gondlin, for example:
-   `require Gondlin from "/path/to/Gondlin"`.
+2. Make that project depend on Gondolin, for example:
+   `require Gondolin from "/path/to/Gondolin"`.
 3. Run:
 
 ```bash
-python3 /path/to/Gondlin/scripts/sandbox/run_comparator.py ./config.json --project .
+python3 /path/to/Gondolin/scripts/sandbox/run_comparator.py ./config.json --project .
 ```
 
 See `https://github.com/leanprover/comparator` for the JSON schema and default axiom allowlist

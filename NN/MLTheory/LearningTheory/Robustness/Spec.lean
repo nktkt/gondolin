@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -12,7 +12,7 @@ public import NN.Spec.Core.TensorOps
 # `NN.MLTheory.Robustness.Spec`
 
 Scalar-polymorphic definitions of norms/distances and basic robustness vocabulary on
-Gondlin's shape-indexed tensors.
+Gondolin's shape-indexed tensors.
 -/
 
 @[expose] public section

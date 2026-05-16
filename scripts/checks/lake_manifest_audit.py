@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """
-Gondlin Lake manifest auditor.
+Gondolin Lake manifest auditor.
 
-`lake-manifest.json` is the lockfile-equivalent for Gondlin's Lake dependencies.
+`lake-manifest.json` is the lockfile-equivalent for Gondolin's Lake dependencies.
 Drift between `lakefile.lean` and `lake-manifest.json` is a common source of
 hard-to-reproduce build failures, especially when SHA pins in `lakefile.lean`
 are bumped without re-running `lake update`. This script enforces the
 properties we want to keep stable across commits:
 
 1. The manifest is valid JSON with the top-level keys Lake actually writes.
-2. The four Gondlin direct dependencies declared in `lakefile.lean`
+2. The four Gondolin direct dependencies declared in `lakefile.lean`
    (`mathlib`, `doc-gen4`, `Comparator`, `lean4export`) all appear in the
    manifest's `packages` array.
 3. Each direct dependency's `@ "..."` rev in `lakefile.lean` matches the
@@ -296,7 +296,7 @@ def _render_human(report: dict[str, Any]) -> str:
     """Render the audit report as a human-readable plain-text block."""
     lines: list[str] = []
     s = report["summary"]
-    lines.append("Gondlin Lake manifest audit")
+    lines.append("Gondolin Lake manifest audit")
     lines.append("===========================")
     lines.append(f"manifest:  {s['manifest_path']}")
     lines.append(f"lakefile:  {s['lakefile_path']}")

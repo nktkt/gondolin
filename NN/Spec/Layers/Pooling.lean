@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -12,7 +12,7 @@ public import NN.Spec.Layers.Utils
 /-!
 # Pooling layers (spec layer)
 
-This file defines a small set of pooling operators in Gondlin's spec layer.
+This file defines a small set of pooling operators in Gondolin's spec layer.
 
 PyTorch analogies:
 
@@ -995,7 +995,7 @@ def getPaddedAverageInputVal
 Input lookup for hard max-pooling.
 
 Unlike average-pooling, max-pooling should not insert a numeric zero for padded cells: PyTorch's
-max-pool semantics treat padding as `-∞`. Gondlin keeps the spec scalar-polymorphic by returning
+max-pool semantics treat padding as `-∞`. Gondolin keeps the spec scalar-polymorphic by returning
 `none` for padded coordinates and letting the max fold ignore them.
 -/
 def getPaddedMaxInputVal?
@@ -1143,7 +1143,7 @@ def maxPoolSpatialSpec
 Forward-mode JVP for N-D hard max-pooling on a spatial tensor.
 
 The derivative follows the same primal argmax as `maxPoolSpatialSpec`; at ties it keeps the first
-row-major maximizer. This is the correct directional derivative for Gondlin's chosen subgradient
+row-major maximizer. This is the correct directional derivative for Gondolin's chosen subgradient
 convention and matches the VJP tie policy.
 -/
 def maxPoolSpatialJvpSpec

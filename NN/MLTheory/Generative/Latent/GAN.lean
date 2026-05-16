@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -12,7 +12,7 @@ public import NN.MLTheory.Generative.Latent.Objective
 /-!
 # GAN theory
 
-Gondlin's baseline GAN spec uses least-squares GAN losses.  This avoids partial logarithms in the
+Gondolin's baseline GAN spec uses least-squares GAN losses.  This avoids partial logarithms in the
 public spec surface while still capturing the generator/discriminator game:
 
 - the discriminator regresses real samples toward score `1` and generated samples toward `0`;

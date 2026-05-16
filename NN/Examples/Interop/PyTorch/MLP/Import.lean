@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -48,7 +48,7 @@ open Json
 /-- Typed view of an MLP PyTorch `state_dict` (two linear layers).
 
 We keep the tensors as `Float` because these importers are meant for runtime demos: train in Python,
-export to JSON, then run/verify in Gondlin.
+export to JSON, then run/verify in Gondolin.
 -/
 structure MlpStateDict (inDim hidDim outDim : Nat) where
   /-- First linear layer weight, PyTorch shape `(hidden, input)`. -/

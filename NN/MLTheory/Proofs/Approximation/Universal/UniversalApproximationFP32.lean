@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -254,15 +254,15 @@ end
 
 This section does *not* claim that FP32 is equivalent to hardware float32.
 It proves a pointwise bound for evaluating the same hinge network with rounded operations
-(`Gondlin.Floats.FP32`) versus exact real arithmetic on the rounded inputs/weights.
+(`Gondolin.Floats.FP32`) versus exact real arithmetic on the rounded inputs/weights.
 -/
 
 noncomputable section
 
-open Gondlin.Floats
+open Gondolin.Floats
 
-/-- Alias for the “round-after-each-primitive” real-valued FP32 model (`Gondlin.Floats.FP32`). -/
-abbrev FP32 : Type := Gondlin.Floats.FP32
+/-- Alias for the “round-after-each-primitive” real-valued FP32 model (`Gondolin.Floats.FP32`). -/
+abbrev FP32 : Type := Gondolin.Floats.FP32
 
 /-- Extract scalar from a length-1 tensor (FP32). -/
 def extractScalarOutputFp32 (t : Tensor FP32 (.dim 1 .scalar)) : FP32 :=
@@ -279,17 +279,17 @@ noncomputable def mlpEval1dFp32 (hidDim : ℕ)
 
 @[simp] lemma fp32_zero_val : (0 : FP32).val = 0 := by
   -- `0 : FP32` is `NF.ofReal 0`, i.e. rounding `0`.
-  have hne : Gondlin.Floats.neuralNearestEven (0 : ℝ) = 0 := by
-    simp [Gondlin.Floats.neuralNearestEven]
+  have hne : Gondolin.Floats.neuralNearestEven (0 : ℝ) = 0 := by
+    simp [Gondolin.Floats.neuralNearestEven]
   change
-    (Gondlin.Floats.NF.ofReal (β := Gondlin.Floats.binaryRadix) (fexp :=
-      Gondlin.Floats.fexp32)
-          (rnd := Gondlin.Floats.rnd32) (0 : ℝ)).val = 0
+    (Gondolin.Floats.NF.ofReal (β := Gondolin.Floats.binaryRadix) (fexp :=
+      Gondolin.Floats.fexp32)
+          (rnd := Gondolin.Floats.rnd32) (0 : ℝ)).val = 0
   -- Reduce to the mantissa being `0`; the exponent is irrelevant.
-  simp [Gondlin.Floats.NF.ofReal, Gondlin.Floats.NF.roundR, Gondlin.Floats.neuralRound,
-    Gondlin.Floats.neuralToReal, Gondlin.Floats.neuralScaledMantissa,
-      Gondlin.Floats.neuralCexp,
-    Gondlin.Floats.neuralMagnitude, Gondlin.Floats.rnd32, hne]
+  simp [Gondolin.Floats.NF.ofReal, Gondolin.Floats.NF.roundR, Gondolin.Floats.neuralRound,
+    Gondolin.Floats.neuralToReal, Gondolin.Floats.neuralScaledMantissa,
+      Gondolin.Floats.neuralCexp,
+    Gondolin.Floats.neuralMagnitude, Gondolin.Floats.rnd32, hne]
 
 @[simp] lemma relu_fp32_val (x : FP32) : (reluFp32 x).val = relu x.val := by
   -- `reluFp32` is `max x 0` at the `FP32` level, and order is via `.val`.
@@ -379,7 +379,7 @@ rounding term propagated through the 1-Lipschitz ReLU and scaled by `|cᵢ|`.
       |u32.val - (x.val - (t i).val)| ≤
         neuralUlp binaryRadix fexp32 (x.val - (t i).val) TrainingPhase.forward / 2 := by
     -- `sub_abs_error` is exactly this statement.
-    simpa [u32] using (Gondlin.Floats.FP32.sub_abs_error (a := x) (b := t i))
+    simpa [u32] using (Gondolin.Floats.FP32.sub_abs_error (a := x) (b := t i))
   have hrelu :
       |r32.val - relu (x.val - (t i).val)| ≤
         |u32.val - (x.val - (t i).val)| := by
@@ -389,7 +389,7 @@ rounding term propagated through the 1-Lipschitz ReLU and scaled by `|cᵢ|`.
       |term32.val - ((c i).val * r32.val)| ≤
         neuralUlp binaryRadix fexp32 ((c i).val * r32.val) TrainingPhase.forward / 2 := by
     -- `mul_abs_error` compares `(a*b).val` to `a.val*b.val`.
-    have := Gondlin.Floats.FP32.mul_abs_error (a := c i) (b := r32)
+    have := Gondolin.Floats.FP32.mul_abs_error (a := c i) (b := r32)
     simpa [term32, hingeTermFp32, r32] using this
   have hlin :
       |(c i).val * r32.val - (c i).val * relu (x.val - (t i).val)| =
@@ -502,7 +502,7 @@ not associative.
         exact hinge_term_abs_error' (c := c) (t := t) (x := x) (i := i)
       have hadd :
           |(acc32 + term32).val - (acc32.val + term32.val)| ≤ addErr := by
-        simpa [addErr] using (Gondlin.Floats.FP32.add_abs_error (a := acc32) (b := term32))
+        simpa [addErr] using (Gondolin.Floats.FP32.add_abs_error (a := acc32) (b := term32))
       have hstep :
           |(acc32 + term32).val - (accR + termR)| ≤ err + termErr + addErr := by
         -- Triangle: rounding of addition + linearization error.
@@ -574,7 +574,7 @@ used by the executable approximation theorems.
   have hadd :
       |(s32 + b).val - (s32.val + b.val)| ≤
         neuralUlp binaryRadix fexp32 (s32.val + b.val) TrainingPhase.forward / 2 := by
-    simpa using (Gondlin.Floats.FP32.add_abs_error (a := s32) (b := b))
+    simpa using (Gondolin.Floats.FP32.add_abs_error (a := s32) (b := b))
   have htri :
       |(s32 + b).val - (sR + b.val)| ≤
         |(s32 + b).val - (s32.val + b.val)| + |(s32.val + b.val) - (sR + b.val)| := by

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -17,7 +17,7 @@ token axis:
 
 If we reorder the input tokens, the output is reordered in the same way.
 
-This file formalizes that statement for Gondlin’s spec-layer `Spec.selfAttention` over `ℝ`.
+This file formalizes that statement for Gondolin’s spec-layer `Spec.selfAttention` over `ℝ`.
 
 The helper reindexing operations below are intentionally proof-local. They describe how this proof
 permutes tensor axes, but they are not part of the general `Spec.Tensor` API; reusable tensor
@@ -90,7 +90,7 @@ def permMatrix {α : Type} {n : Nat} (σ : Equiv.Perm (Fin n)) (A : Tensor α (.
 /-!
 ## Softmax equivariance
 
-Gondlin's spec softmax on vectors is implemented in a stabilized way (`x ↦ exp(x - m) / Σ exp(x - m)`),
+Gondolin's spec softmax on vectors is implemented in a stabilized way (`x ↦ exp(x - m) / Σ exp(x - m)`),
 but over `ℝ` it agrees with the plain `exp(x) / Σ exp(x)` formula. This lets us prove permutation
 equivariance without reasoning about how the stabilizing shift `m` is chosen.
 -/

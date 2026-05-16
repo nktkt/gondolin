@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -16,9 +16,9 @@ public import NN.Examples.Interop.PyTorch.Roundtrip
 public import NN.Examples.Interop.PyTorch.TorchExportSmoke
 
 /-!
-# Gondlin Example Runner
+# Gondolin Example Runner
 
-This module is the executable root for the `gondlin` example runner.
+This module is the executable root for the `gondolin` example runner.
 
 We keep each example's implementation namespaced (so `NN.Examples.Zoo` can import them all),
 and select which example to run based on a subcommand argument (e.g. `mlp`, `gpt2`).
@@ -32,11 +32,11 @@ namespace NN.Examples.Models.Runner
 
 def usage : String :=
   String.intercalate "\n"
-    [ "Gondlin runnable examples"
+    [ "Gondolin runnable examples"
     , ""
     , "Usage:"
-    , "  lake exe gondlin --help"
-    , "  lake exe gondlin <example> [flags...]"
+    , "  lake exe gondolin --help"
+    , "  lake exe gondolin <example> [flags...]"
     , ""
     , "Examples:"
     , "  quickstart_tensors | quickstart_autograd | quickstart_mlp"
@@ -57,47 +57,47 @@ def usage : String :=
     , "  - You can put runtime flags (e.g. `--cpu`, `--cuda`, `--dtype`, `--backend`) either before or"
     , "    after the example name; the runner forwards them to the example entrypoint."
     , "  - If you are used to `lean --run`, a leading `--` is accepted and ignored:"
-    , "      lake exe gondlin -- mlp --cpu"
+    , "      lake exe gondolin -- mlp --cpu"
     , ""
     , "Examples:"
     , "  python3 scripts/datasets/download_example_data.py --auto-mpg --cifar10"
-    , "  lake exe gondlin mlp --cpu --steps 10"
-    , "  lake exe gondlin cnn --cuda --steps 10"
-    , "  lake exe gondlin quickstart_tensors"
-    , "  lake exe gondlin quickstart_autograd --dtype float --backend eager"
-    , "  lake exe gondlin quickstart_mlp --steps 20 --dtype float --backend eager"
-    , "  lake build -R -K cuda=true && lake exe gondlin gpt2 --cuda --steps 1"
-    , "  lake exe gondlin gpt2 --flash-attention-only"
-    , "  lake exe gondlin fno1d_burgers --cuda --fast-kernels --steps 50 --plot-csv data/real/fno/predictions.csv"
-    , "  lake exe gondlin gpt2 --cuda --tiny-shakespeare --steps 100"
+    , "  lake exe gondolin mlp --cpu --steps 10"
+    , "  lake exe gondolin cnn --cuda --steps 10"
+    , "  lake exe gondolin quickstart_tensors"
+    , "  lake exe gondolin quickstart_autograd --dtype float --backend eager"
+    , "  lake exe gondolin quickstart_mlp --steps 20 --dtype float --backend eager"
+    , "  lake build -R -K cuda=true && lake exe gondolin gpt2 --cuda --steps 1"
+    , "  lake exe gondolin gpt2 --flash-attention-only"
+    , "  lake exe gondolin fno1d_burgers --cuda --fast-kernels --steps 50 --plot-csv data/real/fno/predictions.csv"
+    , "  lake exe gondolin gpt2 --cuda --tiny-shakespeare --steps 100"
     , "  python3 scripts/datasets/download_example_data.py --household-power --household-power-windows 512"
-    , "  lake exe gondlin lstm_regression --cuda --steps 200 --windows 96"
-    , "  lake exe gondlin text_gpt2 --data-file data/real/text/tinystories_valid.txt --steps 100"
-    , "  lake exe gondlin mamba --cuda --tiny-shakespeare --steps 25"
-    , "  lake exe gondlin mae --cuda --steps 25 --log data/model_zoo/mae_trainlog.json"
-    , "  lake exe gondlin vae --cuda --steps 25 --log data/model_zoo/vae_trainlog.json"
-    , "  lake exe gondlin gan --cuda --steps 25 --log data/model_zoo/gan_trainlog.json"
-    , "  python3 scripts/datasets/gondlin_data_convert.py image-folder --input /path/to/imagenet/train --x-output data/real/imagenet64/imagenet64_train_X.npy --y-output data/real/imagenet64/imagenet64_train_y.npy --height 64 --width 64 --labels-from-dirs --limit 2000"
-    , "  lake exe gondlin diffusion --cuda --fast-kernels --dataset imagenet64 --n-total 800 --steps 200 --hidden-c 8 --T 100 --beta-end 0.12 --sample-ppm data/model_zoo/imagenet64_sample.ppm"
-    , "  lake exe gondlin pytorch_roundtrip --model mlp --action import"
-    , "  lake exe gondlin data_csv --epochs 1 --batch 5 --dtype float --backend eager"
-    , "  lake exe gondlin data_npy --epochs 1 --batch 5 --dtype float --backend eager"
-    , "  lake exe gondlin data_cifar10 --quick --epochs 1 --batch 4 --train-size 8 --n-total 20"
-    , "  lake exe gondlin pytorch_export_smoke"
-    , "  lake exe gondlin float32_modes"
-    , "  lake exe gondlin graphspec --backend eager"
-    , "  lake exe gondlin ir_axis_ops --dtype float --backend eager"
-    , "  lake exe gondlin one_semantic_universe --samples 50"
-    , "  lake exe gondlin torch_ir_pytorch --arch mlp > exported_model.py"
-    , "  lake exe gondlin gpt_adder --steps 1000 --a 7 --b 8"
+    , "  lake exe gondolin lstm_regression --cuda --steps 200 --windows 96"
+    , "  lake exe gondolin text_gpt2 --data-file data/real/text/tinystories_valid.txt --steps 100"
+    , "  lake exe gondolin mamba --cuda --tiny-shakespeare --steps 25"
+    , "  lake exe gondolin mae --cuda --steps 25 --log data/model_zoo/mae_trainlog.json"
+    , "  lake exe gondolin vae --cuda --steps 25 --log data/model_zoo/vae_trainlog.json"
+    , "  lake exe gondolin gan --cuda --steps 25 --log data/model_zoo/gan_trainlog.json"
+    , "  python3 scripts/datasets/gondolin_data_convert.py image-folder --input /path/to/imagenet/train --x-output data/real/imagenet64/imagenet64_train_X.npy --y-output data/real/imagenet64/imagenet64_train_y.npy --height 64 --width 64 --labels-from-dirs --limit 2000"
+    , "  lake exe gondolin diffusion --cuda --fast-kernels --dataset imagenet64 --n-total 800 --steps 200 --hidden-c 8 --T 100 --beta-end 0.12 --sample-ppm data/model_zoo/imagenet64_sample.ppm"
+    , "  lake exe gondolin pytorch_roundtrip --model mlp --action import"
+    , "  lake exe gondolin data_csv --epochs 1 --batch 5 --dtype float --backend eager"
+    , "  lake exe gondolin data_npy --epochs 1 --batch 5 --dtype float --backend eager"
+    , "  lake exe gondolin data_cifar10 --quick --epochs 1 --batch 4 --train-size 8 --n-total 20"
+    , "  lake exe gondolin pytorch_export_smoke"
+    , "  lake exe gondolin float32_modes"
+    , "  lake exe gondolin graphspec --backend eager"
+    , "  lake exe gondolin ir_axis_ops --dtype float --backend eager"
+    , "  lake exe gondolin one_semantic_universe --samples 50"
+    , "  lake exe gondolin torch_ir_pytorch --arch mlp > exported_model.py"
+    , "  lake exe gondolin gpt_adder --steps 1000 --a 7 --b 8"
     ]
 
 /--
 Split CLI arguments into `(prefixFlags, command, commandArgs)`.
 
 We allow "global" runtime flags before the command name so users can write either:
-- `gondlin mlp --cpu`, or
-- `gondlin --cpu mlp`.
+- `gondolin mlp --cpu`, or
+- `gondolin --cpu mlp`.
 -/
 def splitCommandArgs? (args : List String) : Option (List String × String × List String) :=
   let rec go (prefixRev : List String) : List String → Option (List String × String × List String)

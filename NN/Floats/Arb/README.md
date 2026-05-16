@@ -18,7 +18,7 @@ This backend is not kernel reducible and should be treated as untrusted by defau
 - The Python process calls Arb/FLINT.
 - The result is a JSON payload that can be checked or inspected by Lean code.
 
-If you want semantics defined inside Lean, use Gondlin's native float backends instead:
+If you want semantics defined inside Lean, use Gondolin's native float backends instead:
 
 - `IEEE32Exec`: executable bit level float32 kernel (`NN/Floats/IEEEExec/`).
 - `FP32` / `NF`: proof oriented rounding over `ℝ` (`NN/Floats/FP32/`, `NN/Floats/NeuralFloat/`).
@@ -32,12 +32,12 @@ python3 -m pip install -U python-flint
 ```
 
 (Wheels exist for common CPython versions on Linux; if your default `python3` lacks wheels, use a
-different Python and point Lean at it with `GONDLIN_ARB_PY`.)
+different Python and point Lean at it with `GONDOLIN_ARB_PY`.)
 
 ## Running
 
 Lean wrappers call `NN/Floats/Arb/arb_oracle.py` through `IO.Process`. You can select the Python
-executable with `GONDLIN_ARB_PY`; otherwise the wrapper uses `python3`.
+executable with `GONDOLIN_ARB_PY`; otherwise the wrapper uses `python3`.
 
 ## Supported functions
 

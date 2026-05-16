@@ -7,7 +7,7 @@ before the model is lowered or executed.
 A GraphSpec model has two interpretations:
 
 1. a pure specification semantics in Lean, and
-2. a compiled Gondlin program that can run.
+2. a compiled Gondolin program that can run.
 
 Use the subsystem entrypoint:
 
@@ -16,7 +16,7 @@ import NN.Entrypoint.GraphSpec
 ```
 
 `NN/IR` is the shared op-tagged graph IR used by runtime compilation and verification. GraphSpec is
-an authoring layer that can feed the broader Gondlin pipeline; it is not a replacement for
+an authoring layer that can feed the broader Gondolin pipeline; it is not a replacement for
 `NN.IR.Graph`.
 
 ## Where GraphSpec Fits
@@ -37,7 +37,7 @@ an authoring layer that can feed the broader Gondlin pipeline; it is not a repla
 | `Primitives.lean` | common primitive packs |
 | `Primitives/Vision.lean` | convolution, pooling, flattening, and image helpers |
 | `Primitives/Embedding.lean` | embedding primitive and theorem surface |
-| `ToGondlin.lean` | lowering from the supported sequential subset to `Gondlin.NN.Seq` |
+| `ToGondolin.lean` | lowering from the supported sequential subset to `Gondolin.NN.Seq` |
 | `Models/*` | GraphSpec-authored examples |
 
 ## Sequential Graphs
@@ -72,7 +72,7 @@ DAG models provide:
 | Object | Meaning |
 | --- | --- |
 | `Term.eval` | pure specification semantics |
-| `Term.compile` | executable Gondlin compilation |
+| `Term.compile` | executable Gondolin compilation |
 | `DAG.Model` | packaged parameters, inputs, and body term |
 
 Use DAG terms when a model needs residual connections, multiple inputs, or explicit reuse of an
@@ -80,7 +80,7 @@ intermediate value.
 
 ## Adding A Primitive
 
-A primitive must provide both a pure meaning and an executable Gondlin meaning.
+A primitive must provide both a pure meaning and an executable Gondolin meaning.
 
 For unary sequential layers, define a `Primitive ps σ τ`:
 

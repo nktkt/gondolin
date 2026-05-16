@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -13,7 +13,7 @@ public import NN.MLTheory.LearningTheory.Stability
 /-!
 # Learning theory
 
-This is the curated entrypoint for Gondlin's learning-theory layer. We group the files here around
+This is the curated entrypoint for Gondolin's learning-theory layer. We group the files here around
 three themes:
 
 - robustness specifications and executable Float diagnostics;

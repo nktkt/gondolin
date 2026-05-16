@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -20,7 +20,7 @@ import Mathlib.Tactic.Linarith
 This file is a first “bridge step” between:
 
 - the constructive 1D ReLU approximation theorem in `universal_approximation.lean`, and
-- nD Tensor inputs `Tensor ℝ (.dim n .scalar)` used throughout Gondlin.
+- nD Tensor inputs `Tensor ℝ (.dim n .scalar)` used throughout Gondolin.
 
 What is proved here (fully proved):
 

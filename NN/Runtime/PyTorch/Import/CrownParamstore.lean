@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -20,7 +20,7 @@ weights into typed Lean tensors.
 Why this exists:
 
 - PyTorch “weights” are keyed by module names (`state_dict` keys).
-- Gondlin’s graph backend stores parameters by **node id** in
+- Gondolin’s graph backend stores parameters by **node id** in
   `NN.MLTheory.CROWN.Graph.ParamStore`.
 
 So any real bridge needs a small amount of “wiring code” that:

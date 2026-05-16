@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -11,7 +11,7 @@ public import NN.Spec.Core.TensorGrad
 /-!
 # GradientUtils
 
-Gradient utilities for Gondlin runtime training.
+Gradient utilities for Gondolin runtime training.
 
 These utilities are defined in terms of the canonical TensorGrad operations where possible.
 The spec layer already contains the scalar-polymorphic definitions of clipping and simple

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -17,7 +17,7 @@ VNN-COMP-style mini-suite checker (MNIST-FC, VNN-COMP 2022 benchmark).
 
 This tool is intentionally compact:
 - it consumes ONNX+VNNLIB instances via JSON artifacts, and
-- it runs Gondlin's IBP / (basic) CROWN bounds on the imported MLP, then checks the VNNLIB
+- it runs Gondolin's IBP / (basic) CROWN bounds on the imported MLP, then checks the VNNLIB
   disjunction-of-conjunctions constraints using a sufficient condition on the output box.
 
 The checker expects exported JSON artifacts. Keep large VNN-COMP snapshots outside git, for example
@@ -130,7 +130,7 @@ structure LayerWB where
 def keysForLayer (i : Nat) : (String × String) :=
   (s!"layers.{i}.weight", s!"layers.{i}.bias")
 
-/-- Convert a JSON float array into a length-`n` Gondlin vector tensor (returns `none` if sizes
+/-- Convert a JSON float array into a length-`n` Gondolin vector tensor (returns `none` if sizes
   mismatch). -/
 def tensorVecOfArray (n : Nat) (arr : Array Float) : Option (Tensor Float (.dim n .scalar)) := by
   classical
@@ -153,7 +153,7 @@ def parseFloatMatrixArray (j : Json) : Option (Array (Array Float)) := do
       pure out
   | _ => none
 
-/-- Convert a `rows × cols` float matrix payload into a Gondlin matrix tensor (checks both
+/-- Convert a `rows × cols` float matrix payload into a Gondolin matrix tensor (checks both
   dimensions). -/
 def tensorMatOfArray (rows cols : Nat) (m : Array (Array Float)) :
     Option (Tensor Float (.dim rows (.dim cols .scalar))) :=
@@ -616,7 +616,7 @@ def vnnlibRefutedByCROWNObjectives
 Refute a VNNLIB spec using CROWN objectives with externally-provided ReLU alphas.
 
 This mode is meant for apples-to-apples comparisons against alpha-CROWN style tools where the
-alphas are optimized elsewhere and then imported into Gondlin for checking.
+alphas are optimized elsewhere and then imported into Gondolin for checking.
 -/
 def vnnlibRefutedByCROWNObjectivesAlpha
     (g : Graph) (ps : ParamStore Float) (xB : FlatBox Float)
@@ -671,7 +671,7 @@ CLI entry point.
 This is wired into `lake exe verify -- vnncomp-mnistfc` (see `NN/Examples/README.md`).
 -/
 def main (args : List String) : IO Unit := do
-  IO.println "== Gondlin VNN-COMP mini-suite: MNIST-FC (vnncomp2022) =="
+  IO.println "== Gondolin VNN-COMP mini-suite: MNIST-FC (vnncomp2022) =="
   let args :=
     match args with
     | "--" :: rest => rest

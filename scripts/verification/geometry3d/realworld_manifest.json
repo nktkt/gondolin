@@ -1,5 +1,5 @@
 {
-  "description": "Small COCO real-image smoke suite for Gondlin Geometry3D certificates.",
+  "description": "Small COCO real-image smoke suite for Gondolin Geometry3D certificates.",
   "cases": [
     {
       "name": "coco_cats_depth_box",

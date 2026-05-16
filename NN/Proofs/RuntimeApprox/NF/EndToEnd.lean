@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -21,7 +21,7 @@ This file links those results to the executable SSA/DAG form used by the proof-c
 `Proofs.Autograd.Algebra.GraphData`.
 
 In other words, this is where the abstract approximation graph model meets the executable graph
-interpreter used elsewhere in Gondlin.
+interpreter used elsewhere in Gondolin.
 -/
 
 @[expose] public section
@@ -40,13 +40,13 @@ open Proofs.Autograd.Algebra
 
 noncomputable section
 
-open Gondlin.Floats
+open Gondolin.Floats
 open Proofs.RuntimeRoundingApprox
 
 variable {β : NeuralRadix} {fexp : ℤ → ℤ} [NeuralValidExp fexp]
 variable {rnd : ℝ → ℤ} [NeuralValidRndToNearest rnd]
 
-local notation "R" => Gondlin.Floats.NF β fexp rnd
+local notation "R" => Gondolin.Floats.NF β fexp rnd
 
 omit [NeuralValidExp fexp] [NeuralValidRndToNearest rnd] in
 /--

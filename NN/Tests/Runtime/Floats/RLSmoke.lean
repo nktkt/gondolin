@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -13,7 +13,7 @@ public import Std
 /-!
 # RLSmoke
 
-Small compile-and-run smoke tests for Gondlin's RL helper surface.
+Small compile-and-run smoke tests for Gondolin's RL helper surface.
 -/
 
 @[expose] public section
@@ -63,11 +63,11 @@ def run : IO Unit := do
     | .ok t => pure t
     | .error e => throw <| IO.userError e
   assertApprox "discountedReturnsVec IEEE32Exec[0]"
-    (Gondlin.Floats.IEEE754.IEEE32Exec.toFloat (Tensor.vecGet returns32 ⟨0, by decide⟩)) 2.75 1e-5
+    (Gondolin.Floats.IEEE754.IEEE32Exec.toFloat (Tensor.vecGet returns32 ⟨0, by decide⟩)) 2.75 1e-5
   assertApprox "discountedReturnsVec IEEE32Exec[1]"
-    (Gondlin.Floats.IEEE754.IEEE32Exec.toFloat (Tensor.vecGet returns32 ⟨1, by decide⟩)) 3.5 1e-5
+    (Gondolin.Floats.IEEE754.IEEE32Exec.toFloat (Tensor.vecGet returns32 ⟨1, by decide⟩)) 3.5 1e-5
   assertApprox "discountedReturnsVec IEEE32Exec[2]"
-    (Gondlin.Floats.IEEE754.IEEE32Exec.toFloat (Tensor.vecGet returns32 ⟨2, by decide⟩)) 3.0 1e-5
+    (Gondolin.Floats.IEEE754.IEEE32Exec.toFloat (Tensor.vecGet returns32 ⟨2, by decide⟩)) 3.0 1e-5
   let intervals32 : Tensor Runtime.RL.Numerics.Float32.Interval32 (.dim 3 .scalar) :=
     Runtime.RL.Numerics.Float32.discountedReturnsIntervals32 (n := 3) gamma32 rewards32
   assertBool "interval enclosure should contain IEEE32Exec returns"
@@ -99,7 +99,7 @@ def run : IO Unit := do
     | .ok x => pure x
     | .error e => throw <| IO.userError e
   assertApprox "tdResidual IEEE32Exec"
-    (Gondlin.Floats.IEEE754.IEEE32Exec.toFloat tdRes32) 1.0 1e-5
+    (Gondolin.Floats.IEEE754.IEEE32Exec.toFloat tdRes32) 1.0 1e-5
 
   let gaeRewards32 : Tensor Runtime.RL.Numerics.Float32.Float32Exec (.dim 3 .scalar) ←
     match Runtime.RL.Numerics.Float32.castTensorIEEE32ExecChecked (s := .dim 3 .scalar) gaeRewards with
@@ -120,11 +120,11 @@ def run : IO Unit := do
     | .ok t => pure t
     | .error e => throw <| IO.userError e
   assertApprox "gaeVec IEEE32Exec[0]"
-    (Gondlin.Floats.IEEE754.IEEE32Exec.toFloat (Tensor.vecGet advantages32 ⟨0, by decide⟩)) 1.75 1e-4
+    (Gondolin.Floats.IEEE754.IEEE32Exec.toFloat (Tensor.vecGet advantages32 ⟨0, by decide⟩)) 1.75 1e-4
   assertApprox "gaeVec IEEE32Exec[1]"
-    (Gondlin.Floats.IEEE754.IEEE32Exec.toFloat (Tensor.vecGet advantages32 ⟨1, by decide⟩)) 1.5 1e-4
+    (Gondolin.Floats.IEEE754.IEEE32Exec.toFloat (Tensor.vecGet advantages32 ⟨1, by decide⟩)) 1.5 1e-4
   assertApprox "gaeVec IEEE32Exec[2]"
-    (Gondlin.Floats.IEEE754.IEEE32Exec.toFloat (Tensor.vecGet advantages32 ⟨2, by decide⟩)) 1.0 1e-4
+    (Gondolin.Floats.IEEE754.IEEE32Exec.toFloat (Tensor.vecGet advantages32 ⟨2, by decide⟩)) 1.0 1e-4
 
   let normIn32 : Tensor Runtime.RL.Numerics.Float32.Float32Exec (.dim 3 .scalar) ←
     match Runtime.RL.Numerics.Float32.castTensorIEEE32ExecChecked (s := .dim 3 .scalar) rewardsVec with
@@ -136,7 +136,7 @@ def run : IO Unit := do
     | .error e => throw <| IO.userError e
   -- Mean-centered input has a 0 entry; after z-score it should remain 0 (finite).
   assertApprox "zscore IEEE32Exec[1]"
-    (Gondlin.Floats.IEEE754.IEEE32Exec.toFloat (Tensor.vecGet normed32 ⟨1, by decide⟩)) 0.0 1e-6
+    (Gondolin.Floats.IEEE754.IEEE32Exec.toFloat (Tensor.vecGet normed32 ⟨1, by decide⟩)) 0.0 1e-6
 
   let ratio32 : Runtime.RL.Numerics.Float32.Float32Exec ←
     match Runtime.RL.Numerics.Float32.ofFloatIEEE32ExecChecked 1.5 with
@@ -151,7 +151,7 @@ def run : IO Unit := do
     | .ok x => pure x
     | .error e => throw <| IO.userError e
   assertApprox "ppoClipFromRatio IEEE32Exec"
-    (Gondlin.Floats.IEEE754.IEEE32Exec.toFloat ppoObj32) 1.2 1e-5
+    (Gondolin.Floats.IEEE754.IEEE32Exec.toFloat ppoObj32) 1.2 1e-5
 
   let advantagesVec :=
     Runtime.RL.Core.generalizedAdvantageEstimationVec (α := Float) 0.5 1.0 gaeRewards gaeValues gaeNext gaeDones

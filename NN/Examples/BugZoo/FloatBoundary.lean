@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -21,7 +21,7 @@ The key warning paper is:
   IEEE S&P Workshops 2020.
   https://doi.org/10.1109/SPW50608.2020.00058
 
-Gondlin's response is not to pretend Lean's runtime `Float32` is transparent. It is opaque to the
+Gondolin's response is not to pretend Lean's runtime `Float32` is transparent. It is opaque to the
 Lean kernel. So we expose the trust boundary as a typeclass: if the runtime `Float32` primitive
 matches the bit-level `IEEE32Exec` operation, we may rewrite runtime arithmetic into the executable
 IEEE-754 model and then use the internal floating-point theorems.
@@ -35,14 +35,14 @@ bit-level `IEEE32Exec.add` operation.
 
 namespace NN.Examples.BugZoo.FloatBoundary
 
-open Gondlin.Floats.IEEE754
-open Gondlin.Floats.IEEE754.Float32Bridge
+open Gondolin.Floats.IEEE754
+open Gondolin.Floats.IEEE754.Float32Bridge
 
 /--
 Runtime `Float32` addition rewrites to the explicit bit-level IEEE executor only under the named
 runtime-conformance assumption.
 
-That is the honest Gondlin claim: floating-point deployment semantics are not silently smuggled
+That is the honest Gondolin claim: floating-point deployment semantics are not silently smuggled
 into proofs; they are either modeled by `IEEE32Exec` or isolated as a trust obligation.
 -/
 theorem runtimeFloat32_add_rewrites_to_ieee32

@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 r"""
-Gondlin Lean 4 import-graph audit.
+Gondolin Lean 4 import-graph audit.
 
 Scans every ``.lean`` file under ``NN/`` and answers two questions:
 
 1.  Does the internal import graph contain any cycles? (HARD FAIL by default.)
-2.  Does any module reach across Gondlin's architectural layering? Gondlin's
+2.  Does any module reach across Gondolin's architectural layering? Gondolin's
     conventional layering, going from low-level to high-level, is:
 
         Spec / Floats  ->  IR  ->  Runtime  ->  API
@@ -191,7 +191,7 @@ def _imports_of(path: pathlib.Path) -> list[str]:
 
 @dataclass(frozen=True)
 class LayerRule:
-    """A single layering invariant for a Gondlin source subtree.
+    """A single layering invariant for a Gondolin source subtree.
 
     ``source_prefix`` matches the dotted module path that the rule applies to
     (e.g. ``"NN.Spec."``). ``forbidden_prefixes`` is the list of import
@@ -282,7 +282,7 @@ def _tarjan_sccs(graph: dict[str, list[str]]) -> list[list[str]]:
     """Return every strongly-connected component, using iterative Tarjan.
 
     The classical recursive presentation can blow the Python recursion limit on
-    the >800-file Gondlin tree, so we drive the DFS by an explicit work stack.
+    the >800-file Gondolin tree, so we drive the DFS by an explicit work stack.
     Returned SCCs are in reverse topological order; we re-sort the list by
     minimum member name for deterministic output.
     """
@@ -391,14 +391,14 @@ class ImportGraph:
     mathlib_edges: list[tuple[str, str]] = field(default_factory=list)
     # ``other_external_edges`` captures imports such as ``Lean.``, ``Std.``,
     # ``Init.``, etc. — kept for the JSON dump so a reader can see "this many
-    # imports went outside both Gondlin and Mathlib".
+    # imports went outside both Gondolin and Mathlib".
     other_external_edges: list[tuple[str, str]] = field(default_factory=list)
 
 
 def build_graph() -> ImportGraph:
     """Walk ``NN/`` and assemble the resolved import graph."""
     if not NN_ROOT.exists():
-        raise FileNotFoundError(f"Gondlin NN/ tree not found at {NN_ROOT}")
+        raise FileNotFoundError(f"Gondolin NN/ tree not found at {NN_ROOT}")
 
     # Discover every internal Lean file. We include the top-level ``NN.lean``
     # (resolved as module ``NN``) plus everything under ``NN/``.
@@ -477,7 +477,7 @@ def _format_text(
     """Human-readable summary of the audit."""
     total_internal = sum(len(v) for v in graph.internal_edges.values())
     lines: list[str] = []
-    lines.append("Gondlin Lean import audit")
+    lines.append("Gondolin Lean import audit")
     lines.append(f"  modules:        {len(graph.modules)}")
     lines.append(f"  internal edges: {total_internal}")
     lines.append(f"  mathlib edges:  {len(graph.mathlib_edges)}")
@@ -559,7 +559,7 @@ def _format_graphviz(graph: ImportGraph) -> str:
     Mathlib imports per file.
     """
     lines = [
-        "digraph GondlinImports {",
+        "digraph GondolinImports {",
         "  rankdir=LR;",
         '  graph [splines=true, overlap=false];',
         '  node [shape=box, fontname="Helvetica", fontsize=10];',

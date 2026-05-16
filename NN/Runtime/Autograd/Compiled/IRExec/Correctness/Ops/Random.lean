@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -79,8 +79,8 @@ theorem buildFrom_denoteAllFrom_rand_uniform
   cases hp : n.parents with
   | nil =>
       simp [hp] at hBuild
-      let key := Runtime.Autograd.Gondlin.Random.keyOf seed i
-      let t : Tensor α n.outShape := Runtime.Autograd.Gondlin.Random.uniform (α := α)
+      let key := Runtime.Autograd.Gondolin.Random.keyOf seed i
+      let t : Tensor α n.outShape := Runtime.Autograd.Gondolin.Random.uniform (α := α)
         key (s := n.outShape)
       let nodeData : NodeData α Unit ([inShape] ++ ss) n.outShape :=
         mkFwdNode (α := α) (Γ := [inShape] ++ ss) (τ := n.outShape) (fun _ctx => t)
@@ -162,12 +162,12 @@ theorem buildFrom_denoteAllFrom_bernoulli_mask
               try cases hBuild
           | ok ip =>
               simp [hp, hIdx] at hBuild
-              let key := Runtime.Autograd.Gondlin.Random.keyOf seed i
+              let key := Runtime.Autograd.Gondolin.Random.keyOf seed i
               let nodeData : NodeData α Unit ([inShape] ++ ss) n.outShape :=
                 mkFwdNode (α := α) (Γ := [inShape] ++ ss) (τ := n.outShape) (fun ctx =>
                   let kpT := getIdx (α := α) (xs := ctx) ip
                   let kp : α := match kpT with | Tensor.scalar v => v
-                  Runtime.Autograd.Gondlin.Random.mask (α := α) key kp (s := n.outShape))
+                  Runtime.Autograd.Gondolin.Random.mask (α := α) key kp (s := n.outShape))
               let st1 : State α inShape := ⟨ss ++ [n.outShape], .snoc (ss := ss) gd nodeData⟩
               have hRec :
                   buildFrom (α := α) (g := g) (payload := payload) (inShape := inShape)
@@ -212,18 +212,18 @@ theorem buildFrom_denoteAllFrom_bernoulli_mask
                         (fun t : Tensor α Shape.scalar => match t with | Tensor.scalar v => v) hkp
                       simpa using h
                     have hMask :
-                        Runtime.Autograd.Gondlin.Random.mask (α := α)
-                            (Runtime.Autograd.Gondlin.Random.keyOf seed i) keepProb
+                        Runtime.Autograd.Gondolin.Random.mask (α := α)
+                            (Runtime.Autograd.Gondolin.Random.keyOf seed i) keepProb
                             (s := n.outShape) =
-                          Runtime.Autograd.Gondlin.Random.mask (α := α)
-                            (Runtime.Autograd.Gondlin.Random.keyOf seed i)
+                          Runtime.Autograd.Gondolin.Random.mask (α := α)
+                            (Runtime.Autograd.Gondolin.Random.keyOf seed i)
                             (match getIdx (α := α) (xs := ctx) ip with
                             | Tensor.scalar v => v)
                             (s := n.outShape) := by
                       have h := congrArg
                         (fun kp : α =>
-                          Runtime.Autograd.Gondlin.Random.mask (α := α)
-                            (Runtime.Autograd.Gondlin.Random.keyOf seed i) kp (s := n.outShape))
+                          Runtime.Autograd.Gondolin.Random.mask (α := α)
+                            (Runtime.Autograd.Gondolin.Random.keyOf seed i) kp (s := n.outShape))
                         hMatch.symm
                       simpa using h
                     -- Turn the goal into equality of the underlying tensors, then apply `hMask`.

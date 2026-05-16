@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -292,13 +292,13 @@ end EList
 
 namespace NFBackend
 
-open Gondlin.Floats
+open Gondolin.Floats
 open Proofs.RuntimeRoundingApprox
 
 variable {β : NeuralRadix} {fexp : ℤ → ℤ} [NeuralValidExp fexp]
 variable {rnd : ℝ → ℤ} [NeuralValidRndToNearest rnd]
 
-local notation "R" => Gondlin.Floats.NF β fexp rnd
+local notation "R" => Gondolin.Floats.NF β fexp rnd
 
 -- `toSpec` is already defined in `NN.Proofs.RuntimeApprox.NF.Ops`.
 
@@ -306,8 +306,8 @@ private lemma toSpec_one_bound :
     abs (toSpec (β := β) (fexp := fexp) (rnd := rnd) (1 : R) - (1 : ℝ)) ≤
       neuralUlp β fexp (1 : ℝ) TrainingPhase.forward / 2 := by
   -- `1 : R` is `NF.ofReal 1`, so this is the standard single-step rounding error bound.
-  simpa [NFBackend.toSpec, Gondlin.Floats.NF.toReal, Gondlin.Floats.NF.ofReal,
-    Gondlin.Floats.NF.roundR,
+  simpa [NFBackend.toSpec, Gondolin.Floats.NF.toReal, Gondolin.Floats.NF.ofReal,
+    Gondolin.Floats.NF.roundR,
     Proofs.RuntimeRoundingApprox.roundR] using
       (Proofs.RuntimeRoundingApprox.roundR_abs_error (β := β) (fexp := fexp) (rnd := rnd) (1 : ℝ))
 
@@ -1745,7 +1745,7 @@ def safeLogRevNode {Γ : List Shape} {s : Shape} (a : Idx Γ s) (ε : ℝ) (hε 
     RevNode (α := R) (toSpec := toSpec (β := β) (fexp := fexp) (rnd := rnd)) Γ s :=
 by
   classical
-  let epsR : R := Gondlin.Floats.NF.ofReal (β := β) (fexp := fexp) (rnd := rnd) ε
+  let epsR : R := Gondolin.Floats.NF.ofReal (β := β) (fexp := fexp) (rnd := rnd) ε
   let epsErr : ℝ := neuralUlp β fexp ε TrainingPhase.forward / 2
   refine
     { toFwdNode := safeLogSoftplusNode (β := β) (fexp := fexp) (rnd := rnd) a ε hε
@@ -1821,8 +1821,8 @@ by
 
   have heps_val :
       abs (toSpec (β := β) (fexp := fexp) (rnd := rnd) epsR - ε) ≤ epsErr := by
-    simpa [epsR, epsErr, toSpec, Gondlin.Floats.NF.toReal, Gondlin.Floats.NF.ofReal,
-      Gondlin.Floats.NF.roundR, Proofs.RuntimeRoundingApprox.roundR] using
+    simpa [epsR, epsErr, toSpec, Gondolin.Floats.NF.toReal, Gondolin.Floats.NF.ofReal,
+      Gondolin.Floats.NF.roundR, Proofs.RuntimeRoundingApprox.roundR] using
         (Proofs.RuntimeRoundingApprox.roundR_abs_error (β := β) (fexp := fexp) (rnd := rnd) ε)
   have heps :
       approxT (α := R) (toSpec := toSpec (β := β) (fexp := fexp) (rnd := rnd))

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -11,7 +11,7 @@ public import NN.Spec.Core.Context
 /-!
 # `MathFunctions` helper lemmas
 
-Gondlin sometimes writes scalar specs using `MathFunctions.*` (to keep the spec polymorphic over
+Gondolin sometimes writes scalar specs using `MathFunctions.*` (to keep the spec polymorphic over
 `α`) but then specializes to `ℝ` in proofs.
 
 For `ℝ`, the `MathFunctions` methods are definitionally equal to their `Real.*` counterparts. We

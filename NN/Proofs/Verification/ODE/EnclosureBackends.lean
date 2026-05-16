@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -17,8 +17,8 @@ public import NN.Proofs.Verification.ODE.Enclosure
 verification pipeline, however, often evaluates candidate PINN corridors in concrete numeric
 backends:
 
-- `Gondlin.Floats.FP32`, our proof-level binary32-style rounded real model;
-- `Gondlin.Floats.IEEE754.IEEE32Exec`, the executable IEEE-754 binary32 bridge.
+- `Gondolin.Floats.FP32`, our proof-level binary32-style rounded real model;
+- `Gondolin.Floats.IEEE754.IEEE32Exec`, the executable IEEE-754 binary32 bridge.
 
 This file does **not** prove that those backends are numerically sound by itself. Instead, it gives
 the clean final adapters: if the backend-valued functions satisfy the real hypotheses after applying
@@ -39,7 +39,7 @@ open Set
 
 namespace Backend
 
-open Gondlin.Floats
+open Gondolin.Floats
 
 noncomputable section
 
@@ -96,7 +96,7 @@ theorem fromRealView
       (uL' := realView toReal uL') (uU' := realView toReal uU') (a := a)
       hu_cont hu_der hu0 hL_cont hL_der hL_sub hL0 hU_cont hU_der hU_sup hU0 hLU)
 
-/-- Specialization of `fromRealView` to Gondlin's proof-level `FP32` model. -/
+/-- Specialization of `fromRealView` to Gondolin's proof-level `FP32` model. -/
 theorem forFP32
     {T : ℝ} (hT : 0 ≤ T) {f : ℝ → ℝ → ℝ}
     {u uL uU uL' uU' : ℝ → FP32} {a : ℝ}
@@ -190,7 +190,7 @@ theorem fromRealView
       (uL' := realView toReal uL') (uU' := realView toReal uU') (a := a)
       hu_cont hu_der hu0 hL_cont hL_der hL_sub hL0 hU_cont hU_der hU_sup hU0 hLU hLower hUpper)
 
-/-- Specialization of `fromRealView` to Gondlin's proof-level `FP32` model. -/
+/-- Specialization of `fromRealView` to Gondolin's proof-level `FP32` model. -/
 theorem forFP32
     {T τ : ℝ} (hT : 0 ≤ T) (hτ : T ≤ τ) {f : ℝ → ℝ → ℝ}
     {u uL uU uL' uU' : ℝ → FP32} {a : ℝ}
@@ -240,7 +240,7 @@ end ConstantExtension
 
 /-! ## IEEE32Exec wrappers -/
 
-open Gondlin.Floats.IEEE754
+open Gondolin.Floats.IEEE754
 
 /--
 Real interpretation of an executable IEEE-754 binary32 trajectory.

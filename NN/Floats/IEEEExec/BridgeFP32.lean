@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -26,7 +26,7 @@ public import NN.Floats.IEEEExec.RoundShiftRightEven
 Bridge theorems: `IEEE32Exec` (a bit-level, executable IEEE-754 binary32 kernel) ↔ `FP32`
 (a Flocq-style “round-to-`ℝ`” model for *finite* float32 computations).
 
-Gondlin keeps two views of float32:
+Gondolin keeps two views of float32:
 
 - **Executable view** (`IEEE32Exec`): we can run models inside Lean by implementing IEEE-754-style
   operations on the raw 32-bit encoding.
@@ -65,9 +65,9 @@ Pointers / background:
 @[expose] public section
 
 
-namespace Gondlin.Floats.IEEE754
+namespace Gondolin.Floats.IEEE754
 
-open Gondlin.Floats
+open Gondolin.Floats
 
 namespace IEEE32Exec
 
@@ -80,22 +80,22 @@ uses them pervasively, but does not define them.
 
 /-- `FP32` rounding viewed as a real function. -/
 noncomputable abbrev fp32Round (x : ℝ) : ℝ :=
-  neuralRound (β := binaryRadix) (fexp := Gondlin.Floats.fexp32) Gondlin.Floats.rnd32 x
+  neuralRound (β := binaryRadix) (fexp := Gondolin.Floats.fexp32) Gondolin.Floats.rnd32 x
 
 /-! ### Basic sanity checks for `fp32Round` -/
 
 /-- Rounding `0` to float32 yields `0`. -/
 theorem fp32Round_zero : fp32Round 0 = 0 := by
   -- This proof proceeds by unfolding: `fp32Round` is defined via `neural_round`.
-  have hne0 : Gondlin.Floats.neuralNearestEven 0 = 0 := by
-    simp [Gondlin.Floats.neuralNearestEven]
+  have hne0 : Gondolin.Floats.neuralNearestEven 0 = 0 := by
+    simp [Gondolin.Floats.neuralNearestEven]
   have :
-      Gondlin.Floats.neuralNearestEven 0 = 0 ∨ neuralBpow binaryRadix (-24) = 0 :=
+      Gondolin.Floats.neuralNearestEven 0 = 0 ∨ neuralBpow binaryRadix (-24) = 0 :=
     Or.inl hne0
-  simpa [fp32Round, Gondlin.Floats.neuralRound, Gondlin.Floats.neuralToReal,
-    Gondlin.Floats.neuralScaledMantissa, Gondlin.Floats.neuralCexp,
-      Gondlin.Floats.neuralMagnitude,
-    Gondlin.Floats.fexp32, Gondlin.Floats.FLTExp, Gondlin.Floats.rnd32] using this
+  simpa [fp32Round, Gondolin.Floats.neuralRound, Gondolin.Floats.neuralToReal,
+    Gondolin.Floats.neuralScaledMantissa, Gondolin.Floats.neuralCexp,
+      Gondolin.Floats.neuralMagnitude,
+    Gondolin.Floats.fexp32, Gondolin.Floats.FLTExp, Gondolin.Floats.rnd32] using this
 
 /-!
 ## Helper lemmas (magnitude/rounding)
@@ -290,10 +290,10 @@ private lemma signedMant_shiftLeft (sign : Bool) (m sh : Nat) :
     ((signedMant sign (Nat.shiftLeft m sh) : Int) : ℝ) =
       ((signedMant sign m : Int) : ℝ) * neuralBpow binaryRadix (Int.ofNat sh) := by
   by_cases hs : sign
-  · simp [signedMant, hs, Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal,
+  · simp [signedMant, hs, Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal,
     Nat.shiftLeft_eq,
       Nat.cast_mul, Nat.cast_pow]
-  · simp [signedMant, hs, Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal,
+  · simp [signedMant, hs, Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal,
     Nat.shiftLeft_eq,
       Nat.cast_mul, Nat.cast_pow]
 
@@ -313,7 +313,7 @@ private lemma dyadicToReal_ofNatAbs (s : Int) (e : Int) :
 
 private lemma dyadicToReal_zero (sign : Bool) :
     dyadicToReal { sign := sign, mant := 0, exp := 0 } = (0 : ℝ) := by
-  by_cases hs : sign <;> simp [dyadicToReal, hs, Gondlin.Floats.neuralBpow, binaryRadix,
+  by_cases hs : sign <;> simp [dyadicToReal, hs, Gondolin.Floats.neuralBpow, binaryRadix,
     NeuralRadix.toReal]
 
 /--
@@ -482,7 +482,7 @@ theorem neural_magnitude_dyadic (d : Dyadic) (hm : d.mant ≠ 0) :
     simpa [dyadicToReal, mul_assoc] using this
 
   -- Expand `neural_magnitude` and rewrite the log ratio as `Real.logb`.
-  simp [Gondlin.Floats.neuralMagnitude, hx, Real.log_div_log, abs_dyadicToReal d]
+  simp [Gondolin.Floats.neuralMagnitude, hx, Real.log_div_log, abs_dyadicToReal d]
 
   -- Use `logb_mul` to split `logb 2 (mant * 2^exp)` as `logb 2 mant + logb 2 (2^exp)`.
   have hmpos : (0 : ℝ) < (d.mant : ℝ) := by
@@ -548,7 +548,7 @@ private lemma neural_magnitude_eq_of_bpow_bounds (x : ℝ) (k : Int)
   have hb : (1 : ℝ) < (2 : ℝ) := by norm_num
 
   have hlo_z : (2 : ℝ) ^ (k : Int) ≤ _root_.abs x := by
-    simpa [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal] using hlo
+    simpa [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal] using hlo
   have hlo_r : (2 : ℝ) ^ (k : ℝ) ≤ _root_.abs x := by
     calc
       (2 : ℝ) ^ (k : ℝ) = (2 : ℝ) ^ (k : Int) := by
@@ -556,7 +556,7 @@ private lemma neural_magnitude_eq_of_bpow_bounds (x : ℝ) (k : Int)
       _ ≤ _root_.abs x := hlo_z
 
   have hhi_z : _root_.abs x < (2 : ℝ) ^ (k + 1 : Int) := by
-    simpa [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal] using hhi
+    simpa [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal] using hhi
   have hhi_r : _root_.abs x < (2 : ℝ) ^ ((k + 1 : Int) : ℝ) := by
     calc
       _root_.abs x < (2 : ℝ) ^ (k + 1 : Int) := hhi_z
@@ -574,7 +574,7 @@ private lemma neural_magnitude_eq_of_bpow_bounds (x : ℝ) (k : Int)
       simpa [Int.cast_add, Int.cast_one] using hhi'
     exact (Int.floor_eq_iff).2 ⟨hlo', hhi''⟩
 
-  unfold Gondlin.Floats.neuralMagnitude
+  unfold Gondolin.Floats.neuralMagnitude
   rw [if_neg hx0]
   have hfloor_ratio_abs :
       (⌊Real.log (_root_.abs x) / Real.log (binaryRadix.toReal)⌋ : Int) = k := by
@@ -694,7 +694,7 @@ private lemma half_lt_div_iff (r den : Nat) (hden : den ≠ 0) :
     exact h1.mpr hr
 
 private lemma neural_nearest_even_div_eq_roundQuotEven (num den : Nat) (hden : den ≠ 0) :
-    Gondlin.Floats.neuralNearestEven ((num : ℝ) / (den : ℝ)) =
+    Gondolin.Floats.neuralNearestEven ((num : ℝ) / (den : ℝ)) =
       Int.ofNat (roundQuotEven num den) := by
   classical
   set q : Nat := num / den
@@ -704,7 +704,7 @@ private lemma neural_nearest_even_div_eq_roundQuotEven (num den : Nat) (hden : d
   have hfract : ((num : ℝ) / (den : ℝ)) - (q : ℝ) = (r : ℝ) / (den : ℝ) := by
     simpa [q, r] using (fract_real_div_nat (n := num) (den := den) hden)
 
-  unfold Gondlin.Floats.neuralNearestEven
+  unfold Gondolin.Floats.neuralNearestEven
   simp [hfloor]
   rw [hfract]
   simp [roundQuotEven, q, r]
@@ -739,7 +739,7 @@ later when relating the `IEEE32Exec` rounding code to `fp32Round`.
 -/
 
 private lemma neural_nearest_even_neg (x : ℝ) :
-    Gondlin.Floats.neuralNearestEven (-x) = -Gondlin.Floats.neuralNearestEven x := by
+    Gondolin.Floats.neuralNearestEven (-x) = -Gondolin.Floats.neuralNearestEven x := by
   classical
   -- Use `r = x - ⌊x⌋` for the case split (integer vs non-integer).
   set r : ℝ := x - (⌊x⌋ : ℝ)
@@ -768,11 +768,11 @@ private lemma neural_nearest_even_neg (x : ℝ) :
         linarith [hx_eq]
       linarith [this]
     have hx_round :
-        Gondlin.Floats.neuralNearestEven x = ⌊x⌋ :=
-      Gondlin.Floats.neural_nearest_even_eq_floor_of_frac_lt_half x hx_lt_half
+        Gondolin.Floats.neuralNearestEven x = ⌊x⌋ :=
+      Gondolin.Floats.neural_nearest_even_eq_floor_of_frac_lt_half x hx_lt_half
     have hy_round :
-        Gondlin.Floats.neuralNearestEven (-x) = ⌊-x⌋ :=
-      Gondlin.Floats.neural_nearest_even_eq_floor_of_frac_lt_half (-x) hneg_lt_half
+        Gondolin.Floats.neuralNearestEven (-x) = ⌊-x⌋ :=
+      Gondolin.Floats.neural_nearest_even_eq_floor_of_frac_lt_half (-x) hneg_lt_half
     -- Replace `⌊-x⌋` with `-⌊x⌋` and finish.
     simp [hx_round, hy_round, hfloor_neg]
   · -- Non-integer case: `⌈x⌉ = ⌊x⌋ + 1` and `⌊-x⌋ = -⌊x⌋ - 1`, and `fract(-x) = 1 - r`.
@@ -815,9 +815,9 @@ private lemma neural_nearest_even_neg (x : ℝ) :
     by_cases hlt : r < (1 / 2 : ℝ)
     · -- `r < 1/2`: `x` rounds down, `-x` rounds up.
       have hx_round :
-          Gondlin.Floats.neuralNearestEven x = ⌊x⌋ := by
+          Gondolin.Floats.neuralNearestEven x = ⌊x⌋ := by
         have : x - (⌊x⌋ : ℝ) < (1 / 2 : ℝ) := by simpa [r] using hlt
-        exact Gondlin.Floats.neural_nearest_even_eq_floor_of_frac_lt_half x this
+        exact Gondolin.Floats.neural_nearest_even_eq_floor_of_frac_lt_half x this
       have hneg_gt : (-x) - (⌊-x⌋ : ℝ) > (1 / 2 : ℝ) := by
         -- `1 - r > 1/2`.
         have : (1 / 2 : ℝ) < 1 - r := by linarith [hlt]
@@ -825,22 +825,22 @@ private lemma neural_nearest_even_neg (x : ℝ) :
         have : (1 / 2 : ℝ) < (-x) - (⌊-x⌋ : ℝ) := by simpa [hfract_neg] using this
         linarith
       have hy_round :
-          Gondlin.Floats.neuralNearestEven (-x) = ⌊-x⌋ + 1 :=
-        Gondlin.Floats.neural_nearest_even_eq_ceil_of_frac_gt_half (-x) hneg_gt
+          Gondolin.Floats.neuralNearestEven (-x) = ⌊-x⌋ + 1 :=
+        Gondolin.Floats.neural_nearest_even_eq_ceil_of_frac_gt_half (-x) hneg_gt
       have hfloor_succ : ⌊-x⌋ + 1 = -⌊x⌋ := by linarith [hfloor_neg]
       simp [hx_round, hy_round, hfloor_succ]
     · by_cases hgt : r > (1 / 2 : ℝ)
       · -- `r > 1/2`: `x` rounds up, `-x` rounds down.
         have hx_round :
-            Gondlin.Floats.neuralNearestEven x = ⌊x⌋ + 1 := by
+            Gondolin.Floats.neuralNearestEven x = ⌊x⌋ + 1 := by
           have : x - (⌊x⌋ : ℝ) > (1 / 2 : ℝ) := by simpa [r] using hgt
-          exact Gondlin.Floats.neural_nearest_even_eq_ceil_of_frac_gt_half x this
+          exact Gondolin.Floats.neural_nearest_even_eq_ceil_of_frac_gt_half x this
         have hneg_lt : (-x) - (⌊-x⌋ : ℝ) < (1 / 2 : ℝ) := by
           have : 1 - r < (1 / 2 : ℝ) := by linarith [hgt]
           simpa [hfract_neg] using this
         have hy_round :
-            Gondlin.Floats.neuralNearestEven (-x) = ⌊-x⌋ :=
-          Gondlin.Floats.neural_nearest_even_eq_floor_of_frac_lt_half (-x) hneg_lt
+            Gondolin.Floats.neuralNearestEven (-x) = ⌊-x⌋ :=
+          Gondolin.Floats.neural_nearest_even_eq_floor_of_frac_lt_half (-x) hneg_lt
         -- Reduce to an integer identity via `hfloor_neg`.
         rw [hy_round, hx_round, hfloor_neg]
         ring
@@ -864,34 +864,34 @@ private lemma neural_nearest_even_neg (x : ℝ) :
         by_cases hf : Even (⌊x⌋)
         · -- `x` rounds to `⌊x⌋`, `-x` rounds to `⌊-x⌋ + 1 = -⌊x⌋`.
           have hx_round :
-              Gondlin.Floats.neuralNearestEven x = ⌊x⌋ := by
+              Gondolin.Floats.neuralNearestEven x = ⌊x⌋ := by
             have : x - (⌊x⌋ : ℝ) = (1 / 2 : ℝ) := by simpa [r] using hr_eq
-            exact Gondlin.Floats.neural_nearest_even_eq_floor_of_frac_half_even x this hf
+            exact Gondolin.Floats.neural_nearest_even_eq_floor_of_frac_half_even x this hf
           have hfloor_odd : ¬Even (⌊-x⌋) := by
             intro hef
             have : ¬Even (⌊x⌋) := (heven_floor_neg.mp hef)
             exact this hf
           have hy_round :
-              Gondlin.Floats.neuralNearestEven (-x) = ⌊-x⌋ + 1 :=
-            Gondlin.Floats.neural_nearest_even_eq_ceil_of_frac_half_odd (-x) hneg_eq hfloor_odd
+              Gondolin.Floats.neuralNearestEven (-x) = ⌊-x⌋ + 1 :=
+            Gondolin.Floats.neural_nearest_even_eq_ceil_of_frac_half_odd (-x) hneg_eq hfloor_odd
           have hfloor_succ : ⌊-x⌋ + 1 = -⌊x⌋ := by linarith [hfloor_neg]
           simp [hx_round, hy_round, hfloor_succ]
         · -- `x` rounds to `⌊x⌋+1`, `-x` rounds to `⌊-x⌋ = -⌊x⌋-1`.
           have hx_round :
-              Gondlin.Floats.neuralNearestEven x = ⌊x⌋ + 1 := by
+              Gondolin.Floats.neuralNearestEven x = ⌊x⌋ + 1 := by
             have : x - (⌊x⌋ : ℝ) = (1 / 2 : ℝ) := by simpa [r] using hr_eq
-            exact Gondlin.Floats.neural_nearest_even_eq_ceil_of_frac_half_odd x this hf
+            exact Gondolin.Floats.neural_nearest_even_eq_ceil_of_frac_half_odd x this hf
           have hfloor_even : Even (⌊-x⌋) := by
             exact (heven_floor_neg.mpr hf)
           have hy_round :
-              Gondlin.Floats.neuralNearestEven (-x) = ⌊-x⌋ :=
-            Gondlin.Floats.neural_nearest_even_eq_floor_of_frac_half_even (-x) hneg_eq hfloor_even
+              Gondolin.Floats.neuralNearestEven (-x) = ⌊-x⌋ :=
+            Gondolin.Floats.neural_nearest_even_eq_floor_of_frac_half_even (-x) hneg_eq hfloor_even
           -- `-(⌊x⌋+1) = -⌊x⌋-1`.
           rw [hy_round, hx_round, hfloor_neg]
           ring
 
 private lemma neural_nearest_even_neg_div_eq_roundQuotEven (num den : Nat) (hden : den ≠ 0) :
-    Gondlin.Floats.neuralNearestEven (-((num : ℝ) / (den : ℝ))) =
+    Gondolin.Floats.neuralNearestEven (-((num : ℝ) / (den : ℝ))) =
       -Int.ofNat (roundQuotEven num den) := by
   have hpos :=
     neural_nearest_even_div_eq_roundQuotEven (num := num) (den := den) hden
@@ -1011,7 +1011,7 @@ private lemma roundShiftRightEven_eq_roundQuotEven_pow2 (n shift : Nat) :
           simp [hrlt, hrgt, htw_lt', htw_gt']
 
 private lemma neural_nearest_even_div_pow2_eq_roundShiftRightEven (num shift : Nat) :
-    Gondlin.Floats.neuralNearestEven ((num : ℝ) / (pow2 shift : ℝ)) =
+    Gondolin.Floats.neuralNearestEven ((num : ℝ) / (pow2 shift : ℝ)) =
       Int.ofNat (roundShiftRightEven num shift) := by
   have hden : pow2 shift ≠ 0 := by
     have : 0 < pow2 shift := by
@@ -1024,7 +1024,7 @@ private lemma neural_nearest_even_div_pow2_eq_roundShiftRightEven (num shift : N
   simpa [roundShiftRightEven_eq_roundQuotEven_pow2 (n := num) (shift := shift)] using h
 
 private lemma neural_nearest_even_sqrt_nat (n : Nat) :
-    Gondlin.Floats.neuralNearestEven (Real.sqrt (n : ℝ)) =
+    Gondolin.Floats.neuralNearestEven (Real.sqrt (n : ℝ)) =
       Int.ofNat
         (let q : Nat := Nat.sqrt n
          let r : Nat := n - q * q
@@ -1074,13 +1074,13 @@ private lemma neural_nearest_even_sqrt_nat (n : Nat) :
       have : (1 / 2 : ℝ) < Real.sqrt (n : ℝ) - (q : ℝ) := by linarith [hgt_mid]
       simpa [hfloorR] using this
     have hround :
-        Gondlin.Floats.neuralNearestEven (Real.sqrt (n : ℝ)) =
+        Gondolin.Floats.neuralNearestEven (Real.sqrt (n : ℝ)) =
           (⌊Real.sqrt (n : ℝ)⌋ : Int) + 1 :=
-      Gondlin.Floats.neural_nearest_even_eq_ceil_of_frac_gt_half (Real.sqrt (n : ℝ)) (by
+      Gondolin.Floats.neural_nearest_even_eq_ceil_of_frac_gt_half (Real.sqrt (n : ℝ)) (by
         simpa using hfrac_gt)
-    have hLHS : Gondlin.Floats.neuralNearestEven (Real.sqrt (n : ℝ)) = Int.ofNat (q + 1) := by
+    have hLHS : Gondolin.Floats.neuralNearestEven (Real.sqrt (n : ℝ)) = Int.ofNat (q + 1) := by
       calc
-        Gondlin.Floats.neuralNearestEven (Real.sqrt (n : ℝ)) = (⌊Real.sqrt (n : ℝ)⌋ : Int) + 1
+        Gondolin.Floats.neuralNearestEven (Real.sqrt (n : ℝ)) = (⌊Real.sqrt (n : ℝ)⌋ : Int) + 1
           := hround
         _ = (q : Int) + 1 := by simp [hfloor]
         _ = Int.ofNat (q + 1) := by simp
@@ -1114,13 +1114,13 @@ private lemma neural_nearest_even_sqrt_nat (n : Nat) :
       have : Real.sqrt (n : ℝ) - (q : ℝ) < (1 / 2 : ℝ) := by linarith [hlt_mid]
       simpa [hfloorR] using this
     have hround :
-        Gondlin.Floats.neuralNearestEven (Real.sqrt (n : ℝ)) =
+        Gondolin.Floats.neuralNearestEven (Real.sqrt (n : ℝ)) =
           (⌊Real.sqrt (n : ℝ)⌋ : Int) :=
-      Gondlin.Floats.neural_nearest_even_eq_floor_of_frac_lt_half (Real.sqrt (n : ℝ)) (by
+      Gondolin.Floats.neural_nearest_even_eq_floor_of_frac_lt_half (Real.sqrt (n : ℝ)) (by
         simpa using hfrac_lt)
-    have hLHS : Gondlin.Floats.neuralNearestEven (Real.sqrt (n : ℝ)) = Int.ofNat q := by
+    have hLHS : Gondolin.Floats.neuralNearestEven (Real.sqrt (n : ℝ)) = Int.ofNat q := by
       calc
-        Gondlin.Floats.neuralNearestEven (Real.sqrt (n : ℝ)) = (⌊Real.sqrt (n : ℝ)⌋ : Int) :=
+        Gondolin.Floats.neuralNearestEven (Real.sqrt (n : ℝ)) = (⌊Real.sqrt (n : ℝ)⌋ : Int) :=
           hround
         _ = q := hfloor
         _ = Int.ofNat q := by simp
@@ -1157,10 +1157,10 @@ private lemma ratLtPow2_eq_true_iff (num den : Nat) (k : Int) (hden : den ≠ 0)
         have hdiv : (num : ℝ) / (den : ℝ) < (2 : ℝ) ^ kn := by
           apply hgoal.mpr
           simpa [mul_assoc, mul_left_comm, mul_comm] using hmul
-        simpa [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal] using hdiv
+        simpa [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal] using hdiv
       · intro h
         have h' : (num : ℝ) / (den : ℝ) < (2 : ℝ) ^ kn := by
-          simpa [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal] using h
+          simpa [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal] using h
         have hgoal :
             (num : ℝ) / (den : ℝ) < (2 : ℝ) ^ kn ↔ (num : ℝ) < (2 : ℝ) ^ kn * (den : ℝ) := by
           simpa using
@@ -1178,7 +1178,7 @@ private lemma ratLtPow2_eq_true_iff (num den : Nat) (k : Int) (hden : den ≠ 0)
       have hpow_pos : (0 : ℝ) < (2 : ℝ) ^ (kn + 1) := by
         exact pow_pos (by norm_num : (0 : ℝ) < 2) _
       have hbpow : neuralBpow binaryRadix (Int.negSucc kn) = (1 : ℝ) / (2 : ℝ) ^ (kn + 1) := by
-        simp [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal, zpow_negSucc,
+        simp [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal, zpow_negSucc,
           div_eq_mul_inv]
       have hshift : (Nat.shiftLeft num (kn + 1) : ℝ) = (num : ℝ) * (2 : ℝ) ^ (kn + 1) := by
         simp [Nat.shiftLeft_eq, Nat.cast_mul, Nat.cast_pow]
@@ -1241,10 +1241,10 @@ private lemma ratGePow2_eq_true_iff (num den : Nat) (k : Int) (hden : den ≠ 0)
         have hdiv : (2 : ℝ) ^ kn ≤ (num : ℝ) / (den : ℝ) := by
           apply hgoal.mpr
           simpa [mul_assoc, mul_left_comm, mul_comm] using hmul
-        simpa [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal] using hdiv
+        simpa [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal] using hdiv
       · intro h
         have h' : (2 : ℝ) ^ kn ≤ (num : ℝ) / (den : ℝ) := by
-          simpa [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal] using h
+          simpa [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal] using h
         have hgoal :
             (2 : ℝ) ^ kn ≤ (num : ℝ) / (den : ℝ) ↔ (2 : ℝ) ^ kn * (den : ℝ) ≤ (num : ℝ) := by
           simpa using
@@ -1262,7 +1262,7 @@ private lemma ratGePow2_eq_true_iff (num den : Nat) (k : Int) (hden : den ≠ 0)
       have hpow_pos : (0 : ℝ) < (2 : ℝ) ^ (kn + 1) := by
         exact pow_pos (by norm_num : (0 : ℝ) < 2) _
       have hbpow : neuralBpow binaryRadix (Int.negSucc kn) = (1 : ℝ) / (2 : ℝ) ^ (kn + 1) := by
-        simp [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal, zpow_negSucc,
+        simp [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal, zpow_negSucc,
           div_eq_mul_inv]
       have hshift : (Nat.shiftLeft num (kn + 1) : ℝ) = (num : ℝ) * (2 : ℝ) ^ (kn + 1) := by
         simp [Nat.shiftLeft_eq, Nat.cast_mul, Nat.cast_pow]
@@ -1312,7 +1312,7 @@ cases. We prove coarse but robust bounds that are easy to compute from `Nat.log2
 private lemma bpow_k0_sub_one_eq (ln ld : Nat) :
     neuralBpow binaryRadix (Int.ofNat ln - Int.ofNat ld - 1) =
       (2 : ℝ) ^ ln / (2 : ℝ) ^ ld.succ := by
-  simp [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal, zpow_sub₀]
+  simp [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal, zpow_sub₀]
   simp [pow_succ, div_eq_mul_inv, mul_left_comm, mul_comm]
 
 private lemma bpow_k0_add_one_eq (ln ld : Nat) :
@@ -1321,7 +1321,7 @@ private lemma bpow_k0_add_one_eq (ln ld : Nat) :
   have hk : (Int.ofNat ln) - (Int.ofNat ld) + 1 = (Int.ofNat ln.succ) - (Int.ofNat ld) := by
     simp [sub_eq_add_neg, add_assoc, add_left_comm, add_comm]
   rw [hk]
-  simp [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal, zpow_sub₀]
+  simp [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal, zpow_sub₀]
   have hnum : (2 : ℝ) ^ (↑ln + 1 : Int) = (2 : ℝ) ^ ln.succ := by
     have hexp : (↑ln + 1 : Int) = (Int.ofNat ln.succ) := by
       simp
@@ -1502,7 +1502,7 @@ intermediate, then apply this rounding refinement theorem”.
 -/
 
 private lemma neural_nearest_even_eq_zero_of_abs_lt_half (x : ℝ) (hx : _root_.abs x < (1 / 2 : ℝ)) :
-    Gondlin.Floats.neuralNearestEven x = 0 := by
+    Gondolin.Floats.neuralNearestEven x = 0 := by
   have hx_abs : (- (1 / 2 : ℝ)) < x ∧ x < (1 / 2 : ℝ) := abs_lt.mp hx
   by_cases hx0 : x < 0
   · have hfloor : (⌊x⌋ : ℤ) = -1 := by
@@ -1515,7 +1515,7 @@ private lemma neural_nearest_even_eq_zero_of_abs_lt_half (x : ℝ) (hx : _root_.
     have hfrac_gt : x - (⌊x⌋ : ℝ) > (1 / 2 : ℝ) := by
       have : x + 1 > (1 / 2 : ℝ) := by linarith [hx_abs.1]
       simpa [hfloor, sub_eq_add_neg, add_assoc, add_left_comm, add_comm] using this
-    have := Gondlin.Floats.neural_nearest_even_eq_ceil_of_frac_gt_half x hfrac_gt
+    have := Gondolin.Floats.neural_nearest_even_eq_ceil_of_frac_gt_half x hfrac_gt
     simpa [hfloor] using this
   · have hx_nonneg : (0 : ℝ) ≤ x := le_of_not_gt hx0
     have hx_lt1 : x < (1 : ℝ) := lt_trans hx_abs.2 (by norm_num)
@@ -1524,7 +1524,7 @@ private lemma neural_nearest_even_eq_zero_of_abs_lt_half (x : ℝ) (hx : _root_.
       exact (Int.floor_eq_zero_iff).2 this
     have hfrac_lt : x - (⌊x⌋ : ℝ) < (1 / 2 : ℝ) := by
       simpa [hfloor] using hx_abs.2
-    have := Gondlin.Floats.neural_nearest_even_eq_floor_of_frac_lt_half x hfrac_lt
+    have := Gondolin.Floats.neural_nearest_even_eq_floor_of_frac_lt_half x hfrac_lt
     simpa [hfloor] using this
 
 /--
@@ -1554,7 +1554,7 @@ theorem abs_dyadicToReal_lt_bpow_succ_log2 (d : Dyadic) :
     calc
       neuralBpow binaryRadix (Int.ofNat l.succ)
           = (2 : ℝ) ^ (Int.ofNat l.succ) := by
-              simp [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal]
+              simp [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal]
       _ = (2 : ℝ) ^ (l.succ : Nat) := by
               simpa using (zpow_ofNat (2 : ℝ) l.succ)
       _ = ((2 ^ l.succ : Nat) : ℝ) := by
@@ -1594,13 +1594,13 @@ theorem toReal_signedZero (s : Bool) : toReal (if s then negZero else posZero) =
     simp [posZero, hbits, toReal_eq,
       toDyadic?_ofBits_mkBits_fin (sign := false) (exp := 0) (frac := 0)
         (hexp := (by decide : (0 : Nat) < 255)) (hfrac := (by decide : (0 : Nat) < 2 ^ 23)),
-      dyadicToReal, Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal]
+      dyadicToReal, Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal]
   · -- -0
     have hbits : signMask = mkBits true 0 0 := by decide
     simp [negZero, hbits, toReal_eq,
       toDyadic?_ofBits_mkBits_fin (sign := true) (exp := 0) (frac := 0)
         (hexp := (by decide : (0 : Nat) < 255)) (hfrac := (by decide : (0 : Nat) < 2 ^ 23)),
-      dyadicToReal, Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal]
+      dyadicToReal, Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal]
 
 /-- `+0` decodes to the real number `0`. -/
 @[simp] theorem toReal_posZero : toReal (posZero : IEEE32Exec) = 0 := by
@@ -1629,11 +1629,11 @@ theorem toReal_roundDyadicToIEEE32_eq_fp32Round (d : Dyadic)
       simpa using (toReal_signedZero d.sign)
     have hfp : fp32Round (dyadicToReal d) = 0 := by
       -- `dyadicToReal d = 0` when `mant = 0`.
-      simp [fp32Round, Gondlin.Floats.neuralRound, Gondlin.Floats.neuralToReal,
-        Gondlin.Floats.neuralScaledMantissa, Gondlin.Floats.neuralCexp,
-          Gondlin.Floats.neuralMagnitude,
-        Gondlin.Floats.fexp32, Gondlin.Floats.FLTExp, Gondlin.Floats.rnd32, dyadicToReal, hm,
-        Gondlin.Floats.neuralNearestEven, Gondlin.Floats.neuralBpow, binaryRadix,
+      simp [fp32Round, Gondolin.Floats.neuralRound, Gondolin.Floats.neuralToReal,
+        Gondolin.Floats.neuralScaledMantissa, Gondolin.Floats.neuralCexp,
+          Gondolin.Floats.neuralMagnitude,
+        Gondolin.Floats.fexp32, Gondolin.Floats.FLTExp, Gondolin.Floats.rnd32, dyadicToReal, hm,
+        Gondolin.Floats.neuralNearestEven, Gondolin.Floats.neuralBpow, binaryRadix,
           NeuralRadix.toReal]
     rw [hto, hfp]
   · have hmbeq : (d.mant == 0) = false := (beq_eq_false_iff_ne).2 hm
@@ -1684,7 +1684,7 @@ theorem toReal_roundDyadicToIEEE32_eq_fp32Round (d : Dyadic)
         have hBpow_le :
             neuralBpow binaryRadix (k + 1) ≤ neuralBpow binaryRadix (-150 : Int) := by
           -- Monotonicity of `zpow` for base `2` (in a `GroupWithZero`).
-          simp [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal]
+          simp [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal]
           exact zpow_le_zpow_right₀ (by norm_num : (1 : ℝ) ≤ 2) hk1_le
         have hAbs150 : _root_.abs (dyadicToReal d) < neuralBpow binaryRadix (-150 : Int) :=
           lt_of_lt_of_le hAbsBpow hBpow_le
@@ -1710,21 +1710,21 @@ theorem toReal_roundDyadicToIEEE32_eq_fp32Round (d : Dyadic)
             have := (neuralBpow.add_exp binaryRadix (-150 : Int) (149 : Int))
             -- `bpow (-1) = 1/2`
             -- `simp` takes care of `2^(-1)`.
-            simpa [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal] using this.symm
+            simpa [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal] using this.symm
           -- finish
           simpa [habs_mul, hprod, mul_assoc] using hmul
         have hRnd0 :
-            Gondlin.Floats.neuralNearestEven (dyadicToReal d * neuralBpow binaryRadix (149 :
+            Gondolin.Floats.neuralNearestEven (dyadicToReal d * neuralBpow binaryRadix (149 :
               Int)) = 0 :=
           neural_nearest_even_eq_zero_of_abs_lt_half _ hAbsScaled
         have hfp : fp32Round (dyadicToReal d) = 0 := by
           -- Unfold FP32 rounding and rewrite by `cexp = -149`.
           -- Under `k < -150`, the format exponent is `-149` and the mantissa rounds to `0`.
-          have hcexp : Gondlin.Floats.neuralCexp binaryRadix Gondlin.Floats.fexp32
+          have hcexp : Gondolin.Floats.neuralCexp binaryRadix Gondolin.Floats.fexp32
             (dyadicToReal d) = (-149 : Int) := by
             -- `neural_cexp = fexp32 (neural_magnitude)` and `k` is below normal range.
             have hmag :
-                Gondlin.Floats.neuralMagnitude binaryRadix (dyadicToReal d) = k + 1 := by
+                Gondolin.Floats.neuralMagnitude binaryRadix (dyadicToReal d) = k + 1 := by
               have hmag0 := neural_magnitude_dyadic (d := d) hm
               -- rewrite `Nat.log 2` to `Nat.log2`
               have hlog : Nat.log 2 d.mant = Nat.log2 d.mant := (Nat.log2_eq_log_two (n :=
@@ -1733,22 +1733,22 @@ theorem toReal_roundDyadicToIEEE32_eq_fp32Round (d : Dyadic)
             have hk_le : k + 1 ≤ (-125 : Int) := by linarith [hkUnder]
             have hk_le' : k + 1 - 24 ≤ (-149 : Int) := by linarith [hk_le]
             -- unfold and simplify the `max`
-            simp [Gondlin.Floats.neuralCexp, Gondlin.Floats.fexp32, Gondlin.Floats.FLTExp,
+            simp [Gondolin.Floats.neuralCexp, Gondolin.Floats.fexp32, Gondolin.Floats.FLTExp,
               hmag, max_eq_right hk_le']
           have hscaled :
-              Gondlin.Floats.neuralScaledMantissa binaryRadix Gondlin.Floats.fexp32
+              Gondolin.Floats.neuralScaledMantissa binaryRadix Gondolin.Floats.fexp32
                 (dyadicToReal d) =
                 dyadicToReal d * neuralBpow binaryRadix (149 : Int) := by
             -- `scaled_mantissa = x * bpow (-cexp)` and `cexp = -149`.
-            simp [Gondlin.Floats.neuralScaledMantissa, hcexp]
+            simp [Gondolin.Floats.neuralScaledMantissa, hcexp]
           have hmant :
-              Gondlin.Floats.rnd32
-                  (Gondlin.Floats.neuralScaledMantissa binaryRadix Gondlin.Floats.fexp32
+              Gondolin.Floats.rnd32
+                  (Gondolin.Floats.neuralScaledMantissa binaryRadix Gondolin.Floats.fexp32
                     (dyadicToReal d)) =
                 0 := by
-            simpa [Gondlin.Floats.rnd32, hscaled] using hRnd0
+            simpa [Gondolin.Floats.rnd32, hscaled] using hRnd0
           -- Now compute `fp32Round`: mantissa is `0`, so the result is `0`.
-          simp [fp32Round, Gondlin.Floats.neuralRound, Gondlin.Floats.neuralToReal, hmant,
+          simp [fp32Round, Gondolin.Floats.neuralRound, Gondolin.Floats.neuralToReal, hmant,
             hcexp]
         rw [hto, hfp]
       · -- Remaining cases (`k ≥ -150`): subnormal or normal rounding.
@@ -1779,21 +1779,21 @@ theorem toReal_roundDyadicToIEEE32_eq_fp32Round (d : Dyadic)
               hkUnder, hkSub, fracNat]
             rfl
           -- FP32 rounding uses exponent `-149` in the entire subnormal range.
-          have hcexp : Gondlin.Floats.neuralCexp binaryRadix Gondlin.Floats.fexp32
+          have hcexp : Gondolin.Floats.neuralCexp binaryRadix Gondolin.Floats.fexp32
             (dyadicToReal d) = (-149 : Int) := by
             have hmag :
-                Gondlin.Floats.neuralMagnitude binaryRadix (dyadicToReal d) = k + 1 := by
+                Gondolin.Floats.neuralMagnitude binaryRadix (dyadicToReal d) = k + 1 := by
               have hmag0 := neural_magnitude_dyadic (d := d) hm
               have hlog : Nat.log 2 d.mant = Nat.log2 d.mant := (Nat.log2_eq_log_two (n :=
                 d.mant)).symm
               simpa [k, log2m, hlog] using hmag0
             have hk_le : k + 1 ≤ (-125 : Int) := by linarith [hkSub]
             have hk_le' : k + 1 - 24 ≤ (-149 : Int) := by linarith [hk_le]
-            simp [Gondlin.Floats.neuralCexp, Gondlin.Floats.fexp32, Gondlin.Floats.FLTExp,
+            simp [Gondolin.Floats.neuralCexp, Gondolin.Floats.fexp32, Gondolin.Floats.FLTExp,
               hmag, max_eq_right hk_le']
           -- Compute the rounded scaled mantissa in FP32 (as an integer), matching `fracNat`.
           have hRndFrac :
-              Gondlin.Floats.neuralNearestEven (dyadicToReal d * neuralBpow binaryRadix (149 :
+              Gondolin.Floats.neuralNearestEven (dyadicToReal d * neuralBpow binaryRadix (149 :
                 Int)) =
                 if d.sign then -Int.ofNat fracNat else Int.ofNat fracNat := by
             -- Split on the sign bit.
@@ -1817,18 +1817,18 @@ theorem toReal_roundDyadicToIEEE32_eq_fp32Round (d : Dyadic)
                       (d.mant : ℝ) * neuralBpow binaryRadix (sh : Int) =
                         ((Nat.shiftLeft d.mant sh : Nat) : ℝ) := by
                     -- `bpow sh = 2^sh` and `mant * 2^sh = mant <<< sh`
-                    simp [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal,
+                    simp [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal,
                       Nat.shiftLeft_eq, Nat.cast_mul,
                       Nat.cast_pow]
                   have hroundInt :
-                      Gondlin.Floats.neuralNearestEven ((Nat.shiftLeft d.mant sh : Nat) : ℝ) =
+                      Gondolin.Floats.neuralNearestEven ((Nat.shiftLeft d.mant sh : Nat) : ℝ) =
                         Int.ofNat (Nat.shiftLeft d.mant sh) := by
                     simpa using
-                      (Gondlin.Floats.NeuralValidRnd.id (rnd :=
-                        Gondlin.Floats.neuralNearestEven)
+                      (Gondolin.Floats.NeuralValidRnd.id (rnd :=
+                        Gondolin.Floats.neuralNearestEven)
                         (Int.ofNat (Nat.shiftLeft d.mant sh)))
                   -- rewrite `fracNat` and discharge
-                  have : Gondlin.Floats.neuralNearestEven (dyadicToReal d * neuralBpow
+                  have : Gondolin.Floats.neuralNearestEven (dyadicToReal d * neuralBpow
                     binaryRadix (149 : Int)) =
                       Int.ofNat fracNat := by
                     -- `harg` gives the scaled-mantissa form; `hshift` picks the `shiftLeft` branch.
@@ -1840,13 +1840,13 @@ theorem toReal_roundDyadicToIEEE32_eq_fp32Round (d : Dyadic)
                       (d.mant : ℝ) * neuralBpow binaryRadix (Int.negSucc sh) =
                         (d.mant : ℝ) / (pow2 (sh + 1) : ℝ) := by
                     -- `bpow (-(sh+1)) = (2^(sh+1))⁻¹`
-                    simp [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal,
+                    simp [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal,
                       pow2_eq_two_pow,
                       div_eq_mul_inv]
                   have hroundRat :=
                     neural_nearest_even_div_pow2_eq_roundShiftRightEven (num := d.mant) (shift := sh
                       + 1)
-                  have : Gondlin.Floats.neuralNearestEven (dyadicToReal d * neuralBpow
+                  have : Gondolin.Floats.neuralNearestEven (dyadicToReal d * neuralBpow
                     binaryRadix (149 : Int)) =
                       Int.ofNat fracNat := by
                     -- `harg` gives the scaled-mantissa form; `hshift` picks the
@@ -1866,7 +1866,7 @@ theorem toReal_roundDyadicToIEEE32_eq_fp32Round (d : Dyadic)
                 simp [dyadicToReal, hs, mul_assoc, mul_comm]
               -- Use the `sign=false` computation (the first branch) and then negate.
               have hpos :
-                  Gondlin.Floats.neuralNearestEven
+                  Gondolin.Floats.neuralNearestEven
                       (dyadicToReal { sign := false, mant := d.mant, exp := d.exp } *
                         neuralBpow binaryRadix (149 : Int)) =
                     Int.ofNat fracNat := by
@@ -1884,22 +1884,22 @@ theorem toReal_roundDyadicToIEEE32_eq_fp32Round (d : Dyadic)
                     have hargeq :
                         (d.mant : ℝ) * neuralBpow binaryRadix (sh : Int) =
                           ((Nat.shiftLeft d.mant sh : Nat) : ℝ) := by
-                      simp [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal,
+                      simp [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal,
                         Nat.shiftLeft_eq, Nat.cast_mul,
                         Nat.cast_pow]
                     have hroundInt :
-                        Gondlin.Floats.neuralNearestEven ((Nat.shiftLeft d.mant sh : Nat) : ℝ) =
+                        Gondolin.Floats.neuralNearestEven ((Nat.shiftLeft d.mant sh : Nat) : ℝ) =
                           Int.ofNat (Nat.shiftLeft d.mant sh) := by
                       simpa using
-                        (Gondlin.Floats.NeuralValidRnd.id (rnd :=
-                          Gondlin.Floats.neuralNearestEven)
+                        (Gondolin.Floats.NeuralValidRnd.id (rnd :=
+                          Gondolin.Floats.neuralNearestEven)
                           (Int.ofNat (Nat.shiftLeft d.mant sh)))
                     simpa [harg0, hshift, fracNat, hargeq] using hroundInt
                 | negSucc sh =>
                     have hargeq :
                         (d.mant : ℝ) * neuralBpow binaryRadix (Int.negSucc sh) =
                           (d.mant : ℝ) / (pow2 (sh + 1) : ℝ) := by
-                      simp [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal,
+                      simp [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal,
                         pow2_eq_two_pow,
                         div_eq_mul_inv]
                     have hroundRat :=
@@ -1907,7 +1907,7 @@ theorem toReal_roundDyadicToIEEE32_eq_fp32Round (d : Dyadic)
                         sh + 1)
                     simpa [harg0, hshift, fracNat, hargeq] using hroundRat
               -- Negate using `neural_nearest_even_neg`.
-              have : Gondlin.Floats.neuralNearestEven (dyadicToReal d * neuralBpow binaryRadix
+              have : Gondolin.Floats.neuralNearestEven (dyadicToReal d * neuralBpow binaryRadix
                 (149 : Int)) =
                   -Int.ofNat fracNat := by
                 simpa [hx, hpos] using hodd
@@ -1939,7 +1939,7 @@ theorem toReal_roundDyadicToIEEE32_eq_fp32Round (d : Dyadic)
                     have hBpow_le :
                         neuralBpow binaryRadix (k + 1) ≤ neuralBpow binaryRadix (-126 : Int) :=
                           by
-                      simp [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal]
+                      simp [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal]
                       exact zpow_le_zpow_right₀ (by norm_num : (1 : ℝ) ≤ 2) hk1_le
                     have hAbs126 : _root_.abs (dyadicToReal d) < neuralBpow binaryRadix (-126 :
                       Int) :=
@@ -1970,18 +1970,18 @@ theorem toReal_roundDyadicToIEEE32_eq_fp32Round (d : Dyadic)
                           simpa [hsum] using (neuralBpow.add_exp binaryRadix (-126 : Int) (149 :
                             Int)).symm
                         have h23 : neuralBpow binaryRadix (23 : Int) = (pow2 23 : ℝ) := by
-                          simp [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal,
+                          simp [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal,
                             pow2_eq_two_pow]
                           norm_num
                         exact hmul.trans h23
                       simpa [habs_mul, hprod, mul_assoc] using hmul
                     -- `neural_nearest_even` of a value `< 2^23` is `≤ 2^23`.
                     have hbound :
-                        Gondlin.Floats.neuralNearestEven (_root_.abs (dyadicToReal d *
+                        Gondolin.Floats.neuralNearestEven (_root_.abs (dyadicToReal d *
                           neuralBpow binaryRadix (149 : Int))) ≤
                           Int.ofNat (pow2 23) := by
                       -- Use bounds: `neural_nearest_even t ≤ ⌊t⌋ + 1`, and `t < 2^23`.
-                      have hbnds := Gondlin.Floats.neural_nearest_even_bounds (_root_.abs
+                      have hbnds := Gondolin.Floats.neural_nearest_even_bounds (_root_.abs
                         (dyadicToReal d * neuralBpow binaryRadix (149 : Int)))
                       have hfloor_lt : (⌊_root_.abs (dyadicToReal d * neuralBpow binaryRadix (149
                         : Int))⌋ : Int) < Int.ofNat (pow2 23) := by
@@ -1998,7 +1998,7 @@ theorem toReal_roundDyadicToIEEE32_eq_fp32Round (d : Dyadic)
                       exact le_trans hbnds.2 hfloor_le
                     -- Relate `fracNat` to this bound via `hRndFrac` and sign of the dyadic.
                     let scaled : ℝ := dyadicToReal d * neuralBpow binaryRadix (149 : Int)
-                    have hroundAbs : Gondlin.Floats.neuralNearestEven (_root_.abs scaled) =
+                    have hroundAbs : Gondolin.Floats.neuralNearestEven (_root_.abs scaled) =
                       Int.ofNat fracNat := by
                       cases hs : d.sign
                       · -- `scaled ≥ 0`, so `abs scaled = scaled`.
@@ -2013,7 +2013,7 @@ theorem toReal_roundDyadicToIEEE32_eq_fp32Round (d : Dyadic)
                           simpa [scaled] using mul_nonneg hdy_nonneg hb149_nonneg
                         have habs : _root_.abs scaled = scaled := abs_of_nonneg hscaled_nonneg
                         have hscaled_round :
-                            Gondlin.Floats.neuralNearestEven scaled = Int.ofNat fracNat := by
+                            Gondolin.Floats.neuralNearestEven scaled = Int.ofNat fracNat := by
                           simpa [scaled, hs] using hRndFrac
                         simpa [habs] using hscaled_round
                       · -- `scaled ≤ 0`, so `abs scaled = -scaled` and oddness flips the sign.
@@ -2031,20 +2031,20 @@ theorem toReal_roundDyadicToIEEE32_eq_fp32Round (d : Dyadic)
                             hb149_nonneg
                         have habs : _root_.abs scaled = -scaled := abs_of_nonpos hscaled_nonpos
                         have hscaled_round :
-                            Gondlin.Floats.neuralNearestEven scaled = -Int.ofNat fracNat := by
+                            Gondolin.Floats.neuralNearestEven scaled = -Int.ofNat fracNat := by
                           simpa [scaled, hs] using hRndFrac
                         have hneg :
-                            Gondlin.Floats.neuralNearestEven (-scaled) =
-                              -Gondlin.Floats.neuralNearestEven scaled := by
+                            Gondolin.Floats.neuralNearestEven (-scaled) =
+                              -Gondolin.Floats.neuralNearestEven scaled := by
                           simpa using (neural_nearest_even_neg (x := scaled))
                         calc
-                          Gondlin.Floats.neuralNearestEven (_root_.abs scaled)
-                              = Gondlin.Floats.neuralNearestEven (-scaled) := by simp [habs]
-                          _ = -Gondlin.Floats.neuralNearestEven scaled := hneg
+                          Gondolin.Floats.neuralNearestEven (_root_.abs scaled)
+                              = Gondolin.Floats.neuralNearestEven (-scaled) := by simp [habs]
+                          _ = -Gondolin.Floats.neuralNearestEven scaled := hneg
                           _ = Int.ofNat fracNat := by simp [hscaled_round]
                     have hfracNat_le : Int.ofNat fracNat ≤ Int.ofNat (pow2 23) := by
                       -- rewrite `scaled` back into `hbound` and then use `hroundAbs`.
-                      have : Gondlin.Floats.neuralNearestEven (_root_.abs scaled) ≤ Int.ofNat
+                      have : Gondolin.Floats.neuralNearestEven (_root_.abs scaled) ≤ Int.ofNat
                         (pow2 23) := by
                         simpa [scaled] using hbound
                       simpa [hroundAbs] using this
@@ -2059,7 +2059,7 @@ theorem toReal_roundDyadicToIEEE32_eq_fp32Round (d : Dyadic)
                     toDyadic?_ofBits_mkBits_fin (sign := d.sign) (exp := 1) (frac := 0) (hexp :=
                       hexp1)
                       (hfrac := hfrac0),
-                    dyadicToReal, Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal,
+                    dyadicToReal, Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal,
                       hp23]
               | isFalse hlt =>
                   -- True subnormal: decode `mkBits sign 0 fracNat`.
@@ -2069,7 +2069,7 @@ theorem toReal_roundDyadicToIEEE32_eq_fp32Round (d : Dyadic)
                   simp [toReal_eq, toDyadic?_ofBits_mkBits_fin (sign := d.sign) (exp := 0) (frac :=
                     fracNat)
                     (hexp := (by decide : (0 : Nat) < 255)) (hfrac := hlt'),
-                    dyadicToReal, Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal,
+                    dyadicToReal, Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal,
                       hF0b, hF0]
           -- FP32 result is `fracNat * 2^-149` with the correct sign.
           have hfp :
@@ -2080,38 +2080,38 @@ theorem toReal_roundDyadicToIEEE32_eq_fp32Round (d : Dyadic)
             cases hs : d.sign
             · -- positive
               -- Unfold `fp32Round`; `simp` reduces the goal to a cancellation fact.
-              simp [fp32Round, Gondlin.Floats.neuralRound, Gondlin.Floats.neuralToReal,
-                Gondlin.Floats.neuralScaledMantissa, Gondlin.Floats.rnd32, hcexp,
+              simp [fp32Round, Gondolin.Floats.neuralRound, Gondolin.Floats.neuralToReal,
+                Gondolin.Floats.neuralScaledMantissa, Gondolin.Floats.rnd32, hcexp,
                 mul_comm]
               left
               have h0 :
-                  Gondlin.Floats.neuralNearestEven
+                  Gondolin.Floats.neuralNearestEven
                       (dyadicToReal d * neuralBpow binaryRadix (149 : Int)) =
                     Int.ofNat fracNat := by
                 simpa [hs] using hRndFrac
               have h1 :
-                  Gondlin.Floats.neuralNearestEven
+                  Gondolin.Floats.neuralNearestEven
                       (neuralBpow binaryRadix (149 : Int) * dyadicToReal d) =
                     Int.ofNat fracNat := by
                 simpa [mul_comm] using h0
               -- Cast `Int.ofNat` to `ℝ`.
               simpa using congrArg (fun z : Int => (z : ℝ)) h1
             · -- negative
-              simp [fp32Round, Gondlin.Floats.neuralRound, Gondlin.Floats.neuralToReal,
-                Gondlin.Floats.neuralScaledMantissa, Gondlin.Floats.rnd32, hcexp,
+              simp [fp32Round, Gondolin.Floats.neuralRound, Gondolin.Floats.neuralToReal,
+                Gondolin.Floats.neuralScaledMantissa, Gondolin.Floats.rnd32, hcexp,
                 mul_comm]
               have h0 :
-                  Gondlin.Floats.neuralNearestEven
+                  Gondolin.Floats.neuralNearestEven
                       (dyadicToReal d * neuralBpow binaryRadix (149 : Int)) =
                     -Int.ofNat fracNat := by
                 simpa [hs] using hRndFrac
               have h1 :
-                  Gondlin.Floats.neuralNearestEven
+                  Gondolin.Floats.neuralNearestEven
                       (neuralBpow binaryRadix (149 : Int) * dyadicToReal d) =
                     -Int.ofNat fracNat := by
                 simpa [mul_comm] using h0
               have h1' :
-                  ((Gondlin.Floats.neuralNearestEven
+                  ((Gondolin.Floats.neuralNearestEven
                       (neuralBpow binaryRadix (149 : Int) * dyadicToReal d)) : ℝ) =
                     -(fracNat : ℝ) := by
                 simpa using congrArg (fun z : Int => (z : ℝ)) h1
@@ -2371,10 +2371,10 @@ theorem toReal_roundDyadicToIEEE32_eq_fp32Round (d : Dyadic)
                 rw [hkexp']
 
               -- Compute `FP32` rounding: exponent is `k - 23` in the normal range.
-              have hcexp : Gondlin.Floats.neuralCexp binaryRadix Gondlin.Floats.fexp32
+              have hcexp : Gondolin.Floats.neuralCexp binaryRadix Gondolin.Floats.fexp32
                 (dyadicToReal d) = (k - 23 : Int) := by
                 have hmag :
-                    Gondlin.Floats.neuralMagnitude binaryRadix (dyadicToReal d) = k + 1 := by
+                    Gondolin.Floats.neuralMagnitude binaryRadix (dyadicToReal d) = k + 1 := by
                   have hmag0 := neural_magnitude_dyadic (d := d) hm
                   have hlog : Nat.log 2 d.mant = Nat.log2 d.mant := (Nat.log2_eq_log_two (n :=
                     d.mant)).symm
@@ -2383,19 +2383,19 @@ theorem toReal_roundDyadicToIEEE32_eq_fp32Round (d : Dyadic)
                   have hkge : (-126 : Int) ≤ k := (not_lt).1 hkSub
                   linarith [hkge]
                 have hk' : k + 1 - 24 = k - 23 := by linarith
-                simp [Gondlin.Floats.neuralCexp, Gondlin.Floats.fexp32,
-                  Gondlin.Floats.FLTExp, hmag, hk',
+                simp [Gondolin.Floats.neuralCexp, Gondolin.Floats.fexp32,
+                  Gondolin.Floats.FLTExp, hmag, hk',
                   max_eq_left hk_ge]
 
               -- Show the mantissa rounding in `FP32` matches the kernel’s `m24`.
               have hRndM24 :
-                  Gondlin.Floats.neuralNearestEven (dyadicToReal d * neuralBpow binaryRadix
+                  Gondolin.Floats.neuralNearestEven (dyadicToReal d * neuralBpow binaryRadix
                     (-(k - 23 : Int))) =
                     if d.sign then -Int.ofNat m24 else Int.ofNat m24 := by
                 -- First compute the `sign=false` case (depends only on `mant/exp`), then use
                 -- oddness.
                 have hpos :
-                    Gondlin.Floats.neuralNearestEven
+                    Gondolin.Floats.neuralNearestEven
                         (dyadicToReal { sign := false, mant := d.mant, exp := d.exp } *
                           neuralBpow binaryRadix (-(k - 23 : Int))) =
                       Int.ofNat m24 := by
@@ -2444,7 +2444,7 @@ theorem toReal_roundDyadicToIEEE32_eq_fp32Round (d : Dyadic)
                         _ = (d.mant : ℝ) / (pow2 sh : ℝ) := by
                               have hden : neuralBpow binaryRadix (Int.ofNat sh) = (pow2 sh : ℝ) :=
                                 by
-                                simp [Gondlin.Floats.neuralBpow, binaryRadix,
+                                simp [Gondolin.Floats.neuralBpow, binaryRadix,
                                   NeuralRadix.toReal, pow2_eq_two_pow,
                                   Nat.cast_pow]
                               rw [hden]
@@ -2452,33 +2452,33 @@ theorem toReal_roundDyadicToIEEE32_eq_fp32Round (d : Dyadic)
                       neural_nearest_even_div_pow2_eq_roundShiftRightEven (num := d.mant) (shift :=
                         sh)
                     have hcong :
-                        Gondlin.Floats.neuralNearestEven ((d.mant : ℝ) * neuralBpow
+                        Gondolin.Floats.neuralNearestEven ((d.mant : ℝ) * neuralBpow
                           binaryRadix (23 - Int.ofNat log2m)) =
-                          Gondlin.Floats.neuralNearestEven ((d.mant : ℝ) / (pow2 sh : ℝ)) :=
-                      congrArg Gondlin.Floats.neuralNearestEven hpow
+                          Gondolin.Floats.neuralNearestEven ((d.mant : ℝ) / (pow2 sh : ℝ)) :=
+                      congrArg Gondolin.Floats.neuralNearestEven hpow
                     have hne :
-                        Gondlin.Floats.neuralNearestEven ((d.mant : ℝ) * neuralBpow
+                        Gondolin.Floats.neuralNearestEven ((d.mant : ℝ) * neuralBpow
                           binaryRadix (23 - Int.ofNat log2m)) =
                           Int.ofNat (roundShiftRightEven d.mant sh) := by
                       calc
-                        Gondlin.Floats.neuralNearestEven
+                        Gondolin.Floats.neuralNearestEven
                             ((d.mant : ℝ) * neuralBpow binaryRadix (23 - Int.ofNat log2m)) =
-                            Gondlin.Floats.neuralNearestEven ((d.mant : ℝ) / (pow2 sh : ℝ)) :=
+                            Gondolin.Floats.neuralNearestEven ((d.mant : ℝ) / (pow2 sh : ℝ)) :=
                               by
                               simpa using hcong
                         _ = Int.ofNat (roundShiftRightEven d.mant sh) := hround
                     have hcong' :
-                        Gondlin.Floats.neuralNearestEven
+                        Gondolin.Floats.neuralNearestEven
                             (dyadicToReal { sign := false, mant := d.mant, exp := d.exp } *
                               neuralBpow binaryRadix (-(k - 23 : Int))) =
-                          Gondlin.Floats.neuralNearestEven
+                          Gondolin.Floats.neuralNearestEven
                               ((d.mant : ℝ) * neuralBpow binaryRadix (23 - Int.ofNat log2m)) :=
-                      congrArg Gondlin.Floats.neuralNearestEven hscale
+                      congrArg Gondolin.Floats.neuralNearestEven hscale
                     calc
-                      Gondlin.Floats.neuralNearestEven
+                      Gondolin.Floats.neuralNearestEven
                           (dyadicToReal { sign := false, mant := d.mant, exp := d.exp } *
                             neuralBpow binaryRadix (-(k - 23 : Int))) =
-                          Gondlin.Floats.neuralNearestEven
+                          Gondolin.Floats.neuralNearestEven
                               ((d.mant : ℝ) * neuralBpow binaryRadix (23 - Int.ofNat log2m)) := by
                             simpa using hcong'
                       _ = Int.ofNat (roundShiftRightEven d.mant sh) := hne
@@ -2496,45 +2496,45 @@ theorem toReal_roundDyadicToIEEE32_eq_fp32Round (d : Dyadic)
                       have hsub' : (23 - Int.ofNat log2m) = Int.ofNat sh := by
                         simpa using hsub
                       rw [hsub']
-                      simp [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal,
+                      simp [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal,
                         Nat.shiftLeft_eq, Nat.cast_mul,
                         Nat.cast_pow]
                     have hid :
-                        Gondlin.Floats.neuralNearestEven ((Nat.shiftLeft d.mant sh : Nat) : ℝ) =
+                        Gondolin.Floats.neuralNearestEven ((Nat.shiftLeft d.mant sh : Nat) : ℝ) =
                           Int.ofNat (Nat.shiftLeft d.mant sh) := by
                       simpa using
-                        (Gondlin.Floats.NeuralValidRnd.id (rnd :=
-                          Gondlin.Floats.neuralNearestEven)
+                        (Gondolin.Floats.NeuralValidRnd.id (rnd :=
+                          Gondolin.Floats.neuralNearestEven)
                           (Int.ofNat (Nat.shiftLeft d.mant sh)))
                     have hcong :
-                        Gondlin.Floats.neuralNearestEven ((d.mant : ℝ) * neuralBpow
+                        Gondolin.Floats.neuralNearestEven ((d.mant : ℝ) * neuralBpow
                           binaryRadix (23 - Int.ofNat log2m)) =
-                          Gondlin.Floats.neuralNearestEven ((Nat.shiftLeft d.mant sh : Nat) : ℝ)
+                          Gondolin.Floats.neuralNearestEven ((Nat.shiftLeft d.mant sh : Nat) : ℝ)
                             :=
-                      congrArg Gondlin.Floats.neuralNearestEven hpow
+                      congrArg Gondolin.Floats.neuralNearestEven hpow
                     have hne :
-                        Gondlin.Floats.neuralNearestEven ((d.mant : ℝ) * neuralBpow
+                        Gondolin.Floats.neuralNearestEven ((d.mant : ℝ) * neuralBpow
                           binaryRadix (23 - Int.ofNat log2m)) =
                           Int.ofNat (Nat.shiftLeft d.mant sh) := by
                       calc
-                        Gondlin.Floats.neuralNearestEven
+                        Gondolin.Floats.neuralNearestEven
                             ((d.mant : ℝ) * neuralBpow binaryRadix (23 - Int.ofNat log2m)) =
-                            Gondlin.Floats.neuralNearestEven ((Nat.shiftLeft d.mant sh : Nat) :
+                            Gondolin.Floats.neuralNearestEven ((Nat.shiftLeft d.mant sh : Nat) :
                               ℝ) := by
                               simpa using hcong
                         _ = Int.ofNat (Nat.shiftLeft d.mant sh) := hid
                     have hcong' :
-                        Gondlin.Floats.neuralNearestEven
+                        Gondolin.Floats.neuralNearestEven
                             (dyadicToReal { sign := false, mant := d.mant, exp := d.exp } *
                               neuralBpow binaryRadix (-(k - 23 : Int))) =
-                          Gondlin.Floats.neuralNearestEven
+                          Gondolin.Floats.neuralNearestEven
                               ((d.mant : ℝ) * neuralBpow binaryRadix (23 - Int.ofNat log2m)) :=
-                      congrArg Gondlin.Floats.neuralNearestEven hscale
+                      congrArg Gondolin.Floats.neuralNearestEven hscale
                     calc
-                      Gondlin.Floats.neuralNearestEven
+                      Gondolin.Floats.neuralNearestEven
                           (dyadicToReal { sign := false, mant := d.mant, exp := d.exp } *
                             neuralBpow binaryRadix (-(k - 23 : Int))) =
-                          Gondlin.Floats.neuralNearestEven
+                          Gondolin.Floats.neuralNearestEven
                               ((d.mant : ℝ) * neuralBpow binaryRadix (23 - Int.ofNat log2m)) := by
                             simpa using hcong'
                       _ = Int.ofNat (Nat.shiftLeft d.mant sh) := hne
@@ -2555,18 +2555,18 @@ theorem toReal_roundDyadicToIEEE32_eq_fp32Round (d : Dyadic)
                           neuralBpow binaryRadix (-(k - 23 : Int))) := by
                     simp [dyadicToReal, hs, mul_assoc, mul_comm]
                   have hneg :
-                      Gondlin.Floats.neuralNearestEven
+                      Gondolin.Floats.neuralNearestEven
                           (dyadicToReal d * neuralBpow binaryRadix (-(k - 23 : Int))) =
                         -Int.ofNat m24 := by
                     calc
-                      Gondlin.Floats.neuralNearestEven
+                      Gondolin.Floats.neuralNearestEven
                           (dyadicToReal d * neuralBpow binaryRadix (-(k - 23 : Int))) =
-                          Gondlin.Floats.neuralNearestEven
+                          Gondolin.Floats.neuralNearestEven
                               (-(dyadicToReal { sign := false, mant := d.mant, exp := d.exp } *
                                 neuralBpow binaryRadix (-(k - 23 : Int)))) := by
-                            exact congrArg Gondlin.Floats.neuralNearestEven hx
+                            exact congrArg Gondolin.Floats.neuralNearestEven hx
                       _ =
-                          -Gondlin.Floats.neuralNearestEven
+                          -Gondolin.Floats.neuralNearestEven
                               (dyadicToReal { sign := false, mant := d.mant, exp := d.exp } *
                                 neuralBpow binaryRadix (-(k - 23 : Int))) := by
                             simpa using hodd
@@ -2580,43 +2580,43 @@ theorem toReal_roundDyadicToIEEE32_eq_fp32Round (d : Dyadic)
                       - 23) := by
                 cases hs : d.sign
                 · -- positive
-                  simp [fp32Round, Gondlin.Floats.neuralRound, Gondlin.Floats.neuralToReal,
-                    Gondlin.Floats.neuralScaledMantissa, Gondlin.Floats.rnd32, hcexp,
+                  simp [fp32Round, Gondolin.Floats.neuralRound, Gondolin.Floats.neuralToReal,
+                    Gondolin.Floats.neuralScaledMantissa, Gondolin.Floats.rnd32, hcexp,
                     mul_comm]
                   left
                   have h0 :
-                      Gondlin.Floats.neuralNearestEven
+                      Gondolin.Floats.neuralNearestEven
                           (dyadicToReal d * neuralBpow binaryRadix (-(k - 23 : Int))) =
                         Int.ofNat m24 := by
                     simpa [hs] using hRndM24
                   have h1 :
-                      Gondlin.Floats.neuralNearestEven
+                      Gondolin.Floats.neuralNearestEven
                           (neuralBpow binaryRadix (-(k - 23 : Int)) * dyadicToReal d) =
                         Int.ofNat m24 := by
                     simpa [mul_comm] using h0
                   simpa using congrArg (fun z : Int => (z : ℝ)) h1
                 · -- negative
-                  simp [fp32Round, Gondlin.Floats.neuralRound, Gondlin.Floats.neuralToReal,
-                    Gondlin.Floats.neuralScaledMantissa, Gondlin.Floats.rnd32, hcexp,
+                  simp [fp32Round, Gondolin.Floats.neuralRound, Gondolin.Floats.neuralToReal,
+                    Gondolin.Floats.neuralScaledMantissa, Gondolin.Floats.rnd32, hcexp,
                     mul_comm]
                   have h0 :
-                      Gondlin.Floats.neuralNearestEven
+                      Gondolin.Floats.neuralNearestEven
                           (dyadicToReal d * neuralBpow binaryRadix (-(k - 23 : Int))) =
                         -Int.ofNat m24 := by
                     simpa [hs] using hRndM24
                   have h1 :
-                      Gondlin.Floats.neuralNearestEven
+                      Gondolin.Floats.neuralNearestEven
                           (neuralBpow binaryRadix (-(k - 23 : Int)) * dyadicToReal d) =
                         -Int.ofNat m24 := by
                     simpa [mul_comm] using h0
                   have h1' :
-                      ((Gondlin.Floats.neuralNearestEven
+                      ((Gondolin.Floats.neuralNearestEven
                           (neuralBpow binaryRadix (-(k - 23 : Int)) * dyadicToReal d)) : ℝ) =
                         -(m24 : ℝ) := by
                     simpa using congrArg (fun z : Int => (z : ℝ)) h1
                   have hsub : (-(k - 23 : Int)) = (23 - k) := by linarith
                   have h1'' :
-                      ((Gondlin.Floats.neuralNearestEven
+                      ((Gondolin.Floats.neuralNearestEven
                           (neuralBpow binaryRadix (23 - k) * dyadicToReal d)) : ℝ) =
                         -(m24 : ℝ) := by
                     simpa [hsub] using h1'
@@ -2639,7 +2639,7 @@ theorem toReal_roundDyadicToIEEE32_eq_fp32Round (d : Dyadic)
                     have hk : (k + 1 : Int) - 23 = (k - 23) + 1 := by linarith
                     rw [hk, neuralBpow.add_exp]
                     have htwo : neuralBpow binaryRadix (1 : Int) = (2 : ℝ) := by
-                      simp [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal]
+                      simp [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal]
                     rw [htwo]
                     -- `pow2 24 = 2 * pow2 23` (as reals).
                     have hp : ((pow2 24 : Nat) : ℝ) = (2 : ℝ) * (pow2 23 : ℝ) := by
@@ -2674,7 +2674,7 @@ This section connects that algorithm to the `FP32` real rounding model.
 
 private lemma neural_magnitude_signedRat (sign : Bool) (num den : Nat) (hnum : num ≠ 0) (hden : den
   ≠ 0) :
-    Gondlin.Floats.neuralMagnitude binaryRadix ((if sign then (-1 : ℝ) else 1) * ((num : ℝ) /
+    Gondolin.Floats.neuralMagnitude binaryRadix ((if sign then (-1 : ℝ) else 1) * ((num : ℝ) /
       (den : ℝ))) =
       floorLog2Rat num den + 1 := by
   classical
@@ -2700,14 +2700,14 @@ private lemma neural_magnitude_signedRat (sign : Bool) (num den : Nat) (hnum : n
 
   have hkpow_le : (2 : ℝ) ^ (k : ℝ) ≤ r := by
     have : (2 : ℝ) ^ k ≤ r := by
-      simpa [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal, k, r] using hk_le
+      simpa [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal, k, r] using hk_le
     have hEq : (2 : ℝ) ^ k = (2 : ℝ) ^ ((k : ℤ) : ℝ) := by
       simp
     have : (2 : ℝ) ^ ((k : ℤ) : ℝ) ≤ r := le_of_eq_of_le hEq.symm this
     simpa using this
   have hkpow_lt : r < (2 : ℝ) ^ ((k + 1) : ℝ) := by
     have : r < (2 : ℝ) ^ (k + 1) := by
-      simpa [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal, k, r] using hk_lt
+      simpa [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal, k, r] using hk_lt
     have hEq : (2 : ℝ) ^ (k + 1) = (2 : ℝ) ^ (((k + 1 : ℤ)) : ℝ) := by
       simpa using (Real.rpow_intCast (x := (2 : ℝ)) (n := k + 1)).symm
     have : r < (2 : ℝ) ^ (((k + 1 : ℤ)) : ℝ) := lt_of_lt_of_eq this hEq
@@ -2733,9 +2733,9 @@ private lemma neural_magnitude_signedRat (sign : Bool) (num den : Nat) (hnum : n
   have hb2 : binaryRadix.toReal = (2 : ℝ) := by rfl
   have hfloor' : (⌊Real.logb (binaryRadix.toReal) r⌋ : Int) = k := by
     simpa [hb2] using hfloor
-  have : Gondlin.Floats.neuralMagnitude binaryRadix x = k + 1 := by
+  have : Gondolin.Floats.neuralMagnitude binaryRadix x = k + 1 := by
     -- Unfold and reduce `neural_magnitude` to the floor-log identity already proved as `hfloor`.
-    simp [Gondlin.Floats.neuralMagnitude, hx, Real.log_div_log, habs, hb2]
+    simp [Gondolin.Floats.neuralMagnitude, hx, Real.log_div_log, habs, hb2]
     simpa [k] using hfloor
   simpa [x, k] using this
 
@@ -2765,15 +2765,15 @@ theorem toReal_roundRatToIEEE32_eq_fp32Round (sign : Bool) (num den : Nat) (hden
       have hx0 :
           (if sign then (-1 : ℝ) else 1) * ((num : ℝ) / (den : ℝ)) = 0 := by
         simp [hnum]
-      have hrnd0 : Gondlin.Floats.rnd32
-          (Gondlin.Floats.neuralScaledMantissa binaryRadix Gondlin.Floats.fexp32 0) = 0 := by
+      have hrnd0 : Gondolin.Floats.rnd32
+          (Gondolin.Floats.neuralScaledMantissa binaryRadix Gondolin.Floats.fexp32 0) = 0 := by
         -- scaled mantissa is `0`, and nearest-even rounds `0` to `0`.
         have hAbs : _root_.abs (0 : ℝ) < (1 / 2 : ℝ) := by simp
-        simpa [Gondlin.Floats.rnd32, Gondlin.Floats.neuralScaledMantissa] using
+        simpa [Gondolin.Floats.rnd32, Gondolin.Floats.neuralScaledMantissa] using
           (neural_nearest_even_eq_zero_of_abs_lt_half (x := (0 : ℝ)) hAbs)
       -- Now compute `fp32Round` at `0`.
       -- Keep `rnd32`/`neural_scaled_mantissa` folded so `hrnd0` can rewrite the mantissa to `0`.
-      simp [fp32Round, hx0, Gondlin.Floats.neuralRound, Gondlin.Floats.neuralToReal, hrnd0]
+      simp [fp32Round, hx0, Gondolin.Floats.neuralRound, Gondolin.Floats.neuralToReal, hrnd0]
     rw [hto, hfp]
   · have hnumbeq : (num == 0) = false := (beq_eq_false_iff_ne).2 hnum
     have hdenpos : (0 : ℝ) < (den : ℝ) := by exact_mod_cast Nat.pos_of_ne_zero hden
@@ -2803,14 +2803,14 @@ theorem toReal_roundRatToIEEE32_eq_fp32Round (sign : Bool) (num den : Nat) (hden
           simpa [hround] using (toReal_signedZero sign)
 
         have hmag :
-            Gondlin.Floats.neuralMagnitude binaryRadix x = k + 1 := by
+            Gondolin.Floats.neuralMagnitude binaryRadix x = k + 1 := by
           simpa [x, r, k] using
             (neural_magnitude_signedRat (sign := sign) (num := num) (den := den) hnum hden)
-        have hcexp : Gondlin.Floats.neuralCexp binaryRadix Gondlin.Floats.fexp32 x = (-149 :
+        have hcexp : Gondolin.Floats.neuralCexp binaryRadix Gondolin.Floats.fexp32 x = (-149 :
           Int) := by
           have hk1_le : k + 1 ≤ (-150 : Int) := by linarith
           have hk1_le' : k + 1 - 24 ≤ (-149 : Int) := by linarith
-          simp [Gondlin.Floats.neuralCexp, Gondlin.Floats.fexp32, Gondlin.Floats.FLTExp,
+          simp [Gondolin.Floats.neuralCexp, Gondolin.Floats.fexp32, Gondolin.Floats.FLTExp,
             hmag,
             max_eq_right hk1_le']
 
@@ -2822,7 +2822,7 @@ theorem toReal_roundRatToIEEE32_eq_fp32Round (sign : Bool) (num den : Nat) (hden
         have hk1_le : k + 1 ≤ (-150 : Int) := by linarith
         have hBpow_le :
             neuralBpow binaryRadix (k + 1) ≤ neuralBpow binaryRadix (-150 : Int) := by
-          simp [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal]
+          simp [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal]
           exact zpow_le_zpow_right₀ (by norm_num : (1 : ℝ) ≤ 2) hk1_le
         have hAbs150 : _root_.abs x < neuralBpow binaryRadix (-150 : Int) :=
           lt_of_lt_of_le hAbsBpow hBpow_le
@@ -2842,28 +2842,28 @@ theorem toReal_roundRatToIEEE32_eq_fp32Round (sign : Bool) (num den : Nat) (hden
               neuralBpow binaryRadix (-150 : Int) * neuralBpow binaryRadix (149 : Int) = (1 / 2
                 : ℝ) := by
             have := (neuralBpow.add_exp binaryRadix (-150 : Int) (149 : Int))
-            simpa [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal] using this.symm
+            simpa [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal] using this.symm
           simpa [habs_mul, hprod, mul_assoc] using hmul
         have hRnd0 :
-            Gondlin.Floats.neuralNearestEven (x * neuralBpow binaryRadix (149 : Int)) = 0 :=
+            Gondolin.Floats.neuralNearestEven (x * neuralBpow binaryRadix (149 : Int)) = 0 :=
           neural_nearest_even_eq_zero_of_abs_lt_half _ hAbsScaled
         have hfp : fp32Round x = 0 := by
           have hscaled :
-              Gondlin.Floats.neuralScaledMantissa binaryRadix Gondlin.Floats.fexp32 x =
+              Gondolin.Floats.neuralScaledMantissa binaryRadix Gondolin.Floats.fexp32 x =
                 x * neuralBpow binaryRadix (149 : Int) := by
-            simp [Gondlin.Floats.neuralScaledMantissa, hcexp]
+            simp [Gondolin.Floats.neuralScaledMantissa, hcexp]
           have hmant :
-              Gondlin.Floats.rnd32
-                  (Gondlin.Floats.neuralScaledMantissa binaryRadix Gondlin.Floats.fexp32 x) =
+              Gondolin.Floats.rnd32
+                  (Gondolin.Floats.neuralScaledMantissa binaryRadix Gondolin.Floats.fexp32 x) =
                 0 := by
-            simpa [Gondlin.Floats.rnd32, hscaled] using hRnd0
+            simpa [Gondolin.Floats.rnd32, hscaled] using hRnd0
           -- With mantissa rounded to `0`, `fp32Round x` is `0`.
           have hdisj :
-              Gondlin.Floats.neuralNearestEven (x * neuralBpow binaryRadix (149 : Int)) = 0 ∨
+              Gondolin.Floats.neuralNearestEven (x * neuralBpow binaryRadix (149 : Int)) = 0 ∨
                 neuralBpow binaryRadix (-149 : Int) = 0 :=
             Or.inl hRnd0
-          simpa [fp32Round, Gondlin.Floats.neuralRound, Gondlin.Floats.neuralToReal,
-            Gondlin.Floats.neuralScaledMantissa, Gondlin.Floats.rnd32, hmant, hcexp, hscaled]
+          simpa [fp32Round, Gondolin.Floats.neuralRound, Gondolin.Floats.neuralToReal,
+            Gondolin.Floats.neuralScaledMantissa, Gondolin.Floats.rnd32, hmant, hcexp, hscaled]
               using hdisj
         rw [hto, hfp]
       · -- Remaining cases (`k ≥ -150`): subnormal or normal rounding.
@@ -2882,21 +2882,21 @@ theorem toReal_roundRatToIEEE32_eq_fp32Round (sign : Bool) (num den : Nat) (hden
               frac]
             rfl
           have hmag :
-              Gondlin.Floats.neuralMagnitude binaryRadix x = k + 1 := by
+              Gondolin.Floats.neuralMagnitude binaryRadix x = k + 1 := by
             simpa [x, r, k] using
               (neural_magnitude_signedRat (sign := sign) (num := num) (den := den) hnum hden)
-          have hcexp : Gondlin.Floats.neuralCexp binaryRadix Gondlin.Floats.fexp32 x = (-149 :
+          have hcexp : Gondolin.Floats.neuralCexp binaryRadix Gondolin.Floats.fexp32 x = (-149 :
             Int) := by
             have hk1_le : k + 1 ≤ (-125 : Int) := by linarith [hkSub]
             have hk1_le' : k + 1 - 24 ≤ (-149 : Int) := by linarith [hk1_le]
-            simp [Gondlin.Floats.neuralCexp, Gondlin.Floats.fexp32, Gondlin.Floats.FLTExp,
+            simp [Gondolin.Floats.neuralCexp, Gondolin.Floats.fexp32, Gondolin.Floats.FLTExp,
               hmag,
               max_eq_right hk1_le']
 
           have hscaled :
-              Gondlin.Floats.neuralScaledMantissa binaryRadix Gondlin.Floats.fexp32 x =
+              Gondolin.Floats.neuralScaledMantissa binaryRadix Gondolin.Floats.fexp32 x =
                 x * neuralBpow binaryRadix (149 : Int) := by
-            simp [Gondlin.Floats.neuralScaledMantissa, hcexp]
+            simp [Gondolin.Floats.neuralScaledMantissa, hcexp]
           have hScaleRat :
               r * neuralBpow binaryRadix (Int.ofNat 149) =
                 ((Nat.shiftLeft num 149 : Nat) : ℝ) / (den : ℝ) := by
@@ -2905,7 +2905,7 @@ theorem toReal_roundRatToIEEE32_eq_fp32Round (sign : Bool) (num den : Nat) (hden
             exact scaleRat_ofNat (num := num) (den := den) (sh := 149)
 
           have hRndFracPos :
-              Gondlin.Floats.neuralNearestEven (r * neuralBpow binaryRadix (Int.ofNat 149)) =
+              Gondolin.Floats.neuralNearestEven (r * neuralBpow binaryRadix (Int.ofNat 149)) =
                 Int.ofNat frac := by
             have hden' : den ≠ 0 := hden
             have h :=
@@ -2913,16 +2913,16 @@ theorem toReal_roundRatToIEEE32_eq_fp32Round (sign : Bool) (num den : Nat) (hden
                 hden'
             -- rewrite the argument using `hScaleRat`
             calc
-              Gondlin.Floats.neuralNearestEven (r * neuralBpow binaryRadix (Int.ofNat 149))
+              Gondolin.Floats.neuralNearestEven (r * neuralBpow binaryRadix (Int.ofNat 149))
                   =
-                  Gondlin.Floats.neuralNearestEven (((Nat.shiftLeft num 149 : Nat) : ℝ) / (den :
+                  Gondolin.Floats.neuralNearestEven (((Nat.shiftLeft num 149 : Nat) : ℝ) / (den :
                     ℝ)) := by
                     rw [hScaleRat]
               _ = Int.ofNat (roundQuotEven (Nat.shiftLeft num 149) den) := h
               _ = Int.ofNat frac := by simp [frac]
 
           have hRndFrac :
-              Gondlin.Floats.neuralNearestEven (x * neuralBpow binaryRadix (149 : Int)) =
+              Gondolin.Floats.neuralNearestEven (x * neuralBpow binaryRadix (149 : Int)) =
                 if sign then -Int.ofNat frac else Int.ofNat frac := by
             cases hs : sign
             · -- positive
@@ -2935,9 +2935,9 @@ theorem toReal_roundRatToIEEE32_eq_fp32Round (sign : Bool) (num den : Nat) (hden
               have hb149 : neuralBpow binaryRadix (149 : Int) = neuralBpow binaryRadix
                 (Int.ofNat 149) := by rfl
               have hneg :
-                  Gondlin.Floats.neuralNearestEven (- (r * neuralBpow binaryRadix (Int.ofNat
+                  Gondolin.Floats.neuralNearestEven (- (r * neuralBpow binaryRadix (Int.ofNat
                     149))) =
-                    -Gondlin.Floats.neuralNearestEven (r * neuralBpow binaryRadix (Int.ofNat
+                    -Gondolin.Floats.neuralNearestEven (r * neuralBpow binaryRadix (Int.ofNat
                       149)) := by
                 simpa using (neural_nearest_even_neg (x := r * neuralBpow binaryRadix (Int.ofNat
                   149)))
@@ -2947,11 +2947,11 @@ theorem toReal_roundRatToIEEE32_eq_fp32Round (sign : Bool) (num den : Nat) (hden
                 simp [hx', hb149]
               -- Reduce to the positive case via oddness.
               calc
-                Gondlin.Floats.neuralNearestEven (x * neuralBpow binaryRadix (Int.ofNat 149))
-                    = Gondlin.Floats.neuralNearestEven (- (r * neuralBpow binaryRadix
+                Gondolin.Floats.neuralNearestEven (x * neuralBpow binaryRadix (Int.ofNat 149))
+                    = Gondolin.Floats.neuralNearestEven (- (r * neuralBpow binaryRadix
                       (Int.ofNat 149))) := by
-                      simpa [hb149] using congrArg Gondlin.Floats.neuralNearestEven hscale
-                _ = -Gondlin.Floats.neuralNearestEven (r * neuralBpow binaryRadix (Int.ofNat
+                      simpa [hb149] using congrArg Gondolin.Floats.neuralNearestEven hscale
+                _ = -Gondolin.Floats.neuralNearestEven (r * neuralBpow binaryRadix (Int.ofNat
                   149)) := hneg
                 _ = -Int.ofNat frac := by simpa [hRndFracPos]
 
@@ -2961,29 +2961,29 @@ theorem toReal_roundRatToIEEE32_eq_fp32Round (sign : Bool) (num den : Nat) (hden
                   := by
             have hround :
                 fp32Round x =
-                  (Gondlin.Floats.rnd32
-                      (Gondlin.Floats.neuralScaledMantissa binaryRadix Gondlin.Floats.fexp32
+                  (Gondolin.Floats.rnd32
+                      (Gondolin.Floats.neuralScaledMantissa binaryRadix Gondolin.Floats.fexp32
                         x) : ℝ) *
                     neuralBpow binaryRadix (-149 : Int) := by
-              simp [fp32Round, Gondlin.Floats.neuralRound, Gondlin.Floats.neuralToReal,
+              simp [fp32Round, Gondolin.Floats.neuralRound, Gondolin.Floats.neuralToReal,
                 hcexp]
             have hrndInt :
-                Gondlin.Floats.rnd32 (Gondlin.Floats.neuralScaledMantissa binaryRadix
-                  Gondlin.Floats.fexp32 x) =
+                Gondolin.Floats.rnd32 (Gondolin.Floats.neuralScaledMantissa binaryRadix
+                  Gondolin.Floats.fexp32 x) =
                   (if sign then -Int.ofNat frac else Int.ofNat frac) := by
               -- `rnd32` is nearest-even, and `neural_scaled_mantissa = x * 2^149` in this branch.
-              simpa [Gondlin.Floats.rnd32, hscaled] using hRndFrac
+              simpa [Gondolin.Floats.rnd32, hscaled] using hRndFrac
             have hrnd :
-                (Gondlin.Floats.rnd32
-                      (Gondlin.Floats.neuralScaledMantissa binaryRadix Gondlin.Floats.fexp32
+                (Gondolin.Floats.rnd32
+                      (Gondolin.Floats.neuralScaledMantissa binaryRadix Gondolin.Floats.fexp32
                         x) : ℝ) =
                   (if sign then (-1 : ℝ) else 1) * (frac : ℝ) := by
               have hrnd' := congrArg (fun z : Int => (z : ℝ)) hrndInt
               cases sign <;> simp [hrnd']
             calc
               fp32Round x =
-                  (Gondlin.Floats.rnd32
-                      (Gondlin.Floats.neuralScaledMantissa binaryRadix Gondlin.Floats.fexp32
+                  (Gondolin.Floats.rnd32
+                      (Gondolin.Floats.neuralScaledMantissa binaryRadix Gondolin.Floats.fexp32
                         x) : ℝ) *
                     neuralBpow binaryRadix (-149 : Int) := hround
               _ = ((if sign then (-1 : ℝ) else 1) * (frac : ℝ)) * neuralBpow binaryRadix (-149 :
@@ -3032,7 +3032,7 @@ theorem toReal_roundRatToIEEE32_eq_fp32Round (sign : Bool) (num den : Nat) (hden
                     have hbpow_le :
                         neuralBpow binaryRadix (k + 1) ≤ neuralBpow binaryRadix (-126 : Int) :=
                           by
-                      simp [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal]
+                      simp [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal]
                       exact zpow_le_zpow_right₀ (by norm_num : (1 : ℝ) ≤ 2) hk1_le
                     have hr_lt126 : r < neuralBpow binaryRadix (-126 : Int) :=
                       lt_of_lt_of_le hk_lt hbpow_le
@@ -3047,7 +3047,7 @@ theorem toReal_roundRatToIEEE32_eq_fp32Round (sign : Bool) (num den : Nat) (hden
                         simpa [hsum] using (neuralBpow.add_exp binaryRadix (-126 : Int) (149 :
                           Int)).symm
                       have h23 : neuralBpow binaryRadix (23 : Int) = (pow2 23 : ℝ) := by
-                        simp [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal,
+                        simp [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal,
                           pow2_eq_two_pow]
                         norm_num
                       have hprod :
@@ -3060,10 +3060,10 @@ theorem toReal_roundRatToIEEE32_eq_fp32Round (sign : Bool) (num den : Nat) (hden
                         mul_lt_mul_of_pos_right hr_lt126 hbpos149
                       simpa [mul_assoc, hprod] using this
                     have hbound :
-                        Gondlin.Floats.neuralNearestEven (r * neuralBpow binaryRadix
+                        Gondolin.Floats.neuralNearestEven (r * neuralBpow binaryRadix
                           (Int.ofNat 149)) ≤
                           Int.ofNat (pow2 23) := by
-                      have hbnds := Gondlin.Floats.neural_nearest_even_bounds (r * neuralBpow
+                      have hbnds := Gondolin.Floats.neural_nearest_even_bounds (r * neuralBpow
                         binaryRadix (Int.ofNat 149))
                       have hfloor_lt :
                           (⌊r * neuralBpow binaryRadix (Int.ofNat 149)⌋ : Int) < Int.ofNat (pow2
@@ -3085,7 +3085,7 @@ theorem toReal_roundRatToIEEE32_eq_fp32Round (sign : Bool) (num den : Nat) (hden
                   simp [hEq, toReal_eq,
                     toDyadic?_ofBits_mkBits_fin (sign := sign) (exp := 1) (frac := 0)
                       (hexp := hexp1) (hfrac := hfrac0),
-                    dyadicToReal, Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal,
+                    dyadicToReal, Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal,
                     pow2_eq_two_pow, Nat.cast_ofNat, mul_comm]
               | isFalse hlt' =>
                   -- True subnormal: decode `mkBits sign 0 frac`.
@@ -3096,7 +3096,7 @@ theorem toReal_roundRatToIEEE32_eq_fp32Round (sign : Bool) (num den : Nat) (hden
                   simp [toReal_eq,
                     toDyadic?_ofBits_mkBits_fin (sign := sign) (exp := 0) (frac := frac)
                       (hexp := (by decide : (0 : Nat) < 255)) (hfrac := hfrac_lt),
-                    dyadicToReal, Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal,
+                    dyadicToReal, Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal,
                       hF0,
                     ]
 
@@ -3156,24 +3156,24 @@ theorem toReal_roundRatToIEEE32_eq_fp32Round (sign : Bool) (num den : Nat) (hden
 
             -- Compute the FP32 canonical exponent `k - 23`.
             have hmag :
-                Gondlin.Floats.neuralMagnitude binaryRadix x = k + 1 := by
+                Gondolin.Floats.neuralMagnitude binaryRadix x = k + 1 := by
               simpa [x, r, k] using
                 (neural_magnitude_signedRat (sign := sign) (num := num) (den := den) hnum hden)
             have hcexp :
-                Gondlin.Floats.neuralCexp binaryRadix Gondlin.Floats.fexp32 x = k - 23 := by
+                Gondolin.Floats.neuralCexp binaryRadix Gondolin.Floats.fexp32 x = k - 23 := by
               have hk1_ge : (-149 : Int) ≤ k + 1 - 24 := by linarith [hkge]
               have hk123 : k + 1 - 24 = k - 23 := by linarith
               have h' :
-                  Gondlin.Floats.neuralCexp binaryRadix Gondlin.Floats.fexp32 x = k + 1 - 24
+                  Gondolin.Floats.neuralCexp binaryRadix Gondolin.Floats.fexp32 x = k + 1 - 24
                     := by
-                simp [Gondlin.Floats.neuralCexp, Gondlin.Floats.fexp32,
-                  Gondlin.Floats.FLTExp, hmag,
+                simp [Gondolin.Floats.neuralCexp, Gondolin.Floats.fexp32,
+                  Gondolin.Floats.FLTExp, hmag,
                   max_eq_left hk1_ge]
               simpa [hk123] using h'
             have hscaled :
-                Gondlin.Floats.neuralScaledMantissa binaryRadix Gondlin.Floats.fexp32 x =
+                Gondolin.Floats.neuralScaledMantissa binaryRadix Gondolin.Floats.fexp32 x =
                   x * neuralBpow binaryRadix (23 - k) := by
-              simp [Gondlin.Floats.neuralScaledMantissa, hcexp]
+              simp [Gondolin.Floats.neuralScaledMantissa, hcexp]
 
             -- The positive scaled mantissa is a nonnegative rational `num'/den'`.
             have hden' : den' ≠ 0 := by
@@ -3211,7 +3211,7 @@ theorem toReal_roundRatToIEEE32_eq_fp32Round (sign : Bool) (num den : Nat) (hden
                     simp [numden, hshift]
                   -- `r * 2^sh = (num <<< sh) / den`
                   have hbpow : neuralBpow binaryRadix (Int.ofNat sh) = (2 : ℝ) ^ sh := by
-                    simp [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal]
+                    simp [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal]
                   calc
                     r * neuralBpow binaryRadix (23 - k)
                         = (num : ℝ) / (den : ℝ) * neuralBpow binaryRadix (Int.ofNat sh) := by
@@ -3234,7 +3234,7 @@ theorem toReal_roundRatToIEEE32_eq_fp32Round (sign : Bool) (num den : Nat) (hden
                     simp [numden, hshift]
                   have hbpow :
                       neuralBpow binaryRadix (Int.negSucc sh) = ((2 : ℝ) ^ (sh + 1))⁻¹ := by
-                    simp [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal]
+                    simp [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal]
                   calc
                     r * neuralBpow binaryRadix (23 - k)
                         = (num : ℝ) / (den : ℝ) * neuralBpow binaryRadix (Int.negSucc sh) := by
@@ -3248,14 +3248,14 @@ theorem toReal_roundRatToIEEE32_eq_fp32Round (sign : Bool) (num den : Nat) (hden
                           simp [hnumden, num', den', Nat.shiftLeft_eq, Nat.cast_mul, Nat.cast_pow]
 
             have hRndPos :
-                Gondlin.Floats.neuralNearestEven (r * neuralBpow binaryRadix (23 - k)) =
+                Gondolin.Floats.neuralNearestEven (r * neuralBpow binaryRadix (23 - k)) =
                   Int.ofNat m := by
               have h :=
                 neural_nearest_even_div_eq_roundQuotEven (num := num') (den := den') hden'
               simpa [m, hScalePos] using h
 
             have hRnd :
-                Gondlin.Floats.neuralNearestEven (x * neuralBpow binaryRadix (23 - k)) =
+                Gondolin.Floats.neuralNearestEven (x * neuralBpow binaryRadix (23 - k)) =
                   if sign then -Int.ofNat m else Int.ofNat m := by
               cases hs : sign
               · have hx' : x = r := by simp [x, r, hs]
@@ -3265,9 +3265,9 @@ theorem toReal_roundRatToIEEE32_eq_fp32Round (sign : Bool) (num den : Nat) (hden
                   (23 - k)) := by
                   simp [hx']
                 have hneg :
-                    Gondlin.Floats.neuralNearestEven (-(r * neuralBpow binaryRadix (23 - k)))
+                    Gondolin.Floats.neuralNearestEven (-(r * neuralBpow binaryRadix (23 - k)))
                       =
-                      -Gondlin.Floats.neuralNearestEven (r * neuralBpow binaryRadix (23 - k))
+                      -Gondolin.Floats.neuralNearestEven (r * neuralBpow binaryRadix (23 - k))
                         := by
                   simpa using (neural_nearest_even_neg (x := r * neuralBpow binaryRadix (23 - k)))
                 simp [hscale, hneg, hRndPos]
@@ -3290,11 +3290,11 @@ theorem toReal_roundRatToIEEE32_eq_fp32Round (sign : Bool) (num den : Nat) (hden
                 := by
                 simpa [hprod] using hmul
               have hmono :=
-                (NeuralValidRnd.monotone (rnd := Gondlin.Floats.neuralNearestEven)
+                (NeuralValidRnd.monotone (rnd := Gondolin.Floats.neuralNearestEven)
                   (x := (neuralBpow binaryRadix (23 : Int))) (y := r * neuralBpow binaryRadix
                     (23 - k)) hle)
               have hid :
-                  Gondlin.Floats.neuralNearestEven (neuralBpow binaryRadix (23 : Int)) =
+                  Gondolin.Floats.neuralNearestEven (neuralBpow binaryRadix (23 : Int)) =
                     Int.ofNat (pow2 23) := by
                 -- `bpow 23 = 2^23 = pow2 23`.
                 have hbpow : neuralBpow binaryRadix (23 : Int) = (pow2 23 : ℝ) := by
@@ -3302,17 +3302,17 @@ theorem toReal_roundRatToIEEE32_eq_fp32Round (sign : Bool) (num den : Nat) (hden
                     simpa using congrArg (fun n : Nat => (n : ℝ)) (pow2_eq_two_pow 23).symm
                   have hb : neuralBpow binaryRadix (23 : Int) = ((2 ^ 23 : Nat) : ℝ) := by
                     have hb' : neuralBpow binaryRadix (23 : Int) = (2 : ℝ) ^ 23 := by
-                      simp [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal,
+                      simp [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal,
                         zpow_ofNat]
                     have hcastpow : ((2 ^ 23 : Nat) : ℝ) = (2 : ℝ) ^ 23 := by
                       simpa using (Nat.cast_pow (α := ℝ) 2 23)
                     exact hb'.trans hcastpow.symm
                   exact hb.trans hcast
-                have : Gondlin.Floats.neuralNearestEven (pow2 23 : ℝ) = Int.ofNat (pow2 23) :=
+                have : Gondolin.Floats.neuralNearestEven (pow2 23 : ℝ) = Int.ofNat (pow2 23) :=
                   by
                   simpa using
-                    (Gondlin.Floats.NeuralValidRnd.id (rnd :=
-                      Gondlin.Floats.neuralNearestEven) (Int.ofNat (pow2 23)))
+                    (Gondolin.Floats.NeuralValidRnd.id (rnd :=
+                      Gondolin.Floats.neuralNearestEven) (Int.ofNat (pow2 23)))
                 simpa [hbpow] using this
               have : Int.ofNat (pow2 23) ≤ Int.ofNat m := by
                 simpa [hid, hRndPos] using hmono
@@ -3337,28 +3337,28 @@ theorem toReal_roundRatToIEEE32_eq_fp32Round (sign : Bool) (num den : Nat) (hden
               have hle : r * neuralBpow binaryRadix (23 - k) ≤ neuralBpow binaryRadix (24 : Int)
                 := le_of_lt hlt
               have hmono :=
-                (NeuralValidRnd.monotone (rnd := Gondlin.Floats.neuralNearestEven)
+                (NeuralValidRnd.monotone (rnd := Gondolin.Floats.neuralNearestEven)
                   (x := r * neuralBpow binaryRadix (23 - k)) (y := neuralBpow binaryRadix (24 :
                     Int)) hle)
               have hid :
-                  Gondlin.Floats.neuralNearestEven (neuralBpow binaryRadix (24 : Int)) =
+                  Gondolin.Floats.neuralNearestEven (neuralBpow binaryRadix (24 : Int)) =
                     Int.ofNat (pow2 24) := by
                 have hbpow : neuralBpow binaryRadix (24 : Int) = (pow2 24 : ℝ) := by
                   have hcast : ((2 ^ 24 : Nat) : ℝ) = (pow2 24 : ℝ) := by
                     simpa using congrArg (fun n : Nat => (n : ℝ)) (pow2_eq_two_pow 24).symm
                   have hb : neuralBpow binaryRadix (24 : Int) = ((2 ^ 24 : Nat) : ℝ) := by
                     have hb' : neuralBpow binaryRadix (24 : Int) = (2 : ℝ) ^ 24 := by
-                      simp [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal,
+                      simp [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal,
                         zpow_ofNat]
                     have hcastpow : ((2 ^ 24 : Nat) : ℝ) = (2 : ℝ) ^ 24 := by
                       simpa using (Nat.cast_pow (α := ℝ) 2 24)
                     exact hb'.trans hcastpow.symm
                   exact hb.trans hcast
-                have : Gondlin.Floats.neuralNearestEven (pow2 24 : ℝ) = Int.ofNat (pow2 24) :=
+                have : Gondolin.Floats.neuralNearestEven (pow2 24 : ℝ) = Int.ofNat (pow2 24) :=
                   by
                   simpa using
-                    (Gondlin.Floats.NeuralValidRnd.id (rnd :=
-                      Gondlin.Floats.neuralNearestEven) (Int.ofNat (pow2 24)))
+                    (Gondolin.Floats.NeuralValidRnd.id (rnd :=
+                      Gondolin.Floats.neuralNearestEven) (Int.ofNat (pow2 24)))
                 simpa [hbpow] using this
               have : Int.ofNat m ≤ Int.ofNat (pow2 24) := by
                 simpa [hid, hRndPos] using hmono
@@ -3431,45 +3431,45 @@ theorem toReal_roundRatToIEEE32_eq_fp32Round (sign : Bool) (num den : Nat) (hden
                   (if sign then (-1 : ℝ) else 1) * (m : ℝ) * neuralBpow binaryRadix (k - 23) := by
               -- Unfold `fp32Round` using the computed mantissa and exponent.
               have hrnd :
-                  ((Gondlin.Floats.rnd32
-                          (Gondlin.Floats.neuralScaledMantissa binaryRadix
-                            Gondlin.Floats.fexp32 x) : ℤ) : ℝ) =
+                  ((Gondolin.Floats.rnd32
+                          (Gondolin.Floats.neuralScaledMantissa binaryRadix
+                            Gondolin.Floats.fexp32 x) : ℤ) : ℝ) =
                     (if sign then -(m : ℝ) else (m : ℝ)) := by
                 have h0 :
-                    Gondlin.Floats.neuralNearestEven
-                        (Gondlin.Floats.neuralScaledMantissa binaryRadix
-                          Gondlin.Floats.fexp32 x) =
+                    Gondolin.Floats.neuralNearestEven
+                        (Gondolin.Floats.neuralScaledMantissa binaryRadix
+                          Gondolin.Floats.fexp32 x) =
                       if sign then -(m : ℤ) else (m : ℤ) := by
                   simpa [hscaled] using hRnd
                 have h0' :
-                    Gondlin.Floats.rnd32
-                        (Gondlin.Floats.neuralScaledMantissa binaryRadix
-                          Gondlin.Floats.fexp32 x) =
+                    Gondolin.Floats.rnd32
+                        (Gondolin.Floats.neuralScaledMantissa binaryRadix
+                          Gondolin.Floats.fexp32 x) =
                       if sign then -(m : ℤ) else (m : ℤ) := by
-                  simpa [Gondlin.Floats.rnd32] using h0
+                  simpa [Gondolin.Floats.rnd32] using h0
                 cases hs : sign
                 · -- `sign = false`
                   have h0'' :
-                      ((Gondlin.Floats.rnd32
-                              (Gondlin.Floats.neuralScaledMantissa binaryRadix
-                                Gondlin.Floats.fexp32 x) : ℤ) : ℝ) =
+                      ((Gondolin.Floats.rnd32
+                              (Gondolin.Floats.neuralScaledMantissa binaryRadix
+                                Gondolin.Floats.fexp32 x) : ℤ) : ℝ) =
                         (m : ℝ) := by
-                    have : Gondlin.Floats.rnd32
-                            (Gondlin.Floats.neuralScaledMantissa binaryRadix
-                              Gondlin.Floats.fexp32 x) =
+                    have : Gondolin.Floats.rnd32
+                            (Gondolin.Floats.neuralScaledMantissa binaryRadix
+                              Gondolin.Floats.fexp32 x) =
                           (m : ℤ) := by
                       simpa [hs] using h0'
                     simpa using congrArg (fun z : ℤ => (z : ℝ)) this
                   simpa [hs] using h0''
                 · -- `sign = true`
                   have h0'' :
-                      ((Gondlin.Floats.rnd32
-                              (Gondlin.Floats.neuralScaledMantissa binaryRadix
-                                Gondlin.Floats.fexp32 x) : ℤ) : ℝ) =
+                      ((Gondolin.Floats.rnd32
+                              (Gondolin.Floats.neuralScaledMantissa binaryRadix
+                                Gondolin.Floats.fexp32 x) : ℤ) : ℝ) =
                         -(m : ℝ) := by
-                    have : Gondlin.Floats.rnd32
-                            (Gondlin.Floats.neuralScaledMantissa binaryRadix
-                              Gondlin.Floats.fexp32 x) =
+                    have : Gondolin.Floats.rnd32
+                            (Gondolin.Floats.neuralScaledMantissa binaryRadix
+                              Gondolin.Floats.fexp32 x) =
                           -(m : ℤ) := by
                       simpa [hs] using h0'
                     simpa using congrArg (fun z : ℤ => (z : ℝ)) this
@@ -3477,12 +3477,12 @@ theorem toReal_roundRatToIEEE32_eq_fp32Round (sign : Bool) (num den : Nat) (hden
               -- Finish without simp-canceling products.
               calc
                 fp32Round x =
-                    ((Gondlin.Floats.rnd32
-                            (Gondlin.Floats.neuralScaledMantissa binaryRadix
-                              Gondlin.Floats.fexp32 x) : ℤ) : ℝ) *
+                    ((Gondolin.Floats.rnd32
+                            (Gondolin.Floats.neuralScaledMantissa binaryRadix
+                              Gondolin.Floats.fexp32 x) : ℤ) : ℝ) *
                       neuralBpow binaryRadix (k - 23) := by
-                      simp [fp32Round, Gondlin.Floats.neuralRound,
-                        Gondlin.Floats.neuralToReal, hcexp]
+                      simp [fp32Round, Gondolin.Floats.neuralRound,
+                        Gondolin.Floats.neuralToReal, hcexp]
                 _ =
                     (if sign then -(m : ℝ) else (m : ℝ)) * neuralBpow binaryRadix (k - 23) := by
                       simp [hrnd]
@@ -3504,7 +3504,7 @@ theorem toReal_roundRatToIEEE32_eq_fp32Round (sign : Bool) (num den : Nat) (hden
                 have hk : (k + 1 : Int) - 23 = (k - 23) + 1 := by linarith
                 rw [hk, neuralBpow.add_exp]
                 have htwo : neuralBpow binaryRadix (1 : Int) = (2 : ℝ) := by
-                  simp [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal]
+                  simp [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal]
                 rw [htwo]
                 have hp : ((pow2 24 : Nat) : ℝ) = (2 : ℝ) * (pow2 23 : ℝ) := by
                   simp [pow2_eq_two_pow, Nat.pow_succ]
@@ -3525,7 +3525,7 @@ theorem toReal_roundRatToIEEE32_eq_fp32Round (sign : Bool) (num den : Nat) (hden
 /-!
 ## Op-level refinement theorems (finite/no-overflow)
 
-These are the results that the rest of Gondlin typically consumes: statements that each arithmetic
+These are the results that the rest of Gondolin typically consumes: statements that each arithmetic
 operation in `IEEE32Exec` refines its `FP32` real-rounded counterpart.
 
 If you are coming from PyTorch: this is the “float32 math model” that underlies many informal
@@ -3747,15 +3747,15 @@ theorem toReal_sqrt_eq_fp32Round (x : IEEE32Exec) {dx : Dyadic}
     have hx0 : toReal x = 0 := by
       simp [toReal_eq, hx, dyadicToReal, hdx0]
     have hfp0 : fp32Round 0 = 0 := by
-      have hne0 : Gondlin.Floats.neuralNearestEven 0 = 0 := by
-        simp [Gondlin.Floats.neuralNearestEven]
-      have : Gondlin.Floats.neuralNearestEven 0 = 0 ∨ Gondlin.Floats.neuralBpow binaryRadix
+      have hne0 : Gondolin.Floats.neuralNearestEven 0 = 0 := by
+        simp [Gondolin.Floats.neuralNearestEven]
+      have : Gondolin.Floats.neuralNearestEven 0 = 0 ∨ Gondolin.Floats.neuralBpow binaryRadix
         (-24) = 0 :=
         Or.inl hne0
-      simpa [fp32Round, Gondlin.Floats.neuralRound, Gondlin.Floats.neuralToReal,
-        Gondlin.Floats.neuralScaledMantissa, Gondlin.Floats.neuralCexp,
-          Gondlin.Floats.neuralMagnitude,
-        Gondlin.Floats.fexp32, Gondlin.Floats.FLTExp, Gondlin.Floats.rnd32] using this
+      simpa [fp32Round, Gondolin.Floats.neuralRound, Gondolin.Floats.neuralToReal,
+        Gondolin.Floats.neuralScaledMantissa, Gondolin.Floats.neuralCexp,
+          Gondolin.Floats.neuralMagnitude,
+        Gondolin.Floats.fexp32, Gondolin.Floats.FLTExp, Gondolin.Floats.rnd32] using this
     rw [hsqrt, hx0]
     simp [hfp0]
   · have hz' : isZero x = false := by simpa using hz
@@ -4295,7 +4295,7 @@ theorem toReal_sqrt_eq_fp32Round (x : IEEE32Exec) {dx : Dyadic}
                   1 := by
                       ring_nf
                 _ = ((dx.mant : ℝ) * neuralBpow binaryRadix (dx.exp - 1)) * (2 : ℝ) := by
-                      simp [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal]
+                      simp [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal]
                 _ = (dx.mant : ℝ) * (2 : ℝ) * neuralBpow binaryRadix (dx.exp - 1) := by
                       ring_nf
                 _ = (dx.mant * 2 : ℝ) * neuralBpow binaryRadix (dx.exp - 1) := by
@@ -4409,7 +4409,7 @@ theorem toReal_sqrt_eq_fp32Round (x : IEEE32Exec) {dx : Dyadic}
               _ = neuralBpow binaryRadix expHalf * neuralBpow binaryRadix (Int.ofNat t) := by
                 simpa using (neuralBpow.add_exp binaryRadix expHalf (Int.ofNat t))
               _ = neuralBpow binaryRadix expHalf * (pow2 t : ℝ) := by
-                simp [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal,
+                simp [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal,
                   pow2_eq_two_pow, Nat.cast_pow,
                   zpow_natCast]
               _ = (pow2 t : ℝ) * neuralBpow binaryRadix expHalf := by
@@ -4453,7 +4453,7 @@ theorem toReal_sqrt_eq_fp32Round (x : IEEE32Exec) {dx : Dyadic}
                       calc
                         neuralBpow binaryRadix (Int.ofNat (t + 1))
                             = (2 : ℝ) ^ (Int.ofNat (t + 1)) := by
-                                simp [Gondlin.Floats.neuralBpow, binaryRadix,
+                                simp [Gondolin.Floats.neuralBpow, binaryRadix,
                                   NeuralRadix.toReal]
                         _ = (2 : ℝ) ^ (t + 1 : Nat) := by
                                 simpa using (zpow_ofNat (2 : ℝ) (t + 1))
@@ -4477,23 +4477,23 @@ theorem toReal_sqrt_eq_fp32Round (x : IEEE32Exec) {dx : Dyadic}
           have hyabs_ne0 : _root_.abs y ≠ 0 := ne_of_gt hyabspos
           intro hy0
           exact hyabs_ne0 (by simp [hy0])
-        have hmag : Gondlin.Floats.neuralMagnitude binaryRadix y = k0 + 1 :=
+        have hmag : Gondolin.Floats.neuralMagnitude binaryRadix y = k0 + 1 :=
           neural_magnitude_eq_of_bpow_bounds (x := y) (k := k0) hy0 hy_lo hy_hi
-        have hcexp : Gondlin.Floats.neuralCexp binaryRadix Gondlin.Floats.fexp32 y = k0 - 23
+        have hcexp : Gondolin.Floats.neuralCexp binaryRadix Gondolin.Floats.fexp32 y = k0 - 23
           := by
           have hshift : k0 + 1 - 24 = k0 - 23 := by ring
           have hle : (-149 : Int) ≤ k0 - 23 := by
             -- `k0 ≥ -75` implies `k0 - 23 ≥ -98 ≥ -149`.
             linarith [hk0_lo]
-          simp [Gondlin.Floats.neuralCexp, Gondlin.Floats.fexp32, Gondlin.Floats.FLTExp,
+          simp [Gondolin.Floats.neuralCexp, Gondolin.Floats.fexp32, Gondolin.Floats.FLTExp,
             hmag, hshift, max_eq_left hle]
         have hscaled :
-            Gondlin.Floats.neuralScaledMantissa binaryRadix Gondlin.Floats.fexp32 y =
+            Gondolin.Floats.neuralScaledMantissa binaryRadix Gondolin.Floats.fexp32 y =
               Real.sqrt (n : ℝ) := by
           have hscaled' :
-              Gondlin.Floats.neuralScaledMantissa binaryRadix Gondlin.Floats.fexp32 y =
+              Gondolin.Floats.neuralScaledMantissa binaryRadix Gondolin.Floats.fexp32 y =
                 y * neuralBpow binaryRadix (-(k0 - 23)) := by
-            simp [Gondlin.Floats.neuralScaledMantissa, hcexp]
+            simp [Gondolin.Floats.neuralScaledMantissa, hcexp]
           have hn_cast : (n : ℝ) = (mant' : ℝ) * (2 : ℝ) ^ (2 * p) := by
             simp [hn_def, Nat.shiftLeft_eq, Nat.cast_mul, Nat.cast_pow]
           have hsqrt_n : Real.sqrt (n : ℝ) = Real.sqrt (mant' : ℝ) * (2 : ℝ) ^ p := by
@@ -4536,7 +4536,7 @@ theorem toReal_sqrt_eq_fp32Round (x : IEEE32Exec) {dx : Dyadic}
                           simpa using hp_int.symm
                         exact congrArg (neuralBpow binaryRadix) hp_int'
                 _ = (2 : ℝ) ^ (Int.ofNat p) := by
-                        simp [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal]
+                        simp [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal]
                 _ = (2 : ℝ) ^ p := by
                         simp
             calc
@@ -4552,18 +4552,18 @@ theorem toReal_sqrt_eq_fp32Round (x : IEEE32Exec) {dx : Dyadic}
               _ = Real.sqrt (mant' : ℝ) * (2 : ℝ) ^ p := by
                         exact congrArg (fun z : ℝ => Real.sqrt (mant' : ℝ) * z) hbpow_p
           calc
-            Gondlin.Floats.neuralScaledMantissa binaryRadix Gondlin.Floats.fexp32 y
+            Gondolin.Floats.neuralScaledMantissa binaryRadix Gondolin.Floats.fexp32 y
                 = y * neuralBpow binaryRadix (-(k0 - 23)) := hscaled'
             _ = Real.sqrt (mant' : ℝ) * (2 : ℝ) ^ p := hbpow
             _ = Real.sqrt (n : ℝ) := by simp [hsqrt_n]
         have hrnd :
-            Gondlin.Floats.rnd32 (Gondlin.Floats.neuralScaledMantissa binaryRadix
-              Gondlin.Floats.fexp32 y) =
+            Gondolin.Floats.rnd32 (Gondolin.Floats.neuralScaledMantissa binaryRadix
+              Gondolin.Floats.fexp32 y) =
               Int.ofNat m0 := by
-          simpa [Gondlin.Floats.rnd32, hscaled, hm0_def, hq_def, hr_def] using
+          simpa [Gondolin.Floats.rnd32, hscaled, hm0_def, hq_def, hr_def] using
             (neural_nearest_even_sqrt_nat (n := n))
         have hfp : fp32Round y = (m0 : ℝ) * neuralBpow binaryRadix (k0 - 23) := by
-          simp [fp32Round, Gondlin.Floats.neuralRound, Gondlin.Floats.neuralToReal, hcexp,
+          simp [fp32Round, Gondolin.Floats.neuralRound, Gondolin.Floats.neuralToReal, hcexp,
             hrnd]
 
         -- Now compute `toReal (sqrt x)` and match it to `fp32Round y`.
@@ -4599,7 +4599,7 @@ theorem toReal_sqrt_eq_fp32Round (x : IEEE32Exec) {dx : Dyadic}
                 simp [pow2_eq_two_pow]
               exact_mod_cast hNat
             have hbpow1 : neuralBpow binaryRadix (1 : Int) = (2 : ℝ) := by
-              simp [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal]
+              simp [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal]
             have hexp : k0 + 1 - 23 = (k0 - 23) + 1 := by ring
             have hbpow_shift :
                 neuralBpow binaryRadix (k0 + 1 - 23) =
@@ -4961,7 +4961,7 @@ private lemma toReal_eq_zero_of_isZero (x : IEEE32Exec) {d : Dyadic}
   -- Hence `toReal x = 0`.
   have hd : d = { sign := signBit x, mant := 0, exp := 0 } := by
     simpa using hdy.symm
-  simp [toReal_eq, hx, hd, dyadicToReal, Gondlin.Floats.neuralBpow, binaryRadix,
+  simp [toReal_eq, hx, hd, dyadicToReal, Gondolin.Floats.neuralBpow, binaryRadix,
     NeuralRadix.toReal]
 
 /--
@@ -5112,4 +5112,4 @@ theorem toReal_maximum_eq_max (x y : IEEE32Exec) {dx dy : Dyadic}
 
 end IEEE32Exec
 
-end Gondlin.Floats.IEEE754
+end Gondolin.Floats.IEEE754

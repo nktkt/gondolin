@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -101,7 +101,7 @@ end DiagonalSSM
 /--
 View a scalar-specialized diagonal SSM recurrence as a `DrivenSystem`.
 
-`DrivenSystem` uses Gondlin's default `SpecScalar`, while the reusable SSM record
+`DrivenSystem` uses Gondolin's default `SpecScalar`, while the reusable SSM record
 above is polymorphic over scalar backends.  This adapter is the bridge to the existing dynamics API.
 -/
 def DiagonalSSM.drivenSystemSpecScalar {dim : Nat}

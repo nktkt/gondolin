@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -9,7 +9,7 @@ module
 -- shake: keep-all
 
 public import NN.Floats.Float32
-public import NN.Runtime.Autograd.Gondlin.Dual
+public import NN.Runtime.Autograd.Gondolin.Dual
 public import NN.Runtime.Scalar
 public import NN.Spec.Core.Complex
 public import NN.Spec.Core.Scalar
@@ -21,7 +21,7 @@ import Mathlib.Algebra.Order.Algebra
 /-!
 # API Core
 
-Public convenience API core on top of Gondlin's spec + runtime entrypoints.
+Public convenience API core on top of Gondolin's spec + runtime entrypoints.
 
 This module holds the small foundational surface used by the higher-level API modules:
 
@@ -36,7 +36,7 @@ and via the top-level `NN` facade.
 ### PyTorch Mapping
 
 `DType` here plays a role similar to `torch.dtype` selection in Python, but it also encodes a key
-Gondlin distinction:
+Gondolin distinction:
 - some scalar types are executable (you can `#eval` / run demos), and
 - some scalar types are proof-only (e.g. `ℝ` or a noncomputable float model).
 -/
@@ -55,7 +55,7 @@ export _root_.Runtime
 namespace Semantics
 
 /--
-Public name for Gondlin's generic scalar semantics contract.
+Public name for Gondolin's generic scalar semantics contract.
 
 Read this as:
 
@@ -75,19 +75,19 @@ end Semantics
 namespace Runtime
 
 /--
-Runtime conversion from host `Float` constants into a Gondlin scalar type.
+Runtime conversion from host `Float` constants into a Gondolin scalar type.
 
 PyTorch analogy:
 
 - in Python tutorials, users write float literals directly and tensors inherit a runtime dtype;
-- in Gondlin, examples often start from host `Float` literals and inject them into the chosen
+- in Gondolin, examples often start from host `Float` literals and inject them into the chosen
   runtime scalar backend with `Runtime.ofFloat`.
 -/
 class Scalar (α : Type) where
   /-- Convert a host `Float` literal into this runtime scalar backend. -/
   ofFloat : Float → α
 
-/-- Generic host-float injection for Gondlin scalar backends. -/
+/-- Generic host-float injection for Gondolin scalar backends. -/
 def ofFloat {α : Type} [Scalar α] (x : Float) : α :=
   Scalar.ofFloat x
 
@@ -96,8 +96,8 @@ instance : Scalar Float where
   ofFloat := id
 
 /-- Inject host `Float` literals into the executable IEEE-754 binary32 backend. -/
-instance : Scalar Gondlin.Floats.IEEE754.IEEE32Exec where
-  ofFloat := Gondlin.Floats.IEEE754.IEEE32Exec.ofFloat
+instance : Scalar Gondolin.Floats.IEEE754.IEEE32Exec where
+  ofFloat := Gondolin.Floats.IEEE754.IEEE32Exec.ofFloat
 
 /--
 Inject host literals into the dual-number backend used by the runtime autograd engine.
@@ -105,14 +105,14 @@ Inject host literals into the dual-number backend used by the runtime autograd e
 We interpret a literal as a primal value with zero tangent/adjoint component.
 -/
 instance {α : Type} [Scalar α] [Zero α] :
-    Scalar (_root_.Runtime.Autograd.Gondlin.Dual α) where
-  ofFloat x := _root_.Runtime.Autograd.Gondlin.Dual.ofPrimal (ofFloat x)
+    Scalar (_root_.Runtime.Autograd.Gondolin.Dual α) where
+  ofFloat x := _root_.Runtime.Autograd.Gondolin.Dual.ofPrimal (ofFloat x)
 
-/-- Inject host literals into Gondlin's parametric complex scalar (imaginary part defaults to 0). -/
-instance {α : Type} [Scalar α] [Zero α] : Scalar (Gondlin.Complex α) where
+/-- Inject host literals into Gondolin's parametric complex scalar (imaginary part defaults to 0). -/
+instance {α : Type} [Scalar α] [Zero α] : Scalar (Gondolin.Complex α) where
   ofFloat x := ⟨Runtime.ofFloat (α := α) x, 0⟩
 
-/-- Allow numeric literals like `0.1` to elaborate to any Gondlin runtime scalar backend. -/
+/-- Allow numeric literals like `0.1` to elaborate to any Gondolin runtime scalar backend. -/
 @[default_instance low]
 instance {α : Type} [Scalar α] : OfScientific α where
   ofScientific m s e := ofFloat (Float.ofScientific m s e)
@@ -276,7 +276,7 @@ We support both:
 -/
 structure Float32Config where
   /-- Which float32 semantics backend to use. -/
-  mode : Gondlin.Floats.Float32Mode := .ieee754Exec
+  mode : Gondolin.Floats.Float32Mode := .ieee754Exec
   deriving Repr, DecidableEq
 
 /--
@@ -290,8 +290,8 @@ parametric in the scalar type `α`.
 This corresponds loosely to choosing `dtype=` in PyTorch, but with additional "proof-only"
 variants:
 - `.float` uses Lean's builtin `Float` (executable, but its IEEE-754 behavior is trusted),
-- `.float32` uses Gondlin's float32 model (either proof-only or executable),
-- `.complex` uses Gondlin's parametric complex scalar over a float32 backend,
+- `.float32` uses Gondolin's float32 model (either proof-only or executable),
+- `.complex` uses Gondolin's parametric complex scalar over a float32 backend,
 - `.real` uses `ℝ` (proof-only; not executable).
 -/
 inductive DType where
@@ -315,19 +315,19 @@ def isExecutable : DType → Bool
 /-- Log a human-readable description of the chosen dtype to stdout. -/
 def log : DType → IO Unit
   | .float =>
-      IO.println "[Gondlin] dtype: Float (Lean `Float`, trusted runtime semantics)"
+      IO.println "[Gondolin] dtype: Float (Lean `Float`, trusted runtime semantics)"
   | .real =>
-      IO.println "[Gondlin] dtype: ℝ (proof-only; not executable)"
+      IO.println "[Gondolin] dtype: ℝ (proof-only; not executable)"
   | .float32 cfg =>
-      Gondlin.Floats.logFloat32Mode cfg.mode
+      Gondolin.Floats.logFloat32Mode cfg.mode
   | .complex cfg => do
-      IO.println "[Gondlin] dtype: Complex Float32 (Gondlin.Complex over Float32)"
-      Gondlin.Floats.logFloat32Mode cfg.mode
+      IO.println "[Gondolin] dtype: Complex Float32 (Gondolin.Complex over Float32)"
+      Gondolin.Floats.logFloat32Mode cfg.mode
 
 namespace Internal
 
 /-- Parse a `float32` mode selector string into a `Float32Mode`. -/
-def parseFloat32Mode (v : String) : Except String Gondlin.Floats.Float32Mode := do
+def parseFloat32Mode (v : String) : Except String Gondolin.Floats.Float32Mode := do
   if v == "fp32" then
     pure .fp32
   else if v == "ieee32" || v == "ieee754" || v == "ieee32exec" || v == "ieee754exec" then
@@ -421,13 +421,13 @@ def withRuntime
       pure (.error
         "dtype=complex:fp32 is proof-only (noncomputable); use it in theorems/verification proofs")
   | .complex { mode := .ieee754Exec } =>
-      k (α := Gondlin.Complex (Gondlin.Floats.F32 .ieee754Exec))
+      k (α := Gondolin.Complex (Gondolin.Floats.F32 .ieee754Exec))
       pure (.ok ())
   | .float32 { mode := .fp32 } =>
       pure (.error
         "float32-mode=fp32 is proof-only (noncomputable); use it in theorems/verification proofs")
   | .float32 { mode := .ieee754Exec } =>
-      k (α := Gondlin.Floats.F32 .ieee754Exec)
+      k (α := Gondolin.Floats.F32 .ieee754Exec)
       pure (.ok ())
 
 /--

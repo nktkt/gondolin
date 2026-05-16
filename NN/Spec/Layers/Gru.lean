@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -11,7 +11,7 @@ public import NN.Spec.Layers.Rnn
 /-!
 # GRU (spec layer)
 
-Gondlin provides a small GRU specification that is:
+Gondolin provides a small GRU specification that is:
 
 - explicit about shapes (so dimension mistakes are caught early),
 - explicit about the math (so we can reason about it and differentiate it),
@@ -40,7 +40,7 @@ One small place where libraries differ is the candidate equation: some implement
 reset gate before the hidden-state linear map (as in Cho et al.), while others apply it after a
 hidden-state linear map (as in the PyTorch docs). This file follows the former, because it matches
 the original GRU equations and stays close to the "concatenate then multiply" style used elsewhere
-in Gondlin's spec layer.
+in Gondolin's spec layer.
 -/
 
 @[expose] public section

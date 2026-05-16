@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -28,9 +28,9 @@ These lemmas are intended as building blocks for a larger `Interval32.mul` sound
 @[expose] public section
 
 
-namespace Gondlin.Floats.IEEE754
+namespace Gondolin.Floats.IEEE754
 
-open Gondlin.Floats
+open Gondolin.Floats
 
 namespace IEEE32Exec
 
@@ -47,7 +47,7 @@ of the four real values.
 theorem toReal_min4_eq_min_of_isFinite (a b c d : IEEE32Exec)
     (ha : isFinite a = true) (hb : isFinite b = true) (hc : isFinite c = true) (hd : isFinite d =
       true) :
-    toReal (Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.min4 a b c d) =
+    toReal (Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.min4 a b c d) =
       min (min (toReal a) (toReal b)) (min (toReal c) (toReal d)) := by
   have hab : toReal (minimum a b) = min (toReal a) (toReal b) :=
     toReal_minimum_eq_min_of_isFinite (x := a) (y := b) ha hb
@@ -71,7 +71,7 @@ theorem toReal_min4_eq_min_of_isFinite (a b c d : IEEE32Exec)
           = min (toReal (minimum a b)) (toReal (minimum c d)) := houter
       _ = min (min (toReal a) (toReal b)) (min (toReal c) (toReal d)) := by
           rw [hab, hcd]
-  simpa [Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.min4] using houter'
+  simpa [Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.min4] using houter'
 
 /--
 Real semantics of `Interval32.max4` in the finite regime.
@@ -82,7 +82,7 @@ of the four real values.
 theorem toReal_max4_eq_max_of_isFinite (a b c d : IEEE32Exec)
     (ha : isFinite a = true) (hb : isFinite b = true) (hc : isFinite c = true) (hd : isFinite d =
       true) :
-    toReal (Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.max4 a b c d) =
+    toReal (Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.max4 a b c d) =
       max (max (toReal a) (toReal b)) (max (toReal c) (toReal d)) := by
   have hab : toReal (maximum a b) = max (toReal a) (toReal b) :=
     toReal_maximum_eq_max_of_isFinite (x := a) (y := b) ha hb
@@ -104,7 +104,7 @@ theorem toReal_max4_eq_max_of_isFinite (a b c d : IEEE32Exec)
           = max (toReal (maximum a b)) (toReal (maximum c d)) := houter
       _ = max (max (toReal a) (toReal b)) (max (toReal c) (toReal d)) := by
           rw [hab, hcd]
-  simpa [Gondlin.Floats.IEEE754.IEEE32Exec.Interval32.max4] using houter'
+  simpa [Gondolin.Floats.IEEE754.IEEE32Exec.Interval32.max4] using houter'
 
 end
 
@@ -112,4 +112,4 @@ end Interval32
 
 end IEEE32Exec
 
-end Gondlin.Floats.IEEE754
+end Gondolin.Floats.IEEE754

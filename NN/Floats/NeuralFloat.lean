@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -17,7 +17,7 @@ public import NN.Floats.NeuralFloat.Rounding
 /-!
 # `NN.Floats.NeuralFloat`
 
-This is the “rounding-on-ℝ” side of Gondlin’s float model stack. We use it when we want to talk about
+This is the “rounding-on-ℝ” side of Gondolin’s float model stack. We use it when we want to talk about
 formats and rounding generically, without committing to a concrete IEEE bit encoding:
 
 - generic format/rounding infrastructure,

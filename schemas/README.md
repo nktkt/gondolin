@@ -1,7 +1,7 @@
-# Gondlin schemas
+# Gondolin schemas
 
 This directory holds machine-readable schemas for artifacts that cross the
-boundary between Gondlin and external producers/consumers.
+boundary between Gondolin and external producers/consumers.
 
 Current contents:
 
@@ -26,7 +26,7 @@ enforced by `if`/`then` blocks at the top level (the discriminator is `kind`).
 The Lean side will read this format via a (future) `NN.Verification.Cert.v1`
 module; the four currently-shipping verifier families will migrate to v1 with
 backward-compatible readers for the v0 ad-hoc formats. Migration sequencing is
-tracked in the private `nktkt/gondlin-docs` companion repository.
+tracked in the private `nktkt/gondolin-docs` companion repository.
 
 ## Validating a certificate
 

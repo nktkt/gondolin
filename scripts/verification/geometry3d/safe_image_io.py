@@ -29,7 +29,7 @@ def load_remote_rgb_image(
     if parsed.scheme != "https":
         raise ValueError(f"remote image URLs must use https://, got {url!r}")
 
-    request = urllib.request.Request(url, headers={"User-Agent": "Gondlin-Geometry3D/1.0"})
+    request = urllib.request.Request(url, headers={"User-Agent": "Gondolin-Geometry3D/1.0"})
     with urllib.request.urlopen(request, timeout=timeout) as response:
         data = response.read()
 

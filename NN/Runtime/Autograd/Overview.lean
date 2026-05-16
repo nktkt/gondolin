@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -9,7 +9,7 @@ module
 /-!
 # `NN.Runtime.Autograd`: Runtime Autograd Overview
 
-This directory is the runtime execution layer for Gondlin's automatic differentiation.
+This directory is the runtime execution layer for Gondolin's automatic differentiation.
 It contains three closely related "ways to run" the same differentiable programs:
 
 1. **Eager tape (dynamic DAG)**: record a runtime tape during the forward pass, then run a
@@ -43,8 +43,8 @@ optimizers). This makes it easier to:
   - `NN/Runtime/Autograd/Torch/Utils.lean`
   - `NN/Runtime/Autograd/Torch/LinkedSession.lean` (records proved IR, runs compiled tape)
 - Unified user-facing API:
-  - `NN/Runtime/Autograd/Gondlin.lean` (umbrella import plus re-exports)
-  - `NN/Runtime/Autograd/Gondlin/Session.lean` (one API, eager or compiled backend)
+  - `NN/Runtime/Autograd/Gondolin.lean` (umbrella import plus re-exports)
+  - `NN/Runtime/Autograd/Gondolin/Session.lean` (one API, eager or compiled backend)
 - Training helpers (datasets, logging, optimizers, trainer):
   - `NN/Runtime/Autograd/Train/*`
 - Runtime utilities:

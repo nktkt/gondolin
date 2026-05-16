@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -15,7 +15,7 @@ public import NN.Spec.RL.MarkovMDP
 /-!
 # Markov-Kernel MDP Proofs (Measure Theory)
 
-This module proves the key discounted Bellman facts for Gondlin's measure-theoretic MDP layer
+This module proves the key discounted Bellman facts for Gondolin's measure-theoretic MDP layer
 (`NN.Spec.RL.MarkovMDP`), built on mathlib's Markov kernels.
 
 We formalize the standard argument used in dynamic programming:

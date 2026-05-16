@@ -1,12 +1,12 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
 
-public import NN.Examples.Verification.Robustness.GondlinRobustness
+public import NN.Examples.Verification.Robustness.GondolinRobustness
 public import NN.Examples.Verification.Robustness.VerifyMarginCert
 
 /-!

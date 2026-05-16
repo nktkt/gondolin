@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Small post-build polish pass for the generated Verso guide.
 
-Verso owns the main HTML generation. Gondlin adds a thin local layer for the
+Verso owns the main HTML generation. Gondolin adds a thin local layer for the
 public guide: responsive figures, readable code blocks, external-link behavior,
 copy buttons, route arrows, and a lightweight reading-progress indicator.
 """
@@ -17,9 +17,9 @@ from pathlib import Path
 from html.parser import HTMLParser
 
 
-GONDLIN_CSS = """
+GONDOLIN_CSS = """
 
-/* Gondlin guide polish: reference-style reading shell. */
+/* Gondolin guide polish: reference-style reading shell. */
 :root {
   --tl-accent: #0f5f8f;
   --tl-accent-strong: #0a3f61;
@@ -168,14 +168,14 @@ main :is(h1, h2, h3, h4, h5, h6) .tl-heading-anchor:hover {
   font-weight: 700;
 }
 
-.gondlin-route-list {
+.gondolin-route-list {
   display: grid;
   gap: 0.75rem;
   padding-left: 0;
   list-style-position: inside;
 }
 
-.gondlin-route-list > li {
+.gondolin-route-list > li {
   margin: 0 !important;
   padding: 0.8rem 0.9rem;
   border: 1px solid var(--tl-border);
@@ -508,14 +508,14 @@ main p > img:only-child {
   }
 }
 
-/* End Gondlin guide polish. */
+/* End Gondolin guide polish. */
 """
 
 
-GONDLIN_JS_BODY = r"""
+GONDOLIN_JS_BODY = r"""
 (function () {
-  const pages = GONDLIN_GUIDE_PAGES;
-  const storageKey = "gondlin-guide-read-v1";
+  const pages = GONDOLIN_GUIDE_PAGES;
+  const storageKey = "gondolin-guide-read-v1";
   const script = document.currentScript;
   const rootUrl = new URL(".", script ? script.src : window.location.href);
 
@@ -679,7 +679,7 @@ GONDLIN_JS_BODY = r"""
     document.querySelectorAll("main ol").forEach((ol) => {
       const text = ol.textContent || "";
       if (!text.includes("I want to") || !(text.includes("→") || text.includes("->"))) return;
-      ol.classList.add("gondlin-route-list");
+      ol.classList.add("gondolin-route-list");
       const walker = document.createTreeWalker(ol, NodeFilter.SHOW_TEXT);
       const nodes = [];
       while (true) {
@@ -773,7 +773,7 @@ GONDLIN_JS_BODY = r"""
       copy.type = "button";
       copy.className = "tl-code-action";
       copy.textContent = "Copy";
-      copy.title = "Copy this Lean snippet for local use in the Gondlin repository.";
+      copy.title = "Copy this Lean snippet for local use in the Gondolin repository.";
       copy.addEventListener("click", async () => {
         try {
           await navigator.clipboard.writeText(codeTextOf(code));
@@ -789,7 +789,7 @@ GONDLIN_JS_BODY = r"""
       live.type = "button";
       live.className = "tl-code-action tl-code-action-live";
       live.textContent = "Live ↪";
-      live.title = "Open in live.lean-lang.org. Gondlin-specific snippets still need the local Gondlin project to typecheck.";
+      live.title = "Open in live.lean-lang.org. Gondolin-specific snippets still need the local Gondolin project to typecheck.";
       live.addEventListener("click", () => openInLeanLive(codeTextOf(code)));
 
       actions.appendChild(copy);
@@ -848,17 +848,17 @@ def guide_pages(root: Path) -> list[str]:
 def write_js(root: Path) -> None:
     """Write the shared JavaScript bundle used by all polished guide pages."""
     pages_json = json.dumps(guide_pages(root), indent=2)
-    js = "const GONDLIN_GUIDE_PAGES = " + pages_json + ";\n" + GONDLIN_JS_BODY
-    (root / "gondlin-guide-polish.js").write_text(js)
+    js = "const GONDOLIN_GUIDE_PAGES = " + pages_json + ";\n" + GONDOLIN_JS_BODY
+    (root / "gondolin-guide-polish.js").write_text(js)
 
 
 def inject_script(root: Path) -> None:
     """Install the shared guide script into every generated HTML page."""
-    marker = "gondlin-guide-polish.js"
-    script_re = re.compile(r'\s*<script defer src="[^"]*gondlin-guide-polish\.js"></script>\n?')
+    marker = "gondolin-guide-polish.js"
+    script_re = re.compile(r'\s*<script defer src="[^"]*gondolin-guide-polish\.js"></script>\n?')
     # Verso emits a <base> tag on every generated page. A bare script URL is
     # therefore resolved relative to the guide root, even from nested pages.
-    tag = '    <script defer src="gondlin-guide-polish.js"></script>\n'
+    tag = '    <script defer src="gondolin-guide-polish.js"></script>\n'
     for path in root.rglob("*.html"):
         html = path.read_text()
         if marker in html:
@@ -874,7 +874,7 @@ def inject_script(root: Path) -> None:
 def rewrite_repository_links(root: Path) -> None:
     """Turn repository-relative links into public API or source links.
 
-    The guide source is written inside `blueprint/GondlinBlueprint`, so links
+    The guide source is written inside `blueprint/GondolinBlueprint`, so links
     like `../../NN/...` are convenient while editing. In the generated website
     those paths point outside the published guide. This post-build pass rewrites them. Lean modules
     with generated DocGen pages go to the API
@@ -883,7 +883,7 @@ def rewrite_repository_links(root: Path) -> None:
 
     repo_root = Path(__file__).resolve().parents[2]
     docs_root = repo_root / "home_page" / "docs"
-    github_root = "https://github.com/nktkt/gondlin"
+    github_root = "https://github.com/nktkt/gondolin"
     repo_prefixes = (
         "NN/",
         "NN.lean",
@@ -1119,11 +1119,11 @@ def main() -> int:
         raise SystemExit(f"missing generated stylesheet: {css_path}")
 
     css = css_path.read_text()
-    marker = "/* Gondlin guide polish"
+    marker = "/* Gondolin guide polish"
     idx = css.find(marker)
     if idx != -1:
         css = css[:idx].rstrip()
-    css_path.write_text(css.rstrip() + GONDLIN_CSS)
+    css_path.write_text(css.rstrip() + GONDOLIN_CSS)
     write_js(args.guide)
     rewrite_repository_links(args.guide)
     add_fragment_aliases(args.guide)

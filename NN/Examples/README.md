@@ -1,17 +1,17 @@
 # Examples
 
-This directory contains the maintained Gondlin examples. The detailed tutorial text lives in the
+This directory contains the maintained Gondolin examples. The detailed tutorial text lives in the
 guide; this README is only the local map for files, commands, and build targets.
 
 Use the curated CLIs first:
 
 ```bash
-lake exe gondlin --help
+lake exe gondolin --help
 lake exe verify --help
 lake test
 ```
 
-Most runnable examples are subcommands of `lake exe gondlin <name>`. Verification workflows are
+Most runnable examples are subcommands of `lake exe gondolin <name>`. Verification workflows are
 subcommands of `lake exe verify -- <tool>`.
 
 ## First Path
@@ -20,15 +20,15 @@ Start here if you want the shortest route through the examples:
 
 | Goal | File | Command |
 | --- | --- | --- |
-| Typed tensors | `Quickstart/TensorBasics.lean` | `lake exe gondlin quickstart_tensors` |
+| Typed tensors | `Quickstart/TensorBasics.lean` | `lake exe gondolin quickstart_tensors` |
 | Editor widgets | `Quickstart/Widgets.lean` | open the file and run the `#..._view` commands |
-| Runtime scalar modes | `Advanced/Floats/Float32Modes.lean` | `lake exe gondlin float32_modes` |
-| Autograd API | `Quickstart/AutogradBasics.lean` | `lake exe gondlin quickstart_autograd --dtype float --backend eager` |
+| Runtime scalar modes | `Advanced/Floats/Float32Modes.lean` | `lake exe gondolin float32_modes` |
+| Autograd API | `Quickstart/AutogradBasics.lean` | `lake exe gondolin quickstart_autograd --dtype float --backend eager` |
 | Proof basics | `Quickstart/Proofs.lean` | `lake build NN.Examples.Quickstart.Proofs` |
-| Simple training | `Quickstart/SimpleMlpTrain.lean` | `lake exe gondlin quickstart_mlp --steps 200 --dtype float --backend compiled` |
-| Data loading | `Data/Loaders/Csv.lean` | `lake exe gondlin data_csv --epochs 1 --batch 5 --dtype float --backend eager` |
-| Verification | `Verification/Gondlin/*` | `lake exe verify -- gondlin-ibp` |
-| PyTorch import/export | `Interop/PyTorch/Roundtrip.lean` | `lake exe gondlin pytorch_roundtrip --model mlp --action import` |
+| Simple training | `Quickstart/SimpleMlpTrain.lean` | `lake exe gondolin quickstart_mlp --steps 200 --dtype float --backend compiled` |
+| Data loading | `Data/Loaders/Csv.lean` | `lake exe gondolin data_csv --epochs 1 --batch 5 --dtype float --backend eager` |
+| Verification | `Verification/Gondolin/*` | `lake exe verify -- gondolin-ibp` |
+| PyTorch import/export | `Interop/PyTorch/Roundtrip.lean` | `lake exe gondolin pytorch_roundtrip --model mlp --action import` |
 
 ## Directory Map
 
@@ -72,24 +72,24 @@ python3 scripts/datasets/download_example_data.py --tinystories-valid
 ```
 
 The Lean boundary format is `.npy` or simple numeric CSV. Use
-`scripts/datasets/gondlin_data_convert.py` for external formats such as image folders, `.pt`,
+`scripts/datasets/gondolin_data_convert.py` for external formats such as image folders, `.pt`,
 `.npz`, or `.mat` files.
 
 ## Common Commands
 
 ```bash
-lake exe gondlin mlp --epochs 10
-lake exe gondlin cnn --cuda --epochs 1
-lake exe gondlin gpt2 --cuda --tiny-shakespeare --steps 100
-lake exe gondlin mamba --cuda --tiny-shakespeare --steps 25
-lake exe gondlin ppo_gridworld --updates 200
-lake exe verify -- gondlin-ibp
+lake exe gondolin mlp --epochs 10
+lake exe gondolin cnn --cuda --epochs 1
+lake exe gondolin gpt2 --cuda --tiny-shakespeare --steps 100
+lake exe gondolin mamba --cuda --tiny-shakespeare --steps 25
+lake exe gondolin ppo_gridworld --updates 200
+lake exe verify -- gondolin-ibp
 ```
 
 Most training commands can write a training curve:
 
 ```bash
-lake exe gondlin mlp --epochs 10 --log data/model_zoo/mlp_trainlog.json
+lake exe gondolin mlp --epochs 10 --log data/model_zoo/mlp_trainlog.json
 python3 scripts/datasets/plot_trainlog.py data/model_zoo/mlp_trainlog.json --out-dir plots/model_zoo
 ```
 

@@ -5,7 +5,7 @@ export const siteConfig = {
     "Formalizing Neural Networks in Lean. Typed tensors, IR, autograd, verification certificates, and finite-precision semantics — all in Lean 4.",
   url: "https://torchlean.org",
   ogImage: "https://torchlean.org/og.png",
-  github: "https://github.com/nktkt/gondlin",
+  github: "https://github.com/nktkt/gondolin",
   arxiv: "https://arxiv.org/abs/2602.22631",
   navLinks: [
     { title: "Docs", href: "/docs/guide/overview" },

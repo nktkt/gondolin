@@ -49,7 +49,7 @@ def _run_proof_debt() -> dict:
 _VERSION_RE = re.compile(r"version\s*:=\s*v!\"([^\"]+)\"")
 
 
-def _parse_gondlin_version() -> str:
+def _parse_gondolin_version() -> str:
     """Extract the package `version` literal from `lakefile.lean`."""
     text = LAKEFILE.read_text(encoding="utf-8")
     m = _VERSION_RE.search(text)
@@ -90,7 +90,7 @@ def _build_payload(report: dict, version: str, timestamp: str) -> dict:
     return {
         "schema_version": SCHEMA_VERSION,
         "updated_at": timestamp,
-        "gondlin_version": version,
+        "gondolin_version": version,
         "summary": {
             "files_scanned": int(report.get("scanned_files", 0)),
             "sorry": int(totals.get("sorry", 0)),
@@ -222,7 +222,7 @@ def _emit_sequence(items: list, indent: int) -> list[str]:
 _TOP_ORDER = (
     "schema_version",
     "updated_at",
-    "gondlin_version",
+    "gondolin_version",
     "summary",
     "axioms",
     "healthy",
@@ -284,7 +284,7 @@ def main() -> int:
         sys.stderr.write(f"proof_debt.py emitted invalid JSON: {e}\n")
         return 1
 
-    version = _parse_gondlin_version()
+    version = _parse_gondolin_version()
     timestamp = _utc_now_iso()
     payload = _build_payload(report, version, timestamp)
     yaml_text = _render_yaml(payload)

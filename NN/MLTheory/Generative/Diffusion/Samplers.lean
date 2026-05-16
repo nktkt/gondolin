@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -16,7 +16,7 @@ import Mathlib.Data.List.FinRange
 /-!
 # Diffusion sampler theorems
 
-This file collects the fully proved sampler facts that sit between Gondlin's executable diffusion
+This file collects the fully proved sampler facts that sit between Gondolin's executable diffusion
 specs and the stability/verification APIs used elsewhere in the library.
 
 We separate sampler mechanics from measure-level claims. ELBO optimality, reverse-SDE/PF-ODE
@@ -129,7 +129,7 @@ numerical-analysis estimate
 
 `‖E(x)-E(y)‖₂ ≤ ‖x-y‖₂ + |dt| ‖f(x,t)-f(y,t)‖₂`.
 
-This proof uses Gondlin's real tensor norm library: the algebraic Euler-difference identity above,
+This proof uses Gondolin's real tensor norm library: the algebraic Euler-difference identity above,
 the L2 triangle inequality, and L2 homogeneity of scalar multiplication. It is the bridge from the
 executable PF-ODE sampler to quantitative stability/verification arguments.
 
@@ -208,7 +208,7 @@ theorem eulerStep_l2_lipschitz_of_rhs_lipschitz
 Probability-flow Euler systems inherit the concrete L2 Euler-step Lipschitz bound.
 
 For the PF-ODE vector field `pfOdeRhs sch model`, any certified `L`-Lipschitz bound on the RHS at
-time `t` yields a `(1 + |dt| L)` Lipschitz bound on the `DynamicalSystem.step` used by Gondlin
+time `t` yields a `(1 + |dt| L)` Lipschitz bound on the `DynamicalSystem.step` used by Gondolin
 trajectories. This is the theorem downstream PF-ODE certificates should target first.
 -/
 theorem pfOdeEulerSystem_l2_lipschitz_of_rhs_lipschitz
@@ -233,7 +233,7 @@ update is also `L`-Lipschitz.
 
 This is the compositional bridge we want at the API boundary: once a concrete DDIM step bound is
 available, the same bound is immediately available through the common dynamics API used elsewhere in
-Gondlin.
+Gondolin.
 -/
 theorem ddimStepSystem_lipschitz_of_step_lipschitz
     (sched : VPSchedule SpecScalar T) (model : EpsModel SpecScalar s) (k : Fin T)

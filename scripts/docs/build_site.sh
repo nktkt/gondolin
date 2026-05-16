@@ -32,9 +32,9 @@ echo "==> Building Verso Guide (Blueprint Package)"
 (cd blueprint && lake exe blueprint-gen --output ../_out/blueprint)
 # Verso does not automatically copy arbitrary guide assets in every local build
 # mode, so mirror the guide asset directory before polishing the generated HTML.
-if [ -d blueprint/GondlinBlueprint/Guide/Assets ]; then
+if [ -d blueprint/GondolinBlueprint/Guide/Assets ]; then
   mkdir -p _out/blueprint/html-multi/Guide/Assets
-  cp -r blueprint/GondlinBlueprint/Guide/Assets/* _out/blueprint/html-multi/Guide/Assets/
+  cp -r blueprint/GondolinBlueprint/Guide/Assets/* _out/blueprint/html-multi/Guide/Assets/
 fi
 python3 scripts/docs/polish_verso_guide.py --guide _out/blueprint/html-multi
 rm -rf home_page/blueprint

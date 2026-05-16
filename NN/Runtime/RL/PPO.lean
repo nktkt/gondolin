@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -12,7 +12,7 @@ public import NN.Runtime.RL.PPO.Collect
 /-!
 # PPO Helpers (Discrete Actions)
 
-Umbrella import for Gondlin’s PPO rollout/training helpers.
+Umbrella import for Gondolin’s PPO rollout/training helpers.
 
 The implementation is split into two focused submodules:
 

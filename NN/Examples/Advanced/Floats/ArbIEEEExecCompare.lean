@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -33,7 +33,7 @@ lo, hi = np.float32(-0.5), np.float32(0.5)
 endpoint_box = (np.tanh(lo), np.tanh(hi))   # common quick check, not a rigorous enclosure
 ```
 
-Gondlin's lesson is more explicit: endpoint evaluation is useful for debugging, but rigorous
+Gondolin's lesson is more explicit: endpoint evaluation is useful for debugging, but rigorous
 transcendental enclosures need a trusted real enclosure source (here Arb) plus outward rounding back
 to the binary32 grid.
 
@@ -43,7 +43,7 @@ Implementation note: the reusable baseline interval helpers live in
 Run:
 
 ```bash
-lake exe gondlin floats_arb_ieee_compare
+lake exe gondolin floats_arb_ieee_compare
 ```
 
 If Arb is not installed, the tutorial still prints the IEEE32Exec side and reports the Arb failure.
@@ -54,13 +54,13 @@ If Arb is not installed, the tutorial still prints the IEEE32Exec side and repor
 
 open Std
 
-namespace Gondlin.Floats.Interval.ComparisonTutorial
+namespace Gondolin.Floats.Interval.ComparisonTutorial
 
-open Gondlin.Floats.Arb
-open Gondlin.Floats.IEEE754
-open Gondlin.Floats.IEEE754.IEEE32Exec
-open Gondlin.Floats.Interval.Comparison
-open Gondlin.Floats.Interval.Comparison.RealInterval
+open Gondolin.Floats.Arb
+open Gondolin.Floats.IEEE754
+open Gondolin.Floats.IEEE754.IEEE32Exec
+open Gondolin.Floats.Interval.Comparison
+open Gondolin.Floats.Interval.Comparison.RealInterval
 
 /-- JSON expression for `x^2 + 0.1*x - 0.5`, in the safe Arb expression language. -/
 def polynomialExpr : Lean.Json :=
@@ -92,7 +92,7 @@ Run one tutorial comparison.
 The output has four conceptual rows:
 
 - `Arb`: rigorous real interval from the external oracle when available;
-- `IEEE32Exec`: endpoint evaluation using Gondlin's deterministic binary32 executable model;
+- `IEEE32Exec`: endpoint evaluation using Gondolin's deterministic binary32 executable model;
 - `Float32`: ordinary runtime endpoint evaluation;
 - `IEEE32Exec+Arb`: Arb real enclosure rounded outward to binary32 endpoints.
 -/
@@ -109,7 +109,7 @@ def runOne (func : String) (lo hi : Float) (precBits digits : Nat) : IO Unit := 
     -- Use the safe `expr` request format (not the unary `--func` mode).
     let xVar := ("x", (toString lo, toString hi))
     try
-      let r ← Gondlin.Floats.Arb.runExpr (vars := [xVar]) (expr := polynomialExpr)
+      let r ← Gondolin.Floats.Arb.runExpr (vars := [xVar]) (expr := polynomialExpr)
         (precBits := precBits) (digits := digits)
       IO.println s!"  Arb(expr):[{r.outLo}, {r.outHi}] (precBits={r.precBits})"
     catch e =>
@@ -122,7 +122,7 @@ def runOne (func : String) (lo hi : Float) (precBits digits : Nat) : IO Unit := 
           hi := toString hi
           precBits := precBits
           digits := digits }
-      let r ← Gondlin.Floats.Arb.run q
+      let r ← Gondolin.Floats.Arb.run q
       IO.println s!"  Arb:      [{r.outLo}, {r.outHi}] (precBits={r.precBits})"
     catch e =>
       IO.println s!"  Arb:      (failed) {e.toString}"
@@ -196,7 +196,7 @@ def runOne (func : String) (lo hi : Float) (precBits digits : Nat) : IO Unit := 
     p = x*x + np.float32(0.1)*x - np.float32(0.5)
     ```
 
-    Gondlin's `Interval32` version uses directed rounding for each interval arithmetic step.
+    Gondolin's `Interval32` version uses directed rounding for each interval arithmetic step.
     The exact-rational row is a small reference check for this polynomial case.
     -/
     let X : Interval32 := ⟨lo32, hi32⟩
@@ -333,12 +333,12 @@ def main (_args : List String) : IO UInt32 := do
   runSignedZeroDiv
   pure 0
 
-end Gondlin.Floats.Interval.ComparisonTutorial
+end Gondolin.Floats.Interval.ComparisonTutorial
 
 namespace NN.Examples.Advanced.Floats.ArbIEEEExecCompare
 
 /-- Entrypoint: run the Arb-vs-`IEEE32Exec` interval tutorial. -/
 def main (args : List String) : IO UInt32 :=
-  Gondlin.Floats.Interval.ComparisonTutorial.main args
+  Gondolin.Floats.Interval.ComparisonTutorial.main args
 
 end NN.Examples.Advanced.Floats.ArbIEEEExecCompare

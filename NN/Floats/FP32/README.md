@@ -1,12 +1,12 @@
 # `NN.Floats.FP32`
 
-`FP32` is Gondlin's proof oriented model of float32 rounding. We use it for theorem
+`FP32` is Gondolin's proof oriented model of float32 rounding. We use it for theorem
 statements and compositional error arguments.
 
-- The scalar type is `Gondlin.Floats.FP32` (an `NF ...` rounded-real value).
+- The scalar type is `Gondolin.Floats.FP32` (an `NF ...` rounded-real value).
 - It is finite only, with no NaNs or infinities. Use it when you want clean error bounds and stability proofs.
-- For an executable IEEE-754 binary32 backend, use `Gondlin.Floats.IEEE754.IEEE32Exec`
-  (re-exported as `Gondlin.Floats.IEEE32Exec`) via `NN/Floats/Float32.lean`.
+- For an executable IEEE-754 binary32 backend, use `Gondolin.Floats.IEEE754.IEEE32Exec`
+  (re-exported as `Gondolin.Floats.IEEE32Exec`) via `NN/Floats/Float32.lean`.
 
 Files:
 

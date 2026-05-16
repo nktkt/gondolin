@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -9,12 +9,12 @@ module
 public import NN
 public import NN.API.Models.Diffusion
 public import NN.Examples.Models.Common.RealData
-public import NN.Runtime.Autograd.Gondlin.NN
+public import NN.Runtime.Autograd.Gondolin.NN
 
 /-!
 # Diffusion Training Example
 
-Runnable `gondlin diffusion` example.
+Runnable `gondolin diffusion` example.
 
 This is the maintained diffusion command. It supports two real-data modes:
 
@@ -39,7 +39,7 @@ wider models.
 Prepare ImageNet-style data:
 
 ```bash
-python3 scripts/datasets/gondlin_data_convert.py image-folder \
+python3 scripts/datasets/gondolin_data_convert.py image-folder \
   --input /path/to/imagenet/train \
   --x-output data/real/imagenet64/imagenet64_train_X.npy \
   --y-output data/real/imagenet64/imagenet64_train_y.npy \
@@ -50,7 +50,7 @@ Train on ImageNet64 and save visual artifacts:
 
 ```bash
 lake build -R -K cuda=true
-CUDA_VISIBLE_DEVICES=0 lake exe -K cuda=true gondlin diffusion --cuda --fast-kernels \
+CUDA_VISIBLE_DEVICES=0 lake exe -K cuda=true gondolin diffusion --cuda --fast-kernels \
   --dataset imagenet64 --n-total 800 --steps 1000 --hidden-c 8 --T 100 --beta-end 0.12 \
   --reference-ppm data/model_zoo/diffusion_reference.ppm \
   --noisy-ppm data/model_zoo/diffusion_noisy.ppm \
@@ -62,7 +62,7 @@ CIFAR smoke path:
 
 ```bash
 python3 scripts/datasets/download_example_data.py --cifar10
-lake exe gondlin diffusion --dataset cifar10 --cuda --fast-kernels --steps 200
+lake exe gondolin diffusion --dataset cifar10 --cuda --fast-kernels --steps 200
 ```
 -/
 
@@ -73,7 +73,7 @@ open NN.API
 
 namespace NN.Examples.Models.Generative.Diffusion
 
-def exeName : String := "gondlin diffusion"
+def exeName : String := "gondolin diffusion"
 
 def defaultLogJson : System.FilePath := "data/model_zoo/diffusionlog.json"
 
@@ -183,8 +183,8 @@ def loadImageNet64X0Batches (xPath yPath : System.FilePath) (nRows seed : Nat) :
   | xs => pure xs
 
 def randomEps {c h w : Nat} (seed step : Nat) : Tensor Float (x0Shape c h w) :=
-  let key : UInt64 := _root_.Runtime.Autograd.Gondlin.Random.keyOf (seed := seed) (counter := step)
-  _root_.Runtime.Autograd.Gondlin.Random.normal (α := Float) key (s := x0Shape c h w)
+  let key : UInt64 := _root_.Runtime.Autograd.Gondolin.Random.keyOf (seed := seed) (counter := step)
+  _root_.Runtime.Autograd.Gondolin.Random.normal (α := Float) key (s := x0Shape c h w)
 
 def mkNoisedSample {c h w : Nat} (alphaBars : Array Float) (T : Nat)
     (x0 : Tensor Float (x0Shape c h w)) (seed step : Nat) :
@@ -270,14 +270,14 @@ def trainCurveFloat {c h w : Nat} [NeZero c] [NeZero h] [NeZero w]
   let alphaBars := NN.API.diffusion.alphaBarsLinear cfg.T cfg.betaStart cfg.betaEnd
   nn.withModel (mkModel c h w cfg.hiddenC h_hiddenC) fun model => do
     let modDef := nn.mseScalarModuleDef model
-    let m ← Gondlin.Module.instantiateWithOptions (α := Float) modDef id opts
-    let opt := Gondlin.Optim.adam (α := Float)
+    let m ← Gondolin.Module.instantiateWithOptions (α := Float) modDef id opts
+    let opt := Gondolin.Optim.adam (α := Float)
       (paramShapes := nn.paramShapes model)
       (lr := cfg.lr) (beta1 := 0.9) (beta2 := 0.999) (epsilon := 1e-8)
-    let optH ← Gondlin.Optim.handle (α := Float) m opt
+    let optH ← Gondolin.Optim.handle (α := Float) m opt
     let evalStep := if cfg.T = 0 then 0 else cfg.T / 2
     let evalSample := mkNoisedSample alphaBars cfg.T evalX0 (seed := opts.seed) (step := evalStep)
-    let loss0 ← Gondlin.Module.forward (α := Float) m evalSample
+    let loss0 ← Gondolin.Module.forward (α := Float) m evalSample
     let L0 := Tensor.toScalar loss0
     let mut curve : _root_.Runtime.Training.Curve := {}
     curve := curve.push 0 L0
@@ -288,11 +288,11 @@ def trainCurveFloat {c h w : Nat} [NeZero c] [NeZero h] [NeZero w]
       optH.step s
       let done := step + 1
       if cfg.logEvery != 0 && done % cfg.logEvery == 0 then
-        let loss ← Gondlin.Module.forward (α := Float) m evalSample
+        let loss ← Gondolin.Module.forward (α := Float) m evalSample
         last := Tensor.toScalar loss
         curve := curve.push done last
     if cfg.logEvery == 0 || cfg.steps % cfg.logEvery != 0 then
-      let loss ← Gondlin.Module.forward (α := Float) m evalSample
+      let loss ← Gondolin.Module.forward (α := Float) m evalSample
       last := Tensor.toScalar loss
       curve := curve.push cfg.steps last
     IO.println s!"  steps={cfg.steps} loss0={L0} lastLoss={last}"
@@ -430,7 +430,7 @@ def runCifar10 (opts : Runtime.Autograd.Torch.Options) (args : List String) : IO
       writeTrainingLog log "cifar10" sourceNotes cfg opts curve
 
 def main (args : List String) : IO UInt32 := do
-  Gondlin.Module.run exeName args
+  Gondolin.Module.run exeName args
     (.float (fun opts rest => do
       let (choice, rest) ← Common.orThrow exeName <| DatasetChoice.parse rest
       match choice with

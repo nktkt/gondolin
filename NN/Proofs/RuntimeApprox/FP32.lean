@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -13,7 +13,7 @@ public import NN.Proofs.RuntimeApprox.FP32.MLP
 /-!
 # FP32 Runtime Approximation
 
-Specialization of the backend-generic approximation stack to Gondlin's FP32 rounding model.
+Specialization of the backend-generic approximation stack to Gondolin's FP32 rounding model.
 
 These modules package layer, MLP, and CROWN/IBP margin lemmas so downstream examples can state
 “real spec result plus explicit FP32 error budget” without reassembling the numeric backend each

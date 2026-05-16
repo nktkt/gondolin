@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -18,8 +18,8 @@ This file is the "load + sample" half of the GPT-2 tutorial.
 1. Train and save parameters:
 
 ```bash
-lake build -R -K cuda=true gondlin:exe
-lake exe gondlin gpt2 --cuda --fast-kernels --tiny-shakespeare --steps 200 \
+lake build -R -K cuda=true gondolin:exe
+lake exe gondolin gpt2 --cuda --fast-kernels --tiny-shakespeare --steps 200 \
   --prompt "First Citizen:" --generate 96 \
   --save-params data/model_zoo/gpt2_shakespeare.params.json
 ```
@@ -27,14 +27,14 @@ lake exe gondlin gpt2 --cuda --fast-kernels --tiny-shakespeare --steps 200 \
 2. Load the saved weights and sample text (no training loop, no optimizer state):
 
 ```bash
-lake exe gondlin gpt2_saved --cuda --fast-kernels \
+lake exe gondolin gpt2_saved --cuda --fast-kernels \
   --params data/model_zoo/gpt2_shakespeare.params.json \
   --prompt "First Citizen:" --generate 160
 ```
 
-## What A "Checkpoint" Is In Gondlin
+## What A "Checkpoint" Is In Gondolin
 
-Gondlin's simplest checkpoint format is intentionally explicit:
+Gondolin's simplest checkpoint format is intentionally explicit:
 
 - a **typed parameter pack**: `TList Float (nn.paramShapes model)`,
 - encoded as **exact IEEE-754 bit patterns** (`Float.toBits`) in JSON, and
@@ -45,7 +45,7 @@ So "save/load" is model-agnostic: if you can name the model, you can name its
 
 ## Why This Is A Separate Example
 
-Gondlin's checkpoint format is shape-indexed and architecture-agnostic: it is just a typed
+Gondolin's checkpoint format is shape-indexed and architecture-agnostic: it is just a typed
 parameter pack (`TList Float (nn.paramShapes model)`). This file exists to show the simplest
 "inference-only" workflow: load a checkpoint and run sampling, without building a training loop.
 -/
@@ -57,10 +57,10 @@ open NN.API
 
 namespace NN.Examples.Models.Sequence.Gpt2Saved
 
-def exeName : String := "gondlin gpt2_saved"
+def exeName : String := "gondolin gpt2_saved"
 
 structure LoadOptions where
-  /-- JSON bits checkpoint produced by `gondlin gpt2 --save-params ...`. -/
+  /-- JSON bits checkpoint produced by `gondolin gpt2 --save-params ...`. -/
   paramsPath : System.FilePath
   /-- Prompt string (byte-tokenized by the same tokenizer as `Gpt2`). -/
   prompt : String
@@ -135,9 +135,9 @@ before sampling starts.
 def sampleWithSavedParams (opts : Runtime.Autograd.Torch.Options) (load : LoadOptions) :
     IO String := do
   nn.withModel NN.Examples.Models.Sequence.Gpt2.mkModel fun model => do
-    -- This is the generic “load parameters for any Gondlin model” helper:
+    -- This is the generic “load parameters for any Gondolin model” helper:
     -- a checkpoint is just a shape-indexed `TList Float (nn.paramShapes model)`.
-    let ps ← Gondlin.ParamIO.loadTListBits (paramShapes := nn.paramShapes model) load.paramsPath
+    let ps ← Gondolin.ParamIO.loadTListBits (paramShapes := nn.paramShapes model) load.paramsPath
     let params ← _root_.Runtime.Autograd.Torch.ParamList.ofTList (α := Float) (ss := nn.paramShapes model) ps
     let outIds ←
       NN.Examples.Models.Sequence.Gpt2.generateSampled opts model params load.prompt load.generate
@@ -149,7 +149,7 @@ def sampleWithSavedParams (opts : Runtime.Autograd.Torch.Options) (load : LoadOp
     pure txt
 
 def main (args : List String) : IO UInt32 := do
-  Gondlin.Module.run exeName args
+  Gondolin.Module.run exeName args
     (.float (fun opts rest => do
       let (load, rest) ← Common.orThrow exeName <| parseLoadOptions rest
       Common.orThrow exeName <| CLI.requireNoArgs rest

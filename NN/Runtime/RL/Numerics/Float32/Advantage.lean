@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -31,8 +31,8 @@ open Spec
 open Tensor
 open Spec.RL
 
-open Gondlin.Floats
-open Gondlin.Floats.IEEE754
+open Gondolin.Floats
+open Gondolin.Floats.IEEE754
 
 /-!
 ## Checked value-learning and advantage-estimation building blocks (IEEE32Exec)
@@ -71,24 +71,24 @@ This is the runtime-checker analogue of `discountedBackupIEEE32ExecChecked_eq_ok
 theorem tdResidualIEEE32ExecChecked_eq_ok
     (value reward gamma nextValue : Float32Exec) (done : Bool) (out : Float32Exec)
     (h : tdResidualIEEE32ExecChecked value reward gamma nextValue done = .ok out) :
-    Gondlin.Floats.IEEE754.IEEE32Exec.isFinite
-        (Gondlin.Floats.IEEE754.IEEE32Exec.mul gamma (continueMask (α := Float32Exec) done)) =
+    Gondolin.Floats.IEEE754.IEEE32Exec.isFinite
+        (Gondolin.Floats.IEEE754.IEEE32Exec.mul gamma (continueMask (α := Float32Exec) done)) =
       true ∧
-      Gondlin.Floats.IEEE754.IEEE32Exec.isFinite
-          (Gondlin.Floats.IEEE754.IEEE32Exec.mul
-            (Gondlin.Floats.IEEE754.IEEE32Exec.mul gamma (continueMask (α := Float32Exec) done))
+      Gondolin.Floats.IEEE754.IEEE32Exec.isFinite
+          (Gondolin.Floats.IEEE754.IEEE32Exec.mul
+            (Gondolin.Floats.IEEE754.IEEE32Exec.mul gamma (continueMask (α := Float32Exec) done))
             nextValue) =
         true ∧
-        Gondlin.Floats.IEEE754.IEEE32Exec.isFinite
-            (Gondlin.Floats.IEEE754.IEEE32Exec.add reward
-              (Gondlin.Floats.IEEE754.IEEE32Exec.mul
-                (Gondlin.Floats.IEEE754.IEEE32Exec.mul gamma
+        Gondolin.Floats.IEEE754.IEEE32Exec.isFinite
+            (Gondolin.Floats.IEEE754.IEEE32Exec.add reward
+              (Gondolin.Floats.IEEE754.IEEE32Exec.mul
+                (Gondolin.Floats.IEEE754.IEEE32Exec.mul gamma
                   (continueMask (α := Float32Exec) done))
                 nextValue)) =
           true ∧
-          Gondlin.Floats.IEEE754.IEEE32Exec.isFinite value = true ∧
-          Gondlin.Floats.IEEE754.IEEE32Exec.isFinite
-              (Gondlin.Floats.IEEE754.IEEE32Exec.sub
+          Gondolin.Floats.IEEE754.IEEE32Exec.isFinite value = true ∧
+          Gondolin.Floats.IEEE754.IEEE32Exec.isFinite
+              (Gondolin.Floats.IEEE754.IEEE32Exec.sub
                 (discountedBackup (α := Float32Exec) reward gamma nextValue done) value) =
             true ∧
             out = tdResidual (α := Float32Exec) value reward gamma nextValue done := by
@@ -103,8 +103,8 @@ theorem tdResidualIEEE32ExecChecked_eq_ok
       exact this.elim
   | ok target =>
       -- The `.ok` TD residual means the value finiteness check and subsequent checked subtraction succeeded.
-      have hval : Gondlin.Floats.IEEE754.IEEE32Exec.isFinite value = true := by
-        cases hf : Gondlin.Floats.IEEE754.IEEE32Exec.isFinite value with
+      have hval : Gondolin.Floats.IEEE754.IEEE32Exec.isFinite value = true := by
+        cases hf : Gondolin.Floats.IEEE754.IEEE32Exec.isFinite value with
         | true =>
             rfl
         | false =>
@@ -124,9 +124,9 @@ theorem tdResidualIEEE32ExecChecked_eq_ok
           htarget
 
       -- Now handle the checked subtraction.
-      set out0 : Float32Exec := Gondlin.Floats.IEEE754.IEEE32Exec.sub target value
-      have hout0 : Gondlin.Floats.IEEE754.IEEE32Exec.isFinite out0 = true := by
-        cases hf : Gondlin.Floats.IEEE754.IEEE32Exec.isFinite out0 with
+      set out0 : Float32Exec := Gondolin.Floats.IEEE754.IEEE32Exec.sub target value
+      have hout0 : Gondolin.Floats.IEEE754.IEEE32Exec.isFinite out0 = true := by
+        cases hf : Gondolin.Floats.IEEE754.IEEE32Exec.isFinite out0 with
         | true =>
             rfl
         | false =>
@@ -215,7 +215,7 @@ def normalizeZScoreIEEE32ExecChecked {n : Nat}
   let y : Tensor Float32Exec (.dim n .scalar) :=
     Spec.normalizeZscoreSpec (α := Float32Exec) (n := n) x
   if Boundary.tensorAll (α := Float32Exec) (s := .dim n .scalar)
-      (fun z => Gondlin.Floats.IEEE754.IEEE32Exec.isFinite z) y then
+      (fun z => Gondolin.Floats.IEEE754.IEEE32Exec.isFinite z) y then
     .ok y
   else
     .error "RL float32: normalizeZScore produced a non-finite entry."

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -12,7 +12,7 @@ public import NN.Spec.RL.Environment
 /-!
 # RL Environment Proofs
 
-These theorems capture the first "guarantee layer" for Gondlin's Gym-style environment API:
+These theorems capture the first "guarantee layer" for Gondolin's Gym-style environment API:
 
 - state traces have predictable lengths,
 - rollouts have predictable lengths,

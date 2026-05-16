@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -39,7 +39,7 @@ Background:
 @[expose] public section
 
 
-namespace Gondlin.Floats.IEEE754
+namespace Gondolin.Floats.IEEE754
 
 open IEEE32Exec
 
@@ -179,4 +179,4 @@ end RuntimeFloat32MatchesIEEE32Exec
 
 end Float32Bridge
 
-end Gondlin.Floats.IEEE754
+end Gondolin.Floats.IEEE754

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -15,13 +15,13 @@ public import NN.Tensor.API
 /-!
 # Quickstart: Widgets
 
-Gondlin widgets are editor-side inspection tools. They are not part of the runtime semantics and
+Gondolin widgets are editor-side inspection tools. They are not part of the runtime semantics and
 they do not change proofs; they simply render the values you already have in Lean.
 
 Use this file in the editor:
 
 - put the cursor on a `#tensor_view`, `#float32_view`, `#ir_view`, or `#train_log_view` command;
-- put the cursor on `#pytorch_translate_file` to preview a PyTorch-to-Gondlin skeleton;
+- put the cursor on `#pytorch_translate_file` to preview a PyTorch-to-Gondolin skeleton;
 - Lean's infoview renders an interactive panel;
 - if you want the full gallery, open `NN.Examples.Advanced.Widgets`.
 
@@ -34,7 +34,7 @@ full model zoo.
 namespace NN.Examples.Quickstart.Widgets
 
 open Spec
-open Gondlin.Floats.IEEE754
+open Gondolin.Floats.IEEE754
 
 /-- A small vector, built with the same typed tensor constructor used in ordinary code. -/
 def vector : Spec.Tensor Float (shape![4]) :=
@@ -87,7 +87,7 @@ source files behind.
 
 /-!
 The translator widget is intentionally placed next to the IR/shape widgets. It is a lightweight
-preview for "what would this PyTorch layer stack look like in Gondlin?" The checked graph-capture
+preview for "what would this PyTorch layer stack look like in Gondolin?" The checked graph-capture
 path is still the `torch.export` importer, which parses and validates explicit IR JSON.
 -/
 #pytorch_translate_file "NN/Examples/Quickstart/pytorch_translator_mlp.py"

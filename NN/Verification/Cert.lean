@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -16,7 +16,7 @@ public import NN.Verification.Cert.AbCrownLeafCert
 /-!
 # Certificate Verification
 
-Public umbrella import for Gondlin's executable certificate checkers.
+Public umbrella import for Gondolin's executable certificate checkers.
 
 These modules define:
 - artifact parsers (JSON → typed structures),

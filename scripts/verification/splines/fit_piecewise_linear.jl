@@ -1,4 +1,4 @@
-# Gondlin Julia producer: piecewise-linear “spline” certificate.
+# Gondolin Julia producer: piecewise-linear “spline” certificate.
 #
 # This script is dependency-free (Julia Base only). It “fits” a piecewise-linear
 # interpolant to a small in-script dataset, then prints a JSON certificate to stdout.
@@ -6,7 +6,7 @@
 # The corresponding Lean checker lives at:
 #   `NN/Verification/Splines/PiecewisePolyCert.lean`
 #
-# Run from the Gondlin repo root:
+# Run from the Gondolin repo root:
 #   julia --color=no --startup-file=no scripts/verification/splines/fit_piecewise_linear.jl
 #
 # The Lean checker calls this script via `IO.Process` when invoked with `--regen`:

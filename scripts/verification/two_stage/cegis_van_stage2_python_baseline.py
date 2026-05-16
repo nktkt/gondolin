@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Run the Python Stage-2 baseline for the Gondlin two-stage Van workflow.
+"""Run the Python Stage-2 baseline for the Gondolin two-stage Van workflow.
 
-The purpose is comparison, not trust.  Gondlin/Lean is the checker side; this script is a
+The purpose is comparison, not trust.  Gondolin/Lean is the checker side; this script is a
 familiar PyTorch reference loop that uses the same scalar loss and the same parameter pack order.
 
 Workflow:
@@ -10,7 +10,7 @@ Workflow:
   3. Take an SGD step on the controller/Lyapunov parameters at the found point.
 
 This is not the full Verified-Intelligence Stage-2 implementation.  It is a compact baseline for
-checking that the Gondlin workflow is wired to the same objective.
+checking that the Gondolin workflow is wired to the same objective.
 """
 
 from __future__ import annotations
@@ -75,7 +75,7 @@ def loss_fn(
     W2: torch.Tensor,
     b2: torch.Tensor,
 ) -> torch.Tensor:
-    """Compute the Stage-2 loss used by both the Python baseline and Gondlin.
+    """Compute the Stage-2 loss used by both the Python baseline and Gondolin.
 
     The formulas mirror the Lean workflow:
       controller: `u = tanh(Wc x + bc)`

@@ -1,11 +1,11 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 
 Run:
   python3 scripts/datasets/download_example_data.py --cifar10
-  lake exe -K cuda=true gondlin mae --cuda --steps 25
+  lake exe -K cuda=true gondolin mae --cuda --steps 25
 -/
 
 module
@@ -20,7 +20,7 @@ public import NN.Examples.Models.Common.RealData
 /-!
 # Masked Autoencoder CIFAR Example
 
-This is the smallest ViT-MAE-style training path in Gondlin.
+This is the smallest ViT-MAE-style training path in Gondolin.
 
 The data path is intentionally concrete:
 
@@ -44,7 +44,7 @@ open NN.API
 namespace NN.Examples.Models.Generative.Mae
 
 /-- Command name used in error messages and CLI output. -/
-def exeName : String := "gondlin mae"
+def exeName : String := "gondolin mae"
 
 /-- Default training curve location. `data/` is intentionally ignored by git. -/
 def defaultLogJson : System.FilePath := "data/model_zoo/mae_trainlog.json"
@@ -139,10 +139,10 @@ def mkMaeSample
 /--
 Train and return a loss curve.
 
-The curve is written by `main` using Gondlin's general training-log JSON format, so plotting and
+The curve is written by `main` using Gondolin's general training-log JSON format, so plotting and
 dashboard tools can consume it the same way they consume the other model examples.
 -/
-def trainCurve (opts : Gondlin.Options) (xPath yPath : System.FilePath)
+def trainCurve (opts : Gondolin.Options) (xPath yPath : System.FilePath)
     (nRows seed steps : Nat) : IO _root_.Runtime.Training.Curve := do
   let batch ← loadCifarBatch xPath yPath nRows seed
   let sample := mkMaeSample batch
@@ -150,7 +150,7 @@ def trainCurve (opts : Gondlin.Options) (xPath yPath : System.FilePath)
     (mkModel := mkModel)
     (mkModuleDef := fun model => nn.mseScalarModuleDef model)
     (mkOptim := fun ps =>
-      Gondlin.Optim.adam (α := Float) (paramShapes := ps)
+      Gondolin.Optim.adam (α := Float) (paramShapes := ps)
         (lr := 1e-3) (beta1 := 0.9) (beta2 := 0.999) (epsilon := 1e-8))
     (opts := opts) (sample := sample) (steps := steps)
 
@@ -164,9 +164,9 @@ Useful flags:
 - `--log <path>` writes the training curve JSON.
 -/
 def main (args : List String) : IO UInt32 := do
-  let (rt, rest) ← Common.orThrow exeName <| Gondlin.Module.ExecConfig.parseAndStrip args
-  Gondlin.Module.ExecConfig.log rt
-  let opts : Gondlin.Options :=
+  let (rt, rest) ← Common.orThrow exeName <| Gondolin.Module.ExecConfig.parseAndStrip args
+  Gondolin.Module.ExecConfig.log rt
+  let opts : Gondolin.Options :=
     { backend := rt.backend
       useGpu := rt.useGpu
       fastKernels := rt.fastKernels

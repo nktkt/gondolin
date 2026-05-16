@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -25,7 +25,7 @@ Real reports motivating this card include PyTorch3D camera-conversion/projection
 `#522`, `#596`, `#1105`, `#1183`, `#1427`; Detectron2 rotated-box shape issue `#2402`;
 Omni3D/Cube R-CNN conversion issue `#60`; and BlenderProc projected-3D-bbox issue `#1150`.
 
-Gondlin's checked boundary is not "the neural detector is correct."  The detector is an
+Gondolin's checked boundary is not "the neural detector is correct."  The detector is an
 untrusted producer.  The checked contract is:
 
 > Given exported tensors `P : Tensor [3,4]`, `corners : Tensor [8,3]`, and a claimed 2D box, Lean

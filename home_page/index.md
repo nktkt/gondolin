@@ -6,7 +6,7 @@ usemathjax: true
 <div class="hero home-hero">
   <div class="hero-text">
     <p class="lede">
-      Gondlin formalizes neural network infrastructure in Lean 4, connecting typed tensor and
+      Gondolin formalizes neural network infrastructure in Lean 4, connecting typed tensor and
       layer specifications, runnable training examples, graph IR semantics, floating-point
       contracts, CUDA trust boundaries, and artifacts that Lean checkers can inspect.
     </p>
@@ -19,18 +19,18 @@ usemathjax: true
   </div>
 </div>
 
-## What Gondlin Gives You
+## What Gondolin Gives You
 
 <div class="home-overview">
   <img
-    src="{{ '/assets/media/figures/gondlin-layout.png' | relative_url }}"
-    alt="Gondlin overview: typed tensors, shared graph IR, verified reverse mode autograd, IEEE-754 semantics, certificate checking, PyTorch round trip, CUDA trust boundary, approximation theorems, and Lean verification."
+    src="{{ '/assets/media/figures/gondolin-layout.png' | relative_url }}"
+    alt="Gondolin overview: typed tensors, shared graph IR, verified reverse mode autograd, IEEE-754 semantics, certificate checking, PyTorch round trip, CUDA trust boundary, approximation theorems, and Lean verification."
     loading="lazy" />
 </div>
 
 ## Where It Fits
 
-Gondlin sits between the software people already use and the proof artifacts they want to trust.
+Gondolin sits between the software people already use and the proof artifacts they want to trust.
 The project is written in [Lean 4](https://lean-lang.org/) and uses a PyTorch-style surface where
 that makes model code easier to read. For the Python ecosystem, see the official
 [PyTorch documentation](https://pytorch.org/docs/stable/index.html); for Lean itself, start with the
@@ -39,8 +39,8 @@ that makes model code easier to read. For the Python ecosystem, see the official
 ## Paper / Citation
 
 ```bibtex
-@misc{george2026gondlinformalizingneuralnetworks,
-      title={Gondlin: Formalizing Neural Networks in Lean},
+@misc{george2026gondolinformalizingneuralnetworks,
+      title={Gondolin: Formalizing Neural Networks in Lean},
       author={Robert Joseph George and Jennifer Cruden and Xiangru Zhong and Huan Zhang and Anima Anandkumar},
       year={2026},
       eprint={2602.22631},

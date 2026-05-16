@@ -34,7 +34,7 @@ find docs-site/public/api -name "*.hash" -delete
 
 echo "==> Stripping dependency subtrees"
 # DocGen emits per-module HTML for every transitively-imported library
-# (Mathlib alone is ~400MB). The public site only documents Gondlin's own
+# (Mathlib alone is ~400MB). The public site only documents Gondolin's own
 # NN/ surface, so drop dependency subtrees to keep the deployed assets
 # small (Cloudflare Workers has a 25MB per-file cap). Root-level entry
 # pages (Aesop.html, Init.html, etc.) are kept so the module list renders;

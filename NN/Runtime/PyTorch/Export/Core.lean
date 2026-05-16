@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -23,7 +23,7 @@ Design note (PyTorch export APIs, for context only):
 
 PyTorch also has *graph capture* / *serialization* mechanisms such as ONNX export and
   `torch.export`.
-Those APIs produce IR-like artifacts intended for execution in other runtimes. Gondlin's exporter
+Those APIs produce IR-like artifacts intended for execution in other runtimes. Gondolin's exporter
 in this folder instead emits plain Python source primarily for readability and for round-trip tests.
 
 Reading map:
@@ -62,9 +62,9 @@ whether weights were embedded.
 structure PyTorchExportMetadata (α : Type) (s t : Shape) where
   /-- Human-friendly class/model name used in the emitted Python. -/
   modelName : String
-  /-- Expected input shape (Gondlin spec `Shape`). -/
+  /-- Expected input shape (Gondolin spec `Shape`). -/
   inputShape : Shape
-  /-- Expected output shape (Gondlin spec `Shape`). -/
+  /-- Expected output shape (Gondolin spec `Shape`). -/
   outputShape : Shape
   /-- Count of primitive layers/ops in the model (exporter-specific). -/
   layerCount : Nat
@@ -99,7 +99,7 @@ and the more general IR exporter.
 -/
 
 /--
-Emit a standard `get_model_info` method used by most Gondlin PyTorch demo modules.
+Emit a standard `get_model_info` method used by most Gondolin PyTorch demo modules.
 
 `extraFields` are inserted after the `"model_name"` entry. Each element is `(key, valueExpr)` where
 `valueExpr` is emitted verbatim as Python code (e.g. `"self.input_shape"` or `"self.hidden_dim"`).
@@ -183,9 +183,9 @@ def tensor2DToPy {rows cols : Nat} (t : Tensor Float (.dim rows (.dim cols .scal
 /--
 Render the transpose of a 2D float tensor as a Python nested-list literal.
 
-Gondlin's matrix-valued specs often follow the mathematical convention where a feature matrix
+Gondolin's matrix-valued specs often follow the mathematical convention where a feature matrix
 `W` has shape `(in, out)` and is applied as `X * W`. PyTorch stores `nn.Linear` weights as
-`(out, in)` and applies them as `X @ W.T + b`. This helper prints a Gondlin matrix in the
+`(out, in)` and applies them as `X @ W.T + b`. This helper prints a Gondolin matrix in the
 transposed orientation expected by PyTorch.
 -/
 def tensor2DToPyT {rows cols : Nat} (t : Tensor Float (.dim rows (.dim cols .scalar))) : String :=

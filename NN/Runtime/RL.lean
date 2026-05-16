@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -32,9 +32,9 @@ The split is intentional:
 - `Runtime.RL.Algorithms.*` contains pure/mostly-pure bandit, tabular, value-learning, and
   policy-gradient equations;
 - `Runtime.RL.Boundary` records host-side rollout contracts before converting observations and
-  rewards into Gondlin tensors;
+  rewards into Gondolin tensors;
 - `Runtime.RL.Gymnasium` is an external-process bridge and therefore a trust boundary;
-- `Runtime.RL.PolicyGradient.Autograd` contains differentiable actor/critic losses over Gondlin
+- `Runtime.RL.PolicyGradient.Autograd` contains differentiable actor/critic losses over Gondolin
   refs; model architectures remain in GraphSpec/API model layers;
 - `Runtime.RL.PPO` contains rollout/sample construction;
 - `Runtime.RL.Numerics.*` contains optional checked float32 and interval diagnostics for RL

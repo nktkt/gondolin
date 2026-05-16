@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -35,8 +35,8 @@ We keep the walkthrough small enough to inspect quickly:
 - lower `--lr` first if the probe gets worse instead of better.
 
 ```bash
-lake exe -K cuda=true gondlin lstm_regression --cuda --steps 1 --windows 1
-lake exe -K cuda=true gondlin lstm_regression --cuda --steps 200 --windows 96
+lake exe -K cuda=true gondolin lstm_regression --cuda --steps 1 --windows 1
+lake exe -K cuda=true gondolin lstm_regression --cuda --steps 200 --windows 96
 ```
 
 Dataset citation: Hebrail and Berard, "Individual Household Electric Power Consumption", UCI Machine
@@ -50,8 +50,8 @@ open NN.API
 
 namespace NN.Examples.Models.Supervised.LstmRegression
 
-/-- Runner subcommand: `lake exe gondlin lstm_regression ...`. -/
-def exeName : String := "gondlin lstm_regression"
+/-- Runner subcommand: `lake exe gondolin lstm_regression ...`. -/
+def exeName : String := "gondolin lstm_regression"
 
 /--
 Default JSON path for the before/after loss.
@@ -156,13 +156,13 @@ separate held-out window list.
 -/
 def meanLossOnSamples
     (model : nn.Sequential σ τ)
-    (m : Gondlin.Module.ScalarModule Float (nn.paramShapes model) [σ, τ])
+    (m : Gondolin.Module.ScalarModule Float (nn.paramShapes model) [σ, τ])
     (xs : Array (API.sample.Supervised Float σ τ)) : IO Float := do
   let fallback ← Common.orThrow exeName (firstSample? xs)
   let evalCount := Nat.min xs.size 32
   let mut total := 0.0
   for i in [0:evalCount] do
-    let loss ← Gondlin.Module.forward (α := Float) m (xs.getD i fallback)
+    let loss ← Gondolin.Module.forward (α := Float) m (xs.getD i fallback)
     total := total + Tensor.toScalar loss
   pure (total / Float.ofNat (Nat.max 1 evalCount))
 
@@ -192,7 +192,7 @@ This is the easiest way to debug whether the model is actually learning the curv
 def printForecastProbe
     (opts : Runtime.Autograd.Torch.Options)
     (model : nn.Sequential σ τ)
-    (params : Gondlin.ParamList Float (nn.paramShapes model))
+    (params : Gondolin.ParamList Float (nn.paramShapes model))
     (samples : Array (API.sample.Supervised Float σ τ))
     (offset : Nat) : IO Unit := do
   let fallback ← Common.orThrow exeName (firstSample? samples)
@@ -203,7 +203,7 @@ def printForecastProbe
   for i in [0:Nat.min seqLen 8] do
     IO.println s!"    t+{i+1}: pred={readSeriesAt pred i} target={readSeriesAt target i}"
 
-/-- Example-specific training options after `Gondlin.Module.run` has handled CPU/CUDA flags. -/
+/-- Example-specific training options after `Gondolin.Module.run` has handled CPU/CUDA flags. -/
 structure TrainOptions where
   /-- Optimizer steps. Use `1` on CUDA for smoke; use around `200` on CUDA to see learning. -/
   steps : Nat
@@ -227,7 +227,7 @@ deriving Repr
 Parse example-specific flags.
 
 Runtime flags such as `--cpu`, `--cuda`, `--dtype`, and `--backend` are handled by
-`Gondlin.Module.run`; this parser handles data, forecasting, and logging knobs.
+`Gondolin.Module.run`; this parser handles data, forecasting, and logging knobs.
 -/
 def parseTrainOptions (args : List String) : Except String (TrainOptions × List String) := do
   let (train, args) ← Common.parseLoggedTrainFlags exeName args defaultLogJson 100
@@ -269,18 +269,18 @@ def trainForecast (opts : Runtime.Autograd.Torch.Options) (train : TrainOptions)
   nn.withModel mkModel fun model => do
     let xs ← Common.orThrow exeName =<< loadRealSamples train.xPath train.yPath train.windows
     let modDef := nn.mseScalarModuleDef model
-    let m ← Gondlin.Module.instantiateWithOptions (α := Float) modDef id opts
+    let m ← Gondolin.Module.instantiateWithOptions (α := Float) modDef id opts
     let L0 ← meanLossOnSamples model m xs
     IO.println "  before training forecast probe:"
     printForecastProbe opts model m.trainer.params xs train.probeOffset
 
-    let opt := Gondlin.Optim.adam (α := Float)
+    let opt := Gondolin.Optim.adam (α := Float)
       (paramShapes := nn.paramShapes model)
       (lr := train.lr)
       (beta1 := 0.9)
       (beta2 := 0.999)
       (epsilon := 1e-8)
-    let optH ← Gondlin.Optim.handle (α := Float) m opt
+    let optH ← Gondolin.Optim.handle (α := Float) m opt
     let fallback ← Common.orThrow exeName (firstSample? xs)
     for step in [0:train.steps] do
       optH.step (xs.getD (step % Nat.max 1 xs.size) fallback)
@@ -299,7 +299,7 @@ property, use the spec/proof files; if you want to see an LSTM actually fit a sm
 run this file.
 -/
 def main (args : List String) : IO UInt32 := do
-  Gondlin.Module.run exeName args
+  Gondolin.Module.run exeName args
     (.float (fun opts rest => do
       let (train, rest) ← Common.orThrow exeName <| parseTrainOptions rest
       Common.orThrow exeName <| CLI.requireNoArgs rest

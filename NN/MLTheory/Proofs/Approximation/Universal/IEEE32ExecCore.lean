@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -36,7 +36,7 @@ namespace IEEE32ExecCore
 
 open _root_.Spec
 open NN.MLTheory.Proofs.ReLUMlpBridge
-open Gondlin.Floats.IEEE754
+open Gondolin.Floats.IEEE754
 
 noncomputable section
 
@@ -64,7 +64,7 @@ noncomputable def mlpEvalNdIeee32exec {n hidDim : Nat}
   extractScalarOutputIeee32exec (Examples.mlpForward l1 l2 x)
 
 /--
-Shape-preserving map over Gondlin specification tensors.
+Shape-preserving map over Gondolin specification tensors.
 
 Lean's dependent tensor shape is part of the type, so the map is recursive over shapes rather than
 implemented as a runtime loop. This keeps coercions such as `tensorToReal` definitionally

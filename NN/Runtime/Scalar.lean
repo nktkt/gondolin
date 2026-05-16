@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -37,16 +37,16 @@ Note on trust boundaries:
 namespace Runtime
 
 /-- Default runtime scalar for execution. -/
-abbrev RuntimeScalar := Gondlin.Floats.IEEE754.IEEE32Exec
+abbrev RuntimeScalar := Gondolin.Floats.IEEE754.IEEE32Exec
 
 /-- Runtime tensors are Float-typed tensors. -/
 abbrev RuntimeTensor (s : Spec.Shape) := Spec.Tensor RuntimeScalar s
 
 /-- NeuralFloat runtime scalar (precision-aware). -/
-abbrev RuntimeNeuralScalar (β : Gondlin.Floats.NeuralRadix) := Gondlin.Floats.NeuralFloat β
+abbrev RuntimeNeuralScalar (β : Gondolin.Floats.NeuralRadix) := Gondolin.Floats.NeuralFloat β
 
 /-- Runtime tensors backed by NeuralFloat. -/
-abbrev RuntimeNeuralTensor (β : Gondlin.Floats.NeuralRadix) (s : Spec.Shape) :=
+abbrev RuntimeNeuralTensor (β : Gondolin.Floats.NeuralRadix) (s : Spec.Shape) :=
   Spec.Tensor (RuntimeNeuralScalar β) s
 
 end Runtime

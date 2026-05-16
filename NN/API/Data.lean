@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -18,11 +18,11 @@ import Mathlib.Data.List.Basic
 /-!
 # Datasets, Loaders, and File Sources
 
-This module is Gondlin's public data layer. The intended workflow is:
+This module is Gondolin's public data layer. The intended workflow is:
 
 1. Convert outside-world datasets to canonical `.npy` tensors or small numeric CSV files.
 2. Describe those files with `TensorSource`, `SupervisedSource`, or `LabeledSource`.
-3. Load them into shape-typed Gondlin tensors and datasets.
+3. Load them into shape-typed Gondolin tensors and datasets.
 4. Train with `batchLoader` / `BatchLoader.epoch` or the higher-level `train.fit*` helpers.
 
 We keep the implementation small and predictable:
@@ -31,7 +31,7 @@ We keep the implementation small and predictable:
 - `.npy` is the canonical numeric interchange format
 - CSV is supported for small tabular data
 - MATLAB `.mat`, PyTorch `.pt/.pth`, NumPy `.npz`, and image folders should be converted to
-  `.npy` with `scripts/datasets/gondlin_data_convert.py`
+  `.npy` with `scripts/datasets/gondolin_data_convert.py`
 - there are no multiprocessing workers, memory maps, or pinned-memory support
 
 ## PyTorch Mapping
@@ -41,7 +41,7 @@ This is inspired by `torch.utils.data`:
 - TensorDataset: `https://pytorch.org/docs/stable/data.html#torch.utils.data.TensorDataset`
 - DataLoader: `https://pytorch.org/docs/stable/data.html#torch.utils.data.DataLoader`
 
-Gondlin’s key difference is that samples typically carry *type-level shapes* (via `TList`),
+Gondolin’s key difference is that samples typically carry *type-level shapes* (via `TList`),
 so many helpers here are shape-aware by construction.
 
 ## Main Entry Points
@@ -72,11 +72,11 @@ export _root_.Runtime.Autograd.Train
 /--
 Typed analogue of PyTorch's `TensorDataset`.
 
-In Gondlin, a "sample" is usually a `TList α shapes`, i.e. a tuple of tensors whose shapes are
+In Gondolin, a "sample" is usually a `TList α shapes`, i.e. a tuple of tensors whose shapes are
 tracked by the type-level list `shapes`.
 -/
 abbrev TensorDataset (α : Type) (shapes : List Spec.Shape) :=
-  _root_.Runtime.Autograd.Train.Dataset (API.Gondlin.TList α shapes)
+  _root_.Runtime.Autograd.Train.Dataset (API.Gondolin.TList α shapes)
 
 /-- Build a dataset from an explicit list of samples. -/
 def fromList {a : Type} (xs : List a) : _root_.Runtime.Autograd.Train.Dataset a :=
@@ -254,7 +254,7 @@ def batchesArray {a : Type} (tag : String) (batchSize : Nat) (ds :
 /--
 Untyped analogue of PyTorch's `torch.utils.data.DataLoader`.
 
-This is the deterministic, purely-functional loader provided by the Gondlin runtime.
+This is the deterministic, purely-functional loader provided by the Gondolin runtime.
 -/
 abbrev RawDataLoader (a : Type) :=
   _root_.Runtime.Autograd.Train.DataLoader a
@@ -282,7 +282,7 @@ def epoch {a : Type} (name : String) (dl : RawDataLoader a) :
 /--
 Like `epoch`, but apply a user-provided `collate` function to each minibatch.
 
-This is the Gondlin analogue of PyTorch's `collate_fn=` option.
+This is the Gondolin analogue of PyTorch's `collate_fn=` option.
 -/
 def epochCollate {a b : Type} (name : String) (dl : RawDataLoader a)
     (collate : List a → Except String b) :
@@ -325,7 +325,7 @@ abbrev fromCsvPairs (path : System.FilePath) (opts : CsvOptions := {}) :=
 abbrev fromCsvVectors (path : System.FilePath) (n : Nat) (opts : CsvOptions := {}) :=
   readCsvVectorDataset path n opts
 
-/-- Read a `.npy` file into a Gondlin dataset. -/
+/-- Read a `.npy` file into a Gondolin dataset. -/
 abbrev fromNpy := readNpy
 
 /-- Read a `.npy` file as a vector dataset. -/
@@ -335,13 +335,13 @@ abbrev fromNpyVector := readNpyVector
 abbrev fromNpyMatrix := readNpyMatrix
 
 /--
-Convert a list of `(x, y)` float tensors into a dataset of Gondlin supervised samples.
+Convert a list of `(x, y)` float tensors into a dataset of Gondolin supervised samples.
 
 This casts float data into the selected scalar backend `α` and packs it into a `TList α [σ, τ]`.
 -/
 def supervised {α : Type} [API.Semantics.Scalar α] [API.Runtime.Scalar α] {σ τ : Spec.Shape}
     (xs : List (Spec.Tensor Float σ × Spec.Tensor Float τ)) :
-    _root_.Runtime.Autograd.Train.Dataset (API.Gondlin.TList α [σ, τ]) :=
+    _root_.Runtime.Autograd.Train.Dataset (API.Gondolin.TList α [σ, τ]) :=
   fromList <| xs.map (fun (xF, yF) =>
     let x : Spec.Tensor α σ := Spec.mapTensor (API.Runtime.ofFloat (α := α)) xF
     let y : Spec.Tensor α τ := Spec.mapTensor (API.Runtime.ofFloat (α := α)) yF
@@ -354,7 +354,7 @@ Labels are given as `Nat` and converted to one-hot targets of shape `Vec classes
 -/
 def labeled {α : Type} [API.Semantics.Scalar α] [API.Runtime.Scalar α] {σ : Spec.Shape}
     (classes : Nat) (xs : List (Spec.Tensor Float σ × Nat)) :
-    _root_.Runtime.Autograd.Train.Dataset (API.Gondlin.TList α [σ, NN.Tensor.Shape.Vec classes])
+    _root_.Runtime.Autograd.Train.Dataset (API.Gondolin.TList α [σ, NN.Tensor.Shape.Vec classes])
       :=
   fromList <| xs.map (fun (xF, label) =>
     let x : Spec.Tensor α σ := Spec.mapTensor (API.Runtime.ofFloat (α := α)) xF
@@ -370,7 +370,7 @@ def labeled {α : Type} [API.Semantics.Scalar α] [API.Runtime.Scalar α] {σ : 
 PyTorch's `TensorDataset` concept is: given one or more tensors that share the same `size(0)`,
 build a dataset of samples by slicing each tensor along dimension 0.
 
-In Gondlin we do the same thing, but with shapes tracked in the type:
+In Gondolin we do the same thing, but with shapes tracked in the type:
 
 - a batched tensor has shape `.dim n σ`,
 - slicing at `i : Fin n` yields a sample of shape `σ`,
@@ -386,9 +386,9 @@ the corresponding single sample.
 -/
 def unbatchTListDim0 {β : Type} {n : Nat} :
     {ss : List Spec.Shape} →
-      API.Gondlin.TList β (ss.map (fun s => Spec.Shape.dim n s)) →
+      API.Gondolin.TList β (ss.map (fun s => Spec.Shape.dim n s)) →
       Fin n →
-      API.Gondlin.TList β ss
+      API.Gondolin.TList β ss
   | [], .nil, _i => .nil
   | _s :: ss, .cons x xs, i =>
       .cons (Spec.getAtSpec x i) (unbatchTListDim0 (β := β) (ss := ss) xs i)
@@ -396,8 +396,8 @@ def unbatchTListDim0 {β : Type} {n : Nat} :
 /-- Convert a shape-indexed `TList` of `Float` tensors to the runtime scalar type `α`. -/
 def castTListOfFloat {α : Type} [API.Runtime.Scalar α] :
     {ss : List Spec.Shape} →
-      API.Gondlin.TList Float ss →
-      API.Gondlin.TList α ss
+      API.Gondolin.TList Float ss →
+      API.Gondolin.TList α ss
   | [], .nil => .nil
   | _s :: ss, .cons x xs =>
       .cons (Spec.mapTensor (API.Runtime.ofFloat (α := α)) x) (castTListOfFloat (ss := ss) xs)
@@ -405,11 +405,11 @@ def castTListOfFloat {α : Type} [API.Runtime.Scalar α] :
 /--
 Build a dataset by slicing a *batched* `TList` along dim0.
 
-This is the Gondlin analogue of PyTorch's `TensorDataset(t1, t2, ...)`.
+This is the Gondolin analogue of PyTorch's `TensorDataset(t1, t2, ...)`.
 -/
 def tensorDatasetDim0 {β : Type} {n : Nat} {ss : List Spec.Shape}
-    (xs : API.Gondlin.TList β (ss.map (fun s => Spec.Shape.dim n s))) :
-    Dataset (API.Gondlin.TList β ss) :=
+    (xs : API.Gondolin.TList β (ss.map (fun s => Spec.Shape.dim n s))) :
+    Dataset (API.Gondolin.TList β ss) :=
   fromList <| (List.finRange n).map (fun i => unbatchTListDim0 (β := β) (n := n) (ss := ss) xs i)
 
 /--
@@ -417,9 +417,9 @@ Float-to-`α` variant of `tensorDatasetDim0`, for data loaded from disk.
 -/
 def tensorDatasetDim0F {α : Type} [API.Runtime.Scalar α]
     {n : Nat} {ss : List Spec.Shape}
-    (xs : API.Gondlin.TList Float (ss.map (fun s => Spec.Shape.dim n s))) :
-    Dataset (API.Gondlin.TList α ss) :=
-  let samples : List (API.Gondlin.TList α ss) :=
+    (xs : API.Gondolin.TList Float (ss.map (fun s => Spec.Shape.dim n s))) :
+    Dataset (API.Gondolin.TList α ss) :=
+  let samples : List (API.Gondolin.TList α ss) :=
     (List.finRange n).map (fun i =>
       castTListOfFloat (α := α) (unbatchTListDim0 (β := Float) (n := n) (ss := ss) xs i))
   fromList samples
@@ -427,14 +427,14 @@ def tensorDatasetDim0F {α : Type} [API.Runtime.Scalar α]
 /--
 Supervised dataset from two batched tensors `X : (n, σ)` and `Y : (n, τ)` by slicing dim0.
 
-This is the common regression/supervised-learning case: the Gondlin analogue of
+This is the common regression/supervised-learning case: the Gondolin analogue of
 `TensorDataset(X, Y)` in PyTorch.
 -/
 def supervisedDim0 {α : Type}
     {n : Nat} {σ τ : Spec.Shape}
     (X : Spec.Tensor α (.dim n σ))
     (Y : Spec.Tensor α (.dim n τ)) :
-    Dataset (API.Gondlin.TList α [σ, τ]) :=
+    Dataset (API.Gondolin.TList α [σ, τ]) :=
   tensorDatasetDim0 (β := α) (n := n) (ss := [σ, τ])
     (_root_.Runtime.Autograd.Torch.tlist2 X Y)
 
@@ -443,7 +443,7 @@ def supervisedDim0F {α : Type} [API.Runtime.Scalar α]
     {n : Nat} {σ τ : Spec.Shape}
     (X : Spec.Tensor Float (.dim n σ))
     (Y : Spec.Tensor Float (.dim n τ)) :
-    Dataset (API.Gondlin.TList α [σ, τ]) :=
+    Dataset (API.Gondolin.TList α [σ, τ]) :=
   tensorDatasetDim0F (α := α) (n := n) (ss := [σ, τ])
     (_root_.Runtime.Autograd.Torch.tlist2 X Y)
 
@@ -475,7 +475,7 @@ dimensions must still match exactly; only the leading dimension may be larger th
 We use this for dataset sources rather than the stricter `fromNpyTensorND` because a real exported
 dataset usually has a fixed full size, while tutorials often ask for a small prefix during smoke
 tests or quick CUDA checks.  For example, a CIFAR file may have shape `(50000, 3, 32, 32)` while a
-demo command asks for `n = 80`; the resulting Gondlin tensor has type-level shape
+demo command asks for `n = 80`; the resulting Gondolin tensor has type-level shape
 `(80, 3, 32, 32)`.
 
 This is intentionally still a checked loader, not an implicit reshape:
@@ -551,7 +551,7 @@ def labeledDim0 {α : Type} [API.Semantics.Scalar α] [API.Runtime.Scalar α]
     {n : Nat} {σ : Spec.Shape}
     (X : Spec.Tensor Float (.dim n σ))
     (y : Spec.Tensor Float (NN.Tensor.Shape.Vec n)) :
-    Except String (Dataset (API.Gondlin.TList α [σ, NN.Tensor.Shape.Vec classes])) := do
+    Except String (Dataset (API.Gondolin.TList α [σ, NN.Tensor.Shape.Vec classes])) := do
   let samples : List (Spec.Tensor Float σ × Nat) ←
     (List.finRange n).mapM (fun i => do
       let x := Spec.getAtSpec X i
@@ -570,7 +570,7 @@ and we build a dataset by slicing along dim0.
 -/
 def fromNpySupervised {α : Type} [API.Runtime.Scalar α]
     (xPath yPath : System.FilePath) (n : Nat) (xDims yDims : List Nat) :
-    IO (Except String (Dataset (API.Gondlin.TList α [NN.Tensor.shapeOfDims xDims,
+    IO (Except String (Dataset (API.Gondolin.TList α [NN.Tensor.shapeOfDims xDims,
       NN.Tensor.shapeOfDims yDims]))) := do
   let xRes ← fromNpyTensorNDPrefixDim0 xPath (n :: xDims)
   let yRes ← fromNpyTensorNDPrefixDim0 yPath (n :: yDims)
@@ -591,7 +591,7 @@ and we build a dataset by slicing along dim0 and one-hot encoding the labels.
 -/
 def fromNpyLabeled {α : Type} [API.Semantics.Scalar α] [API.Runtime.Scalar α]
     (xPath yPath : System.FilePath) (n : Nat) (xDims : List Nat) (classes : Nat) :
-    IO (Except String (Dataset (API.Gondlin.TList α [NN.Tensor.shapeOfDims xDims,
+    IO (Except String (Dataset (API.Gondolin.TList α [NN.Tensor.shapeOfDims xDims,
       NN.Tensor.Shape.Vec classes]))) := do
   let xRes ← fromNpyTensorNDPrefixDim0 xPath (n :: xDims)
   let yRes ← fromNpyTensorNDPrefixDim0 yPath [n]
@@ -610,7 +610,7 @@ Load a supervised dataset from a CSV with `inDim + outDim` columns per row:
 -/
 def fromCsvSupervised {α : Type} [API.Semantics.Scalar α] [API.Runtime.Scalar α]
     (path : System.FilePath) (inDim outDim : Nat) (opts : CsvOptions := {}) :
-    IO (Except String (Dataset (API.Gondlin.TList α [NN.Tensor.Shape.Vec inDim,
+    IO (Except String (Dataset (API.Gondolin.TList α [NN.Tensor.Shape.Vec inDim,
       NN.Tensor.Shape.Vec outDim]))) := do
   let rowsRes ← fromCsvRows path (opts := opts)
   match rowsRes with
@@ -634,7 +634,7 @@ Load a labeled dataset from a CSV with `inDim + 1` columns per row:
 -/
 def fromCsvLabeled {α : Type} [API.Semantics.Scalar α] [API.Runtime.Scalar α]
     (path : System.FilePath) (inDim classes : Nat) (opts : CsvOptions := {}) :
-    IO (Except String (Dataset (API.Gondlin.TList α [NN.Tensor.Shape.Vec inDim,
+    IO (Except String (Dataset (API.Gondolin.TList α [NN.Tensor.Shape.Vec inDim,
       NN.Tensor.Shape.Vec classes]))) := do
   let rowsRes ← fromCsvRows path (opts := opts)
   match rowsRes with
@@ -661,7 +661,7 @@ The lower-level helpers above intentionally stay close to file formats (`fromNpy
 single scheme:
 
 1. describe each tensor as a `TensorSource`;
-2. load it as a typed Gondlin tensor;
+2. load it as a typed Gondolin tensor;
 3. build supervised/labeled datasets by slicing dim0, just like PyTorch `TensorDataset`.
 
 Policy for external ecosystems:
@@ -821,7 +821,7 @@ This is the preferred public loader for regression/operator-learning examples, r
 whether the backing files are `.npy` or small numeric CSV tables.
 -/
 def load {α : Type} [API.Runtime.Scalar α] (src : SupervisedSource) :
-    IO (Except String (Dataset (API.Gondlin.TList α [NN.Tensor.shapeOfDims src.xDims,
+    IO (Except String (Dataset (API.Gondolin.TList α [NN.Tensor.shapeOfDims src.xDims,
       NN.Tensor.shapeOfDims src.yDims]))) := do
   -- Dataset sources interpret `src.n` as "number of rows to use in this run."  For NPY files, the
   -- physical file is allowed to contain more rows; for CSV files, the requested shape remains exact.
@@ -871,7 +871,7 @@ For CSV label vectors, store labels as a single-column table with `dims = [n, 1]
 `TensorSource` if needed; the path constructor above is aimed at `.npy` label vectors.
 -/
 def load {α : Type} [API.Semantics.Scalar α] [API.Runtime.Scalar α] (src : LabeledSource) :
-    IO (Except String (Dataset (API.Gondlin.TList α [NN.Tensor.shapeOfDims src.xDims,
+    IO (Except String (Dataset (API.Gondolin.TList α [NN.Tensor.shapeOfDims src.xDims,
       NN.Tensor.Shape.Vec src.classes]))) := do
   -- Labels use the same prefix-row convention as supervised tensors.  This lets one full exported
   -- label vector back many different smoke tests without making separate small copies on disk.
@@ -910,7 +910,7 @@ namespace TabularSupervisedSource
 /-- Load a single-table supervised CSV source. -/
 def load {α : Type} [API.Semantics.Scalar α] [API.Runtime.Scalar α]
     (src : TabularSupervisedSource) :
-    IO (Except String (Dataset (API.Gondlin.TList α [NN.Tensor.Shape.Vec src.inDim,
+    IO (Except String (Dataset (API.Gondolin.TList α [NN.Tensor.Shape.Vec src.inDim,
       NN.Tensor.Shape.Vec src.outDim]))) :=
   fromCsvSupervised (α := α) src.path src.inDim src.outDim (opts := src.csvOptions)
 
@@ -919,13 +919,13 @@ end TabularSupervisedSource
 /--
 Build a supervised dataset from two matrices `X : n×inDim` and `Y : n×outDim` by pairing rows.
 
-This is the Gondlin analogue of PyTorch's `TensorDataset(X, Y)` for simple regression.
+This is the Gondolin analogue of PyTorch's `TensorDataset(X, Y)` for simple regression.
 -/
 def supervisedRows {α : Type} [API.Semantics.Scalar α] [API.Runtime.Scalar α]
     {n inDim outDim : Nat}
     (X : Spec.Tensor Float (NN.Tensor.Shape.Mat n inDim))
     (Y : Spec.Tensor Float (NN.Tensor.Shape.Mat n outDim)) :
-    Dataset (API.Gondlin.TList α [NN.Tensor.Shape.Vec inDim, NN.Tensor.Shape.Vec outDim]) :=
+    Dataset (API.Gondolin.TList α [NN.Tensor.Shape.Vec inDim, NN.Tensor.Shape.Vec outDim]) :=
   supervisedDim0F (α := α) X Y
 
 /--
@@ -939,10 +939,10 @@ If your samples are `(x : σ, y : τ)`, the collated sample is:
 In shapes: `TList α [dim n σ, dim n τ]`.
 -/
 def collateSupervised {α : Type} {σ τ : Spec.Shape} (n : Nat)
-    (batch : List (API.Gondlin.TList α [σ, τ])) :
-    Except String (API.Gondlin.TList α [Spec.Shape.dim n σ, Spec.Shape.dim n τ]) := do
+    (batch : List (API.Gondolin.TList α [σ, τ])) :
+    Except String (API.Gondolin.TList α [Spec.Shape.dim n σ, Spec.Shape.dim n τ]) := do
   if h : batch.length = n then
-    let getSample : Fin n → API.Gondlin.TList α [σ, τ] :=
+    let getSample : Fin n → API.Gondolin.TList α [σ, τ] :=
       fun i =>
         let hlt : i.val < batch.length := by simp [h]
         batch.get ⟨i.val, hlt⟩
@@ -987,8 +987,8 @@ Notes:
 - Batches are formed in dataset order (shuffling is the loader's job).
 -/
 def batchedSupervised {α : Type} {σ τ : Spec.Shape} (n : Nat)
-    (ds : _root_.Runtime.Autograd.Train.Dataset (API.Gondlin.TList α [σ, τ])) :
-    Except String (_root_.Runtime.Autograd.Train.Dataset (API.Gondlin.TList α [Spec.Shape.dim n σ,
+    (ds : _root_.Runtime.Autograd.Train.Dataset (API.Gondolin.TList α [σ, τ])) :
+    Except String (_root_.Runtime.Autograd.Train.Dataset (API.Gondolin.TList α [Spec.Shape.dim n σ,
       Spec.Shape.dim n τ])) := do
   if n = 0 then
     throw "batched: batch size must be > 0"

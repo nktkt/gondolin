@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -189,7 +189,7 @@ predictor, so we provide:
 Small trained SVM bundle for demos/tests.
 
 This is not a full SMO-style solver; it is a deterministic gradient-descent baseline that is
-useful as a reference model in the Gondlin spec layer.
+useful as a reference model in the Gondolin spec layer.
 -/
 structure SVM (p n : ℕ) (α : Type) where
   /-- Normal vector `w` of the separating hyperplane. -/

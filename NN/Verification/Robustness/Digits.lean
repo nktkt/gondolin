@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -12,7 +12,7 @@ public import NN.API.TList
 public import NN.MLTheory.CROWN.Core
 public import NN.MLTheory.CROWN.Graph
 public import NN.Runtime.PyTorch.Import.Core
-public import NN.Verification.Gondlin.Compile
+public import NN.Verification.Gondolin.Compile
 public import NN.Verification.Util.Json
 import Lean.Data.Json
 
@@ -68,7 +68,7 @@ def xShape : Shape := .dim inDim .scalar
 /-- Output/logit shape (10). -/
 def yShape : Shape := .dim outDim .scalar
 
-/-- Parameter shapes list used by the compiled Gondlin program (`[W, b]`). -/
+/-- Parameter shapes list used by the compiled Gondolin program (`[W, b]`). -/
 def paramShapes : List Shape := [WShape, bShape]
 
 /-- CLI options for the digits certified-accuracy workflow. -/
@@ -128,13 +128,13 @@ def parseArgs : List String → Except String DigitsOpts
       else
         .error s!"unknown arg: {a}\n\n{usage}"
 
-/-- Gondlin program for the linear classifier `y = Wx + b`. -/
+/-- Gondolin program for the linear classifier `y = Wx + b`. -/
 def classifier {α : Type} [Context α] [DecidableEq Shape] :
-    Gondlin.Program α (paramShapes ++ [xShape]) yShape :=
+    Gondolin.Program α (paramShapes ++ [xShape]) yShape :=
   fun {m} _ _ =>
     fun w b x =>
-      (Gondlin.linear (m := m) (α := α) (inDim := inDim) (outDim := outDim) w b x
-        : m (Gondlin.RefTy (m := m) (α := α) yShape))
+      (Gondolin.linear (m := m) (α := α) (inDim := inDim) (outDim := outDim) w b x
+        : m (Gondolin.RefTy (m := m) (α := α) yShape))
 
 /-- Clamp a tensor elementwise into `[0,1]` (used for input normalization). -/
 def clamp01 {α : Type} [Context α] {s : Shape} (t : Tensor α s) : Tensor α s :=
@@ -250,7 +250,7 @@ def runOnce {α : Type} [Semantics.Scalar α] [DecidableEq Shape] [ToString α]
       (NN.API.Common.castTensor cast linF.bias)
 
   let compiled ←
-    match NN.Verification.Gondlin.compileForward1
+    match NN.Verification.Gondolin.compileForward1
           (α := α) (paramShapes := paramShapes) (inShape := xShape) (outShape := yShape)
           (classifier (α := α)) params with
     | .ok c => pure c
@@ -329,7 +329,7 @@ CLI entry point for the digits certified-robustness workflow.
 This is wired into `lake exe verify -- digits`.
 -/
 def main (args : List String) : IO Unit := do
-  IO.println "== Gondlin digits certified robustness =="
+  IO.println "== Gondolin digits certified robustness =="
   let (dtype, rest) ←
     match NN.API.DType.parseAndStrip args with
     | .ok v => pure v

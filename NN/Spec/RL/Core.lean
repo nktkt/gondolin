@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -11,7 +11,7 @@ public import Mathlib.Data.List.Basic
 /-!
 # Core Reinforcement-Learning Definitions
 
-This module collects the small mathematical definitions that sit underneath Gondlin's RL
+This module collects the small mathematical definitions that sit underneath Gondolin's RL
 development.
 
 These definitions are intentionally spec-level rather than runtime-level:
@@ -30,7 +30,7 @@ Several helpers here operate on `List α` rather than `Tensor α (.dim n .scalar
 
 - A trajectory length is usually *data-dependent* (episode termination, truncation, variable rollout
   horizon), so a dependent tensor length is often the wrong abstraction.
-- Gondlin uses typed tensors heavily for *fixed-shape* objects (value tables, Q-tables, logits,
+- Gondolin uses typed tensors heavily for *fixed-shape* objects (value tables, Q-tables, logits,
   etc.). For variable-length traces, `List` is the lightweight, proof-friendly choice.
 
 When you do have a fixed horizon `n`, it is reasonable to use `Fin n → α` or a vector tensor and

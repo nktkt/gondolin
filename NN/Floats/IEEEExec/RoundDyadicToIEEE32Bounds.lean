@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -57,10 +57,10 @@ division by a power of two.
 @[expose] public section
 
 
-namespace Gondlin.Floats.IEEE754
+namespace Gondolin.Floats.IEEE754
 namespace IEEE32Exec
 
-open Gondlin.Floats
+open Gondolin.Floats
 
 noncomputable section
 
@@ -1701,4 +1701,4 @@ theorem toEReal_roundDyadicToIEEE32_le_roundDyadicUp (d : Dyadic) :
 
 end
 end IEEE32Exec
-end Gondlin.Floats.IEEE754
+end Gondolin.Floats.IEEE754

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -14,7 +14,7 @@ public import NN.MLTheory.Generative.Latent.Objective
 /-!
 # Latent generative model theory
 
-This entrypoint collects the proved theory facts for Gondlin's latent generative model specs:
+This entrypoint collects the proved theory facts for Gondolin's latent generative model specs:
 
 - VAE reparameterization and β-VAE objective decomposition;
 - VQ-VAE codebook lookup and loss decomposition; and

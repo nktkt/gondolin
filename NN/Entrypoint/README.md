@@ -1,6 +1,6 @@
 # NN/Entrypoint
 
-This directory contains curated umbrella imports for the major Gondlin subsystems.
+This directory contains curated umbrella imports for the major Gondolin subsystems.
 
 Use these modules when you want one stable import for a subsystem without depending on the internal
 file layout.

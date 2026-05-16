@@ -1,6 +1,6 @@
 # `NN.Spec.Layers`
 
-This directory contains Gondlin's layer definitions: common neural network building blocks
+This directory contains Gondolin's layer definitions: common neural network building blocks
 written as pure functions on `Spec.Tensor` (and parameter records).
 
 The emphasis here is on a clear reference definition, with explicit gradient rules for layers used

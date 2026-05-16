@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -12,10 +12,10 @@ public import NN.Tests.Runtime.Floats.ModelsSmoke
 public import NN.Tests.Runtime.Floats.PINNDerivResidual
 public import NN.Tests.Runtime.Floats.RLSmoke
 public import NN.Tests.Runtime.Floats.RnnGruLstmBpttSmoke
-public import NN.Tests.Runtime.Floats.GondlinIRExecEquivSmoke
-public import NN.Tests.Runtime.Floats.GondlinIndexShapeSmoke
-public import NN.Tests.Runtime.Floats.GondlinOpsSmoke
-public import NN.Tests.Runtime.Floats.GondlinSpecMlpEquivSmoke
+public import NN.Tests.Runtime.Floats.GondolinIRExecEquivSmoke
+public import NN.Tests.Runtime.Floats.GondolinIndexShapeSmoke
+public import NN.Tests.Runtime.Floats.GondolinOpsSmoke
+public import NN.Tests.Runtime.Floats.GondolinSpecMlpEquivSmoke
 
 /-!
 # Suite
@@ -41,10 +41,10 @@ def run : IO Unit := do
   Tests.Floats.RLSmoke.run
   Tests.Floats.BPTT.run
   Tests.Floats.PinnDerivResidual.run
-  Tests.Floats.GondlinOpsSmoke.run
-  Tests.Floats.GondlinIndexShapeSmoke.run
-  Tests.Floats.GondlinSpecMLPEquivSmoke.run
-  Tests.Floats.GondlinIRExecEquivSmoke.run
+  Tests.Floats.GondolinOpsSmoke.run
+  Tests.Floats.GondolinIndexShapeSmoke.run
+  Tests.Floats.GondolinSpecMLPEquivSmoke.run
+  Tests.Floats.GondolinIRExecEquivSmoke.run
 
 end Floats
 end Tests

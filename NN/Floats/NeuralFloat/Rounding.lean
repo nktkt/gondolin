@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -28,14 +28,14 @@ bridge layer that connects proofs to executable IEEE-754 behavior.
 - D. Goldberg, "What Every Computer Scientist Should Know About Floating-Point Arithmetic",
   ACM Computing Surveys, 1991.
 - N. J. Higham, "Accuracy and Stability of Numerical Algorithms", SIAM, 2nd ed., 2002.
-- The Flocq Coq library is a classic example of axiomatizing "rounding on R"; Gondlin's
+- The Flocq Coq library is a classic example of axiomatizing "rounding on R"; Gondolin's
   `NeuralFloat` layer is inspired by that style (but is implemented natively in Lean).
 -/
 
 @[expose] public section
 
 
-namespace Gondlin.Floats
+namespace Gondolin.Floats
 
 variable {β : NeuralRadix} {fexp : ℤ → ℤ} [NeuralValidExp fexp]
 
@@ -486,4 +486,4 @@ theorem neural_error_bound_ulp (rnd : ℝ → ℤ) [NeuralValidRndToNearest rnd]
     have hmul := mul_le_mul_of_nonneg_right h hbnonneg
     simpa [div_eq_mul_inv, mul_assoc, mul_comm, mul_left_comm, mul_right_comm] using hmul
 
-end Gondlin.Floats
+end Gondolin.Floats

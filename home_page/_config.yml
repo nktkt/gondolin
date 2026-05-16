@@ -18,17 +18,17 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: Gondlin
+title: Gondolin
 #email: your-email@example.com
 description: "Lean 4 tools for neural-network semantics, runtime experiments, and verification."
 # GitHub Pages for a project repo is hosted at: https://<org>.github.io/<repo>/
-baseurl: "/Gondlin" # the subpath of your site, e.g. /blog
+baseurl: "/Gondolin" # the subpath of your site, e.g. /blog
 url: "https://nktkt.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username:
 github_username: nktkt
-repository: nktkt/gondlin
-repository_url: "https://github.com/nktkt/gondlin"
-repository_name: "Gondlin"
+repository: nktkt/gondolin
+repository_url: "https://github.com/nktkt/gondolin"
+repository_name: "Gondolin"
 project_tagline: "Lean 4 tools for neural-network semantics, runtime experiments, and verification."
 build_revision: "local"
 

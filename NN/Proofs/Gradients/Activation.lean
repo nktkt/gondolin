@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -32,7 +32,7 @@ public import NN.Spec.Layers.Activation
 # `NN.Proofs.Gradients.Activation`
 
 Real calculus lemmas (`HasDerivAt`, etc.) for scalar activation functions, used as building blocks
-for Gondlin autograd correctness proofs.
+for Gondolin autograd correctness proofs.
 -/
 
 @[expose] public section
@@ -51,10 +51,10 @@ namespace Proofs
 # Calculus lemmas for activation functions (real-valued)
 
 This file proves `HasDerivAt` facts for common scalar activations (ReLU, leaky ReLU, sigmoid, …)
-and connects them to the derivative “spec” functions used elsewhere in Gondlin.
+and connects them to the derivative “spec” functions used elsewhere in Gondolin.
 
 ## Why this is here
-Gondlin’s autograd correctness theorems often come in two layers:
+Gondolin’s autograd correctness theorems often come in two layers:
 1) algebraic adjointness theorems (VJP/JVP duality) for tensor programs, and
 2) calculus facts that the chosen scalar primitives really have the stated derivatives.
 
@@ -263,7 +263,7 @@ theorem sigmoid_deriv_correct (x : ℝ) :
 Correctness of the derivative spec for `Activation.Math.logisticSpec`.
 
 This is the scalar logistic formula `exp x / (exp x + 1)`. It is intentionally not named
-`softmax`: a one-entry softmax is always `1`, while Gondlin's actual axis-normalizing softmax is
+`softmax`: a one-entry softmax is always `1`, while Gondolin's actual axis-normalizing softmax is
 the tensor-level `Activation.softmaxSpec` in `NN/Spec/Layers/Activation.lean`.
 -/
 theorem logistic_deriv_correct (x : ℝ) :

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -29,7 +29,7 @@ without leaving Lean. They are intentionally available through the dedicated wid
 
 open Spec
 open NN.IR
-open Gondlin.Floats.IEEE754
+open Gondolin.Floats.IEEE754
 open Runtime.Autograd
 open TensorBridge TensorArray
 

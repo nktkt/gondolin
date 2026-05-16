@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -17,7 +17,7 @@ public meta import ProofWidgets.Demos.Macro
 
 Shape inference / checking viewer for `NN.IR.Graph`.
 
-Gondlin’s IR carries a declared `outShape` at each node. In practice, there are two common
+Gondolin’s IR carries a declared `outShape` at each node. In practice, there are two common
 debugging questions when working with graphs:
 
 - "Do the declared shapes match what the op semantics would infer from parent shapes?"

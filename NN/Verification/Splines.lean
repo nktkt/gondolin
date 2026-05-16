@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -15,7 +15,7 @@ Public umbrella import for spline / piecewise-polynomial certificate checking.
 
 This namespace is intentionally narrow: spline certificates are treated as untrusted artifacts that
 are checked by recomputation inside Lean against the same spec-layer evaluation used elsewhere in
-Gondlin verification.
+Gondolin verification.
 -/
 
 @[expose] public section

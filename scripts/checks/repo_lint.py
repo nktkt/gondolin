@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Gondlin repo lints (project-specific).
+Gondolin repo lints (project-specific).
 
 This linter stays lightweight and dependency-free so it can run in CI and locally.
 
@@ -22,8 +22,8 @@ from typing import Iterable
 REPO_ROOT = pathlib.Path(__file__).resolve().parent.parent.parent
 LINT_SCOPE_SENTINEL = REPO_ROOT / "NN/MLTheory/CROWN/Lyapunov/Oracle.lean"
 
-# External trees that may exist in a developer checkout but are not part of Gondlin's core sources
-# and must not affect repo policy/CI. These are user-cloned repos outside Gondlin's source tree.
+# External trees that may exist in a developer checkout but are not part of Gondolin's core sources
+# and must not affect repo policy/CI. These are user-cloned repos outside Gondolin's source tree.
 #
 # Important: `Path.rglob` walks the filesystem, not git-tracked files, so this linter explicitly skips
 # these directories to ensure `lake lint` does not start depending on optional checkouts.
@@ -100,12 +100,12 @@ def _line_col(text: str, idx: int) -> tuple[int, int]:
 
 
 def _has_nn_header(path: pathlib.Path, text: str) -> bool:
-    """Check whether an `NN/` source file carries the standard Gondlin header."""
-    # Gondlin policy: NN sources carry a consistent header at the top of the file.
+    """Check whether an `NN/` source file carries the standard Gondolin header."""
+    # Gondolin policy: NN sources carry a consistent header at the top of the file.
     if not path.is_relative_to(REPO_ROOT / "NN"):
         return True
     head = "\n".join(text.splitlines()[:10])
-    return "Copyright (c) 2026 Gondlin" in head
+    return "Copyright (c) 2026 Gondolin" in head
 
 
 def _mask_lean_comments_and_strings(text: str) -> str:
@@ -214,7 +214,7 @@ def _mask_lean_comments_and_strings(text: str) -> str:
 
 
 def lint_repo(*, fail_on_warn: bool) -> list[Finding]:
-    """Run Gondlin's repository hygiene checks and return all findings."""
+    """Run Gondolin's repository hygiene checks and return all findings."""
     findings: list[Finding] = []
 
     if not LINT_SCOPE_SENTINEL.exists():
@@ -224,7 +224,7 @@ def lint_repo(*, fail_on_warn: bool) -> list[Finding]:
                 LINT_SCOPE_SENTINEL,
                 None,
                 None,
-                "repo linter is not rooted at Gondlin; expected to see NN/MLTheory/CROWN/Lyapunov/Oracle.lean.",
+                "repo linter is not rooted at Gondolin; expected to see NN/MLTheory/CROWN/Lyapunov/Oracle.lean.",
             )
         )
 
@@ -240,11 +240,11 @@ def lint_repo(*, fail_on_warn: bool) -> list[Finding]:
         )
 
     banned_regexes: list[tuple[re.Pattern[str], str]] = [
-        (re.compile(r"\bnative_decide\b"), "`native_decide` is banned in Gondlin."),
-        (re.compile(r"\bsorry\b"), "`sorry` is banned in Gondlin sources."),
-        (re.compile(r"\badmit\b"), "`admit` is banned in Gondlin sources."),
-        (re.compile(r"\bby\s+omega\b"), "`omega` is banned in Gondlin; prefer `linarith`/`nlinarith`/`grind` or small arithmetic lemmas."),
-        (re.compile(r"^\s*omega\b", flags=re.MULTILINE), "`omega` is banned in Gondlin; prefer `linarith`/`nlinarith`/`grind` or small arithmetic lemmas."),
+        (re.compile(r"\bnative_decide\b"), "`native_decide` is banned in Gondolin."),
+        (re.compile(r"\bsorry\b"), "`sorry` is banned in Gondolin sources."),
+        (re.compile(r"\badmit\b"), "`admit` is banned in Gondolin sources."),
+        (re.compile(r"\bby\s+omega\b"), "`omega` is banned in Gondolin; prefer `linarith`/`nlinarith`/`grind` or small arithmetic lemmas."),
+        (re.compile(r"^\s*omega\b", flags=re.MULTILINE), "`omega` is banned in Gondolin; prefer `linarith`/`nlinarith`/`grind` or small arithmetic lemmas."),
         (re.compile(r"\bsimp\s*\[\s*\*(\s*[,\]])"), "`simp [*]` is banned; prefer `simp [h₁, h₂]` or `simp (config := ...)` with explicit hypotheses."),
         (
             re.compile(r"^\s*public\s+import\s+Mathlib\.Tactic\b", flags=re.MULTILINE),
@@ -254,7 +254,7 @@ def lint_repo(*, fail_on_warn: bool) -> list[Finding]:
             re.compile(r"^\s*import\s+Mathlib\.Tactic(?!\.)\b", flags=re.MULTILINE),
             "Do not `import Mathlib.Tactic` (umbrella import). Import the specific `Mathlib.Tactic.*` modules you use.",
         ),
-        (re.compile(r"@\[\s*de" r"precated\b"), "`@[de" "precated]` is banned in Gondlin sources."),
+        (re.compile(r"@\[\s*de" r"precated\b"), "`@[de" "precated]` is banned in Gondolin sources."),
     ]
 
     axiom_re = re.compile(r"^\s*axiom\s+([A-Za-z0-9_'.]+)\b", flags=re.MULTILINE)
@@ -281,7 +281,7 @@ def lint_repo(*, fail_on_warn: bool) -> list[Finding]:
                     path,
                     1,
                     1,
-                    "missing Gondlin header in the first ~10 lines (expected `Copyright (c) 2026 Gondlin`).",
+                    "missing Gondolin header in the first ~10 lines (expected `Copyright (c) 2026 Gondolin`).",
                 )
             )
 
@@ -355,7 +355,7 @@ def lint_repo(*, fail_on_warn: bool) -> list[Finding]:
 
 def main() -> int:
     """CLI entry point used by local checks and CI."""
-    ap = argparse.ArgumentParser(description="Gondlin repo lints (project policies).")
+    ap = argparse.ArgumentParser(description="Gondolin repo lints (project policies).")
     ap.add_argument(
         "--fail-on-warn",
         action="store_true",

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -16,7 +16,7 @@ import NN.Entrypoint.Widgets
 This tutorial runs the *same* compact MLP under two executable scalar backends:
 
 - `Float`: Lean runtime `Float` (`binary64` on ordinary platforms, trusted/external semantics);
-- `Gondlin.Floats.IEEE32Exec`: Gondlin's executable bit-level IEEE-754 binary32 model.
+- `Gondolin.Floats.IEEE32Exec`: Gondolin's executable bit-level IEEE-754 binary32 model.
 
 We run a single forward pass and a single reverse-mode VJP (seeded with `1.0`) and then report
 `max_abs_diff` between the Float result and the IEEE32Exec result (converted back to Float).
@@ -34,11 +34,11 @@ model32 = nn.Sequential(nn.Linear(2, 3), nn.ReLU(), nn.Linear(3, 1)).to(torch.fl
 # then compare outputs and gradients after casting to a common dtype.
 ```
 
-Gondlin's difference is that the scalar backend is part of the typeclass context. The model and
+Gondolin's difference is that the scalar backend is part of the typeclass context. The model and
 autograd call are generic; only `α` changes.
 
 Run:
-  `lake exe gondlin float32_modes`
+  `lake exe gondolin float32_modes`
 
 For editor inspection, put the cursor on the `#float32_*` commands below. Those widgets are for
 visualization only; the actual tutorial code uses ordinary `def` and `IO` definitions.
@@ -52,10 +52,10 @@ namespace NN.Examples.Advanced.Floats.Float32Modes
 open _root_.Spec
 open _root_.Spec.Tensor
 open NN.API
-open Gondlin.Floats.IEEE754
+open Gondolin.Floats.IEEE754
 
 /-
-This tutorial intentionally uses the *public* Gondlin API surface:
+This tutorial intentionally uses the *public* Gondolin API surface:
 
 - models: `API.nn.Sequential` built from `API.nn.*`
 - execution: `API.nn.compileOut` + `API.nn.predict1`
@@ -111,7 +111,7 @@ abbrev OutPack (α : Type) :=
 def runOnce {α : Type}
     [Semantics.Scalar α] [DecidableEq Spec.Shape] [ToString α] [Runtime.Scalar α]
     (tag : String) : IO (OutPack α) := do
-  -- Gondlin examples typically treat `Float` as the "host literal" type, then inject those
+  -- Gondolin examples typically treat `Float` as the "host literal" type, then inject those
   -- literals into
   -- the chosen executable scalar `α` via `Runtime.ofFloat`.
   let cast : Float → α := Runtime.ofFloat
@@ -156,7 +156,7 @@ def runOnce {α : Type}
   y = model(x)
   ```
 
-  `compileOut` specializes the model's forward program into a callable object. Gondlin models are
+  `compileOut` specializes the model's forward program into a callable object. Gondolin models are
   backend-generic, so this step chooses a concrete executable path for the chosen scalar `α`.
   -/
   let compiled ← nn.compileOut (α := α) model
@@ -188,7 +188,7 @@ def runOnce {α : Type}
   /-
   ### 4. Unpack the typed gradient list
 
-  Gondlin uses a typed list (`TList`) so parameter-gradient shapes stay in the type. The helper
+  Gondolin uses a typed list (`TList`) so parameter-gradient shapes stay in the type. The helper
   `tlist.unpack4` is just less noisy than pattern matching on the typed list.
   -/
   let (dW1, db1, dW2, db2) := tlist.unpack4 dparams
@@ -232,15 +232,15 @@ def main (_args : List String) : IO Unit := do
   IO.println "== Float32 backend tutorial =="
   IO.println
     "Note: `float32-mode=fp32` is proof-only (noncomputable); use it in theorems, not IO runs."
-  Gondlin.Floats.logFloat32Mode .fp32
-  Gondlin.Floats.logFloat32Mode .ieee754Exec
+  Gondolin.Floats.logFloat32Mode .fp32
+  Gondolin.Floats.logFloat32Mode .ieee754Exec
 
   let rFloat ← runOnce (α := Float) "Float (runtime)"
-  let r32 ← runOnce (α := Gondlin.Floats.F32 .ieee754Exec) "Float32 (IEEE32Exec)"
+  let r32 ← runOnce (α := Gondolin.Floats.F32 .ieee754Exec) "Float32 (IEEE32Exec)"
 
   let r32F : OutPack Float :=
-    tlist.map (α := Gondlin.Floats.F32 .ieee754Exec) (β := Float)
-      (fun {_s} t => Spec.mapTensor Gondlin.Floats.IEEE754.IEEE32Exec.toFloat t)
+    tlist.map (α := Gondolin.Floats.F32 .ieee754Exec) (β := Float)
+      (fun {_s} t => Spec.mapTensor Gondolin.Floats.IEEE754.IEEE32Exec.toFloat t)
       r32
 
   let diff := maxAbsDiffPack rFloat r32F

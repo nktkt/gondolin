@@ -4,7 +4,7 @@
 
 schema_version: "1"
 updated_at: "2026-05-15T14:10:42Z"
-gondlin_version: "0.1.0"
+gondolin_version: "0.1.0"
 summary:
   files_scanned: 821
   sorry: 0

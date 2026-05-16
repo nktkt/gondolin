@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -19,7 +19,7 @@ adds the missing batch-facing layer used by replay-buffer training loops:
 - average DQN or Double-DQN losses over an `Array` minibatch;
 - soft-update scalar parameters for target networks.
 
-The functions are intentionally higher-order: Gondlin examples can pass compiled/eager model
+The functions are intentionally higher-order: Gondolin examples can pass compiled/eager model
 closures without this module knowing anything about parameters, optimizers, or autograd sessions.
 
 References:

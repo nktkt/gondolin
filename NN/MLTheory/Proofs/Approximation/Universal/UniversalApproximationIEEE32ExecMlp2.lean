@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -39,7 +39,7 @@ namespace IEEE32ExecMLP2
 open _root_.Spec
 open _root_.Spec.Tensor
 open NN.MLTheory.Proofs.ReLUMlpBridge
-open Gondlin.Floats.IEEE754
+open Gondolin.Floats.IEEE754
 open IEEE32ExecCore
 
 noncomputable section

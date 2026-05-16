@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -106,7 +106,7 @@ def parseFloat (field : String) (j : Json) : Except String Float :=
 /--
 Parse a JSON value as a typed tensor of shape `s`.
 
-This relies on Gondlin's JSON tensor encoding used by Python bridges.
+This relies on Gondolin's JSON tensor encoding used by Python bridges.
 -/
 def parseTensorE (field : String) (s : Shape) (j : Json) : Except String (Tensor Float s) :=
   match Import.PyTorch.parseTensor s j with

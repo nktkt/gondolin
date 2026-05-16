@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Gondlin Lean toolchain pin auditor.
+Gondolin Lean toolchain pin auditor.
 
 `lean-toolchain` is the source of truth for which `leanprover/lean4` release
 this repository builds against. Bumping it without also updating Mathlib and
@@ -277,7 +277,7 @@ def _render_human(report: dict[str, Any]) -> str:
     """Render the audit report as a human-readable plain-text block."""
     lines: list[str] = []
     s = report["summary"]
-    lines.append("Gondlin Lean toolchain pin audit")
+    lines.append("Gondolin Lean toolchain pin audit")
     lines.append("================================")
     lines.append(f"toolchain raw:     {s['toolchain_raw']!r}")
     lines.append(f"toolchain version: {s['toolchain_version']!r}")

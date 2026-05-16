@@ -1,23 +1,23 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
 
 public import NN
 public import NN.GraphSpec.Models
-public import NN.GraphSpec.ToGondlin
+public import NN.GraphSpec.ToGondolin
 
 /-!
 # GraphSpec tutorial
 
-GraphSpec is Gondlin's architecture-facing graph language. It is useful when you want a model to
+GraphSpec is Gondolin's architecture-facing graph language. It is useful when you want a model to
 exist first as a typed graph that can later be interpreted in several ways:
 
 - as a pure specification (`Interp.spec`) for theorem statements,
-- as an executable Gondlin program (`Compile.torchProgram`) for direct execution,
+- as an executable Gondolin program (`Compile.torchProgram`) for direct execution,
 - as a sequential `nn.Sequential` view when the graph is just a layer stack, and
 - as a DAG model when the architecture has sharing, skip connections, or multi-input nodes.
 
@@ -29,7 +29,7 @@ That is why this folder is not a duplicate of `NN.Spec.Models` or `NN.Examples.M
 
 This tutorial does two things:
 
-1. It runs the smallest complete lowering path: `GraphSpec.Models.mlp → ToGondlin.toSeq →
+1. It runs the smallest complete lowering path: `GraphSpec.Models.mlp → ToGondolin.toSeq →
    train.run`.
 2. It typechecks and explains the broader GraphSpec model ladder: MLP, CNN, residual linear block,
    and ResNet18.
@@ -41,8 +41,8 @@ exporters, and proofs can consume them without turning this tutorial into a slow
 Run:
 
 ```bash
-lake exe gondlin graphspec --backend eager
-lake exe gondlin graphspec --backend compiled
+lake exe gondolin graphspec --backend eager
+lake exe gondolin graphspec --backend compiled
 ```
 
 You can also pass the standard scalar/runtime flags accepted by `train.run`, such as
@@ -134,9 +134,9 @@ def runMlpTrainingPath (args : List String) : IO Unit := do
   -- executable program view; here we ask for the additional `nn.Sequential` training view.
   let g := NN.GraphSpec.Models.mlp (inDim := inDim) (hidDim := hidDim) (outDim := outDim)
 
-  match NN.GraphSpec.ToGondlin.toSeq (σ := xShape) (τ := yShape) g with
+  match NN.GraphSpec.ToGondolin.toSeq (σ := xShape) (τ := yShape) g with
   | .error msg =>
-      throw <| IO.userError s!"GraphSpec.ToGondlin.toSeq failed: {msg}"
+      throw <| IO.userError s!"GraphSpec.ToGondolin.toSeq failed: {msg}"
   | .ok seqR =>
       let seq : nn.Sequential xShape yShape := by
         -- `API.nn.Sequential` is a facade alias for the same runtime `Seq` type.
@@ -165,14 +165,14 @@ def runMlpTrainingPath (args : List String) : IO Unit := do
           -- optimizer.step()
           -- ```
           --
-          -- Gondlin keeps the shapes in the tensor type. `supervisedDim0F` says the leading
+          -- Gondolin keeps the shapes in the tensor type. `supervisedDim0F` says the leading
           -- dimension is the dataset axis, so this is a one-example regression dataset.
           let XFloat : Spec.Tensor Float (shape![1, inDim]) := Spec.Tensor.dim (fun _ => xF)
           let YFloat : Spec.Tensor Float (shape![1, outDim]) := Spec.Tensor.dim (fun _ => sampleYF)
           let dataset := Data.supervisedDim0F (α := α) XFloat YFloat
 
-          let _yGondlin : Spec.Tensor α yShape := ← train.predict runner x
-          IO.println "forward: GraphSpec MLP lowered to Gondlin and executed"
+          let _yGondolin : Spec.Tensor α yShape := ← train.predict runner x
+          IO.println "forward: GraphSpec MLP lowered to Gondolin and executed"
 
           let loss0 ← train.meanLossDataset runner dataset
           IO.println s!"loss(before)={loss0}"

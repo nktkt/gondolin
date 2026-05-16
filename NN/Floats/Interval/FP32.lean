@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -21,7 +21,7 @@ This module packages per-op absolute error bounds into the convenient enclosure 
 @[expose] public section
 
 
-namespace Gondlin.Floats
+namespace Gondolin.Floats
 namespace FP32
 
 /-! ## Interval enclosures (soundness-friendly form) -/
@@ -123,4 +123,4 @@ theorem abs_mem_Icc (a : FP32) :
   constructor <;> linarith [h.2, h.1]
 
 end FP32
-end Gondlin.Floats
+end Gondolin.Floats

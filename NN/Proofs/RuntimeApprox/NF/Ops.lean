@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -447,16 +447,16 @@ theorem approxT_map2_spec_of_scalar_bound {α : Type} {toSpec : α → SpecScala
 
 namespace NFBackend
 
-open Gondlin.Floats
+open Gondolin.Floats
 open Proofs.RuntimeRoundingApprox
 
 variable {β : NeuralRadix} {fexp : ℤ → ℤ} [NeuralValidExp fexp]
 variable {rnd : ℝ → ℤ} [NeuralValidRndToNearest rnd]
 
-local notation "R" => Gondlin.Floats.NF β fexp rnd
+local notation "R" => Gondolin.Floats.NF β fexp rnd
 
 /-- Interpret a runtime `NF` scalar as a spec scalar (`ℝ`) by forgetting rounding metadata. -/
-@[inline] abbrev toSpec (x : R) : SpecScalar := Gondlin.Floats.NF.toReal x
+@[inline] abbrev toSpec (x : R) : SpecScalar := Gondolin.Floats.NF.toReal x
 
 /-!
 ## NF → ℝ bridge lemmas
@@ -480,22 +480,22 @@ private lemma roundR_zero : Proofs.RuntimeRoundingApprox.roundR (β := β) (fexp
   have hrnd0 : rnd (0 : ℝ) = 0 := by
     -- `rnd` is exact on integers.
     simpa using (NeuralValidRnd.id (rnd := rnd) (n := (0 : ℤ)))
-  simp [Proofs.RuntimeRoundingApprox.roundR, Gondlin.Floats.neuralRound,
-    Gondlin.Floats.neuralScaledMantissa, Gondlin.Floats.neuralToReal, hrnd0]
+  simp [Proofs.RuntimeRoundingApprox.roundR, Gondolin.Floats.neuralRound,
+    Gondolin.Floats.neuralScaledMantissa, Gondolin.Floats.neuralToReal, hrnd0]
 
 /-- The `NF.roundR` wrapper also rounds `0` to `0`. -/
-private lemma NF_roundR_zero : Gondlin.Floats.NF.roundR (β := β) (fexp := fexp) (rnd := rnd) (0 :
+private lemma NF_roundR_zero : Gondolin.Floats.NF.roundR (β := β) (fexp := fexp) (rnd := rnd) (0 :
   ℝ) = 0 := by
   have hrnd0 : rnd (0 : ℝ) = 0 := by
     simpa using (NeuralValidRnd.id (rnd := rnd) (n := (0 : ℤ)))
-  simp [Gondlin.Floats.NF.roundR, Gondlin.Floats.neuralRound,
-    Gondlin.Floats.neuralScaledMantissa, Gondlin.Floats.neuralToReal, hrnd0]
+  simp [Gondolin.Floats.NF.roundR, Gondolin.Floats.neuralRound,
+    Gondolin.Floats.neuralScaledMantissa, Gondolin.Floats.neuralToReal, hrnd0]
 
 /-- `toSpec` of runtime `0` is the spec scalar `0`. -/
 @[simp] lemma toSpec_zero : toSpec (β := β) (fexp := fexp) (rnd := rnd) (0 : R) = (0 : ℝ) := by
   -- `0 : R` is `NF.ofReal 0`, so `toSpec 0` is `NF.roundR 0`.
-  simpa [toSpec, Gondlin.Floats.NF.toReal, Gondlin.Floats.NF.instZero,
-    Gondlin.Floats.NF.ofReal] using
+  simpa [toSpec, Gondolin.Floats.NF.toReal, Gondolin.Floats.NF.instZero,
+    Gondolin.Floats.NF.ofReal] using
     (NF_roundR_zero (β := β) (fexp := fexp) (rnd := rnd))
 
 omit [NeuralValidRndToNearest rnd] in
@@ -544,8 +544,8 @@ private lemma toSpec_neg (x : R) :
     toSpec (β := β) (fexp := fexp) (rnd := rnd) (-x) =
       Proofs.RuntimeRoundingApprox.roundR (β := β) (fexp := fexp) (rnd := rnd)
         (-toSpec (β := β) (fexp := fexp) (rnd := rnd) x) := by
-  simp [toSpec, Gondlin.Floats.NF.toReal, Proofs.RuntimeRoundingApprox.roundR,
-    Gondlin.Floats.NF.roundR, Gondlin.Floats.NF.ofReal, Neg.neg]
+  simp [toSpec, Gondolin.Floats.NF.toReal, Proofs.RuntimeRoundingApprox.roundR,
+    Gondolin.Floats.NF.roundR, Gondolin.Floats.NF.ofReal, Neg.neg]
 
 omit [NeuralValidRndToNearest rnd] in
 /-- `toSpec` respects runtime `exp`, up to an explicit rounding step. -/
@@ -553,8 +553,8 @@ private lemma toSpec_exp (x : R) :
     toSpec (β := β) (fexp := fexp) (rnd := rnd) (MathFunctions.exp x) =
       Proofs.RuntimeRoundingApprox.roundR (β := β) (fexp := fexp) (rnd := rnd)
         (Real.exp (toSpec (β := β) (fexp := fexp) (rnd := rnd) x)) := by
-  simp [toSpec, Gondlin.Floats.NF.toReal, Proofs.RuntimeRoundingApprox.roundR,
-    Gondlin.Floats.NF.roundR, Gondlin.Floats.NF.ofReal, MathFunctions.exp,
+  simp [toSpec, Gondolin.Floats.NF.toReal, Proofs.RuntimeRoundingApprox.roundR,
+    Gondolin.Floats.NF.roundR, Gondolin.Floats.NF.ofReal, MathFunctions.exp,
     ]
 
 omit [NeuralValidRndToNearest rnd] in
@@ -563,8 +563,8 @@ private lemma toSpec_tanh (x : R) :
     toSpec (β := β) (fexp := fexp) (rnd := rnd) (MathFunctions.tanh x) =
       Proofs.RuntimeRoundingApprox.roundR (β := β) (fexp := fexp) (rnd := rnd)
         (Real.tanh (toSpec (β := β) (fexp := fexp) (rnd := rnd) x)) := by
-  simp [toSpec, Gondlin.Floats.NF.toReal, Proofs.RuntimeRoundingApprox.roundR,
-    Gondlin.Floats.NF.roundR, Gondlin.Floats.NF.ofReal, MathFunctions.tanh,
+  simp [toSpec, Gondolin.Floats.NF.toReal, Proofs.RuntimeRoundingApprox.roundR,
+    Gondolin.Floats.NF.roundR, Gondolin.Floats.NF.ofReal, MathFunctions.tanh,
     ]
 
 omit [NeuralValidRndToNearest rnd] in
@@ -573,8 +573,8 @@ private lemma toSpec_sqrt (x : R) :
     toSpec (β := β) (fexp := fexp) (rnd := rnd) (MathFunctions.sqrt x) =
       Proofs.RuntimeRoundingApprox.roundR (β := β) (fexp := fexp) (rnd := rnd)
         (Real.sqrt (toSpec (β := β) (fexp := fexp) (rnd := rnd) x)) := by
-  simp [toSpec, Gondlin.Floats.NF.toReal, Proofs.RuntimeRoundingApprox.roundR,
-    Gondlin.Floats.NF.roundR, Gondlin.Floats.NF.ofReal, MathFunctions.sqrt,
+  simp [toSpec, Gondolin.Floats.NF.toReal, Proofs.RuntimeRoundingApprox.roundR,
+    Gondolin.Floats.NF.roundR, Gondolin.Floats.NF.ofReal, MathFunctions.sqrt,
     ]
 
 -- ---------------------------------------------------------------------------
@@ -653,25 +653,25 @@ lemma approx_sqrt_clamp_nf_of_lb {x : ℝ} {xR : R} {eps η : ℝ}
         by_cases h0 : (0 : R) ≤ xR
         · have hxhat0 : 0 ≤ xhat := by
             have h0' : (0 : R).val ≤ xR.val := by
-              simpa [LE.le, Gondlin.Floats.NF.instLE] using h0
+              simpa [LE.le, Gondolin.Floats.NF.instLE] using h0
             have h0z : (0 : R).val = (0 : ℝ) := by
-              simpa [toSpec, Gondlin.Floats.NF.toReal] using (toSpec_zero (β := β) (fexp := fexp)
+              simpa [toSpec, Gondolin.Floats.NF.toReal] using (toSpec_zero (β := β) (fexp := fexp)
                 (rnd := rnd))
-            simpa [xhat, toSpec, Gondlin.Floats.NF.toReal, h0z] using h0'
+            simpa [xhat, toSpec, Gondolin.Floats.NF.toReal, h0z] using h0'
           have hmaxR : max xR (0 : R) = xR := by
             -- `max` on `NF` is a pure selection.
             have : xR ≥ (0 : R) := h0
             simp [Max.max, this]
           have hmaxS : max xhat 0 = xhat := max_eq_left hxhat0
-          simpa [hmaxR, hmaxS, xhat, toSpec, Gondlin.Floats.NF.toReal]
+          simpa [hmaxR, hmaxS, xhat, toSpec, Gondolin.Floats.NF.toReal]
         · have hxhat0 : xhat ≤ 0 := by
             have h0' : ¬ (0 : R).val ≤ xR.val := by
-              simpa [LE.le, Gondlin.Floats.NF.instLE] using h0
+              simpa [LE.le, Gondolin.Floats.NF.instLE] using h0
             have : ¬ (0 : ℝ) ≤ xhat := by
               have h0z : (0 : R).val = (0 : ℝ) := by
-                simpa [toSpec, Gondlin.Floats.NF.toReal] using (toSpec_zero (β := β) (fexp :=
+                simpa [toSpec, Gondolin.Floats.NF.toReal] using (toSpec_zero (β := β) (fexp :=
                   fexp) (rnd := rnd))
-              simpa [xhat, toSpec, Gondlin.Floats.NF.toReal, h0z] using h0'
+              simpa [xhat, toSpec, Gondolin.Floats.NF.toReal, h0z] using h0'
             exact le_of_not_ge this
           have hmaxR : max xR (0 : R) = (0 : R) := by
             have : ¬ xR ≥ (0 : R) := by
@@ -887,8 +887,8 @@ lemma approx_abs_nf {x : ℝ} {xR : R} {eps : ℝ}
       abs (toSpec (β := β) (fexp := fexp) (rnd := rnd) (MathFunctions.abs xR) - abs xhat) ≤
         neuralUlp β fexp (abs xhat) TrainingPhase.forward / 2 := by
     -- `toSpec (abs xR)` is a single rounding of `|xhat|`.
-    simpa [xhat, toSpec, Gondlin.Floats.NF.toReal, Proofs.RuntimeRoundingApprox.roundR,
-      Gondlin.Floats.NF.roundR, Gondlin.Floats.NF.ofReal] using
+    simpa [xhat, toSpec, Gondolin.Floats.NF.toReal, Proofs.RuntimeRoundingApprox.roundR,
+      Gondolin.Floats.NF.roundR, Gondolin.Floats.NF.ofReal] using
       (Proofs.RuntimeRoundingApprox.roundR_abs_error (β := β) (fexp := fexp) (rnd := rnd) (abs
         xhat))
   have habs : abs (abs xhat - abs x) ≤ abs (xhat - x) := by
@@ -1073,7 +1073,7 @@ This definition keeps the semantic spec function explicit (so proofs can reason 
 still producing an executable runtime scalar.
 -/
 def safeLogR (ε : ℝ) (xR : R) : R :=
-  Gondlin.Floats.NF.ofReal (β := β) (fexp := fexp) (rnd := rnd)
+  Gondolin.Floats.NF.ofReal (β := β) (fexp := fexp) (rnd := rnd)
     (safeLog (ε := ε) (toSpec (β := β) (fexp := fexp) (rnd := rnd) xR))
 
 private lemma abs_log_sub_log_le_one_div_mul_abs_sub {ε u v : ℝ}
@@ -1159,7 +1159,7 @@ lemma approx_safeLog_nf {x : ℝ} {xR : R} {eps ε : ℝ}
           Proofs.RuntimeRoundingApprox.roundR (β := β) (fexp := fexp) (rnd := rnd) (Real.log yhat)
             := by
       simp [safeLogR, safeLog, toSpec, xhat, yhat, Proofs.RuntimeRoundingApprox.roundR,
-        Gondlin.Floats.NF.toReal, Gondlin.Floats.NF.roundR, Gondlin.Floats.NF.ofReal]
+        Gondolin.Floats.NF.toReal, Gondolin.Floats.NF.roundR, Gondolin.Floats.NF.ofReal]
     simpa [this] using
       (Proofs.RuntimeRoundingApprox.roundR_abs_error (β := β) (fexp := fexp) (rnd := rnd) (Real.log
         yhat))
@@ -1673,9 +1673,9 @@ theorem approxT_sum_spec {s : Shape} :
   let initEps : ℝ := neuralUlp β fexp 0 TrainingPhase.forward / 2
   have hAcc : abs (toSpec (β := β) (fexp := fexp) (rnd := rnd) (0 : R) - (0 : ℝ)) ≤ initEps := by
     -- `toSpec (0 : R)` is `roundR 0`, so this is exactly the single-step rounding bound.
-    simpa [initEps, NFBackend.toSpec, Gondlin.Floats.NF.toReal,
+    simpa [initEps, NFBackend.toSpec, Gondolin.Floats.NF.toReal,
       Proofs.RuntimeRoundingApprox.roundR,
-      Gondlin.Floats.NF.roundR, Gondlin.Floats.NF.ofReal] using
+      Gondolin.Floats.NF.roundR, Gondolin.Floats.NF.ofReal] using
       (Proofs.RuntimeRoundingApprox.roundR_abs_error (β := β) (fexp := fexp) (rnd := rnd) (0 : ℝ))
   have h :=
     approx_sum_fold_state (β := β) (fexp := fexp) (rnd := rnd) (s := s)
@@ -2030,9 +2030,9 @@ compose the scalar bounds for `exp`, `+`, and `safeLog`.
   have hone :
       abs (toSpec (β := β) (fexp := fexp) (rnd := rnd) oneR - (1 : ℝ)) ≤
         oneEps (β := β) (fexp := fexp) := by
-    simpa [oneEps, NFBackend.toSpec, Gondlin.Floats.NF.toReal,
+    simpa [oneEps, NFBackend.toSpec, Gondolin.Floats.NF.toReal,
       Proofs.RuntimeRoundingApprox.roundR,
-      Gondlin.Floats.NF.roundR, Gondlin.Floats.NF.ofReal, Gondlin.Floats.NF.instOne] using
+      Gondolin.Floats.NF.roundR, Gondolin.Floats.NF.ofReal, Gondolin.Floats.NF.instOne] using
       (Proofs.RuntimeRoundingApprox.roundR_abs_error (β := β) (fexp := fexp) (rnd := rnd) (1 : ℝ))
 
   let yR : R := oneR + MathFunctions.exp xR
@@ -2052,8 +2052,8 @@ compose the scalar bounds for `exp`, `+`, and `safeLog`.
         hone hexp
     -- Rewrite to match the local definitions.
     simpa [yR, y, addBoundSoftplus, expBoundScalar, oneHat, expHat,
-      NFBackend.toSpec, Gondlin.Floats.NF.toReal, Proofs.RuntimeRoundingApprox.roundR,
-      Gondlin.Floats.NF.roundR, Gondlin.Floats.NF.ofReal, Gondlin.Floats.NF.instOne,
+      NFBackend.toSpec, Gondolin.Floats.NF.toReal, Proofs.RuntimeRoundingApprox.roundR,
+      Gondolin.Floats.NF.roundR, Gondolin.Floats.NF.ofReal, Gondolin.Floats.NF.instOne,
       toSpec_exp (β := β) (fexp := fexp) (rnd := rnd) xR] using hadd
 
   -- Step 3: `safeLog 1` turns this into `softplus`.
@@ -2122,7 +2122,7 @@ theorem approxT_softplus_spec {s : Shape} :
 
 /-- Runtime implementation of `safe_log` as a single rounded primitive. -/
 def safeLogSoftplusR (ε : ℝ) (xR : R) : R :=
-  Gondlin.Floats.NF.ofReal (β := β) (fexp := fexp) (rnd := rnd)
+  Gondolin.Floats.NF.ofReal (β := β) (fexp := fexp) (rnd := rnd)
     (Activation.Math.safeLogSpec (α := ℝ)
       (toSpec (β := β) (fexp := fexp) (rnd := rnd) xR) ε)
 
@@ -2277,8 +2277,8 @@ lemma approx_safe_log_nf {x : ℝ} {xR : R} {eps ε : ℝ}
         neuralUlp β fexp (Activation.Math.safeLogSpec (α := ℝ) xhat ε) TrainingPhase.forward / 2
           := by
     -- `safe_logR` rounds the real `safe_log_spec`.
-    simpa [safeLogSoftplusR, xhat, toSpec, Gondlin.Floats.NF.toReal, Gondlin.Floats.NF.ofReal,
-      Gondlin.Floats.NF.roundR, Proofs.RuntimeRoundingApprox.roundR] using
+    simpa [safeLogSoftplusR, xhat, toSpec, Gondolin.Floats.NF.toReal, Gondolin.Floats.NF.ofReal,
+      Gondolin.Floats.NF.roundR, Proofs.RuntimeRoundingApprox.roundR] using
         (Proofs.RuntimeRoundingApprox.roundR_abs_error (β := β) (fexp := fexp) (rnd := rnd)
           (Activation.Math.safeLogSpec (α := ℝ) xhat ε))
 
@@ -2379,7 +2379,7 @@ def safeDiv (ε : ℝ) (x y : ℝ) : ℝ :=
 
 /-- Runtime implementation of `safeDiv` as a single rounded primitive. -/
 def safeDivR (ε : ℝ) (xR yR : R) : R :=
-  Gondlin.Floats.NF.ofReal (β := β) (fexp := fexp) (rnd := rnd)
+  Gondolin.Floats.NF.ofReal (β := β) (fexp := fexp) (rnd := rnd)
     (safeDiv (ε := ε)
       (toSpec (β := β) (fexp := fexp) (rnd := rnd) xR)
       (toSpec (β := β) (fexp := fexp) (rnd := rnd) yR))
@@ -2441,9 +2441,9 @@ lemma approx_safeDiv_nf {x y : ℝ} {xR yR : R} {epsx epsy ε : ℝ}
               (safeDivR (β := β) (fexp := fexp) (rnd := rnd) ε xR yR) -
             safeDiv (ε := ε) xhat yhat) ≤
         neuralUlp β fexp (safeDiv (ε := ε) xhat yhat) TrainingPhase.forward / 2 := by
-    simpa [safeDivR, safeDiv, xhat, yhat, toSpec, Gondlin.Floats.NF.toReal,
-      Gondlin.Floats.NF.ofReal,
-      Gondlin.Floats.NF.roundR, Proofs.RuntimeRoundingApprox.roundR] using
+    simpa [safeDivR, safeDiv, xhat, yhat, toSpec, Gondolin.Floats.NF.toReal,
+      Gondolin.Floats.NF.ofReal,
+      Gondolin.Floats.NF.roundR, Proofs.RuntimeRoundingApprox.roundR] using
         (Proofs.RuntimeRoundingApprox.roundR_abs_error (β := β) (fexp := fexp) (rnd := rnd)
           (safeDiv (ε := ε) xhat yhat))
 
@@ -2668,10 +2668,10 @@ theorem approxT_sigmoid_spec {s : Shape} :
               have hone :
                   abs (toSpec (β := β) (fexp := fexp) (rnd := rnd) oneR - (1 : ℝ)) ≤
                     oneEps (β := β) (fexp := fexp) := by
-                simpa [oneEps, NFBackend.toSpec, Gondlin.Floats.NF.toReal,
+                simpa [oneEps, NFBackend.toSpec, Gondolin.Floats.NF.toReal,
                   Proofs.RuntimeRoundingApprox.roundR,
-                  Gondlin.Floats.NF.roundR, Gondlin.Floats.NF.ofReal,
-                    Gondlin.Floats.NF.instOne] using
+                  Gondolin.Floats.NF.roundR, Gondolin.Floats.NF.ofReal,
+                    Gondolin.Floats.NF.instOne] using
                   (Proofs.RuntimeRoundingApprox.roundR_abs_error (β := β) (fexp := fexp) (rnd :=
                     rnd) (1 : ℝ))
               have hdiv :=
@@ -3423,7 +3423,7 @@ private lemma abs_max0_sub_max0_le (x y : ℝ) : abs (max x 0 - max y 0) ≤ abs
 
 /-- Rounded ReLU scalar op for `NF`: apply `max · 0` then round. -/
 noncomputable def reluR (x : R) : R :=
-  Gondlin.Floats.NF.ofReal (β := β) (fexp := fexp) (rnd := rnd)
+  Gondolin.Floats.NF.ofReal (β := β) (fexp := fexp) (rnd := rnd)
     (max (toSpec (β := β) (fexp := fexp) (rnd := rnd) x) 0)
 
 /--
@@ -3465,8 +3465,8 @@ theorem approxT_relu_spec {s : Shape} :
                     (rnd := rnd) xR) - max xhat 0) ≤
                     neuralUlp β fexp (max xhat 0) TrainingPhase.forward / 2 := by
                 -- `reluR` is `ofReal (max xhat 0)` so this is a single rounding step.
-                simpa [reluR, xhat, toSpec, Gondlin.Floats.NF.toReal, Gondlin.Floats.NF.ofReal,
-                  Gondlin.Floats.NF.roundR, Proofs.RuntimeRoundingApprox.roundR] using
+                simpa [reluR, xhat, toSpec, Gondolin.Floats.NF.toReal, Gondolin.Floats.NF.ofReal,
+                  Gondolin.Floats.NF.roundR, Proofs.RuntimeRoundingApprox.roundR] using
                   (Proofs.RuntimeRoundingApprox.roundR_abs_error (β := β) (fexp := fexp) (rnd :=
                     rnd) (max xhat 0))
               have hmax :

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -12,7 +12,7 @@ public import NN.Spec.RL.Core
 /-!
 # RL Core Proofs
 
-Small structural theorems about Gondlin's pure RL helper functions in `NN.Spec.RL.Core`.
+Small structural theorems about Gondolin's pure RL helper functions in `NN.Spec.RL.Core`.
 
 The emphasis here is on *shape/structure* properties (mostly list lengths and truncation
 behaviour). These facts are often used to justify that derived quantities (discounted returns,

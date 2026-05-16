@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -18,7 +18,7 @@ The important split is:
 - **Weights** move through PyTorch `state_dict`s. PyTorch’s own documentation recommends saving a
   module’s learned parameters with `torch.save(model.state_dict(), path)` because that is the most
   flexible restoration format.
-- **Graphs** move through graph capture (`torch.export`, FX, ONNX, or Gondlin `NN.IR.Graph`).
+- **Graphs** move through graph capture (`torch.export`, FX, ONNX, or Gondolin `NN.IR.Graph`).
   A `state_dict` alone does not describe the model architecture; it only names tensors.
 
 Lean should not try to parse PyTorch pickle/zip checkpoints directly. Instead, we emit a small Python
@@ -32,7 +32,7 @@ adapter that loads a checkpoint with PyTorch, normalizes common wrappers such as
 }
 ```
 
-`NN.Runtime.PyTorch.Import.Core` then parses the `"params"` object into typed Gondlin tensors.
+`NN.Runtime.PyTorch.Import.Core` then parses the `"params"` object into typed Gondolin tensors.
 Architecture-specific loaders are still useful, but only for mapping names and shapes. The transport
 format itself is model-agnostic.
 
@@ -76,7 +76,7 @@ def pyBool (b : Bool) : String :=
   if b then "True" else "False"
 
 /--
-Emit a standalone Python script that converts a PyTorch checkpoint into Gondlin JSON.
+Emit a standalone Python script that converts a PyTorch checkpoint into Gondolin JSON.
 
 The script handles three common checkpoint layouts:
 
@@ -136,7 +136,7 @@ def generateJsonBridgeScript (opts : JsonBridgeOptions := {}) : String :=
     , indent4 "return payload"
     , ""
     , "def main():"
-    , indent4 "parser = argparse.ArgumentParser(description=\"Export a PyTorch state_dict to Gondlin JSON\")"
+    , indent4 "parser = argparse.ArgumentParser(description=\"Export a PyTorch state_dict to Gondolin JSON\")"
     , indent4 "parser.add_argument(\"checkpoint\", help=\"Path to a .pt/.pth checkpoint\")"
     , indent4 "parser.add_argument(\"json\", help=\"Output JSON path\")"
     , indent4 "args = parser.parse_args()"

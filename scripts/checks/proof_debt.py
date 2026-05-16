@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Gondlin proof-debt scanner.
+Gondolin proof-debt scanner.
 
 Walks Lean sources under `NN/` and counts proof-hygiene signals that we want to
 keep at zero (or carefully bounded): `sorry`, `admit`, unallowlisted `axiom`s,
@@ -28,7 +28,7 @@ from typing import Iterable
 REPO_ROOT = pathlib.Path(__file__).resolve().parent.parent.parent
 
 # External trees that may exist in a developer checkout but are not part of
-# Gondlin's core sources and must not affect proof-debt accounting.
+# Gondolin's core sources and must not affect proof-debt accounting.
 VENDORED_DIR_NAMES = {
     "Two-Stage_Neural_Controller_Training",  # optional external checkout (alpha,beta-CROWN workflows)
     "PINN_verification",  # user-cloned external repo (gitignored)
@@ -319,7 +319,7 @@ def collect(report_files: bool = False) -> dict:
     unauthorized_axioms = [a for a in axioms_all if not a["allowed"]]
 
     report = {
-        "repo": "gondlin",
+        "repo": "gondolin",
         "scanned_files": scanned,
         "totals": {
             "sorry": len(sorry_locs),
@@ -343,7 +343,7 @@ def collect(report_files: bool = False) -> dict:
 def render_text(report: dict) -> str:
     """Render the proof-debt report as a plain text summary."""
     lines: list[str] = []
-    lines.append(f"Gondlin proof debt ({report['scanned_files']} Lean files scanned)")
+    lines.append(f"Gondolin proof debt ({report['scanned_files']} Lean files scanned)")
     lines.append("")
     t = report["totals"]
     lines.append(f"  sorry          : {t['sorry']}")
@@ -402,7 +402,7 @@ def _compare_baseline(current: dict, baseline_path: pathlib.Path) -> list[str]:
 
 def main() -> int:
     """CLI entry point for the proof-debt scanner."""
-    ap = argparse.ArgumentParser(description="Gondlin proof-debt scanner.")
+    ap = argparse.ArgumentParser(description="Gondolin proof-debt scanner.")
     ap.add_argument("--format", choices=("text", "json"), default="text", help="Output format.")
     ap.add_argument(
         "--strict",

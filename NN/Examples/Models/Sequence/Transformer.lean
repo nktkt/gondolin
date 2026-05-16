@@ -1,12 +1,12 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 
 Device-agnostic real-data example:
   python3 scripts/datasets/download_example_data.py --tiny-shakespeare
-  lake exe gondlin transformer --cpu --steps 1
-  lake build -R -K cuda=true && lake exe gondlin transformer --cuda --steps 1
+  lake exe gondolin transformer --cpu --steps 1
+  lake build -R -K cuda=true && lake exe gondolin transformer --cuda --steps 1
 -/
 
 module
@@ -20,7 +20,7 @@ public import NN.Examples.Models.Sequence.SimpleText
 /-!
 # Transformer Text Example
 
-Runnable `gondlin transformer` example. It reads a local text corpus, builds a byte-level
+Runnable `gondolin transformer` example. It reads a local text corpus, builds a byte-level
 sequence reconstruction sample, and trains one transformer encoder block on that real text window.
 
 The reusable model wiring lives in `NN.API.Models.Transformer`
@@ -28,7 +28,7 @@ The reusable model wiring lives in `NN.API.Models.Transformer`
 
 ```bash
 python3 scripts/datasets/download_example_data.py --tiny-shakespeare
-lake build -R -K cuda=true && lake exe gondlin transformer --cuda --tiny-shakespeare --steps 1
+lake build -R -K cuda=true && lake exe gondolin transformer --cuda --tiny-shakespeare --steps 1
 ```
 -/
 
@@ -39,7 +39,7 @@ open NN.API
 
 namespace NN.Examples.Models.Sequence.Transformer
 
-def exeName : String := "gondlin transformer"
+def exeName : String := "gondolin transformer"
 def defaultLogJson : System.FilePath := "data/model_zoo/transformer_trainlog.json"
 
 /-- Number of identical rows in the small batch used by this encoder check. -/
@@ -90,9 +90,9 @@ def mkSample {α : Type} [Semantics.Scalar α] [Runtime.Scalar α] (input : Stri
       API.sample.mk (Tensor.dim (fun _ => x)) (Tensor.dim (fun _ => y))
 
 /--
-Shared runner configuration for `gondlin transformer`.
+Shared runner configuration for `gondolin transformer`.
 
-We intentionally reuse the same training infrastructure as `gondlin rnn` and `gondlin lstm`:
+We intentionally reuse the same training infrastructure as `gondolin rnn` and `gondolin lstm`:
 the goal here is to compare the *architecture* (attention/norm/FFN) rather than read three copies
 of the same CLI/runtime wrapper.
 -/

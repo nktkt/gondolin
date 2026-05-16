@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -34,7 +34,7 @@ If you are doing proofs about rounding error, prefer theorems in:
 @[expose] public section
 
 
-namespace Gondlin.Floats.Conversion
+namespace Gondolin.Floats.Conversion
 
 variable {β : NeuralRadix} {fexp : ℤ → ℤ} [NeuralValidExp fexp]
 
@@ -149,4 +149,4 @@ noncomputable def validateNeuralConversion (original : ℝ) (converted : NeuralC
   converted.error_bound ≤ tolerance ∧
   abs (converted.value - original) ≤ tolerance
 
-end Gondlin.Floats.Conversion
+end Gondolin.Floats.Conversion

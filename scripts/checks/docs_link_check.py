@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate markdown links across Gondlin documentation.
+"""Validate markdown links across Gondolin documentation.
 
 Two link kinds are recognised:
 
@@ -320,7 +320,7 @@ def validate_relative(target: str, source: Path) -> tuple[str, str]:
 
 def validate_http(target: str, timeout: float) -> tuple[str, str]:
     req = urllib.request.Request(target, method="HEAD",
-                                 headers={"User-Agent": "gondlin-docs-link-check/1.0"})
+                                 headers={"User-Agent": "gondolin-docs-link-check/1.0"})
     try:
         with urllib.request.urlopen(req, timeout=timeout) as resp:  # noqa: S310
             code = resp.status
@@ -330,7 +330,7 @@ def validate_http(target: str, timeout: float) -> tuple[str, str]:
             try:
                 req2 = urllib.request.Request(
                     target, method="GET",
-                    headers={"User-Agent": "gondlin-docs-link-check/1.0"})
+                    headers={"User-Agent": "gondolin-docs-link-check/1.0"})
                 with urllib.request.urlopen(req2, timeout=timeout) as resp:  # noqa: S310
                     code = resp.status
             except Exception as e2:  # noqa: BLE001
@@ -432,7 +432,7 @@ def format_table(report: Report) -> str:
 
 
 def main(argv: Iterable[str] | None = None) -> int:
-    p = argparse.ArgumentParser(description="Check markdown links in Gondlin docs.")
+    p = argparse.ArgumentParser(description="Check markdown links in Gondolin docs.")
     p.add_argument("--fetch", action="store_true",
                    help="actually fetch http(s) URLs and verify status codes")
     p.add_argument("--strict-anchors", action="store_true",

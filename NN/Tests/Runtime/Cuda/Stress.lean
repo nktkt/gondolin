@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -9,7 +9,7 @@ module
 public import NN.Runtime.Autograd.Engine.Cuda.Buffer
 public import NN.Runtime.Autograd.Engine.Cuda.Ops
 public import NN.Runtime.Autograd.Engine.FastKernels
-public import NN.Runtime.Autograd.Gondlin.Random
+public import NN.Runtime.Autograd.Gondolin.Random
 public import NN.Entrypoint.Tensor
 public import NN.Tests.Runtime.Cuda.Utils
 
@@ -35,7 +35,7 @@ namespace Stress
 
 open Runtime.Autograd
 open Runtime.Autograd.Cuda
-open Runtime.Autograd.Gondlin
+open Runtime.Autograd.Gondolin
 open Spec
 open Tensor
 

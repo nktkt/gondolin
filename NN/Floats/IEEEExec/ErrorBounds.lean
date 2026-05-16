@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -31,10 +31,10 @@ in a separate trig-specific theory file.
 
 @[expose] public section
 
-namespace Gondlin.Floats.IEEE754
+namespace Gondolin.Floats.IEEE754
 namespace IEEE32Exec
 
-open Gondlin.Floats
+open Gondolin.Floats
 
 noncomputable section
 
@@ -42,7 +42,7 @@ noncomputable section
 theorem fp32Round_abs_error (x : ℝ) :
     _root_.abs (fp32Round x - x) ≤ eps₃₂ x := by
   -- `fp32Round` is definitionally the `FP32` rounding operator.
-  simpa [fp32Round] using (Gondlin.Floats.FP32.round_abs_error (x := x))
+  simpa [fp32Round] using (Gondolin.Floats.FP32.round_abs_error (x := x))
 
 /--
 Addition absolute error bound for `IEEE32Exec` on the finite branch.
@@ -108,4 +108,4 @@ theorem toReal_sqrt_abs_error_of_isFinite (x : IEEE32Exec)
 end
 
 end IEEE32Exec
-end Gondlin.Floats.IEEE754
+end Gondolin.Floats.IEEE754

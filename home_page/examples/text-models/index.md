@@ -117,7 +117,7 @@ familiar.
 Try the short CUDA run:
 
 ```bash
-lake exe -K cuda=true gondlin gpt2 --cuda --fast-kernels --tiny-shakespeare \
+lake exe -K cuda=true gondolin gpt2 --cuda --fast-kernels --tiny-shakespeare \
   --steps 300 --windows 32 --lr 0.001 --prompt "ROMEO:" --generate 220 \
   --temperature 0.85 --top-k 24 --repeat-penalty 1.25 --repeat-window 24 \
   --sample-seed 11 --log data/model_zoo/gpt2_trainlog.json
@@ -126,12 +126,12 @@ lake exe -K cuda=true gondlin gpt2 --cuda --fast-kernels --tiny-shakespeare \
 For a smoke test without CUDA:
 
 ```bash
-lake exe gondlin gpt2 --tiny-shakespeare --steps 1 --windows 2 --generate 32
+lake exe gondolin gpt2 --tiny-shakespeare --steps 1 --windows 2 --generate 32
 ```
 
 ## Saving and Reloading Parameters
 
-Gondlin’s checkpoint format is intentionally simple: a model’s parameters are a shape-indexed
+Gondolin’s checkpoint format is intentionally simple: a model’s parameters are a shape-indexed
 pack, and the save/load helpers round-trip exact IEEE-754 bit patterns through JSON.
 
 That is why `gpt2_saved` is a separate example: it loads a parameter pack, checks that the shapes
@@ -139,13 +139,13 @@ match the model architecture, and runs sampling without touching an optimizer.
 
 The generic API helper for this is:
 
-- `NN.API.Gondlin.ParamIO.saveModuleParamsBits`
-- `NN.API.Gondlin.ParamIO.loadModuleParamsBits`
+- `NN.API.Gondolin.ParamIO.saveModuleParamsBits`
+- `NN.API.Gondolin.ParamIO.loadModuleParamsBits`
 
 The GPT-2 example calls the same helpers directly:
 
 ```lean
-Gondlin.ParamIO.saveModuleParamsBits
+Gondolin.ParamIO.saveModuleParamsBits
   (paramShapes := nn.paramShapes model)
   (inputShapes := [σ, τ])
   m path
@@ -183,7 +183,7 @@ and the training entrypoint is still just a runner around `trainOnText`:
 
 ```lean
 def main (args : List String) : IO UInt32 := do
-  Gondlin.Module.run exeName args
+  Gondolin.Module.run exeName args
     (.float (fun opts rest => do
       let (path, rest) ← Common.orThrow exeName <| RealData.parseTextFlags rest
       let (train, rest) ← Common.orThrow exeName <| parseTrainOptions rest
@@ -197,7 +197,7 @@ def main (args : List String) : IO UInt32 := do
 Run it with:
 
 ```bash
-lake exe -K cuda=true gondlin mamba --cuda --fast-kernels --tiny-shakespeare \
+lake exe -K cuda=true gondolin mamba --cuda --fast-kernels --tiny-shakespeare \
   --steps 200 --windows 128 --prompt "ROMEO:" --generate 180 \
   --temperature 0.8 --top-k 16 --sample-seed 11
 ```

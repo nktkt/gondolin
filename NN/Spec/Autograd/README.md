@@ -1,6 +1,6 @@
 # `NN.Spec.Autograd`
 
-This directory defines Gondlin's spec level interface for reverse mode automatic differentiation.
+This directory defines Gondolin's spec level interface for reverse mode automatic differentiation.
 The intent is to keep the math small and explicit:
 
 - an `OpSpec` is forward plus VJP (vector Jacobian product),

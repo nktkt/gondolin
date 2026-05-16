@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -11,7 +11,7 @@ public import NN.Spec.Layers.Rnn
 /-!
 # LSTM (spec layer)
 
-Gondlin provides a small LSTM specification that is:
+Gondolin provides a small LSTM specification that is:
 
 - explicit about shapes (so common dimension mistakes are caught early),
 - explicit about the gate math (so gradients are inspectable and proofs can refer to the equations),
@@ -29,7 +29,7 @@ Gondlin provides a small LSTM specification that is:
 
 Many libraries expose two matrices per gate (`W_ih` and `W_hh`) and add them.
 In this spec we use a single matrix applied to a concatenated vector `[x_t; h_{t-1}]`.
-It's the same computation, just packaged to reuse Gondlin's tensor building blocks.
+It's the same computation, just packaged to reuse Gondolin's tensor building blocks.
 -/
 
 @[expose] public section
@@ -45,7 +45,7 @@ variable {α : Type} [Context α]
 /-- Parameters for an LSTM cell, with one `(hiddenSize × (inputSize + hiddenSize))` matrix per gate.
 
 This corresponds to the usual `(W_ih, W_hh)` parameterization in libraries like PyTorch, but we
-package it as a single matrix applied to `[x_t; h_{t-1}]` to reuse Gondlin's tensor building
+package it as a single matrix applied to `[x_t; h_{t-1}]` to reuse Gondolin's tensor building
 blocks.
 -/
 structure LSTMSpec (α : Type) (inputSize hiddenSize : Nat) where

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -40,9 +40,9 @@ References (interval arithmetic background):
 @[expose] public section
 
 
-namespace Gondlin.Floats.IEEE754
+namespace Gondolin.Floats.IEEE754
 
-open Gondlin.Floats
+open Gondolin.Floats
 
 namespace IEEE32Exec
 
@@ -67,7 +67,7 @@ private lemma shiftLeft_cast (n k : Nat) :
 
 private lemma neural_bpow_ofNat_div (k : Nat) :
     neuralBpow binaryRadix (Int.ofNat k) = (2 : ℝ) ^ k := by
-  simp [Gondlin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal]
+  simp [Gondolin.Floats.neuralBpow, binaryRadix, NeuralRadix.toReal]
 
 private lemma neural_bpow_neg_ofNat_div (k : Nat) :
     neuralBpow binaryRadix (-(Int.ofNat k)) = ((2 : ℝ) ^ k)⁻¹ := by
@@ -683,4 +683,4 @@ end
 
 end IEEE32Exec
 
-end Gondlin.Floats.IEEE754
+end Gondolin.Floats.IEEE754

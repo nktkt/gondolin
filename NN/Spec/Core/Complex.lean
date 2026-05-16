@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -9,21 +9,21 @@ module
 public import NN.Spec.Core.Context
 
 /-!
-# Complex scalar (`Gondlin.Complex α`)
+# Complex scalar (`Gondolin.Complex α`)
 
-Gondlin is scalar-polymorphic, and some model components (e.g. FFT/FNO-style blocks) want a
+Gondolin is scalar-polymorphic, and some model components (e.g. FFT/FNO-style blocks) want a
 complex-valued scalar type.
 
-Mathlib’s `ℂ` is specialized to `ℝ` and intentionally has no order instance; Gondlin’s generic
+Mathlib’s `ℂ` is specialized to `ℝ` and intentionally has no order instance; Gondolin’s generic
 `Context` includes order-like operations (`LT/LE`, `max/min`) for ReLU/argmax-style code paths.
 
 To avoid changing mathlib’s global behavior (and to support runtime-friendly backends like
 `IEEE32Exec`), we provide a small parametric complex scalar:
 
-`Gondlin.Complex α := α × α` with fields `re` and `im`.
+`Gondolin.Complex α := α × α` with fields `re` and `im`.
 
 The provided `Context` instance is designed to be:
-- good enough for Gondlin’s tensor/model surface (arithmetic + common transcendental functions),
+- good enough for Gondolin’s tensor/model surface (arithmetic + common transcendental functions),
 - runtime-friendly when `α` is runtime-friendly, and
 - conservative for the few operations that are fundamentally about angles/branches (`log`, `sqrt`):
   we pick a simple real-part-based approximation that is exact on real inputs (imag part `0`).
@@ -34,7 +34,7 @@ mathlib’s `ℂ` directly.
 
 @[expose] public section
 
-namespace Gondlin
+namespace Gondolin
 
 /-- Parametric complex numbers `a + i·b` over a scalar type `α`. -/
 structure Complex (α : Type) where
@@ -89,7 +89,7 @@ instance [BEq α] : BEq (Complex α) :=
   ⟨fun x y => x.re == y.re && x.im == y.im⟩
 
 /-!
-Order is only used in Gondlin for branchy ops like ReLU/max/min. Complex numbers do not have a
+Order is only used in Gondolin for branchy ops like ReLU/max/min. Complex numbers do not have a
 canonical order, so we pick a simple *real-part* order: compare `re` and ignore `im`.
 
 This keeps the instance lightweight and avoids polluting mathlib’s `ℂ` with ad-hoc orderings.
@@ -192,10 +192,10 @@ instance [Context α] : Min (Complex α) where
 instance [Context α] : Pow (Complex α) (Complex α) where
   pow x y := MathFunctions.exp (y * MathFunctions.log x)
 
-/-- Lift a scalar `Context` to Gondlin complex scalars. -/
+/-- Lift a scalar `Context` to Gondolin complex scalars. -/
 instance [Context α] : Context (Complex α) where
   decidable_gt := fun x y => (Context.decidable_gt) x.re y.re
 
 end Complex
 
-end Gondlin
+end Gondolin

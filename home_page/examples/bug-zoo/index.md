@@ -3,11 +3,11 @@ title: Bug Zoo Walkthrough
 usemathjax: true
 ---
 
-Bug Zoo is Gondlin’s collection of small case studies for semantic bugs that can pass ordinary
+Bug Zoo is Gondolin’s collection of small case studies for semantic bugs that can pass ordinary
 runtime checks. These examples focus on cases where code still returns tensors, losses, or tokens,
 but the returned value no longer satisfies the intended contract.
 
-Bug Zoo is the easiest place to understand the motivation for Gondlin: many ML failures are not
+Bug Zoo is the easiest place to understand the motivation for Gondolin: many ML failures are not
 type errors or crashes, but silent changes in meaning.
 
 Each card starts with a bug pattern, then isolates the small mathematical contract that would have

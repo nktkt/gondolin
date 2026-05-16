@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -18,7 +18,7 @@ import Lean.Data.Json
 This module implements a Lean checker for one-dimensional piecewise-polynomial certificates.
 
 Why this exists:
-- In Gondlin’s “external producer, Lean checker” workflow, an external tool (Julia, Python, ...)
+- In Gondolin’s “external producer, Lean checker” workflow, an external tool (Julia, Python, ...)
   can fit or search for a piecewise-polynomial surrogate and export a compact JSON artifact.
 - Lean then checks basic algebraic consistency conditions on that artifact.
 
@@ -62,7 +62,7 @@ open TensorArray
 -/
 
 /--
-Parse a rational in the format emitted by Gondlin’s Arb helpers:
+Parse a rational in the format emitted by Gondolin’s Arb helpers:
 
 - integer: `"5"`, `"-3"`
 - fraction: `"5/2"`, `"-7/10"`
@@ -281,18 +281,18 @@ This is used for optional “float32 semantics” checking: we only accept value
 representable on the binary32 grid, so equality checks are meaningful at the executable IEEE level.
 
 Implementation note:
-- We reuse Gondlin’s existing `Rat → IEEE32Exec` outward-rounding helpers
+- We reuse Gondolin’s existing `Rat → IEEE32Exec` outward-rounding helpers
   (`roundRatQDown/roundRatQUp`), and we accept only when the lower/upper rounding coincide.
 -/
-def ratToIEEE32ExecExact (ctx : String) (q : Rat) : IO Gondlin.Floats.IEEE754.IEEE32Exec := do
-  let lo := Gondlin.Floats.IEEE754.IEEE32Exec.roundRatQDown q
-  let hi := Gondlin.Floats.IEEE754.IEEE32Exec.roundRatQUp q
+def ratToIEEE32ExecExact (ctx : String) (q : Rat) : IO Gondolin.Floats.IEEE754.IEEE32Exec := do
+  let lo := Gondolin.Floats.IEEE754.IEEE32Exec.roundRatQDown q
+  let hi := Gondolin.Floats.IEEE754.IEEE32Exec.roundRatQUp q
   unless lo == hi do
     throw <|
       IO.userError
         (s!"{ctx}: rational is not exactly representable as binary32 (lo={lo}, hi={hi}).\n" ++
          "If you intend a float32-valued certificate, prefer dyadic rationals (n/2^k) or emit raw bits.")
-  unless Gondlin.Floats.IEEE754.IEEE32Exec.isFinite lo do
+  unless Gondolin.Floats.IEEE754.IEEE32Exec.isFinite lo do
     throw <| IO.userError s!"{ctx}: value is not finite in binary32 semantics (NaN/Inf)."
   pure lo
 
@@ -324,7 +324,7 @@ def checkCertificateIEEE32ExecExact (cert : PiecewisePolyCertificate) : IO Unit 
     let coeffs32 ←
       p.coeffs.mapIdxM (fun k q => ratToIEEE32ExecExact (ctx := s!"pieces[{i}].coeffs[{k}]") q)
 
-    let tHi32 : Gondlin.Floats.IEEE754.IEEE32Exec := hi32 - lo32
+    let tHi32 : Gondolin.Floats.IEEE754.IEEE32Exec := hi32 - lo32
     let pLo32 := evalPolyHorner coeffs32 0
     let pHi32 := evalPolyHorner coeffs32 tHi32
 

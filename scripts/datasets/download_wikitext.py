@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Download WikiText from Hugging Face and export a plain UTF-8 text corpus.
 
-Gondlin's GPT-style examples consume ordinary text files rather
+Gondolin's GPT-style examples consume ordinary text files rather
 than depending on Python dataset libraries at runtime.  This script is a small
 data-prep helper: it uses the Hugging Face Dataset Viewer metadata to locate the
 parquet shards for `Salesforce/wikitext`, reads the `text` column, and writes a

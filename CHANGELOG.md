@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to Gondlin will be documented in this file.
+All notable changes to Gondolin will be documented in this file.
 
 The format is based on [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html).
@@ -44,7 +44,7 @@ version bumps, though significant changes will be noted here.
 ## [0.1.0] — 2026-05-13
 
 ### Added
-- Initial commit: gondlin (derived from TorchLean, MIT-licensed).
+- Initial commit: gondolin (derived from TorchLean, MIT-licensed).
 - Lean 4 framework for formalizing neural networks: typed tensors, model APIs,
   shared graph IR, runtime + autograd, finite-precision semantics, certificate
   checkers, optional CUDA backend with portable CPU stubs.
@@ -58,5 +58,5 @@ version bumps, though significant changes will be noted here.
   libm (which lives in `libSystem` on Darwin).
 - README pointing to in-repo documentation sources rather than unpublished GitHub Pages URLs.
 
-[Unreleased]: https://github.com/nktkt/gondlin/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/nktkt/gondlin/releases/tag/v0.1.0
+[Unreleased]: https://github.com/nktkt/gondolin/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/nktkt/gondolin/releases/tag/v0.1.0

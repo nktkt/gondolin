@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -14,14 +14,14 @@ public import NN.Runtime.RL.Artifacts.DefaultPaths
 # PPO GridWorld Artifacts
 
 This file visualizes the artifacts produced by
-`NN/Examples/Models/RL/PPOGridWorld.lean` (`lake exe gondlin ppo_gridworld`).
+`NN/Examples/Models/RL/PPOGridWorld.lean` (`lake exe gondolin ppo_gridworld`).
 
 GridWorld is the smallest RL artifact path because the environment itself is Lean-native: the
 executable can both train and emit artifacts, while the proof layer can reason about the finite MDP
 model.
 
 Tip:
-- For CUDA: `lake build -R -K cuda=true && lake exe gondlin ppo_gridworld --cuda`
+- For CUDA: `lake build -R -K cuda=true && lake exe gondolin ppo_gridworld --cuda`
 - For a quick run that still writes artifacts: add `--updates 200`
 
 The executable writes three JSON files by default:
@@ -46,15 +46,15 @@ def gw44 : GridWorld 4 4 :=
     -- Discount is not used by the widgets.
     discount := 0 }
 
-/-- Default training-log path written by `gondlin ppo_gridworld` (override with `--log`). -/
+/-- Default training-log path written by `gondolin ppo_gridworld` (override with `--log`). -/
 def trainLogPath : System.FilePath :=
   Runtime.RL.Artifacts.DefaultPaths.ppoGridWorldTrainLog
 
-/-- Default greedy-policy snapshot path written by `gondlin ppo_gridworld` (override with `--policy`). -/
+/-- Default greedy-policy snapshot path written by `gondolin ppo_gridworld` (override with `--policy`). -/
 def policyPath : System.FilePath :=
   Runtime.RL.Artifacts.DefaultPaths.ppoGridWorldPolicy
 
-/-- Default greedy-episode path snapshot written by `gondlin ppo_gridworld` (override with `--path`). -/
+/-- Default greedy-episode path snapshot written by `gondolin ppo_gridworld` (override with `--path`). -/
 def pathPath : System.FilePath :=
   Runtime.RL.Artifacts.DefaultPaths.ppoGridWorldPath
 

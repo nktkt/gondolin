@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -29,7 +29,7 @@ namespace NN.MLTheory.CROWN
 /-! ## FP32 entrypoints -/
 
 /-- FP32 scalar type used for FP32-specialized CROWN/LiRPA statements. -/
-abbrev FP32 := Gondlin.Floats.FP32
+abbrev FP32 := Gondolin.Floats.FP32
 
 namespace FP32
 

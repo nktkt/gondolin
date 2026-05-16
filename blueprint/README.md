@@ -1,13 +1,13 @@
-# Gondlin Verso Book
+# Gondolin Verso Book
 
-This directory contains the Lean-native Verso book for Gondlin. The rendered `/blueprint/` page is
+This directory contains the Lean-native Verso book for Gondolin. The rendered `/blueprint/` page is
 the public guide used by the website.
 
 The public site serves the rendered output under `/blueprint/`; the source of truth is Lean/Verso:
 
-- `GondlinBlueprint/Guide.lean` assembles the public book.
-- `GondlinBlueprint/Guide/**/*.lean` contains the narrative guide chapters.
-- `GondlinBlueprintMain.lean` is the HTML generator executable.
+- `GondolinBlueprint/Guide.lean` assembles the public book.
+- `GondolinBlueprint/Guide/**/*.lean` contains the narrative guide chapters.
+- `GondolinBlueprintMain.lean` is the HTML generator executable.
 
 The book is organized as a guide rather than a raw module dump. The generated API docs and import
 graph provide declaration-level lookup; this guide explains the main concepts, workflows, examples,
@@ -20,7 +20,7 @@ cd blueprint
 lake update
 lake exe blueprint-gen --output ../_out/blueprint
 mkdir -p ../_out/blueprint/html-multi/Guide/Assets
-cp -r GondlinBlueprint/Guide/Assets/* ../_out/blueprint/html-multi/Guide/Assets/
+cp -r GondolinBlueprint/Guide/Assets/* ../_out/blueprint/html-multi/Guide/Assets/
 cd ..
 python3 scripts/docs/polish_verso_guide.py --guide _out/blueprint/html-multi
 ```

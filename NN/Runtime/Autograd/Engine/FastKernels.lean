@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -282,7 +282,7 @@ instance (priority := 10) {α : Type} [Context α] : FastMatmul α where
 
 namespace Cuda
 
-/-- 2D matmul forward via cuBLAS DGEMM (`gondlin_dgemm_cuda` / `Cuda.gondlinDgemmCuda`). -/
+/-- 2D matmul forward via cuBLAS DGEMM (`gondolin_dgemm_cuda` / `Cuda.gondolinDgemmCuda`). -/
 def matmulForwardcuBLAS64 {m n p : Nat}
     (a : Tensor Float (.dim m (.dim n .scalar)))
     (b : Tensor Float (.dim n (.dim p .scalar))) :
@@ -303,7 +303,7 @@ def matmulForwardcuBLAS64 {m n p : Nat}
         for x in row do
           out := out.push x
       return FloatArray.mk out
-  let flatC := Runtime.Autograd.Cuda.gondlinDgemmCuda flatA flatB
+  let flatC := Runtime.Autograd.Cuda.gondolinDgemmCuda flatA flatB
     (UInt32.ofNat m) (UInt32.ofNat n) (UInt32.ofNat p)
   Tensor.dim (fun i : Fin m =>
     Tensor.dim (fun j : Fin p =>

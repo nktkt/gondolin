@@ -15,7 +15,7 @@
     "target_class": 7
   },
   "evidence": {
-    "producer": "gondlin-margin-cert@0.4.0",
+    "producer": "gondolin-margin-cert@0.4.0",
     "format": "logit-margin-bounds",
     "payload": {
       "lower_margin": 0.142,
@@ -24,8 +24,8 @@
   },
   "checked_by": {
     "checker": "NN.Examples.Verification.Robustness.VerifyMarginCert",
-    "gondlin_version": "0.4.0-dev",
-    "gondlin_commit": "abc1234",
+    "gondolin_version": "0.4.0-dev",
+    "gondolin_commit": "abc1234",
     "checked_at": "2026-05-15T12:00:00Z",
     "ok": true
   },

@@ -1,11 +1,11 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 
 Run:
   python3 scripts/datasets/download_example_data.py --cifar10
-  lake exe -K cuda=true gondlin vqvae --cuda --steps 10
+  lake exe -K cuda=true gondolin vqvae --cuda --steps 10
 -/
 
 module
@@ -32,7 +32,7 @@ open NN.API
 
 namespace NN.Examples.Models.Generative.VqVae
 
-def exeName : String := "gondlin vqvae"
+def exeName : String := "gondolin vqvae"
 def defaultLogJson : System.FilePath := "data/model_zoo/vqvae_trainlog.json"
 def cfg : nn.models.VectorGenerativeConfig := nn.models.compactImageConfig
 
@@ -43,7 +43,7 @@ def mkModel : nn.M (nn.Sequential σ τ) :=
   nn.models.vectorVqVae cfg
 
 def main (args : List String) : IO UInt32 := do
-  Gondlin.Module.run exeName args
+  Gondolin.Module.run exeName args
     (.float (fun opts rest => do
       let (xPath, yPath, nRows, seed, rest) ← Common.orThrow exeName <| RealData.parseCifarFlags rest
       let (train, rest) ← Common.orThrow exeName <|
@@ -56,7 +56,7 @@ def main (args : List String) : IO UInt32 := do
           (mkModel := mkModel)
           (mkModuleDef := fun model => nn.mseScalarModuleDef model)
           (mkOptim := fun ps =>
-            Gondlin.Optim.adam (α := Float) (paramShapes := ps)
+            Gondolin.Optim.adam (α := Float) (paramShapes := ps)
               (lr := 1e-3) (beta1 := 0.9) (beta2 := 0.999) (epsilon := 1e-8))
           (opts := opts) (sample := sample) (steps := train.steps)
       let loss0 := curve.values.getD 0 0.0

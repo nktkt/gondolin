@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -16,7 +16,7 @@ public import NN.Proofs.RuntimeApprox.Scale
 /-!
 # Runtime Approximation Proofs
 
-Umbrella import for Gondlin's executable-runtime-to-real-spec approximation theorems.
+Umbrella import for Gondolin's executable-runtime-to-real-spec approximation theorems.
 
 The stack is intentionally layered:
 - `Core`: tolerance objects and tensor/context approximation predicates;

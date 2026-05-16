@@ -19,7 +19,7 @@ is represented, what the denoiser predicts, and what gets saved after a run.
 For a quick CPU smoke test, run only a tiny number of steps:
 
 ```bash
-lake exe gondlin diffusion --dataset cifar10 --n-total 32 --steps 1 --hidden-c 4
+lake exe gondolin diffusion --dataset cifar10 --n-total 32 --steps 1 --hidden-c 4
 ```
 
 For a more useful local run, use CUDA if you have it. This writes a JSON loss log and a PPM image
@@ -28,7 +28,7 @@ artifact so you can inspect both numbers and pixels:
 ```bash
 python3 scripts/datasets/download_example_data.py --cifar10
 
-lake exe -K cuda=true gondlin diffusion --cuda --fast-kernels \
+lake exe -K cuda=true gondolin diffusion --cuda --fast-kernels \
   --dataset cifar10 --n-total 800 --steps 50 --hidden-c 8 \
   --log data/model_zoo/diffusion_trainlog.json \
   --sample-ppm data/model_zoo/diffusion_sample.ppm
@@ -39,7 +39,7 @@ typed tensors, runtime model, sampler, and saved artifacts.
 
 ## Data: Where Images Come From
 
-Gondlin does not decode JPEG/PNG inside Lean. Image decoding and resizing happen before Lean; the
+Gondolin does not decode JPEG/PNG inside Lean. Image decoding and resizing happen before Lean; the
 Lean side receives fixed-layout `.npy` tensors and checks their shapes.
 
 Once the arrays exist, the Lean side loads `NCHW` tensors, checks the shape and class range, and
@@ -68,12 +68,12 @@ def toDiffusionRange (x01 : Tensor Float (x0Shape c h w)) :
 
 ## The Spec Layer: What We Mean By “Diffusion”
 
-Gondlin keeps diffusion vocabulary in `NN.Spec.Generative.Diffusion.*`. This is the layer that
+Gondolin keeps diffusion vocabulary in `NN.Spec.Generative.Diffusion.*`. This is the layer that
 lets “training code”, “sampler code”, and “theorems” talk about the same objects.
 
 The DDPM picture is simple enough to state before the formulas: add noise to an image at timestep
 `t`, train a model to predict the noise that was added, then run reverse steps that use the model’s
-noise prediction to move back toward a clean image. Gondlin gives each component a named
+noise prediction to move back toward a clean image. Gondolin gives each component a named
 definition so the runtime command and theorem-facing modules use the same vocabulary.
 
 At the center is an interface for an epsilon-prediction denoiser:
@@ -170,7 +170,7 @@ Training is classic DDPM-style ε-prediction. Each step:
 4. build a supervised pair `(appendTimeChannel x_t tNorm, ε)`,
 5. take an optimizer step on MSE.
 
-Gondlin makes the supervised pair explicit as a `sample.Supervised` value. The helper that
+Gondolin makes the supervised pair explicit as a `sample.Supervised` value. The helper that
 constructs `x_t` from `x0` and `ε` is `NN.API.diffusion.noisedSampleFromEps`; it is the runtime
 version of the same formula used by `qSample` in the spec layer.
 

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 import Lake
@@ -30,7 +30,7 @@ private def cudaHome : String :=
   | some p => cleanCudaHome p
   | none => "/usr/local/cuda"
 
-/-- Extra native link flags for Gondlin's optional CUDA backend. -/
+/-- Extra native link flags for Gondolin's optional CUDA backend. -/
 private def nativeLinkArgs : Array String :=
   if cudaEnabled then
     #[
@@ -47,15 +47,15 @@ private def nativeLinkArgs : Array String :=
     -- CPU stubs call functions from `math.h`; Linux keeps these in `libm`.
     #["-lm"]
 
-package Gondlin where
+package Gondolin where
   version := v!"0.1.0"
   description := "Neural network specification, execution, and verification in Lean 4."
   keywords := #["machine-learning", "neural-networks", "verification", "autograd", "cuda"]
-  homepage := "https://github.com/nktkt/gondlin"
+  homepage := "https://github.com/nktkt/gondolin"
   license := "MIT"
   readmeFile := "README.md"
   testDriver := "nn_tests_suite"
-  lintDriver := "gondlin_lint"
+  lintDriver := "gondolin_lint"
   leanOptions := #[
     ⟨`pp.unicode.fun, true⟩,
     ⟨`autoImplicit, false⟩,
@@ -87,7 +87,7 @@ private structure CudaArchive where
   cudaSrc : String
   stubSrc : String
 
-/-- Shared include paths for Gondlin native CUDA/stub sources. -/
+/-- Shared include paths for Gondolin native CUDA/stub sources. -/
 private def cudaIncludeArgs (pkg : Package) : Array String :=
   #[
     "-I", (pkg.dir / "csrc/cuda/common").toString,
@@ -117,36 +117,36 @@ private def buildCudaArchive (pkg : Package) (spec : CudaArchive) := do
       #[] "cc"
     buildStaticLib libFile #[oJob]
 
-/-- Static archive for `gondlin_dgemm_cuda`: CUDA+cuBLAS when `-K cuda=true`, else CPU stub. -/
-extern_lib gondlin_dgemm_cuda (pkg) :=
+/-- Static archive for `gondolin_dgemm_cuda`: CUDA+cuBLAS when `-K cuda=true`, else CPU stub. -/
+extern_lib gondolin_dgemm_cuda (pkg) :=
   buildCudaArchive pkg {
-    stem := "gondlin_dgemm_cuda"
-    cudaSrc := "csrc/cuda/blas/gondlin_dgemm_cuda.cu"
-    stubSrc := "csrc/cuda/blas/gondlin_dgemm_cuda_stub.c"
+    stem := "gondolin_dgemm_cuda"
+    cudaSrc := "csrc/cuda/blas/gondolin_dgemm_cuda.cu"
+    stubSrc := "csrc/cuda/blas/gondolin_dgemm_cuda_stub.c"
   }
 
-/-- Static archive for `gondlin_cuda_kernels`: CUDA kernels when `-K cuda=true`, else CPU stub. -/
-extern_lib gondlin_cuda_kernels (pkg) :=
+/-- Static archive for `gondolin_cuda_kernels`: CUDA kernels when `-K cuda=true`, else CPU stub. -/
+extern_lib gondolin_cuda_kernels (pkg) :=
   buildCudaArchive pkg {
-    stem := "gondlin_cuda_kernels"
-    cudaSrc := "csrc/cuda/kernels/gondlin_cuda_kernels.cu"
-    stubSrc := "csrc/cuda/kernels/gondlin_cuda_kernels_stub.c"
+    stem := "gondolin_cuda_kernels"
+    cudaSrc := "csrc/cuda/kernels/gondolin_cuda_kernels.cu"
+    stubSrc := "csrc/cuda/kernels/gondolin_cuda_kernels_stub.c"
   }
 
-/-- Static archive for `gondlin_cuda_conv_pool`: CUDA conv/pool when `-K cuda=true`, else CPU stub. -/
-extern_lib gondlin_cuda_conv_pool (pkg) :=
+/-- Static archive for `gondolin_cuda_conv_pool`: CUDA conv/pool when `-K cuda=true`, else CPU stub. -/
+extern_lib gondolin_cuda_conv_pool (pkg) :=
   buildCudaArchive pkg {
-    stem := "gondlin_cuda_conv_pool"
-    cudaSrc := "csrc/cuda/conv_pool/gondlin_cuda_conv_pool.cu"
-    stubSrc := "csrc/cuda/conv_pool/gondlin_cuda_conv_pool_stub.c"
+    stem := "gondolin_cuda_conv_pool"
+    cudaSrc := "csrc/cuda/conv_pool/gondolin_cuda_conv_pool.cu"
+    stubSrc := "csrc/cuda/conv_pool/gondolin_cuda_conv_pool_stub.c"
   }
 
-/-- Static archive for `gondlin_cuda_tensor`: CUDA buffer runtime when `-K cuda=true`, else CPU stub. -/
-extern_lib gondlin_cuda_tensor (pkg) :=
+/-- Static archive for `gondolin_cuda_tensor`: CUDA buffer runtime when `-K cuda=true`, else CPU stub. -/
+extern_lib gondolin_cuda_tensor (pkg) :=
   buildCudaArchive pkg {
-    stem := "gondlin_cuda_tensor"
-    cudaSrc := "csrc/cuda/tensor/gondlin_cuda_tensor.cu"
-    stubSrc := "csrc/cuda/tensor/gondlin_cuda_tensor_stub.c"
+    stem := "gondolin_cuda_tensor"
+    cudaSrc := "csrc/cuda/tensor/gondolin_cuda_tensor.cu"
+    stubSrc := "csrc/cuda/tensor/gondolin_cuda_tensor_stub.c"
   }
 
 -- Unified verification CLI registry: `lake exe verify -- <tool> [args...]`
@@ -161,19 +161,19 @@ lean_exe nn_tests_suite where
   root := `NN.Tests.Suite
 
 -- Repo-policy lints (header hygiene, banned constructs, etc.) via `lake lint`.
-lean_exe gondlin_lint where
+lean_exe gondolin_lint where
   srcDir := "scripts/checks"
-  root := `GondlinLint
+  root := `GondolinLint
 
 -- Device-agnostic runnable examples (CPU by default; pass `--cuda` after building with CUDA).
 --
 -- This single executable supports all runnable examples (MLP/CNN/Transformer/Vit/ResNet/GPT2/PPO)
 -- via a simple
 -- subcommand interface:
---   `lake exe gondlin <example> [args...]`
+--   `lake exe gondolin <example> [args...]`
 --
 -- CUDA build: `lake build -R -K cuda=true`
-lean_exe gondlin where
+lean_exe gondolin where
   root := `NN.Examples.Models.Runner
 
 -- API documentation (HTML) via `lake build NN:docs`.
@@ -181,7 +181,7 @@ require «doc-gen4» from git
   "https://github.com/leanprover/doc-gen4" @ "v4.29.0"
 
 -- Comparator: a sandboxed judge for untrusted Lean proof submissions.
--- We pin versions compatible with Gondlin's Lean toolchain (v4.29.0).
+-- We pin versions compatible with Gondolin's Lean toolchain (v4.29.0).
 require lean4export from git
   "https://github.com/leanprover/lean4export" @ "ca36c44858e2d7ba40996203d2f08a69113d1211"
 

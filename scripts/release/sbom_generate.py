@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """
-Gondlin SBOM generator (Phase 7.4 release prep).
+Gondolin SBOM generator (Phase 7.4 release prep).
 
-Produces a minimal SPDX 2.3 JSON document describing Gondlin and its direct
+Produces a minimal SPDX 2.3 JSON document describing Gondolin and its direct
 Lake dependencies, suitable for attaching to GitHub Releases as a
 license/supply-chain artifact.
 
 Sources of truth:
 
   - ``lake-manifest.json`` for dependency name, revision, and download URL.
-  - ``lakefile.lean``      for Gondlin's own ``version := v!"x.y.z"`` literal.
+  - ``lakefile.lean``      for Gondolin's own ``version := v!"x.y.z"`` literal.
 
 License inference is intentionally simple: we keep a short hand-curated table
 of upstream license SPDX identifiers (all our Lake deps are Apache-2.0). Any
@@ -41,9 +41,9 @@ REPO_ROOT = pathlib.Path(__file__).resolve().parent.parent.parent
 MANIFEST_PATH = REPO_ROOT / "lake-manifest.json"
 LAKEFILE_PATH = REPO_ROOT / "lakefile.lean"
 
-TOOL_VERSION = "gondlin-sbom-generate/0.1"
+TOOL_VERSION = "gondolin-sbom-generate/0.1"
 
-# Hand-vetted upstream licenses for Gondlin's Lake dependency closure. All are
+# Hand-vetted upstream licenses for Gondolin's Lake dependency closure. All are
 # Apache-2.0 today (matches THIRD_PARTY_NOTICES.md). Anything not listed here
 # falls back to NOASSERTION, the SPDX placeholder for "license not yet
 # determined" — that surfaces gaps explicitly instead of guessing.
@@ -68,8 +68,8 @@ _VERSION_RE = re.compile(r'version\s*:=\s*v!"([^"]+)"')
 # ---------------------------------------------------------------------------
 
 
-def _read_gondlin_version() -> str:
-    """Extract Gondlin's package version from ``lakefile.lean``.
+def _read_gondolin_version() -> str:
+    """Extract Gondolin's package version from ``lakefile.lean``.
 
     Returns ``0.0.0-unknown`` if the lakefile can't be parsed; we prefer a
     visibly-broken value over silently emitting a real-looking but wrong SBOM.
@@ -159,19 +159,19 @@ def build_sbom(packages: Iterable[LakePackage], version: str) -> dict:
     # Document namespace is supposed to be unique per SBOM document; we encode
     # the creation timestamp into the URL so re-runs do not collide.
     namespace = (
-        "https://github.com/nktkt/gondlin/sbom/"
+        "https://github.com/nktkt/gondolin/sbom/"
         f"{version}/{created.replace(':', '').replace('-', '')}"
     )
 
     spdx_packages: list[dict] = [
         {
-            "SPDXID": "SPDXRef-Package-gondlin",
-            "name": "Gondlin",
+            "SPDXID": "SPDXRef-Package-gondolin",
+            "name": "Gondolin",
             "versionInfo": version,
-            "downloadLocation": "https://github.com/nktkt/gondlin",
+            "downloadLocation": "https://github.com/nktkt/gondolin",
             "licenseDeclared": "MIT",
             "licenseConcluded": "MIT",
-            "supplier": "Organization: Gondlin Team",
+            "supplier": "Organization: Gondolin Team",
             "filesAnalyzed": False,
         }
     ]
@@ -180,12 +180,12 @@ def build_sbom(packages: Iterable[LakePackage], version: str) -> dict:
         {
             "spdxElementId": "SPDXRef-DOCUMENT",
             "relationshipType": "DESCRIBES",
-            "relatedSpdxElement": "SPDXRef-Package-gondlin",
+            "relatedSpdxElement": "SPDXRef-Package-gondolin",
         }
     ]
 
     # We emit one Package entry per Lake-manifest package and a DEPENDS_ON
-    # relationship from Gondlin to every *direct* (non-inherited) dependency.
+    # relationship from Gondolin to every *direct* (non-inherited) dependency.
     # Transitive deps still get Package entries (so an auditor sees them) but
     # not a DEPENDS_ON edge from the root; that matches SPDX semantics for
     # "package described by this document".
@@ -211,7 +211,7 @@ def build_sbom(packages: Iterable[LakePackage], version: str) -> dict:
                 "filesAnalyzed": False,
                 # ``externalRefs`` lets downstream tooling (e.g. Grype, Trivy)
                 # locate the upstream by PURL. We use the ``github`` PURL type
-                # because every Gondlin dep is hosted on github.com today.
+                # because every Gondolin dep is hosted on github.com today.
                 "externalRefs": [
                     {
                         "referenceCategory": "PACKAGE-MANAGER",
@@ -231,7 +231,7 @@ def build_sbom(packages: Iterable[LakePackage], version: str) -> dict:
         if not pkg.inherited:
             relationships.append(
                 {
-                    "spdxElementId": "SPDXRef-Package-gondlin",
+                    "spdxElementId": "SPDXRef-Package-gondolin",
                     "relationshipType": "DEPENDS_ON",
                     "relatedSpdxElement": pkg.spdx_id,
                 }
@@ -241,7 +241,7 @@ def build_sbom(packages: Iterable[LakePackage], version: str) -> dict:
         "spdxVersion": "SPDX-2.3",
         "dataLicense": "CC0-1.0",
         "SPDXID": "SPDXRef-DOCUMENT",
-        "name": "Gondlin-SBOM",
+        "name": "Gondolin-SBOM",
         "documentNamespace": namespace,
         "creationInfo": {
             "created": created,
@@ -285,7 +285,7 @@ def _summary_text(sbom: dict) -> str:
     depends_on = [r for r in rels if r["relationshipType"] == "DEPENDS_ON"]
 
     lines: list[str] = []
-    lines.append("Gondlin SBOM summary")
+    lines.append("Gondolin SBOM summary")
     lines.append(f"  spdxVersion:   {sbom['spdxVersion']}")
     lines.append(f"  created:       {sbom['creationInfo']['created']}")
     lines.append(f"  packages:      {len(pkgs)}")
@@ -333,7 +333,7 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 2
 
-    version = _read_gondlin_version()
+    version = _read_gondolin_version()
     packages = _load_packages()
     sbom = build_sbom(packages, version)
 

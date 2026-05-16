@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -23,7 +23,7 @@ node in the compiled `GraphData`. Concretely, it shows that:
 then the value appended by the IR evaluator at step `i` is definitionally the same tensor as the
 value produced by the compiled node's `forward`.
 
-We handle the two shape cases supported by Gondlin's current matmul compiler:
+We handle the two shape cases supported by Gondolin's current matmul compiler:
 
 * matrix multiply (2D): `Spec.mat_mul_spec`,
 * batched matrix multiply (3D): `Tensor.bmm_spec`.

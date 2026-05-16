@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -13,7 +13,7 @@ import Mathlib.Analysis.SpecialFunctions.Pow.Real
 /-!
 # NeuralFloat core (Flocq-style rounded arithmetic)
 
-Gondlin frequently reasons about floating-point behavior using a classical "rounded arithmetic on
+Gondolin frequently reasons about floating-point behavior using a classical "rounded arithmetic on
 `ℝ`" approach rather than a bit-level IEEE-754 model:
 
 - represent a value as an integer mantissa `m : ℤ` and exponent `e : ℤ`,
@@ -24,7 +24,7 @@ This decomposition is the same one used by the Coq library **Flocq**. It makes m
 reusable across formats (fixed-point, unbounded floats, bounded IEEE-like floats) and aligns well
 with ULP-style error bounds from numerical analysis.
 
-Gondlin also cares about *mixed precision* training/inference (FP16/bfloat16/TF32/FP32/FP64).
+Gondolin also cares about *mixed precision* training/inference (FP16/bfloat16/TF32/FP32/FP64).
 In this folder, "precision" is not a promise about bit-level encoding; it's a parameter that
 selects mantissa/exponent sizes and is used by the format and error-bound layers.
 
@@ -43,7 +43,7 @@ For executable, bit-level IEEE-754 semantics (NaN/Inf/signed zero), see `NN/Floa
 @[expose] public section
 
 
-namespace Gondlin.Floats
+namespace Gondolin.Floats
 
 /--
 Radix (base) for "floating-point-like" representations.
@@ -90,7 +90,7 @@ end NeuralRadix
 An abstract floating-point value (mantissa/exponent) plus analysis metadata.
 
 The core mathematical payload is `mantissa` and `exponent`. The other fields are there to support
-mixed precision and simple error-tracking experiments used in some Gondlin demos:
+mixed precision and simple error-tracking experiments used in some Gondolin demos:
 
 - `precision`: a named format (FP16/FP32/…); see `NeuralPrecision`.
 - `error_bound`: a conservative absolute error bound attached by a conversion/rounding pass.
@@ -249,7 +249,7 @@ Unit in the last place (`ulp`) associated with `x`.
 This is the scale of the “one ulp” step at the exponent selected by `cexp`. For round-to-nearest,
 many standard bounds have the shape `|round(x) - x| ≤ ulp(x)/2`.
 
-Gondlin adds a small, *optional* twist: during numerically sensitive phases (see
+Gondolin adds a small, *optional* twist: during numerically sensitive phases (see
 `TrainingPhase.requires_high_precision`) we treat the bound as if it were one extra bit tighter.
 This is a modeling hook for mixed-precision heuristics; it is not a replacement for a concrete
 bit-level IEEE-754 semantics.
@@ -356,4 +356,4 @@ in everyday PyTorch/IEEE-754 error reasoning.
 
 end neuralUlp
 
-end Gondlin.Floats
+end Gondolin.Floats

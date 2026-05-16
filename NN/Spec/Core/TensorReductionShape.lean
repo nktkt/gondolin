@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -503,7 +503,7 @@ Broadcasting in the spec layer is defined in terms of `Shape.CanBroadcastTo`:
 - you pick an explicit target shape `t`,
 - and provide evidence that each operand can broadcast to `t`.
 
-Gondlin standardizes on this explicit target style throughout core.
+Gondolin standardizes on this explicit target style throughout core.
 
 We intentionally do *not* provide a second "implicit" broadcasting API that tries to infer a common
 output shape from two operands, because that would split the codebase into two parallel styles.

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -129,7 +129,7 @@ structure GCN2Grads (n inDim hidDim outDim : Nat) (α : Type) where
 
 /-- Backward/VJP for `GCN2Spec.forward`.
 
-This is written in the same "spec style" as the rest of Gondlin:
+This is written in the same "spec style" as the rest of Gondolin:
 - recompute small intermediates instead of depending on runtime caches,
 - apply VJPs in reverse order,
 - keep shapes explicit.

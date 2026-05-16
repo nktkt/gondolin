@@ -1,6 +1,6 @@
 # Model Examples
 
-This directory contains Gondlin model examples. The files are meant to be read like ordinary
+This directory contains Gondolin model examples. The files are meant to be read like ordinary
 training scripts: instantiate a model, prepare a loader or token stream, fit for several updates or
 epochs, and optionally write a training curve.
 
@@ -17,7 +17,7 @@ For the narrative walkthrough, use the website guide. This page is the local com
 | `Generative/` | autoencoder, MAE, VAE, VQ-VAE, GAN, and diffusion examples |
 | `Operators/` | FNO and operator-learning examples |
 | `RL/` | DQN and PPO examples |
-| `Runner.lean` | shared `lake exe gondlin ...` dispatcher |
+| `Runner.lean` | shared `lake exe gondolin ...` dispatcher |
 
 ## Data Preparation
 
@@ -29,7 +29,7 @@ python3 scripts/datasets/download_example_data.py --household-power --household-
 ```
 
 For custom image folders or tensor archives, convert once to `.npy` with
-`scripts/datasets/gondlin_data_convert.py`, then pass `--x` and `--y` to the relevant command.
+`scripts/datasets/gondolin_data_convert.py`, then pass `--x` and `--y` to the relevant command.
 
 ## Training Curves
 
@@ -50,23 +50,23 @@ typed minibatch loader, shuffled by epoch, and passed through the shared trainin
 `--epochs` means passes over minibatches, not repeated updates on one fixed batch.
 
 ```bash
-lake exe -K cuda=true gondlin mlp --cuda --epochs 100 --lr 0.003 \
+lake exe -K cuda=true gondolin mlp --cuda --epochs 100 --lr 0.003 \
   --log data/model_zoo/mlp_trainlog.json
 
-lake exe -K cuda=true gondlin cnn --cuda --fast-kernels --n-total 2000 \
+lake exe -K cuda=true gondolin cnn --cuda --fast-kernels --n-total 2000 \
   --epochs 25 --lr 0.001 --log data/model_zoo/cnn_trainlog.json
 
-lake exe -K cuda=true gondlin resnet --cuda --fast-kernels --n-total 2000 \
+lake exe -K cuda=true gondolin resnet --cuda --fast-kernels --n-total 2000 \
   --epochs 15 --lr 0.001 --log data/model_zoo/resnet_trainlog.json
 
-lake exe -K cuda=true gondlin vit --cuda --fast-kernels --n-total 2000 \
+lake exe -K cuda=true gondolin vit --cuda --fast-kernels --n-total 2000 \
   --epochs 10 --lr 0.001 --log data/model_zoo/vit_trainlog.json
 ```
 
 The LSTM regression example trains on household-power windows and prints before/after forecast rows:
 
 ```bash
-lake exe -K cuda=true gondlin lstm_regression --cuda --steps 200 --windows 96 \
+lake exe -K cuda=true gondolin lstm_regression --cuda --steps 200 --windows 96 \
   --log data/model_zoo/lstm_regression_trainlog.json
 ```
 
@@ -76,12 +76,12 @@ Text models read a corpus, tokenize it, and build causal language-model windows 
 The shared helpers live in `NN.API.Text`.
 
 ```bash
-lake exe -K cuda=true gondlin mamba --cuda --fast-kernels --tiny-shakespeare \
+lake exe -K cuda=true gondolin mamba --cuda --fast-kernels --tiny-shakespeare \
   --steps 2000 --windows 384 --lr 0.004 --prompt "ROMEO:" --generate 260 \
   --temperature 0.75 --top-k 10 --sample-seed 11 \
   --log data/model_zoo/mamba_seq64_fixedsampler_2000.json
 
-lake exe -K cuda=true gondlin gpt2 --cuda --fast-kernels --tiny-shakespeare \
+lake exe -K cuda=true gondolin gpt2 --cuda --fast-kernels --tiny-shakespeare \
   --steps 300 --windows 32 --lr 0.001 --prompt "ROMEO:" --generate 220 \
   --temperature 0.85 --top-k 24 --repeat-penalty 1.25 --repeat-window 24 \
   --sample-seed 11 --log data/model_zoo/gpt2_trainlog.json
@@ -92,16 +92,16 @@ lake exe -K cuda=true gondlin gpt2 --cuda --fast-kernels --tiny-shakespeare \
 ## Generative, Operator, And RL Runs
 
 ```bash
-lake exe -K cuda=true gondlin diffusion --cuda --fast-kernels \
+lake exe -K cuda=true gondolin diffusion --cuda --fast-kernels \
   --dataset cifar10 --n-total 800 --steps 200 --hidden-c 8 --T 100 --beta-end 0.12 \
   --sample-ppm data/model_zoo/diffusion_sample.ppm
 
-lake exe -K cuda=true gondlin fno1d_burgers --cuda --steps 200 \
+lake exe -K cuda=true gondolin fno1d_burgers --cuda --steps 200 \
   --log data/model_zoo/fno1d_burgers_trainlog.json
 
-lake exe gondlin mae --steps 25
-lake exe gondlin gpt_adder --steps 1000 --a 7 --b 8
-lake exe gondlin ppo_gridworld --updates 200
+lake exe gondolin mae --steps 25
+lake exe gondolin gpt_adder --steps 1000 --a 7 --b 8
+lake exe gondolin ppo_gridworld --updates 200
 ```
 
 For 3D detector verification, use the verification examples rather than this model-training

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -26,7 +26,7 @@ import Mathlib.Algebra.Order.Algebra
 /-!
 # API Public
 
-PyTorch-like facade over the Gondlin API.
+PyTorch-like facade over the Gondolin API.
 
 Most user code should be able to `import NN` and then work with:
 
@@ -40,7 +40,7 @@ Most user code should be able to `import NN` and then work with:
 - `API.text` (tokenizers and small text-model helpers)
 - `API.ssl` (self-supervised sample/objective helpers)
 
-Most of the executable runtime machinery lives under `API.Gondlin.*`; this module collects the
+Most of the executable runtime machinery lives under `API.Gondolin.*`; this module collects the
 pieces into a smaller, PyTorch-shaped surface under `NN.API.*`.
 
 ### PyTorch References
@@ -51,7 +51,7 @@ This facade is inspired by the public shape of PyTorch:
 - `torch.optim`: `https://pytorch.org/docs/stable/optim.html`
 - `torch.utils.data`: `https://pytorch.org/docs/stable/data.html`
 
-Gondlin differs in two important ways:
+Gondolin differs in two important ways:
 - tensor shapes are tracked in types (many "shape bugs" become type errors),
 - some scalar dtypes are proof-only (see `NN.API.DType` for executable dtype selection).
 
@@ -75,19 +75,19 @@ namespace API
 
 namespace nn
 
-/-- Sequential model type (Gondlin `Seq`). This is the analogue of PyTorch `nn.Sequential`. -/
-abbrev Sequential := Gondlin.NN.Seq
+/-- Sequential model type (Gondolin `Seq`). This is the analogue of PyTorch `nn.Sequential`. -/
+abbrev Sequential := Gondolin.NN.Seq
 
-/-- Single-layer definition type (Gondlin `LayerDef`). This is the analogue of PyTorch
+/-- Single-layer definition type (Gondolin `LayerDef`). This is the analogue of PyTorch
   `nn.Module`. -/
-abbrev LayerDef := Gondlin.NN.LayerDef
+abbrev LayerDef := Gondolin.NN.LayerDef
 
 /-!
 Re-export common `Seq` helpers under `API.nn.*` so examples can stay on the public facade.
 
-This intentionally mirrors the Gondlin names to keep the mapping obvious.
+This intentionally mirrors the Gondolin names to keep the mapping obvious.
 -/
-export Gondlin.NN.Seq
+export Gondolin.NN.Seq
   (paramShapes paramRequiresGrad initParams updateBuffers
    programWithMode program
    scalarModuleDefWithMode scalarModuleDef
@@ -98,7 +98,7 @@ export Gondlin.NN.Seq
 
 /-- Lift a single layer definition into a sequential model. -/
 def of {σ τ : Spec.Shape} (layer : LayerDef σ τ) : Sequential σ τ :=
-  Gondlin.Layers.of layer
+  Gondolin.Layers.of layer
 
 /-!
 All explicit-seed layer constructors live under `nn.pure.*`.
@@ -114,7 +114,7 @@ Linear layer on the last axis (prefix-shape preserving).
 PyTorch analogue: `torch.nn.Linear`.
 See `https://pytorch.org/docs/stable/generated/torch.nn.Linear.html`.
 
-Unlike the lower-level Gondlin layer constructor (which is vector-only),
+Unlike the lower-level Gondolin layer constructor (which is vector-only),
 this public facade matches PyTorch’s convention:
 
 - if `x` has shape `[..., inDim]`, `linear inDim outDim` returns a model of shape `[..., outDim]`.
@@ -135,7 +135,7 @@ def linear (inDim outDim : Nat) (seedW seedB : Nat := 0)
   let batch : Nat := Spec.Shape.size pfx
   of
     { paramShapes := [WShape, bShape]
-      initParams := Gondlin.tlist2 w0 b0
+      initParams := Gondolin.tlist2 w0 b0
       paramRequiresGrad := [true, true]
       forward := fun _ {α} _ _ =>
         fun {m} _ _ =>
@@ -144,7 +144,7 @@ def linear (inDim outDim : Nat) (seedW seedB : Nat := 0)
             let sOut : Spec.Shape := pfx.appendDim outDim
             ((do
               let x2D ←
-                Gondlin.reshape (m := m) (α := α)
+                Gondolin.reshape (m := m) (α := α)
                   (s₁ := sIn)
                   (s₂ := NN.Tensor.Shape.Mat batch inDim)
                   x (by
@@ -152,19 +152,19 @@ def linear (inDim outDim : Nat) (seedW seedB : Nat := 0)
                     simp [sIn, batch, Spec.Shape.size_appendDim, Spec.Shape.size])
 
               let wT ←
-                Gondlin.transpose2d (m := m) (α := α)
+                Gondolin.transpose2d (m := m) (α := α)
                   (mDim := outDim) (nDim := inDim) w
-              let y ← Gondlin.matmul (m := m) (α := α)
+              let y ← Gondolin.matmul (m := m) (α := α)
                 (mDim := batch) (nDim := inDim) (pDim := outDim) x2D wT
               let y2D ←
-                Gondlin.F.addB (m := m) (α := α) (t := NN.Tensor.Shape.Mat batch outDim) y b
-              Gondlin.reshape (m := m) (α := α)
+                Gondolin.F.addB (m := m) (α := α) (t := NN.Tensor.Shape.Mat batch outDim) y b
+              Gondolin.reshape (m := m) (α := α)
                 (s₁ := NN.Tensor.Shape.Mat batch outDim)
                 (s₂ := sOut)
                 y2D (by
                   -- size(Mat batch outDim) = batch * outDim = size(pfx) * outDim = size(sOut)
                   simp [sOut, batch, Spec.Shape.size_appendDim, Spec.Shape.size])
-            ) : m (Gondlin.RefTy (m := m) (α := α) sOut))
+            ) : m (Gondolin.RefTy (m := m) (α := α) sOut))
     }
 
 /--
@@ -173,7 +173,7 @@ Vanilla RNN layer (time-major sequence, no batch axis).
 Semantics:
 `h_t = tanh(W [x_t; h_{t-1}] + b)`, with `h_{-1} = 0`.
 
-This is implemented by unrolling `seqLen` steps using existing Gondlin ops, so it runs on both
+This is implemented by unrolling `seqLen` steps using existing Gondolin ops, so it runs on both
 CPU and CUDA backends.
 
 PyTorch analogy: `torch.nn.RNN(inputSize, hiddenSize, nonlinearity="tanh")` with
@@ -183,13 +183,13 @@ def rnn (seqLen inputSize hiddenSize : Nat) (seedW seedB : Nat := 0) :
     Sequential
       (NN.Tensor.Shape.Mat seqLen inputSize)
       (NN.Tensor.Shape.Mat seqLen hiddenSize) :=
-  of (Gondlin.NN.rnn (seqLen := seqLen) (inputSize := inputSize) (hiddenSize := hiddenSize) seedW
+  of (Gondolin.NN.rnn (seqLen := seqLen) (inputSize := inputSize) (hiddenSize := hiddenSize) seedW
     seedB)
 
 /--
 GRU layer (time-major sequence, no batch axis).
 
-This is implemented by unrolling `seqLen` steps using existing Gondlin ops, so it runs on both
+This is implemented by unrolling `seqLen` steps using existing Gondolin ops, so it runs on both
 CPU and CUDA backends.
 
 PyTorch analogy: `torch.nn.GRU(inputSize, hiddenSize)` with `batch_first=false`, specialized to a
@@ -199,7 +199,7 @@ def gru (seqLen inputSize hiddenSize : Nat) (seedW seedB : Nat := 0) :
     Sequential
       (NN.Tensor.Shape.Mat seqLen inputSize)
       (NN.Tensor.Shape.Mat seqLen hiddenSize) :=
-  of (Gondlin.NN.gru (seqLen := seqLen) (inputSize := inputSize) (hiddenSize := hiddenSize) seedW
+  of (Gondolin.NN.gru (seqLen := seqLen) (inputSize := inputSize) (hiddenSize := hiddenSize) seedW
     seedB)
 
 /--
@@ -207,19 +207,19 @@ Trainable Mamba-style gated diagonal state-space layer.
 
 The layer is time-major and single-batch, matching the simple `rnn`/`gru`/`lstm` constructors:
 input `(seqLen × inputSize)`, output `(seqLen × hiddenSize)`.  It is unrolled with differentiable
-Gondlin ops, so CPU and CUDA training use the same API.
+Gondolin ops, so CPU and CUDA training use the same API.
 -/
 def mamba (seqLen inputSize hiddenSize : Nat) (seedW seedB : Nat := 0) :
     Sequential
       (NN.Tensor.Shape.Mat seqLen inputSize)
       (NN.Tensor.Shape.Mat seqLen hiddenSize) :=
-  of (Gondlin.NN.mamba (seqLen := seqLen) (inputSize := inputSize) (hiddenSize := hiddenSize)
+  of (Gondolin.NN.mamba (seqLen := seqLen) (inputSize := inputSize) (hiddenSize := hiddenSize)
     seedW seedB)
 
 /--
 LSTM layer (time-major sequence, no batch axis).
 
-This is implemented by unrolling `seqLen` steps using existing Gondlin ops, so it runs on both
+This is implemented by unrolling `seqLen` steps using existing Gondolin ops, so it runs on both
 CPU and CUDA backends.
 
 PyTorch analogy: `torch.nn.LSTM(inputSize, hiddenSize)` with `batch_first=false`, specialized to a
@@ -229,13 +229,13 @@ def lstm (seqLen inputSize hiddenSize : Nat) (seedW seedB : Nat := 0) :
     Sequential
       (NN.Tensor.Shape.Mat seqLen inputSize)
       (NN.Tensor.Shape.Mat seqLen hiddenSize) :=
-  of (Gondlin.NN.lstm (seqLen := seqLen) (inputSize := inputSize) (hiddenSize := hiddenSize) seedW
+  of (Gondolin.NN.lstm (seqLen := seqLen) (inputSize := inputSize) (hiddenSize := hiddenSize) seedW
     seedB)
 
 /--
 Embedding table initialization configuration (one-hot / token-distribution inputs).
 
-This is the Gondlin-friendly analogue of `torch.nn.Embedding` in the common demo setting where
+This is the Gondolin-friendly analogue of `torch.nn.Embedding` in the common demo setting where
 token ids are represented as one-hot vectors (or soft token distributions), so lookup is a matrix
 multiplication rather than integer indexing.
 -/
@@ -261,7 +261,7 @@ def embedding (vocab embedDim : Nat) (cfg : Embedding := {}) (pfx : Spec.Shape :
   let batch : Nat := Spec.Shape.size pfx
   of
     { paramShapes := [WShape]
-      initParams := Gondlin.tlist1 w0
+      initParams := Gondolin.tlist1 w0
       paramRequiresGrad := [true]
       forward := fun _ {α} _ _ =>
         fun {m} _ _ =>
@@ -270,23 +270,23 @@ def embedding (vocab embedDim : Nat) (cfg : Embedding := {}) (pfx : Spec.Shape :
             let sOut : Spec.Shape := pfx.appendDim embedDim
             ((do
               let x2D ←
-                Gondlin.reshape (m := m) (α := α)
+                Gondolin.reshape (m := m) (α := α)
                   (s₁ := sIn)
                   (s₂ := NN.Tensor.Shape.Mat batch vocab)
                   x (by
                     -- size(sIn) = size(pfx) * vocab = batch * vocab
                     simp [sIn, batch, Spec.Shape.size_appendDim, Spec.Shape.size])
               let y ←
-                Gondlin.matmul (m := m) (α := α)
+                Gondolin.matmul (m := m) (α := α)
                   (mDim := batch) (nDim := vocab) (pDim := embedDim)
                   x2D w
-              Gondlin.reshape (m := m) (α := α)
+              Gondolin.reshape (m := m) (α := α)
                 (s₁ := NN.Tensor.Shape.Mat batch embedDim)
                 (s₂ := sOut)
                 y (by
                   -- size(Mat batch embedDim) = batch * embedDim = size(pfx) * embedDim = size(sOut)
                   simp [sOut, batch, Spec.Shape.size_appendDim, Spec.Shape.size])
-            ) : m (Gondlin.RefTy (m := m) (α := α) sOut))
+            ) : m (Gondolin.RefTy (m := m) (α := α) sOut))
     }
 
 /--
@@ -316,13 +316,13 @@ def learnedPositionalEmbedding {batch seqLen embedDim : Nat} (cfg : LearnedPosit
     _root_.Runtime.Autograd.Torch.Init.tensor (s := posShape) (sch := cfg.posInit) (seed := cfg.seedPos)
   of
     { paramShapes := [posShape]
-      initParams := Gondlin.tlist1 pos0
+      initParams := Gondolin.tlist1 pos0
       paramRequiresGrad := [true]
       forward := fun _ {α} _ _ =>
         fun {m} _ _ =>
           fun pos x =>
             -- Broadcast `(seqLen × embedDim)` positional embeddings across the leading `batch` axis.
-            (Gondlin.F.addB (m := m) (α := α) (s₁ := posShape) (s₂ := xShape) (t := xShape) pos x)
+            (Gondolin.F.addB (m := m) (α := α) (s₁ := posShape) (s₂ := xShape) (t := xShape) pos x)
     }
 
 /--
@@ -353,13 +353,13 @@ def sinusoidalPositionalEncoding {batch seqLen embedDim : Nat}
     Spec.sinusoidalPositionalEncodingSpec (α := Float) seqLen embedDim cfg.startPos
   of
     { paramShapes := [peShape]
-      initParams := Gondlin.tlist1 pe0
+      initParams := Gondolin.tlist1 pe0
       paramRequiresGrad := [false]
       forward := fun _ {α} _ _ =>
         fun {m} _ _ =>
           fun pe x =>
             -- Broadcast `PE : (seqLen × embedDim)` across the leading `batch` axis.
-            (Gondlin.F.addB (m := m) (α := α) (s₁ := peShape) (s₂ := xShape) (t := xShape) pe x)
+            (Gondolin.F.addB (m := m) (α := α) (s₁ := peShape) (s₂ := xShape) (t := xShape) pe x)
     }
 
 /--
@@ -414,7 +414,7 @@ def rope {batch numHeads seqLen headDim : Nat} (cfg : RoPE := {}) :
 
   of
     { paramShapes := [csShape, csShape]
-      initParams := Gondlin.tlist2 cos0 sin0
+      initParams := Gondolin.tlist2 cos0 sin0
       paramRequiresGrad := [false, false]
       forward := fun _ {α} _ _ =>
         fun {m} _ _ =>
@@ -425,7 +425,7 @@ def rope {batch numHeads seqLen headDim : Nat} (cfg : RoPE := {}) :
             let flatShape : Spec.Shape := NN.Tensor.Shape.Mat rowsFold headDim
 
             let x2d ←
-              Gondlin.reshape (m := m) (α := α)
+              Gondolin.reshape (m := m) (α := α)
                 (s₁ := xShape) (s₂ := flatShape)
                 x (by
                   -- size(xShape) = batch * numHeads * seqLen * headDim = rowsFold * headDim = size(flatShape)
@@ -433,16 +433,16 @@ def rope {batch numHeads seqLen headDim : Nat} (cfg : RoPE := {}) :
                     Nat.mul_left_comm, Nat.mul_comm])
 
             let xT ←
-              Gondlin.transpose2d (m := m) (α := α)
+              Gondolin.transpose2d (m := m) (α := α)
                 (mDim := rowsFold) (nDim := headDim) x2d
 
             let xPerm ←
-              Gondlin.gatherRowsNat (m := m) (α := α)
+              Gondolin.gatherRowsNat (m := m) (α := α)
                 (rows := headDim) (cols := rowsFold) (k := headDim)
                 xT permIdx
 
             let xBack ←
-              Gondlin.transpose2d (m := m) (α := α)
+              Gondolin.transpose2d (m := m) (α := α)
                 (mDim := headDim) (nDim := rowsFold) xPerm
 
             -- Sign pattern for `rotatePairs`: even outputs get a negation (except the final unpaired entry).
@@ -452,15 +452,15 @@ def rope {batch numHeads seqLen headDim : Nat} (cfg : RoPE := {}) :
                 let v : α :=
                   if idx % 2 = 0 ∧ idx + 1 < headDim then (-1 : α) else (1 : α)
                 Spec.Tensor.scalar v)
-            let sign ← Gondlin.const (m := m) (α := α) (s := .dim headDim .scalar) signT
+            let sign ← Gondolin.const (m := m) (α := α) (s := .dim headDim .scalar) signT
 
             let xRot2d ←
-              Gondlin.F.mulB (m := m) (α := α)
+              Gondolin.F.mulB (m := m) (α := α)
                 (s₁ := flatShape) (s₂ := .dim headDim .scalar) (t := flatShape)
                 xBack sign
 
             let xRot ←
-              Gondlin.reshape (m := m) (α := α)
+              Gondolin.reshape (m := m) (α := α)
                 (s₁ := flatShape) (s₂ := xShape)
                 xRot2d (by
                   simp [xShape, flatShape, rowsFold, Spec.Shape.size,
@@ -468,34 +468,34 @@ def rope {batch numHeads seqLen headDim : Nat} (cfg : RoPE := {}) :
 
             -- Apply the RoPE formula with broadcasting of `cos/sin : (seqLen × headDim)`.
             let xCos ←
-              Gondlin.F.mulB (m := m) (α := α)
+              Gondolin.F.mulB (m := m) (α := α)
                 (s₁ := xShape) (s₂ := csShape) (t := xShape)
                 x cos
             let rotSin ←
-              Gondlin.F.mulB (m := m) (α := α)
+              Gondolin.F.mulB (m := m) (α := α)
                 (s₁ := xShape) (s₂ := csShape) (t := xShape)
                 xRot sin
-            Gondlin.add (m := m) (α := α) (s := xShape) xCos rotSin
-            ) : m (Gondlin.RefTy (m := m) (α := α) xShape))
+            Gondolin.add (m := m) (α := α) (s := xShape) xCos rotSin
+            ) : m (Gondolin.RefTy (m := m) (α := α) xShape))
     }
 
 /-- Elementwise ReLU. PyTorch analogue: `torch.nn.ReLU` / `torch.nn.functional.relu`. -/
-def relu {s : Spec.Shape} : Sequential s s := Gondlin.Layers.relu (s := s)
+def relu {s : Spec.Shape} : Sequential s s := Gondolin.Layers.relu (s := s)
 /-- Elementwise SiLU/Swish. PyTorch analogue: `torch.nn.SiLU` / `torch.nn.functional.silu`. -/
-def silu {s : Spec.Shape} : Sequential s s := Gondlin.Layers.silu (s := s)
+def silu {s : Spec.Shape} : Sequential s s := Gondolin.Layers.silu (s := s)
 /-- Elementwise GELU. PyTorch analogue: `torch.nn.GELU` / `torch.nn.functional.gelu`. -/
-def gelu {s : Spec.Shape} : Sequential s s := Gondlin.Layers.gelu (s := s)
+def gelu {s : Spec.Shape} : Sequential s s := Gondolin.Layers.gelu (s := s)
 /-- Elementwise sigmoid. PyTorch analogue: `torch.nn.Sigmoid` / `torch.nn.functional.sigmoid`. -/
-def sigmoid {s : Spec.Shape} : Sequential s s := Gondlin.Layers.sigmoid (s := s)
+def sigmoid {s : Spec.Shape} : Sequential s s := Gondolin.Layers.sigmoid (s := s)
 /-- Elementwise tanh. PyTorch analogue: `torch.nn.Tanh` / `torch.nn.functional.tanh`. -/
-def tanh {s : Spec.Shape} : Sequential s s := Gondlin.Layers.tanh (s := s)
+def tanh {s : Spec.Shape} : Sequential s s := Gondolin.Layers.tanh (s := s)
 /-- Softmax. PyTorch analogue: `torch.nn.Softmax` / `torch.nn.functional.softmax`. -/
-def softmax {s : Spec.Shape} : Sequential s s := Gondlin.Layers.softmax (s := s)
+def softmax {s : Spec.Shape} : Sequential s s := Gondolin.Layers.softmax (s := s)
 /-- Reduce-sum to a scalar. PyTorch analogue: `torch.sum`. -/
-def sum {s : Spec.Shape} : Sequential s Spec.Shape.scalar := Gondlin.Layers.sum (s := s)
+def sum {s : Spec.Shape} : Sequential s Spec.Shape.scalar := Gondolin.Layers.sum (s := s)
 /-- Flatten any tensor into a 1D vector of length `size s`. PyTorch analogue: `torch.flatten`. -/
 def flatten {s : Spec.Shape} : Sequential s (.dim (Spec.Shape.size s) .scalar) :=
-  Gondlin.Layers.flatten (s := s)
+  Gondolin.Layers.flatten (s := s)
 
 /--
 Flatten a batched tensor `N × σ` into a matrix `N × (size σ)`.
@@ -511,7 +511,7 @@ def flattenBatch {n : Nat} {s : Spec.Shape} :
       forward := fun _ {α} _ _ =>
         fun {m} _ _ =>
           fun x =>
-            Gondlin.reshape (m := m) (α := α)
+            Gondolin.reshape (m := m) (α := α)
               (s₁ := .dim n s)
               (s₂ := NN.Tensor.Shape.Mat n (Spec.Shape.size s))
               x (by simp [Spec.Shape.size])
@@ -531,7 +531,7 @@ Dropout layer (active in train mode, identity in eval mode).
 PyTorch analogue: `torch.nn.Dropout`.
 -/
 def dropout {s : Spec.Shape} (p : Float) (seed : Nat := 0) : Sequential s s :=
-  Gondlin.Layers.dropout (s := s) p seed
+  Gondolin.Layers.dropout (s := s) p seed
 /--
 Convenience block: `Flatten -> Linear`.
 
@@ -539,12 +539,12 @@ This is common for "image to classifier head" demos.
 -/
 def flattenLinear {s : Spec.Shape} (outDim : Nat) (seedW seedB : Nat := 0) :
     Sequential s (NN.Tensor.Shape.Vec outDim) :=
-  Gondlin.Layers.flattenLinear (s := s) outDim seedW seedB
+  Gondolin.Layers.flattenLinear (s := s) outDim seedW seedB
 
 /-!
 `nn.functional` mirrors `torch.nn.functional`: pure, stateless building blocks.
 
-In Gondlin these are defined as derived ops over the small primitive `Ops` surface, so the same
+In Gondolin these are defined as derived ops over the small primitive `Ops` surface, so the same
 code works on both the eager backend and the compiled backend.
 -/
 namespace functional
@@ -554,7 +554,7 @@ PyTorch references:
 - `torch.nn.functional`: `https://pytorch.org/docs/stable/nn.functional.html`
 -/
 
-export Gondlin.F
+export Gondolin.F
   (square checkpoint
    detach stopGrad
    addB mulB
@@ -590,42 +590,42 @@ def batchLayerDim0 (n : Nat) {σ τ : Spec.Shape} (l : LayerDef σ τ) :
     forward := fun mode {α} _ _ =>
       fun {m} _ _ =>
         _root_.Runtime.Autograd.Torch.CurriedRef.curry
-          (Ref := fun sh => Gondlin.RefTy (m := m) (α := α) sh)
+          (Ref := fun sh => Gondolin.RefTy (m := m) (α := α) sh)
           (ss := l.paramShapes ++ [.dim n σ])
-          (β := m (Gondlin.RefTy (m := m) (α := α) (.dim n τ)))
+          (β := m (Gondolin.RefTy (m := m) (α := α) (.dim n τ)))
           (fun args => do
             let (ps, xBatch) :=
               _root_.Runtime.Autograd.Torch.RefList.splitAppend1
-                (Ref := fun sh => Gondlin.RefTy (m := m) (α := α) sh)
+                (Ref := fun sh => Gondolin.RefTy (m := m) (α := α) sh)
                 (ss := l.paramShapes) (τ := .dim n σ) args
             let xMat ←
-              Gondlin.reshape (m := m) (α := α)
+              Gondolin.reshape (m := m) (α := α)
                 (s₁ := .dim n σ) (s₂ := .dim n (.dim inSize .scalar))
                 xBatch (by simp [Spec.Shape.size, inSize])
             let zeros : Spec.Tensor α (.dim n (.dim outSize .scalar)) :=
               _root_.Spec.Tensor.dim (fun _ =>
                 _root_.Spec.Tensor.dim (fun _ =>
                   _root_.Spec.Tensor.scalar (0 : α)))
-            let out0 ← Gondlin.const (m := m) (α := α) (s := .dim n (.dim outSize .scalar)) zeros
+            let out0 ← Gondolin.const (m := m) (α := α) (s := .dim n (.dim outSize .scalar)) zeros
             let outMat ← (List.finRange n).foldlM (init := out0) (fun acc i => do
-              let xRow ← Gondlin.gatherRow (m := m) (α := α) (rows := n) (cols := inSize) xMat i
+              let xRow ← Gondolin.gatherRow (m := m) (α := α) (rows := n) (cols := inSize) xMat i
               let xSample ←
-                Gondlin.reshape (m := m) (α := α)
+                Gondolin.reshape (m := m) (α := α)
                   (s₁ := .dim inSize .scalar) (s₂ := σ)
                   xRow (by simp [Spec.Shape.size, inSize])
               let ySample ←
                 _root_.Runtime.Autograd.Torch.CurriedRef.uncurry
-                  (Ref := fun sh => Gondlin.RefTy (m := m) (α := α) sh)
+                  (Ref := fun sh => Gondolin.RefTy (m := m) (α := α) sh)
                   (ss := l.paramShapes ++ [σ])
-                  (β := m (Gondlin.RefTy (m := m) (α := α) τ))
+                  (β := m (Gondolin.RefTy (m := m) (α := α) τ))
                   (l.forward mode (α := α) (m := m))
                   (_root_.Runtime.Autograd.Torch.RefList.append ps (.cons xSample .nil))
               let yRow ←
-                Gondlin.reshape (m := m) (α := α)
+                Gondolin.reshape (m := m) (α := α)
                   (s₁ := τ) (s₂ := .dim outSize .scalar)
                   ySample (by simp [Spec.Shape.size, outSize])
-              Gondlin.scatterAddRow (m := m) (α := α) (rows := n) (cols := outSize) acc yRow i)
-            Gondlin.reshape (m := m) (α := α)
+              Gondolin.scatterAddRow (m := m) (α := α) (rows := n) (cols := outSize) acc yRow i)
+            Gondolin.reshape (m := m) (α := α)
               (s₁ := .dim n (.dim outSize .scalar)) (s₂ := .dim n τ)
               outMat (by simp [Spec.Shape.size, outSize]))
   }
@@ -636,7 +636,7 @@ def batchDim0 (n : Nat) {σ τ : Spec.Shape} : Sequential σ τ → Sequential (
   | .cons l rest => .cons (batchLayerDim0 n l) (batchDim0 n rest)
 
 /-!
-Note: some low-level Gondlin layers (notably conv/pool/norm) have Nat-side well-formedness
+Note: some low-level Gondolin layers (notably conv/pool/norm) have Nat-side well-formedness
 proof arguments (e.g. `kH ≠ 0`).
 
 The public path is *record-based specs* that hide those proofs via typeclasses like `NeZero`,
@@ -646,7 +646,7 @@ so examples can stay PyTorch-like without relying on positional macros.
 /--
 Named-field Conv2d configuration (CHW layout).
 
-This is the public, PyTorch-like entry point for convolution in Gondlin.
+This is the public, PyTorch-like entry point for convolution in Gondolin.
 PyTorch analogue: `torch.nn.Conv2d`.
 See `https://pytorch.org/docs/stable/generated/torch.nn.Conv2d.html`.
 -/
@@ -681,7 +681,7 @@ def conv2dCHWWith {inC inH inW : Nat} (cfg : Conv2d)
       (NN.Tensor.Shape.Image cfg.outC
         ((inH + 2 * cfg.padding - cfg.kH) / cfg.stride + 1)
         ((inW + 2 * cfg.padding - cfg.kW) / cfg.stride + 1)) :=
-  Gondlin.Layers.conv2d inC cfg.outC cfg.kH cfg.kW cfg.stride cfg.padding inH inW
+  Gondolin.Layers.conv2d inC cfg.outC cfg.kH cfg.kW cfg.stride cfg.padding inH inW
     (hInC := hInC) (hKH := hKH) (hKW := hKW)
     (seedK := cfg.seedK) (seedB := cfg.seedB) (kInit := cfg.kInit)
 
@@ -745,7 +745,7 @@ def maxPool2dWith {inC inH inW : Nat} (cfg : MaxPool2d) (hKH : cfg.kH ≠ 0) (hK
       (NN.Tensor.Shape.Image inC
         ((inH - cfg.kH) / cfg.stride + 1)
         ((inW - cfg.kW) / cfg.stride + 1)) :=
-  Gondlin.Layers.maxPool2d cfg.kH cfg.kW inH inW inC cfg.stride (hKH := hKH) (hKW := hKW)
+  Gondolin.Layers.maxPool2d cfg.kH cfg.kW inH inW inC cfg.stride (hKH := hKH) (hKW := hKW)
 
 /-- MaxPool2d over CHW inputs using `NeZero` to hide nonzero kernel proofs. -/
 def maxPool2dCHW {inC inH inW : Nat} (cfg : MaxPool2d) [NeZero cfg.kH] [NeZero cfg.kW] :
@@ -803,7 +803,7 @@ def avgPool2dWith {inC inH inW : Nat} (cfg : AvgPool2d) (hKH : cfg.kH ≠ 0) (hK
       (NN.Tensor.Shape.Image inC
         ((inH - cfg.kH) / cfg.stride + 1)
         ((inW - cfg.kW) / cfg.stride + 1)) :=
-  Gondlin.Layers.avgPool2d cfg.kH cfg.kW inH inW inC cfg.stride (hKH := hKH) (hKW := hKW)
+  Gondolin.Layers.avgPool2d cfg.kH cfg.kW inH inW inC cfg.stride (hKH := hKH) (hKW := hKW)
 
 /-- AvgPool2d over CHW inputs using `NeZero` to hide nonzero kernel proofs. -/
 def avgPool2dCHW {inC inH inW : Nat} (cfg : AvgPool2d) [NeZero cfg.kH] [NeZero cfg.kW] :
@@ -842,10 +842,10 @@ Global average pooling over a CHW tensor.
 
 PyTorch analogue: `torch.nn.AdaptiveAvgPool2d((1, 1))` followed by flattening.
 -/
-def globalAvgPoolCHW := Gondlin.Layers.globalAvgPoolCHW
+def globalAvgPoolCHW := Gondolin.Layers.globalAvgPoolCHW
 
 /-- Global average pooling over an NCHW tensor (preserves the batch dimension). -/
-def globalAvgPoolNCHW := Gondlin.Layers.globalAvgPoolNCHW
+def globalAvgPoolNCHW := Gondolin.Layers.globalAvgPoolNCHW
 
 /--
 LayerNorm configuration for batched `(batch x seqLen x embedDim)` tensors.
@@ -874,7 +874,7 @@ def layerNormWith {batch seqLen embedDim : Nat} (cfg : LayerNorm)
     (hSeq : seqLen > 0) (hEmbed : embedDim > 0) :
     Sequential (.dim batch (NN.Tensor.Shape.Mat seqLen embedDim))
       (.dim batch (NN.Tensor.Shape.Mat seqLen embedDim)) :=
-  Gondlin.Layers.layerNorm (batch := batch) (seqLen := seqLen) (embedDim := embedDim)
+  Gondolin.Layers.layerNorm (batch := batch) (seqLen := seqLen) (embedDim := embedDim)
     (hSeq := hSeq) (hEmbed := hEmbed)
     (seedGamma := cfg.seedGamma) (seedBeta := cfg.seedBeta)
 
@@ -887,7 +887,7 @@ learned affine parameters `gamma` and `beta`.
 PyTorch analogue: `torch.nn.LayerNorm(embedDim)` on a tensor shaped `(batch, seqLen, embedDim)`.
 
 Implementation note:
-Gondlin uses `NeZero` to ensure `seqLen` and `embedDim` are positive, avoiding degenerate shapes.
+Gondolin uses `NeZero` to ensure `seqLen` and `embedDim` are positive, avoiding degenerate shapes.
 -/
 def layerNorm {batch seqLen embedDim : Nat} (cfg : LayerNorm := {})
     [NeZero seqLen] [NeZero embedDim] :
@@ -921,7 +921,7 @@ def rmsNormWith {batch seqLen embedDim : Nat} (cfg : RMSNorm)
     (hSeq : seqLen > 0) (hEmbed : embedDim > 0) :
     Sequential (.dim batch (NN.Tensor.Shape.Mat seqLen embedDim))
       (.dim batch (NN.Tensor.Shape.Mat seqLen embedDim)) :=
-  Gondlin.Layers.rmsNorm (batch := batch) (seqLen := seqLen) (embedDim := embedDim)
+  Gondolin.Layers.rmsNorm (batch := batch) (seqLen := seqLen) (embedDim := embedDim)
     (hSeq := hSeq) (hEmbed := hEmbed)
     (seedGamma := cfg.seedGamma)
 
@@ -932,7 +932,7 @@ This normalizes by the root-mean-square over the `embedDim` axis (per batch elem
 then applies a learned scale `gamma`.
 
 Implementation note:
-Gondlin uses `NeZero` to ensure `seqLen` and `embedDim` are positive, avoiding degenerate shapes.
+Gondolin uses `NeZero` to ensure `seqLen` and `embedDim` are positive, avoiding degenerate shapes.
 -/
 def rmsNorm {batch seqLen embedDim : Nat} (cfg : RMSNorm := {})
     [NeZero seqLen] [NeZero embedDim] :
@@ -958,7 +958,7 @@ structure BatchNorm2d where
 def batchNorm2dNCHWWith {n c h w : Nat} (cfg : BatchNorm2d)
     (hN : n > 0) (hC : c > 0) (hH : h > 0) (hW : w > 0) :
     Sequential (NN.Tensor.Shape.Images n c h w) (NN.Tensor.Shape.Images n c h w) :=
-  Gondlin.Layers.batchNorm2dNCHW (n := n) (c := c) (h := h) (w := w)
+  Gondolin.Layers.batchNorm2dNCHW (n := n) (c := c) (h := h) (w := w)
     (hN := hN) (hC := hC) (hH := hH) (hW := hW)
     (seedGamma := cfg.seedGamma) (seedBeta := cfg.seedBeta)
 
@@ -998,7 +998,7 @@ See `https://pytorch.org/docs/stable/generated/torch.nn.InstanceNorm2d.html`.
 def instanceNorm2dWith {n c h w : Nat} (cfg : InstanceNorm2d)
     (hN : n > 0) (hC : c > 0) (hH : h > 0) (hW : w > 0) :
     Sequential (NN.Tensor.Shape.Images n c h w) (NN.Tensor.Shape.Images n c h w) :=
-  Gondlin.Layers.instanceNorm2dNCHW (n := n) (c := c) (h := h) (w := w)
+  Gondolin.Layers.instanceNorm2dNCHW (n := n) (c := c) (h := h) (w := w)
     (hN := hN) (hC := hC) (hH := hH) (hW := hW)
     (seedGamma := cfg.seedGamma) (seedBeta := cfg.seedBeta)
 
@@ -1027,7 +1027,7 @@ def groupNorm2dNCHW (n c h w groups : Nat) {hN : n > 0} {hC : c > 0} {hH : h > 0
     {hG : groups > 0} (hGE : c ≥ groups) (hDiv : c % groups = 0)
     (seedGamma seedBeta : Nat := 0) :
     Sequential (NN.Tensor.Shape.Images n c h w) (NN.Tensor.Shape.Images n c h w) :=
-  Gondlin.Layers.groupNorm2dNCHW (n := n) (c := c) (h := h) (w := w) (groups := groups)
+  Gondolin.Layers.groupNorm2dNCHW (n := n) (c := c) (h := h) (w := w) (groups := groups)
     (hN := hN) (hC := hC) (hH := hH) (hW := hW) (hG := hG)
     (hGE := hGE) (hDiv := hDiv) (seedGamma := seedGamma) (seedBeta := seedBeta)
 
@@ -1054,7 +1054,7 @@ def multiheadAttentionWith {batch n dModel : Nat} (cfg : MultiheadAttention) (hN
     (mask : Option (Spec.Tensor Bool (.dim n (.dim n .scalar))) := none) :
     Sequential (.dim batch (NN.Tensor.Shape.Mat n dModel)) (.dim batch (NN.Tensor.Shape.Mat n dModel))
       :=
-  Gondlin.Layers.attention (batch := batch) (n := n) (dModel := dModel)
+  Gondolin.Layers.attention (batch := batch) (n := n) (dModel := dModel)
     (numHeads := cfg.numHeads) (headDim := cfg.headDim)
     (hN := hN) (seedW := cfg.seedW) (mask := mask)
 
@@ -1090,7 +1090,7 @@ inductive Activation where
   | sigmoid
 deriving Repr, DecidableEq
 
-/-- Interpret an `Activation` as a Gondlin layer. -/
+/-- Interpret an `Activation` as a Gondolin layer. -/
 def activation {s : Spec.Shape} : Activation → Sequential s s
   | .relu => relu (s := s)
   | .gelu => gelu (s := s)
@@ -1238,7 +1238,7 @@ def conv2dNormActCHW {inC inH inW : Nat} (cfg : Conv2dNormAct)
     simp [outW]
   let bn : Sequential (NN.Tensor.Shape.Image conv.outC outH outW) (NN.Tensor.Shape.Image conv.outC
     outH outW) :=
-    Gondlin.Layers.batchNormCHW conv.outC outH outW
+    Gondolin.Layers.batchNormCHW conv.outC outH outW
       (hC := Nat.pos_of_ne_zero (NeZero.ne (n := conv.outC)))
       (hH := hOutH) (hW := hOutW)
       (seedGamma := cfg.seedBase + 2)
@@ -1310,7 +1310,7 @@ def conv2dNormAct {n inC inH inW : Nat} (cfg : Conv2dNormAct)
   have hOutW : outW > 0 := by simp [outW]
   let bn : Sequential (NN.Tensor.Shape.Images n conv.outC outH outW) (NN.Tensor.Shape.Images n
     conv.outC outH outW) :=
-    Gondlin.Layers.batchNorm2dNCHW n conv.outC outH outW
+    Gondolin.Layers.batchNorm2dNCHW n conv.outC outH outW
       (hN := Nat.pos_of_ne_zero (NeZero.ne (n := n)))
       (hC := Nat.pos_of_ne_zero (NeZero.ne (n := conv.outC)))
       (hH := hOutH) (hW := hOutW)
@@ -1361,31 +1361,31 @@ Given `inner : Seq s s`, this builds a layer that computes `x |-> inner(x) + x`.
 PyTorch analogue: `x + f(x)` blocks used throughout ResNets and Transformers.
 -/
 def residualLayer {s : Spec.Shape} (inner : Sequential s s) : LayerDef s s :=
-  let ps := Gondlin.NN.Seq.paramShapes inner
+  let ps := Gondolin.NN.Seq.paramShapes inner
   { paramShapes := ps
-    initParams := Gondlin.NN.Seq.initParams inner
-    paramRequiresGrad := Gondlin.NN.Seq.paramRequiresGrad inner
+    initParams := Gondolin.NN.Seq.initParams inner
+    paramRequiresGrad := Gondolin.NN.Seq.paramRequiresGrad inner
     updateBuffers := some (fun mode {α} _ _ ps x =>
-      Gondlin.NN.Seq.updateBuffers (α := α) (model := inner) mode ps x)
+      Gondolin.NN.Seq.updateBuffers (α := α) (model := inner) mode ps x)
     forward := fun mode {α} _ _ =>
       fun {m} _ _ =>
         _root_.Runtime.Autograd.Torch.CurriedRef.curry
-          (Ref := fun sh => Gondlin.RefTy (m := m) (α := α) sh)
+          (Ref := fun sh => Gondolin.RefTy (m := m) (α := α) sh)
           (ss := ps ++ [s])
-          (β := m (Gondlin.RefTy (m := m) (α := α) s))
+          (β := m (Gondolin.RefTy (m := m) (α := α) s))
           (fun args => do
             let (_psRefs, xRef) :=
               _root_.Runtime.Autograd.Torch.RefList.splitAppend1
-                (Ref := fun sh => Gondlin.RefTy (m := m) (α := α) sh)
+                (Ref := fun sh => Gondolin.RefTy (m := m) (α := α) sh)
                 (ss := ps) (τ := s) args
             let y ←
               _root_.Runtime.Autograd.Torch.CurriedRef.uncurry
-                (Ref := fun sh => Gondlin.RefTy (m := m) (α := α) sh)
+                (Ref := fun sh => Gondolin.RefTy (m := m) (α := α) sh)
                 (ss := ps ++ [s])
-                (β := m (Gondlin.RefTy (m := m) (α := α) s))
-                (Gondlin.NN.Seq.programWithMode (mode := mode) (model := inner) (α := α))
+                (β := m (Gondolin.RefTy (m := m) (α := α) s))
+                (Gondolin.NN.Seq.programWithMode (mode := mode) (model := inner) (α := α))
                 args
-            Gondlin.add (m := m) (α := α) (s := s) y xRef)
+            Gondolin.add (m := m) (α := α) (s := s) y xRef)
   }
 
 /-- Lift `residualLayer` into a sequential model. -/
@@ -1408,50 +1408,50 @@ The resulting layer runs both `f` and `g` on the same input `x` and returns `f(x
 Parameters are concatenated as `params(f) ++ params(g)`.
 -/
 def addBranchesLayer {σ τ : Spec.Shape} (f g : Sequential σ τ) : LayerDef σ τ :=
-  let psF := Gondlin.NN.Seq.paramShapes f
-  let psG := Gondlin.NN.Seq.paramShapes g
+  let psF := Gondolin.NN.Seq.paramShapes f
+  let psG := Gondolin.NN.Seq.paramShapes g
   { paramShapes := psF ++ psG
     initParams :=
       tlist.append (α := Float) (ss₁ := psF) (ss₂ := psG)
-        (Gondlin.NN.Seq.initParams f) (Gondlin.NN.Seq.initParams g)
-    paramRequiresGrad := Gondlin.NN.Seq.paramRequiresGrad f ++ Gondlin.NN.Seq.paramRequiresGrad
+        (Gondolin.NN.Seq.initParams f) (Gondolin.NN.Seq.initParams g)
+    paramRequiresGrad := Gondolin.NN.Seq.paramRequiresGrad f ++ Gondolin.NN.Seq.paramRequiresGrad
       g
     updateBuffers := some (fun mode {α} _ _ ps x => do
       let (psFv, psGv) := tlist.split (α := α) (ss₁ := psF) (ss₂ := psG) ps
-      let psFv' ← Gondlin.NN.Seq.updateBuffers (α := α) (model := f) mode psFv x
-      let psGv' ← Gondlin.NN.Seq.updateBuffers (α := α) (model := g) mode psGv x
+      let psFv' ← Gondolin.NN.Seq.updateBuffers (α := α) (model := f) mode psFv x
+      let psGv' ← Gondolin.NN.Seq.updateBuffers (α := α) (model := g) mode psGv x
       pure <| tlist.append (α := α) (ss₁ := psF) (ss₂ := psG) psFv' psGv'
     )
     forward := fun mode {α} _ _ =>
       fun {m} _ _ =>
         _root_.Runtime.Autograd.Torch.CurriedRef.curry
-          (Ref := fun sh => Gondlin.RefTy (m := m) (α := α) sh)
+          (Ref := fun sh => Gondolin.RefTy (m := m) (α := α) sh)
           (ss := psF ++ psG ++ [σ])
-          (β := m (Gondlin.RefTy (m := m) (α := α) τ))
+          (β := m (Gondolin.RefTy (m := m) (α := α) τ))
           (fun args => do
             let (psAll, xRef) :=
               _root_.Runtime.Autograd.Torch.RefList.splitAppend1
-                (Ref := fun sh => Gondlin.RefTy (m := m) (α := α) sh)
+                (Ref := fun sh => Gondolin.RefTy (m := m) (α := α) sh)
                 (ss := psF ++ psG) (τ := σ) args
             let (psFrefs, psGrefs) :=
               _root_.Runtime.Autograd.Torch.RefList.split
-                (Ref := fun sh => Gondlin.RefTy (m := m) (α := α) sh)
+                (Ref := fun sh => Gondolin.RefTy (m := m) (α := α) sh)
                 (ss₁ := psF) (ss₂ := psG) psAll
             let yF ←
               _root_.Runtime.Autograd.Torch.CurriedRef.uncurry
-                (Ref := fun sh => Gondlin.RefTy (m := m) (α := α) sh)
+                (Ref := fun sh => Gondolin.RefTy (m := m) (α := α) sh)
                 (ss := psF ++ [σ])
-                (β := m (Gondlin.RefTy (m := m) (α := α) τ))
-                (Gondlin.NN.Seq.programWithMode (mode := mode) (model := f) (α := α))
+                (β := m (Gondolin.RefTy (m := m) (α := α) τ))
+                (Gondolin.NN.Seq.programWithMode (mode := mode) (model := f) (α := α))
                 (_root_.Runtime.Autograd.Torch.RefList.append psFrefs (.cons xRef .nil))
             let yG ←
               _root_.Runtime.Autograd.Torch.CurriedRef.uncurry
-                (Ref := fun sh => Gondlin.RefTy (m := m) (α := α) sh)
+                (Ref := fun sh => Gondolin.RefTy (m := m) (α := α) sh)
                 (ss := psG ++ [σ])
-                (β := m (Gondlin.RefTy (m := m) (α := α) τ))
-                (Gondlin.NN.Seq.programWithMode (mode := mode) (model := g) (α := α))
+                (β := m (Gondolin.RefTy (m := m) (α := α) τ))
+                (Gondolin.NN.Seq.programWithMode (mode := mode) (model := g) (α := α))
                 (_root_.Runtime.Autograd.Torch.RefList.append psGrefs (.cons xRef .nil))
-            Gondlin.add (m := m) (α := α) (s := τ) yF yG)
+            Gondolin.add (m := m) (α := α) (s := τ) yF yG)
   }
 
 /--
@@ -1745,7 +1745,7 @@ def resnetBasicBlockCHW {inC h w : Nat} (cfg : ResNetBasicBlock)
         (seedK := seedConv1K) (seedB := seedConv1B)
     let bn1 : Sequential (NN.Tensor.Shape.Image cfg.outC h' w') (NN.Tensor.Shape.Image cfg.outC h'
       w') :=
-      Gondlin.Layers.batchNormCHW cfg.outC h' w'
+      Gondolin.Layers.batchNormCHW cfg.outC h' w'
         (hC := Nat.pos_of_ne_zero (NeZero.ne (n := cfg.outC)))
         (hH := hh') (hW := hw')
         (seedGamma := seedBN1G) (seedBeta := seedBN1B) (seedMean := seedBN1M) (seedVar := seedBN1V)
@@ -1758,7 +1758,7 @@ def resnetBasicBlockCHW {inC h w : Nat} (cfg : ResNetBasicBlock)
         (seedK := seedConv2K) (seedB := seedConv2B)
     let bn2 : Sequential (NN.Tensor.Shape.Image cfg.outC h' w') (NN.Tensor.Shape.Image cfg.outC h'
       w') :=
-      Gondlin.Layers.batchNormCHW cfg.outC h' w'
+      Gondolin.Layers.batchNormCHW cfg.outC h' w'
         (hC := Nat.pos_of_ne_zero (NeZero.ne (n := cfg.outC)))
         (hH := hh') (hW := hw')
         (seedGamma := seedBN2G) (seedBeta := seedBN2B) (seedMean := seedBN2M) (seedVar := seedBN2V)
@@ -1770,7 +1770,7 @@ def resnetBasicBlockCHW {inC h w : Nat} (cfg : ResNetBasicBlock)
         (seedK := seedProjK) (seedB := seedProjB)
     let projBN : Sequential (NN.Tensor.Shape.Image cfg.outC h' w') (NN.Tensor.Shape.Image cfg.outC
       h' w') :=
-      Gondlin.Layers.batchNormCHW cfg.outC h' w'
+      Gondolin.Layers.batchNormCHW cfg.outC h' w'
         (hC := Nat.pos_of_ne_zero (NeZero.ne (n := cfg.outC)))
         (hH := hh') (hW := hw')
         (seedGamma := seedProjBNG) (seedBeta := seedProjBNB) (seedMean := seedProjBNM) (seedVar :=
@@ -1796,7 +1796,7 @@ def resnetBasicBlockCHW {inC h w : Nat} (cfg : ResNetBasicBlock)
         (seedK := seedConv1K) (seedB := seedConv1B)
     let bn1 : Sequential (NN.Tensor.Shape.Image cfg.outC h w) (NN.Tensor.Shape.Image cfg.outC h w)
       :=
-      Gondlin.Layers.batchNormCHW cfg.outC h w
+      Gondolin.Layers.batchNormCHW cfg.outC h w
         (hC := Nat.pos_of_ne_zero (NeZero.ne (n := cfg.outC)))
         (hH := hh) (hW := hw)
         (seedGamma := seedBN1G) (seedBeta := seedBN1B) (seedMean := seedBN1M) (seedVar := seedBN1V)
@@ -1809,7 +1809,7 @@ def resnetBasicBlockCHW {inC h w : Nat} (cfg : ResNetBasicBlock)
         (seedK := seedConv2K) (seedB := seedConv2B)
     let bn2 : Sequential (NN.Tensor.Shape.Image cfg.outC h w) (NN.Tensor.Shape.Image cfg.outC h w)
       :=
-      Gondlin.Layers.batchNormCHW cfg.outC h w
+      Gondolin.Layers.batchNormCHW cfg.outC h w
         (hC := Nat.pos_of_ne_zero (NeZero.ne (n := cfg.outC)))
         (hH := hh) (hW := hw)
         (seedGamma := seedBN2G) (seedBeta := seedBN2B) (seedMean := seedBN2M) (seedVar := seedBN2V)
@@ -1821,7 +1821,7 @@ def resnetBasicBlockCHW {inC h w : Nat} (cfg : ResNetBasicBlock)
         have hShape : NN.Tensor.Shape.Image inC h w = NN.Tensor.Shape.Image cfg.outC h w := by
           simp [hEq]
         Eq.ndrec (motive := fun τ => Sequential (NN.Tensor.Shape.Image inC h w) τ)
-          (_root_.Runtime.Autograd.Gondlin.NN.Seq.id (NN.Tensor.Shape.Image inC h w)) hShape
+          (_root_.Runtime.Autograd.Gondolin.NN.Seq.id (NN.Tensor.Shape.Image inC h w)) hShape
       else
         -- Projection shortcut (1x1 + BN).
         let projConv : Sequential (NN.Tensor.Shape.Image inC h w) (NN.Tensor.Shape.Image cfg.outC h
@@ -1830,7 +1830,7 @@ def resnetBasicBlockCHW {inC h w : Nat} (cfg : ResNetBasicBlock)
             (seedK := seedProjK) (seedB := seedProjB)
         let projBN : Sequential (NN.Tensor.Shape.Image cfg.outC h w) (NN.Tensor.Shape.Image cfg.outC
           h w) :=
-          Gondlin.Layers.batchNormCHW cfg.outC h w
+          Gondolin.Layers.batchNormCHW cfg.outC h w
             (hC := Nat.pos_of_ne_zero (NeZero.ne (n := cfg.outC)))
             (hH := hh) (hW := hw)
             (seedGamma := seedProjBNG) (seedBeta := seedProjBNB) (seedMean := seedProjBNM) (seedVar
@@ -1896,7 +1896,7 @@ def resnetBasicBlock {n inC h w : Nat} (cfg : ResNetBasicBlock)
         (seedK := seedConv1K) (seedB := seedConv1B)
     let bn1 : Sequential (NN.Tensor.Shape.Images n cfg.outC h' w') (NN.Tensor.Shape.Images n
       cfg.outC h' w') :=
-      Gondlin.Layers.batchNorm2dNCHW n cfg.outC h' w'
+      Gondolin.Layers.batchNorm2dNCHW n cfg.outC h' w'
         (hN := hn)
         (hC := Nat.pos_of_ne_zero (NeZero.ne (n := cfg.outC)))
         (hH := hh') (hW := hw')
@@ -1910,7 +1910,7 @@ def resnetBasicBlock {n inC h w : Nat} (cfg : ResNetBasicBlock)
         (seedK := seedConv2K) (seedB := seedConv2B)
     let bn2 : Sequential (NN.Tensor.Shape.Images n cfg.outC h' w') (NN.Tensor.Shape.Images n
       cfg.outC h' w') :=
-      Gondlin.Layers.batchNorm2dNCHW n cfg.outC h' w'
+      Gondolin.Layers.batchNorm2dNCHW n cfg.outC h' w'
         (hN := hn)
         (hC := Nat.pos_of_ne_zero (NeZero.ne (n := cfg.outC)))
         (hH := hh') (hW := hw')
@@ -1923,7 +1923,7 @@ def resnetBasicBlock {n inC h w : Nat} (cfg : ResNetBasicBlock)
         (seedK := seedProjK) (seedB := seedProjB)
     let projBN : Sequential (NN.Tensor.Shape.Images n cfg.outC h' w') (NN.Tensor.Shape.Images n
       cfg.outC h' w') :=
-      Gondlin.Layers.batchNorm2dNCHW n cfg.outC h' w'
+      Gondolin.Layers.batchNorm2dNCHW n cfg.outC h' w'
         (hN := hn)
         (hC := Nat.pos_of_ne_zero (NeZero.ne (n := cfg.outC)))
         (hH := hh') (hW := hw')
@@ -1951,7 +1951,7 @@ def resnetBasicBlock {n inC h w : Nat} (cfg : ResNetBasicBlock)
         (seedK := seedConv1K) (seedB := seedConv1B)
     let bn1 : Sequential (NN.Tensor.Shape.Images n cfg.outC h w) (NN.Tensor.Shape.Images n cfg.outC
       h w) :=
-      Gondlin.Layers.batchNorm2dNCHW n cfg.outC h w
+      Gondolin.Layers.batchNorm2dNCHW n cfg.outC h w
         (hN := hn)
         (hC := Nat.pos_of_ne_zero (NeZero.ne (n := cfg.outC)))
         (hH := hh) (hW := hw)
@@ -1965,7 +1965,7 @@ def resnetBasicBlock {n inC h w : Nat} (cfg : ResNetBasicBlock)
         (seedK := seedConv2K) (seedB := seedConv2B)
     let bn2 : Sequential (NN.Tensor.Shape.Images n cfg.outC h w) (NN.Tensor.Shape.Images n cfg.outC
       h w) :=
-      Gondlin.Layers.batchNorm2dNCHW n cfg.outC h w
+      Gondolin.Layers.batchNorm2dNCHW n cfg.outC h w
         (hN := hn)
         (hC := Nat.pos_of_ne_zero (NeZero.ne (n := cfg.outC)))
         (hH := hh) (hW := hw)
@@ -1979,7 +1979,7 @@ def resnetBasicBlock {n inC h w : Nat} (cfg : ResNetBasicBlock)
         have hShape : NN.Tensor.Shape.Images n inC h w = NN.Tensor.Shape.Images n cfg.outC h w := by
           simp [hEq]
         Eq.ndrec (motive := fun τ => Sequential (NN.Tensor.Shape.Images n inC h w) τ)
-          (_root_.Runtime.Autograd.Gondlin.NN.Seq.id (NN.Tensor.Shape.Images n inC h w)) hShape
+          (_root_.Runtime.Autograd.Gondolin.NN.Seq.id (NN.Tensor.Shape.Images n inC h w)) hShape
       else
         -- Projection shortcut (1x1 + BN).
         let projConv : Sequential (NN.Tensor.Shape.Images n inC h w) (NN.Tensor.Shape.Images n
@@ -1988,7 +1988,7 @@ def resnetBasicBlock {n inC h w : Nat} (cfg : ResNetBasicBlock)
             (seedK := seedProjK) (seedB := seedProjB)
         let projBN : Sequential (NN.Tensor.Shape.Images n cfg.outC h w) (NN.Tensor.Shape.Images n
           cfg.outC h w) :=
-          Gondlin.Layers.batchNorm2dNCHW n cfg.outC h w
+          Gondolin.Layers.batchNorm2dNCHW n cfg.outC h w
             (hN := hn)
             (hC := Nat.pos_of_ne_zero (NeZero.ne (n := cfg.outC)))
             (hH := hh) (hW := hw)
@@ -2134,7 +2134,7 @@ def transformerStackGoWithMask {batch n dModel : Nat} [NeZero n] [NeZero dModel]
     (layerIdx : Nat) → (remaining : Nat) →
       Sequential (.dim batch (NN.Tensor.Shape.Mat n dModel)) (.dim batch (NN.Tensor.Shape.Mat n dModel))
   | _layerIdx, 0 =>
-      _root_.Runtime.Autograd.Gondlin.NN.Seq.id (.dim batch (NN.Tensor.Shape.Mat n dModel))
+      _root_.Runtime.Autograd.Gondolin.NN.Seq.id (.dim batch (NN.Tensor.Shape.Mat n dModel))
   | layerIdx, remaining + 1 =>
       let seed := seedBase + layerIdx * seedStride
       let blockCfg : TransformerEncoderBlock := { template with seedBase := seed }
@@ -2161,8 +2161,8 @@ def transformerStackGo {batch n dModel : Nat} [NeZero n] [NeZero dModel]
 /--
 Stack `cfg.layers` copies of `blocks.transformerEncoderBlock`.
 
-This is the Gondlin analogue of composing `torch.nn.TransformerEncoderLayer` into a
-`torch.nn.TransformerEncoder` (modulo the fact that Gondlin uses `Seq` composition).
+This is the Gondolin analogue of composing `torch.nn.TransformerEncoderLayer` into a
+`torch.nn.TransformerEncoder` (modulo the fact that Gondolin uses `Seq` composition).
 -/
 def transformerEncoderStackWithMask {batch n dModel : Nat} [NeZero n] [NeZero dModel]
     (cfg : TransformerEncoderStack)
@@ -2256,42 +2256,42 @@ namespace optim
 Optimizer configs for the high-level training helpers.
 
 These mirror common PyTorch optimizers (by name and default hyperparameters), but they produce a
-Gondlin trainer config rather than a mutable optimizer object.
+Gondolin trainer config rather than a mutable optimizer object.
 
 PyTorch references:
 - `torch.optim`: `https://pytorch.org/docs/stable/optim.html`
 -/
 
-@[inherit_doc Gondlin.Trainer.Optimizer]
-abbrev Optimizer := Gondlin.Trainer.Optimizer
+@[inherit_doc Gondolin.Trainer.Optimizer]
+abbrev Optimizer := Gondolin.Trainer.Optimizer
 
-@[inherit_doc Gondlin.Trainer.sgd]
-abbrev sgd := Gondlin.Trainer.sgd
+@[inherit_doc Gondolin.Trainer.sgd]
+abbrev sgd := Gondolin.Trainer.sgd
 
-@[inherit_doc Gondlin.Trainer.momentumSGD]
-abbrev momentumSGD := Gondlin.Trainer.momentumSGD
+@[inherit_doc Gondolin.Trainer.momentumSGD]
+abbrev momentumSGD := Gondolin.Trainer.momentumSGD
 
-@[inherit_doc Gondlin.Trainer.adam]
-abbrev adam := Gondlin.Trainer.adam
+@[inherit_doc Gondolin.Trainer.adam]
+abbrev adam := Gondolin.Trainer.adam
 
-@[inherit_doc Gondlin.Trainer.adamw]
-abbrev adamw := Gondlin.Trainer.adamw
+@[inherit_doc Gondolin.Trainer.adamw]
+abbrev adamw := Gondolin.Trainer.adamw
 
 end optim
 
 namespace loss
 
 /-
-Loss functions are re-exported from the Gondlin runtime.
+Loss functions are re-exported from the Gondolin runtime.
 
 PyTorch references:
 - `torch.nn.functional` loss docs: `https://pytorch.org/docs/stable/nn.functional.html`
 -/
 
-@[inherit_doc Gondlin.Loss.Reduction]
-abbrev Reduction := Gondlin.Loss.Reduction
+@[inherit_doc Gondolin.Loss.Reduction]
+abbrev Reduction := Gondolin.Loss.Reduction
 
-export Gondlin.Loss
+export Gondolin.Loss
   (mse
    nllOneHot crossEntropyOneHot
    nllIndex nllNat crossEntropyIndex crossEntropyNat
@@ -2302,7 +2302,7 @@ end loss
 namespace metrics
 
 /- Small classification metrics helpers (argmax, one-hot correctness, etc.). -/
-export Gondlin.Metrics (argmax? classOfOneHot? correctOneHot?)
+export Gondolin.Metrics (argmax? classOfOneHot? correctOneHot?)
 
 end metrics
 
@@ -2329,28 +2329,28 @@ These helpers correspond to the training loop code you would typically write aro
 - batching via `torch.utils.data.DataLoader`
 -/
 
-@[inherit_doc Gondlin.Trainer.Task]
-abbrev Task := Gondlin.Trainer.Task
-@[inherit_doc Gondlin.Trainer.Runner]
-abbrev Runner := Gondlin.Trainer.Runner
-@[inherit_doc Gondlin.Trainer.Stepper]
-abbrev Stepper := Gondlin.Trainer.Stepper
+@[inherit_doc Gondolin.Trainer.Task]
+abbrev Task := Gondolin.Trainer.Task
+@[inherit_doc Gondolin.Trainer.Runner]
+abbrev Runner := Gondolin.Trainer.Runner
+@[inherit_doc Gondolin.Trainer.Stepper]
+abbrev Stepper := Gondolin.Trainer.Stepper
 
-@[inherit_doc Gondlin.Trainer.FitConfig]
-abbrev FitConfig := Gondlin.Trainer.FitConfig
-@[inherit_doc Gondlin.Trainer.LoaderFitConfig]
-abbrev LoaderFitConfig := Gondlin.Trainer.LoaderFitConfig
-@[inherit_doc Gondlin.Trainer.FitReport]
-abbrev FitReport := Gondlin.Trainer.FitReport
+@[inherit_doc Gondolin.Trainer.FitConfig]
+abbrev FitConfig := Gondolin.Trainer.FitConfig
+@[inherit_doc Gondolin.Trainer.LoaderFitConfig]
+abbrev LoaderFitConfig := Gondolin.Trainer.LoaderFitConfig
+@[inherit_doc Gondolin.Trainer.FitReport]
+abbrev FitReport := Gondolin.Trainer.FitReport
 
 /-!
-Most of `API.train.*` is just a public re-export of `Gondlin.Trainer.*`.
+Most of `API.train.*` is just a public re-export of `Gondolin.Trainer.*`.
 
 We use `export` (rather than rewriting 1-line forwarders) so this file stays small and avoids
 duplicating implementation details at the facade layer.
 -/
 
-export Gondlin.Trainer
+export Gondolin.Trainer
   (regression
    classificationOneHot
    steps epochs
@@ -2366,7 +2366,7 @@ export Gondlin.Trainer
 /-!
 ## Metric Artifacts
 
-The public training facade also exposes Gondlin's lightweight metric artifact format.  This is
+The public training facade also exposes Gondolin's lightweight metric artifact format.  This is
 the local equivalent of “log scalars during a run, then inspect them later”: write a JSON
 `TrainLog`, view it with the training widgets, or adapt the JSON to an external tracker such as
 Weights & Biases.
@@ -2406,19 +2406,19 @@ def ofRunner {σ τ : Spec.Shape} {task : Task σ τ}
 def params {σ τ : Spec.Shape}
     {α : Type} [Semantics.Scalar α] [DecidableEq Spec.Shape]
     (tr : TaskRunner σ τ α) :
-    IO (Gondlin.TList α (Gondlin.Supervised.paramShapes tr.task)) :=
+    IO (Gondolin.TList α (Gondolin.Supervised.paramShapes tr.task)) :=
   train.params tr.runner
 
 /-- Read the current mode (`.train` or `.eval`) from a bundled runner. -/
 def mode {σ τ : Spec.Shape}
     {α : Type} [Semantics.Scalar α] [DecidableEq Spec.Shape]
-    (tr : TaskRunner σ τ α) : IO Gondlin.NN.Mode :=
+    (tr : TaskRunner σ τ α) : IO Gondolin.NN.Mode :=
   train.mode tr.runner
 
 /-- Set the mode (`.train` or `.eval`) on a bundled runner. -/
 def setMode {σ τ : Spec.Shape}
     {α : Type} [Semantics.Scalar α] [DecidableEq Spec.Shape]
-    (tr : TaskRunner σ τ α) (value : Gondlin.NN.Mode) : IO Unit :=
+    (tr : TaskRunner σ τ α) (value : Gondolin.NN.Mode) : IO Unit :=
   train.setMode tr.runner value
 
 /-- Switch a bundled runner to training mode. -/
@@ -2460,7 +2460,7 @@ def meanLossDataset {σ τ : Spec.Shape}
     (tr : TaskRunner σ τ α) (dataset : _root_.Runtime.Autograd.Train.Dataset
       (sample.Supervised α σ τ)) :
     IO α :=
-  Gondlin.Trainer.meanLossDataset (task := tr.task) tr.runner dataset
+  Gondolin.Trainer.meanLossDataset (task := tr.task) tr.runner dataset
 
 /-- Fit a bundled runner on an explicit list of samples for a fixed number of steps. -/
 def fit {σ τ : Spec.Shape}
@@ -2468,7 +2468,7 @@ def fit {σ τ : Spec.Shape}
     [Add α] [Div α] [Zero α] [Coe Nat α] [Runtime.Scalar α]
     (tr : TaskRunner σ τ α) (cfg : FitConfig) (samples : List (sample.Supervised α σ τ)) :
     IO (FitReport α) :=
-  Gondlin.Trainer.fit (task := tr.task) tr.runner cfg samples
+  Gondolin.Trainer.fit (task := tr.task) tr.runner cfg samples
 
 /-- Fit a bundled runner on a `Dataset` for a fixed number of steps. -/
 def fitDataset {σ τ : Spec.Shape}
@@ -2477,7 +2477,7 @@ def fitDataset {σ τ : Spec.Shape}
     (tr : TaskRunner σ τ α) (cfg : FitConfig)
     (dataset : _root_.Runtime.Autograd.Train.Dataset (sample.Supervised α σ τ)) :
     IO (FitReport α) :=
-  Gondlin.Trainer.fitDataset (task := tr.task) tr.runner cfg dataset
+  Gondolin.Trainer.fitDataset (task := tr.task) tr.runner cfg dataset
 
 /-- Fit a bundled runner using a `DataLoader` for a fixed number of epochs. -/
 def fitLoader {σ τ : Spec.Shape}
@@ -2486,7 +2486,7 @@ def fitLoader {σ τ : Spec.Shape}
     (tr : TaskRunner σ τ α) (cfg : LoaderFitConfig)
     (loader : _root_.Runtime.Autograd.Train.DataLoader (sample.Supervised α σ τ)) :
     IO (FitReport α × _root_.Runtime.Autograd.Train.DataLoader (sample.Supervised α σ τ)) :=
-  Gondlin.Trainer.fitLoader (task := tr.task) tr.runner cfg loader
+  Gondolin.Trainer.fitLoader (task := tr.task) tr.runner cfg loader
 
 end TaskRunner
 
@@ -2541,7 +2541,7 @@ def meanLossDataset {σ τ : Spec.Shape} {task : Task σ τ}
     (runner : Runner α task) (dataset : _root_.Runtime.Autograd.Train.Dataset (sample.Supervised α σ
       τ)) :
     IO α :=
-  Gondlin.Trainer.meanLossDataset (task := task) runner dataset
+  Gondolin.Trainer.meanLossDataset (task := task) runner dataset
 
 /-- Fit on an explicit list of samples for a fixed number of steps. -/
 def fit {σ τ : Spec.Shape} {task : Task σ τ}
@@ -2549,7 +2549,7 @@ def fit {σ τ : Spec.Shape} {task : Task σ τ}
     [Add α] [Div α] [Zero α] [Coe Nat α] [Runtime.Scalar α]
     (runner : Runner α task) (cfg : FitConfig) (samples : List (sample.Supervised α σ τ)) :
     IO (FitReport α) :=
-  Gondlin.Trainer.fit (task := task) runner cfg samples
+  Gondolin.Trainer.fit (task := task) runner cfg samples
 
 /-- Fit on a `Dataset` for a fixed number of steps. -/
 def fitDataset {σ τ : Spec.Shape} {task : Task σ τ}
@@ -2558,7 +2558,7 @@ def fitDataset {σ τ : Spec.Shape} {task : Task σ τ}
     (runner : Runner α task) (cfg : FitConfig) (dataset : _root_.Runtime.Autograd.Train.Dataset
       (sample.Supervised α σ τ)) :
     IO (FitReport α) :=
-  Gondlin.Trainer.fitDataset (task := task) runner cfg dataset
+  Gondolin.Trainer.fitDataset (task := task) runner cfg dataset
 
 /-- Fit using a `DataLoader` for a fixed number of epochs. -/
 def fitLoader {σ τ : Spec.Shape} {task : Task σ τ}
@@ -2567,7 +2567,7 @@ def fitLoader {σ τ : Spec.Shape} {task : Task σ τ}
     (runner : Runner α task) (cfg : LoaderFitConfig)
     (loader : _root_.Runtime.Autograd.Train.DataLoader (sample.Supervised α σ τ)) :
     IO (FitReport α × _root_.Runtime.Autograd.Train.DataLoader (sample.Supervised α σ τ)) :=
-  Gondlin.Trainer.fitLoader (task := task) runner cfg loader
+  Gondolin.Trainer.fitLoader (task := task) runner cfg loader
 
 /-- Callback event fired after each training step. -/
 structure StepEvent (α : Type) where
@@ -2661,7 +2661,7 @@ This is useful for "evaluate on a validation set during training" in callback-ba
 -/
 def withMode {σ τ : Spec.Shape} {task : Task σ τ}
     {α : Type} [Semantics.Scalar α] [DecidableEq Spec.Shape]
-    {β : Type} (runner : Runner α task) (value : Gondlin.NN.Mode) (action : IO β) : IO β := do
+    {β : Type} (runner : Runner α task) (value : Gondolin.NN.Mode) (action : IO β) : IO β := do
   let prev ← mode runner
   setMode runner value
   try
@@ -2688,7 +2688,7 @@ Two details are important for larger examples:
 def meanLossModuleLoader {σ τ : Spec.Shape} {n : Nat} {paramShapes : List Spec.Shape}
     {α : Type} [Semantics.Scalar α] [DecidableEq Spec.Shape] [ToString α]
     [Add α] [Div α] [Zero α] [Coe Nat α]
-    (module : Gondlin.Module.ScalarModule α paramShapes [Spec.Shape.dim n σ, Spec.Shape.dim n τ])
+    (module : Gondolin.Module.ScalarModule α paramShapes [Spec.Shape.dim n σ, Spec.Shape.dim n τ])
     (loader : Data.BatchLoader α n σ τ) : IO α := do
   let evalLoader : Data.RawDataLoader (sample.Supervised α σ τ) :=
     { loader.raw with shuffle := false, dropLast := true }
@@ -2701,7 +2701,7 @@ def meanLossModuleLoader {σ τ : Spec.Shape} {n : Nat} {paramShapes : List Spec
   for rawBatch in rawBatches do
     let sample ← Common.orThrow "train.meanLossModuleLoader" <|
       Data.collateSupervised (α := α) (σ := σ) (τ := τ) n rawBatch
-    let lossTensor ← Gondlin.Module.forward module sample
+    let lossTensor ← Gondolin.Module.forward module sample
     let loss := Spec.Tensor.toScalar lossTensor
     total := total + loss
     count := count + 1
@@ -2716,7 +2716,7 @@ Mean loss over a typed minibatch loader through a `train.Runner`.
 This is the runner-facing wrapper around `meanLossModuleLoader`.  Use it when the example is built
 around `train.run`, task modes, and the proof-facing trainer abstraction.  Use
 `meanLossModuleLoader` directly when the example has already instantiated a runtime
-`Gondlin.Module.ScalarModule`, which is the common fast path for CUDA demos.
+`Gondolin.Module.ScalarModule`, which is the common fast path for CUDA demos.
 -/
 def meanLossBatchLoader {σ τ : Spec.Shape} {n : Nat} {task : Task (.dim n σ) (.dim n τ)}
     {α : Type} [Semantics.Scalar α] [DecidableEq Spec.Shape] [ToString α]
@@ -2753,13 +2753,13 @@ def accuracyOneHotBatchLoader
 Train a runtime scalar module from a typed minibatch loader.
 
 This is the shared "real epoch loop" for model examples that instantiate a module directly with
-`Gondlin.Module.instantiateWithOptions`, including CUDA runs.  It mirrors the PyTorch structure:
+`Gondolin.Module.instantiateWithOptions`, including CUDA runs.  It mirrors the PyTorch structure:
 
 1. create an optimizer state for the module parameters;
 2. for each epoch, ask the general `Data.batchLoader` for shuffled raw batches;
 3. collate each raw batch into a shape-typed `(xBatch, yBatch)` sample;
 4. report the scalar loss through callbacks;
-5. run `forward/backward/optimizer.step` through `Gondlin.Module.stepWith`.
+5. run `forward/backward/optimizer.step` through `Gondolin.Module.stepWith`.
 
 The function is polymorphic in the input shape `σ`, target shape `τ`, batch size `n`, scalar type
 `α`, parameter shapes, and optimizer.  It is not an image-specific helper.  CNN, ResNet, ViT, MLP,
@@ -2769,8 +2769,8 @@ their supervised loss module has input shapes `[dim n σ, dim n τ]`.
 def fitModuleLoaderWith {σ τ : Spec.Shape} {n : Nat} {paramShapes : List Spec.Shape}
     {α : Type} [Semantics.Scalar α] [DecidableEq Spec.Shape] [ToString α]
     [Add α] [Div α] [Zero α] [Coe Nat α]
-    (module : Gondlin.Module.ScalarModule α paramShapes [Spec.Shape.dim n σ, Spec.Shape.dim n τ])
-    (optimizer : Gondlin.Optim.Optimizer α paramShapes)
+    (module : Gondolin.Module.ScalarModule α paramShapes [Spec.Shape.dim n σ, Spec.Shape.dim n τ])
+    (optimizer : Gondolin.Optim.Optimizer α paramShapes)
     (epochs : Nat)
     (loader : Data.BatchLoader α n σ τ)
     (callbacks : Callbacks α := Callbacks.empty) :
@@ -2778,7 +2778,7 @@ def fitModuleLoaderWith {σ τ : Spec.Shape} {n : Nat} {paramShapes : List Spec.
   let before ← meanLossModuleLoader module loader
   callbacks.onTrainStart
 
-  let mut optState ← Gondlin.Module.initOptim module optimizer
+  let mut optState ← Gondolin.Module.initOptim module optimizer
   let mut dl := loader
   let mut globalStep : Nat := 0
 
@@ -2791,10 +2791,10 @@ def fitModuleLoaderWith {σ τ : Spec.Shape} {n : Nat} {paramShapes : List Spec.
     for rawBatch in rawBatches do
       let sample ← Common.orThrow "train.fitModuleLoaderWith" <|
         Data.collateSupervised (α := α) (σ := σ) (τ := τ) n rawBatch
-      let lossTensor ← Gondlin.Module.forward module sample
+      let lossTensor ← Gondolin.Module.forward module sample
       let loss := Spec.Tensor.toScalar lossTensor
       callbacks.onStep { epoch := epochIdx, step := globalStep, loss := loss }
-      optState ← Gondlin.Module.stepWith module optimizer optState sample
+      optState ← Gondolin.Module.stepWith module optimizer optState sample
       globalStep := globalStep + 1
     callbacks.onEpochEnd { epoch := epochIdx, steps := globalStep }
 
@@ -2812,7 +2812,7 @@ This is the proof/trainer-facing public escape hatch for PyTorch-style custom lo
 - inject logging, evaluation, and probe reporting through callbacks.
 
 This path keeps the `Runner` abstraction, including task modes and scheduler support.  For
-CUDA-heavy tutorials that already have a `Gondlin.Module.ScalarModule`, prefer
+CUDA-heavy tutorials that already have a `Gondolin.Module.ScalarModule`, prefer
 `fitModuleLoaderWith`; both paths consume the same general `API.Data.batchLoader`.
 -/
 def fitLoaderWith {σ τ : Spec.Shape} {n : Nat} {task : Task (.dim n σ) (.dim n τ)}
@@ -2827,7 +2827,7 @@ def fitLoaderWith {σ τ : Spec.Shape} {n : Nat} {task : Task (.dim n σ) (.dim 
   callbacks.onTrainStart
 
   trainMode runner
-  let loop ← Gondlin.Trainer.stepper (task := task) runner cfg.optimizer (scheduler :=
+  let loop ← Gondolin.Trainer.stepper (task := task) runner cfg.optimizer (scheduler :=
     cfg.scheduler)
   let mut dl := loader
   let mut globalStep : Nat := 0
@@ -2841,7 +2841,7 @@ def fitLoaderWith {σ τ : Spec.Shape} {n : Nat} {task : Task (.dim n σ) (.dim 
     for rawBatch in rawBatches do
       let sample ← Common.orThrow "train.fitLoaderWith" <|
         Data.collateSupervised (α := α) (σ := σ) (τ := τ) n rawBatch
-      let loss ← Gondlin.Trainer.step (task := task) loop sample
+      let loss ← Gondolin.Trainer.step (task := task) loop sample
       callbacks.onStep { epoch := epochIdx, step := globalStep, loss := loss }
       globalStep := globalStep + 1
     callbacks.onEpochEnd { epoch := epochIdx, steps := globalStep }
@@ -2891,21 +2891,21 @@ def stepper {σ τ : Spec.Shape} {task : Task σ τ}
     {α : Type} [Semantics.Scalar α] [DecidableEq Spec.Shape] [ToString α]
     [Add α] [Div α] [Zero α] [Coe Nat α] [Runtime.Scalar α]
     (runner : Runner α task) (optimizer : optim.Optimizer)
-    (scheduler : Option Gondlin.Schedulers.Config := none) :
+    (scheduler : Option Gondolin.Schedulers.Config := none) :
     IO (Stepper α task) :=
-  Gondlin.Trainer.stepper (task := task) runner optimizer scheduler
+  Gondolin.Trainer.stepper (task := task) runner optimizer scheduler
 
 /-- Run one optimization step on a single supervised sample (one batch). -/
 def step {σ τ : Spec.Shape} {task : Task σ τ}
     {α : Type} [Semantics.Scalar α] [DecidableEq Spec.Shape]
     (loop : Stepper α task) (sample : sample.Supervised α σ τ) : IO α :=
-  Gondlin.Trainer.step (task := task) loop sample
+  Gondolin.Trainer.step (task := task) loop sample
 
 /-- Run one epoch over a list of supervised samples, returning the per-step losses. -/
 def epoch {σ τ : Spec.Shape} {task : Task σ τ}
     {α : Type} [Semantics.Scalar α] [DecidableEq Spec.Shape]
     (loop : Stepper α task) (samples : List (sample.Supervised α σ τ)) : IO (List α) :=
-  Gondlin.Trainer.epoch (task := task) loop samples
+  Gondolin.Trainer.epoch (task := task) loop samples
 
 namespace Report
 
@@ -2932,7 +2932,7 @@ def reportMeanLoss
     (runner : Runner α task)
     (dataset : _root_.Runtime.Autograd.Train.Dataset (sample.Supervised α σ τ))
     (label : String) : IO Unit := do
-  let loss ← Gondlin.Trainer.meanLossDataset (task := task) runner dataset
+  let loss ← Gondolin.Trainer.meanLossDataset (task := task) runner dataset
   IO.println s!"mean_loss({label}) = {loss}"
 
 /-- Convenience: mean loss on a typed minibatch loader, streamed batch by batch. -/
@@ -2956,7 +2956,7 @@ def reportMeanLossModuleLoader
     {σ τ : Spec.Shape} {batch : Nat} {paramShapes : List Spec.Shape}
     {α : Type} [Semantics.Scalar α] [DecidableEq Spec.Shape] [ToString α]
     [Add α] [Div α] [Zero α] [Coe Nat α]
-    (module : Gondlin.Module.ScalarModule α paramShapes [Spec.Shape.dim batch σ, Spec.Shape.dim
+    (module : Gondolin.Module.ScalarModule α paramShapes [Spec.Shape.dim batch σ, Spec.Shape.dim
       batch τ])
     (loader : Data.BatchLoader α batch σ τ)
     (label : String) : IO Unit := do
@@ -3036,7 +3036,7 @@ def reportLossAccuracyOneHot
     (runner : Runner α task)
     (dataset : _root_.Runtime.Autograd.Train.Dataset (sample.Supervised α σ (.dim classes .scalar)))
     (label : String) : IO Unit := do
-  let loss ← Gondlin.Trainer.meanLossDataset (task := task) runner dataset
+  let loss ← Gondolin.Trainer.meanLossDataset (task := task) runner dataset
   let (correct, total) ← accuracyOneHot (task := task) runner dataset.toList
   IO.println s!"mean_loss({label}) = {loss}"
   IO.println s!"accuracy({label}) = {correct}/{total}"
@@ -3051,7 +3051,7 @@ def reportLossAccuracyOneHotBatched
     (dataset : _root_.Runtime.Autograd.Train.Dataset (sample.Batch α batch σ (NN.Tensor.Shape.Vec
       classes)))
     (label : String) : IO Unit := do
-  let loss ← Gondlin.Trainer.meanLossDataset (task := task) runner dataset
+  let loss ← Gondolin.Trainer.meanLossDataset (task := task) runner dataset
   let (correct, total) ← accuracyOneHotBatched (task := task) runner dataset.toList
   IO.println s!"mean_loss({label}) = {loss}"
   IO.println s!"accuracy({label}) = {correct}/{total}"
@@ -3080,7 +3080,7 @@ namespace nn
 /-!
 ## Model Builders and Seeding
 
-Gondlin keeps initialization randomness explicit so examples are reproducible.
+Gondolin keeps initialization randomness explicit so examples are reproducible.
 
 - `nn.*` is the default *seeded builder* API: layer constructors allocate initialization seeds
   via `nn.M` (a deterministic seed stream).
@@ -3538,7 +3538,7 @@ end nn
 namespace autograd
 
 /-!
-Autograd helpers (grad/vjp/jacobian) over Gondlin programs.
+Autograd helpers (grad/vjp/jacobian) over Gondolin programs.
 
 This namespace is conceptually similar to PyTorch autograd + functorch/`torch.func`:
 - gradients of losses w.r.t. parameters and inputs
@@ -3552,43 +3552,43 @@ PyTorch references:
 namespace model
 
 /-
-Model-shaped autograd: a Gondlin `NN.Seq` plus an `OutputLoss` over its output.
+Model-shaped autograd: a Gondolin `NN.Seq` plus an `OutputLoss` over its output.
 
 This is the common "training" use case.
 -/
 
-@[inherit_doc Gondlin.Autodiff.Model.Params]
-abbrev Params {σ τ : Spec.Shape} (model : Gondlin.NN.Seq σ τ) (α : Type) :=
-  Gondlin.Autodiff.Model.Params model α
+@[inherit_doc Gondolin.Autodiff.Model.Params]
+abbrev Params {σ τ : Spec.Shape} (model : Gondolin.NN.Seq σ τ) (α : Type) :=
+  Gondolin.Autodiff.Model.Params model α
 
-@[inherit_doc Gondlin.Autodiff.Model.OutputLoss]
+@[inherit_doc Gondolin.Autodiff.Model.OutputLoss]
 abbrev OutputLoss (τ υ : Spec.Shape) :=
-  Gondlin.Autodiff.Model.OutputLoss τ υ
+  Gondolin.Autodiff.Model.OutputLoss τ υ
 
-@[inherit_doc Gondlin.Autodiff.Model.linearParams]
+@[inherit_doc Gondolin.Autodiff.Model.linearParams]
 abbrev linearParams {α : Type} {inDim outDim : Nat} {seedW seedB : Nat}
     (w : Spec.Tensor α (NN.Tensor.Shape.Mat outDim inDim))
     (b : Spec.Tensor α (NN.Tensor.Shape.Vec outDim)) :
-    Params (Gondlin.Layers.linear inDim outDim seedW seedB) α :=
-  Gondlin.Autodiff.Model.linearParams
+    Params (Gondolin.Layers.linear inDim outDim seedW seedB) α :=
+  Gondolin.Autodiff.Model.linearParams
     (α := α) (inDim := inDim) (outDim := outDim) (seedW := seedW) (seedB := seedB) w b
 
 namespace OutputLoss
 
-@[inherit_doc Gondlin.Autodiff.Model.OutputLoss.mse]
-abbrev mse {τ : Spec.Shape} (reduction : Gondlin.Loss.Reduction := .mean) :
+@[inherit_doc Gondolin.Autodiff.Model.OutputLoss.mse]
+abbrev mse {τ : Spec.Shape} (reduction : Gondolin.Loss.Reduction := .mean) :
     model.OutputLoss τ τ :=
-  Gondlin.Autodiff.Model.OutputLoss.mse (τ := τ) (reduction := reduction)
+  Gondolin.Autodiff.Model.OutputLoss.mse (τ := τ) (reduction := reduction)
 
-@[inherit_doc Gondlin.Autodiff.Model.OutputLoss.crossEntropyOneHot]
-abbrev crossEntropyOneHot {τ : Spec.Shape} (reduction : Gondlin.Loss.Reduction := .mean) :
+@[inherit_doc Gondolin.Autodiff.Model.OutputLoss.crossEntropyOneHot]
+abbrev crossEntropyOneHot {τ : Spec.Shape} (reduction : Gondolin.Loss.Reduction := .mean) :
     model.OutputLoss τ τ :=
-  Gondlin.Autodiff.Model.OutputLoss.crossEntropyOneHot (τ := τ) (reduction := reduction)
+  Gondolin.Autodiff.Model.OutputLoss.crossEntropyOneHot (τ := τ) (reduction := reduction)
 
-@[inherit_doc Gondlin.Autodiff.Model.OutputLoss.detach]
+@[inherit_doc Gondolin.Autodiff.Model.OutputLoss.detach]
 abbrev detach {τ υ : Spec.Shape} (loss : model.OutputLoss τ υ) :
     model.OutputLoss τ υ :=
-  Gondlin.Autodiff.Model.OutputLoss.detach loss
+  Gondolin.Autodiff.Model.OutputLoss.detach loss
 
 end OutputLoss
 
@@ -3598,38 +3598,38 @@ Gradient of a model-loss w.r.t. the model parameters.
 This is the common training use case (PyTorch analogue: `loss.backward()` followed by parameter
   updates).
 -/
-def gradParams {σ τ υ : Spec.Shape} (model : Gondlin.NN.Seq σ τ) (loss :
-  Gondlin.Autodiff.Model.OutputLoss τ υ)
+def gradParams {σ τ υ : Spec.Shape} (model : Gondolin.NN.Seq σ τ) (loss :
+  Gondolin.Autodiff.Model.OutputLoss τ υ)
     {α : Type} [Semantics.Scalar α] [DecidableEq Spec.Shape]
-    (params : Gondlin.Autodiff.Model.Params model α)
+    (params : Gondolin.Autodiff.Model.Params model α)
     (x : Spec.Tensor α σ) (target : Spec.Tensor α υ) :
-    IO (Gondlin.Autodiff.Model.Params model α) :=
-  Gondlin.Autodiff.Model.gradParams (α := α) model loss params x target
+    IO (Gondolin.Autodiff.Model.Params model α) :=
+  Gondolin.Autodiff.Model.gradParams (α := α) model loss params x target
 
 /-- Gradient of the loss w.r.t. the inputs (`x` and `target`). -/
-def gradInputs {σ τ υ : Spec.Shape} (model : Gondlin.NN.Seq σ τ) (loss :
-  Gondlin.Autodiff.Model.OutputLoss τ υ)
+def gradInputs {σ τ υ : Spec.Shape} (model : Gondolin.NN.Seq σ τ) (loss :
+  Gondolin.Autodiff.Model.OutputLoss τ υ)
     {α : Type} [Semantics.Scalar α] [DecidableEq Spec.Shape]
-    (params : Gondlin.Autodiff.Model.Params model α)
+    (params : Gondolin.Autodiff.Model.Params model α)
     (x : Spec.Tensor α σ) (target : Spec.Tensor α υ) :
-    IO (Gondlin.TList α [σ, υ]) :=
-  Gondlin.Autodiff.Model.gradInputs (α := α) model loss params x target
+    IO (Gondolin.TList α [σ, υ]) :=
+  Gondolin.Autodiff.Model.gradInputs (α := α) model loss params x target
 
 /-- Convenience: gradient of the loss w.r.t. `x`. -/
-def gradX {σ τ υ : Spec.Shape} (model : Gondlin.NN.Seq σ τ) (loss :
-  Gondlin.Autodiff.Model.OutputLoss τ υ)
+def gradX {σ τ υ : Spec.Shape} (model : Gondolin.NN.Seq σ τ) (loss :
+  Gondolin.Autodiff.Model.OutputLoss τ υ)
     {α : Type} [Semantics.Scalar α] [DecidableEq Spec.Shape]
-    (params : Gondlin.Autodiff.Model.Params model α)
+    (params : Gondolin.Autodiff.Model.Params model α)
     (x : Spec.Tensor α σ) (target : Spec.Tensor α υ) :
     IO (Spec.Tensor α σ) := do
   let gxs ← gradInputs (model := model) (loss := loss) (α := α) params x target
   pure (tlist.get0 gxs)
 
 /-- Convenience: gradient of the loss w.r.t. the `target` argument. -/
-def gradTarget {σ τ υ : Spec.Shape} (model : Gondlin.NN.Seq σ τ) (loss :
-  Gondlin.Autodiff.Model.OutputLoss τ υ)
+def gradTarget {σ τ υ : Spec.Shape} (model : Gondolin.NN.Seq σ τ) (loss :
+  Gondolin.Autodiff.Model.OutputLoss τ υ)
     {α : Type} [Semantics.Scalar α] [DecidableEq Spec.Shape]
-    (params : Gondlin.Autodiff.Model.Params model α)
+    (params : Gondolin.Autodiff.Model.Params model α)
     (x : Spec.Tensor α σ) (target : Spec.Tensor α υ) :
     IO (Spec.Tensor α υ) := do
   let gxs ← gradInputs (model := model) (loss := loss) (α := α) params x target
@@ -3640,11 +3640,11 @@ Forward+backward result for a scalar loss built from a model output.
 
 PyTorch comparison: this is the "compute loss + backward" payload, but with shapes tracked.
 -/
-structure ValueAndGrads {σ τ υ : Spec.Shape} (model : Gondlin.NN.Seq σ τ) (α : Type) where
+structure ValueAndGrads {σ τ υ : Spec.Shape} (model : Gondolin.NN.Seq σ τ) (α : Type) where
   /-- Value at the current point. -/
   value : Spec.Tensor α Spec.Shape.scalar
   /-- Gradients w.r.t. parameters. -/
-  dparams : Gondlin.Autodiff.Model.Params model α
+  dparams : Gondolin.Autodiff.Model.Params model α
   /-- Gradient w.r.t. input. -/
   dx : Spec.Tensor α σ
   /-- Gradient w.r.t. target. -/
@@ -3659,26 +3659,26 @@ Run `loss(model(params, x), target)` and compute gradients w.r.t:
 
 This hides the `CompiledScalar`/argument-pack boilerplate for the common "one sample" case.
 -/
-def valueAndGrads {σ τ υ : Spec.Shape} (model : Gondlin.NN.Seq σ τ) (loss :
-  Gondlin.Autodiff.Model.OutputLoss τ υ)
+def valueAndGrads {σ τ υ : Spec.Shape} (model : Gondolin.NN.Seq σ τ) (loss :
+  Gondolin.Autodiff.Model.OutputLoss τ υ)
     {α : Type} [Semantics.Scalar α] [DecidableEq Spec.Shape]
-    (params : Gondlin.Autodiff.Model.Params model α)
+    (params : Gondolin.Autodiff.Model.Params model α)
     (x : Spec.Tensor α σ) (target : Spec.Tensor α υ) :
     IO (ValueAndGrads (model := model) (α := α) (σ := σ) (υ := υ)) := do
-  let paramShapes := Gondlin.NN.Seq.paramShapes model
+  let paramShapes := Gondolin.NN.Seq.paramShapes model
   let c ←
-    Gondlin.Autodiff.compileLoss (α := α)
+    Gondolin.Autodiff.compileLoss (α := α)
       (paramShapes := paramShapes) (inputShapes := [σ, υ])
-      (Gondlin.Autodiff.Model.lossProgram (model := model) loss)
+      (Gondolin.Autodiff.Model.lossProgram (model := model) loss)
 
-  let args : Gondlin.TList α (paramShapes ++ [σ, υ]) :=
+  let args : Gondolin.TList α (paramShapes ++ [σ, υ]) :=
     tlist.append (ss₁ := paramShapes) (ss₂ := [σ, υ]) params (tlist.mk2 x target)
 
   let value : Spec.Tensor α Spec.Shape.scalar :=
     _root_.Runtime.Autograd.Torch.CompiledScalar.forward (α := α) (Γ := paramShapes ++ [σ, υ]) c
       args
 
-  let gAll : Gondlin.TList α (paramShapes ++ [σ, υ]) :=
+  let gAll : Gondolin.TList α (paramShapes ++ [σ, υ]) :=
     _root_.Runtime.Autograd.Torch.CompiledScalar.backward (α := α) (Γ := paramShapes ++ [σ, υ]) c
       args
 
@@ -3692,40 +3692,40 @@ def valueAndGrads {σ τ υ : Spec.Shape} (model : Gondlin.NN.Seq σ τ) (loss :
       dtarget := tlist.get1 dxys }
 
 /-- Return just `(loss_value, grad_params)`. -/
-def valueAndGradParams {σ τ υ : Spec.Shape} (model : Gondlin.NN.Seq σ τ) (loss :
-  Gondlin.Autodiff.Model.OutputLoss τ υ)
+def valueAndGradParams {σ τ υ : Spec.Shape} (model : Gondolin.NN.Seq σ τ) (loss :
+  Gondolin.Autodiff.Model.OutputLoss τ υ)
     {α : Type} [Semantics.Scalar α] [DecidableEq Spec.Shape]
-    (params : Gondlin.Autodiff.Model.Params model α)
+    (params : Gondolin.Autodiff.Model.Params model α)
     (x : Spec.Tensor α σ) (target : Spec.Tensor α υ) :
-    IO (Spec.Tensor α Spec.Shape.scalar × Gondlin.Autodiff.Model.Params model α) := do
+    IO (Spec.Tensor α Spec.Shape.scalar × Gondolin.Autodiff.Model.Params model α) := do
   let out ← valueAndGrads (model := model) (loss := loss) (α := α) params x target
   pure (out.value, out.dparams)
 
 /-- `valueAndGradParams`, but convert the 0-dim loss tensor to a scalar `α`. -/
-def valueAndGradParamsScalar {σ τ υ : Spec.Shape} (model : Gondlin.NN.Seq σ τ) (loss :
-  Gondlin.Autodiff.Model.OutputLoss τ υ)
+def valueAndGradParamsScalar {σ τ υ : Spec.Shape} (model : Gondolin.NN.Seq σ τ) (loss :
+  Gondolin.Autodiff.Model.OutputLoss τ υ)
     {α : Type} [Semantics.Scalar α] [DecidableEq Spec.Shape]
-    (params : Gondlin.Autodiff.Model.Params model α)
+    (params : Gondolin.Autodiff.Model.Params model α)
     (x : Spec.Tensor α σ) (target : Spec.Tensor α υ) :
-    IO (α × Gondlin.Autodiff.Model.Params model α) := do
+    IO (α × Gondolin.Autodiff.Model.Params model α) := do
   let (valueT, dps) ← valueAndGradParams (model := model) (loss := loss) (α := α) params x target
   pure (Spec.Tensor.toScalar valueT, dps)
 
 /-- Return `(loss_value, grad_x)`. -/
-def valueAndGradX {σ τ υ : Spec.Shape} (model : Gondlin.NN.Seq σ τ) (loss :
-  Gondlin.Autodiff.Model.OutputLoss τ υ)
+def valueAndGradX {σ τ υ : Spec.Shape} (model : Gondolin.NN.Seq σ τ) (loss :
+  Gondolin.Autodiff.Model.OutputLoss τ υ)
     {α : Type} [Semantics.Scalar α] [DecidableEq Spec.Shape]
-    (params : Gondlin.Autodiff.Model.Params model α)
+    (params : Gondolin.Autodiff.Model.Params model α)
     (x : Spec.Tensor α σ) (target : Spec.Tensor α υ) :
     IO (Spec.Tensor α Spec.Shape.scalar × Spec.Tensor α σ) := do
   let out ← valueAndGrads (model := model) (loss := loss) (α := α) params x target
   pure (out.value, out.dx)
 
 /-- Return `(loss_value, grad_target)`. -/
-def valueAndGradTarget {σ τ υ : Spec.Shape} (model : Gondlin.NN.Seq σ τ) (loss :
-  Gondlin.Autodiff.Model.OutputLoss τ υ)
+def valueAndGradTarget {σ τ υ : Spec.Shape} (model : Gondolin.NN.Seq σ τ) (loss :
+  Gondolin.Autodiff.Model.OutputLoss τ υ)
     {α : Type} [Semantics.Scalar α] [DecidableEq Spec.Shape]
-    (params : Gondlin.Autodiff.Model.Params model α)
+    (params : Gondolin.Autodiff.Model.Params model α)
     (x : Spec.Tensor α σ) (target : Spec.Tensor α υ) :
     IO (Spec.Tensor α Spec.Shape.scalar × Spec.Tensor α υ) := do
   let out ← valueAndGrads (model := model) (loss := loss) (α := α) params x target
@@ -3737,12 +3737,12 @@ Vector-Jacobian product (VJP) w.r.t. model parameters.
 This is the "grad of outputs back into parameters" primitive. It is useful for custom losses or
 analysis tooling when you already have a seed tensor `seedOut : τ`.
 -/
-def vjpParams {σ τ : Spec.Shape} (model : Gondlin.NN.Seq σ τ)
+def vjpParams {σ τ : Spec.Shape} (model : Gondolin.NN.Seq σ τ)
     {α : Type} [Semantics.Scalar α] [DecidableEq Spec.Shape]
-    (params : Gondlin.Autodiff.Model.Params model α)
+    (params : Gondolin.Autodiff.Model.Params model α)
     (x : Spec.Tensor α σ) (seedOut : Spec.Tensor α τ) :
-    IO (Gondlin.Autodiff.Model.Params model α) :=
-  Gondlin.Autodiff.Model.vjpParams (α := α) model params x seedOut
+    IO (Gondolin.Autodiff.Model.Params model α) :=
+  Gondolin.Autodiff.Model.vjpParams (α := α) model params x seedOut
 
 /--
 VJP w.r.t. the model input.
@@ -3750,17 +3750,17 @@ VJP w.r.t. the model input.
 This returns a one-element `TList` to match the general "inputs list" API shape.
 For the common case, use `vjpInput` to get the tensor directly.
 -/
-def vjpInputs {σ τ : Spec.Shape} (model : Gondlin.NN.Seq σ τ)
+def vjpInputs {σ τ : Spec.Shape} (model : Gondolin.NN.Seq σ τ)
     {α : Type} [Semantics.Scalar α] [DecidableEq Spec.Shape]
-    (params : Gondlin.Autodiff.Model.Params model α)
+    (params : Gondolin.Autodiff.Model.Params model α)
     (x : Spec.Tensor α σ) (seedOut : Spec.Tensor α τ) :
-    IO (Gondlin.TList α [σ]) :=
-  Gondlin.Autodiff.Model.vjpInputs (α := α) model params x seedOut
+    IO (Gondolin.TList α [σ]) :=
+  Gondolin.Autodiff.Model.vjpInputs (α := α) model params x seedOut
 
 /-- Convenience wrapper: unwrap `vjpInputs` to return just `dx`. -/
-def vjpInput {σ τ : Spec.Shape} (model : Gondlin.NN.Seq σ τ)
+def vjpInput {σ τ : Spec.Shape} (model : Gondolin.NN.Seq σ τ)
     {α : Type} [Semantics.Scalar α] [DecidableEq Spec.Shape]
-    (params : Gondlin.Autodiff.Model.Params model α)
+    (params : Gondolin.Autodiff.Model.Params model α)
     (x : Spec.Tensor α σ) (seedOut : Spec.Tensor α τ) :
     IO (Spec.Tensor α σ) := do
   let dxs ← vjpInputs (model := model) (α := α) params x seedOut
@@ -3772,12 +3772,12 @@ Reverse-mode Jacobian (`jacrev`) of the model output w.r.t. parameters.
 Returns an array of parameter-structured gradients: one entry per output coordinate.
 This mirrors the usual "jacrev returns a stack of per-output gradients" shape.
 -/
-def jacrevParams {σ τ : Spec.Shape} (model : Gondlin.NN.Seq σ τ)
+def jacrevParams {σ τ : Spec.Shape} (model : Gondolin.NN.Seq σ τ)
     {α : Type} [Semantics.Scalar α] [DecidableEq Spec.Shape]
-    (params : Gondlin.Autodiff.Model.Params model α)
+    (params : Gondolin.Autodiff.Model.Params model α)
     (x : Spec.Tensor α σ) :
-    IO (Array (Gondlin.Autodiff.Model.Params model α)) :=
-  Gondlin.Autodiff.Model.jacrevParams (α := α) model params x
+    IO (Array (Gondolin.Autodiff.Model.Params model α)) :=
+  Gondolin.Autodiff.Model.jacrevParams (α := α) model params x
 
 /--
 Jacobian-vector product (JVP) of a scalar loss w.r.t. parameters.
@@ -3785,28 +3785,28 @@ Jacobian-vector product (JVP) of a scalar loss w.r.t. parameters.
 This is the directional derivative in the direction `vparams`.
 Conceptually: `d/dt loss(params + t*vparams, x, target) | t = 0`.
 -/
-def jvpParams {σ τ υ : Spec.Shape} (model : Gondlin.NN.Seq σ τ) (loss :
-  Gondlin.Autodiff.Model.OutputLoss τ υ)
+def jvpParams {σ τ υ : Spec.Shape} (model : Gondolin.NN.Seq σ τ) (loss :
+  Gondolin.Autodiff.Model.OutputLoss τ υ)
     {α : Type} [Semantics.Scalar α] [DecidableEq Spec.Shape]
-    (params : Gondlin.Autodiff.Model.Params model α)
+    (params : Gondolin.Autodiff.Model.Params model α)
     (x : Spec.Tensor α σ) (target : Spec.Tensor α υ)
-    (vparams : Gondlin.Autodiff.Model.Params model α) :
+    (vparams : Gondolin.Autodiff.Model.Params model α) :
     IO α :=
-  Gondlin.Autodiff.Model.jvpParams (α := α) model loss params x target vparams
+  Gondolin.Autodiff.Model.jvpParams (α := α) model loss params x target vparams
 
 /--
 Hessian-vector product (HVP) of a scalar loss w.r.t. parameters.
 
 Returns a parameter-structured tensor list of the same shape as `params`.
 -/
-def hvpParams {σ τ υ : Spec.Shape} (model : Gondlin.NN.Seq σ τ) (loss :
-  Gondlin.Autodiff.Model.OutputLoss τ υ)
+def hvpParams {σ τ υ : Spec.Shape} (model : Gondolin.NN.Seq σ τ) (loss :
+  Gondolin.Autodiff.Model.OutputLoss τ υ)
     {α : Type} [Semantics.Scalar α] [DecidableEq Spec.Shape]
-    (params : Gondlin.Autodiff.Model.Params model α)
+    (params : Gondolin.Autodiff.Model.Params model α)
     (x : Spec.Tensor α σ) (target : Spec.Tensor α υ)
-    (vparams : Gondlin.Autodiff.Model.Params model α) :
-    IO (Gondlin.Autodiff.Model.Params model α) :=
-  Gondlin.Autodiff.Model.hvpParams (α := α) model loss params x target vparams
+    (vparams : Gondolin.Autodiff.Model.Params model α) :
+    IO (Gondolin.Autodiff.Model.Params model α) :=
+  Gondolin.Autodiff.Model.hvpParams (α := α) model loss params x target vparams
 end model
 
 namespace fn1
@@ -3820,34 +3820,34 @@ differentiation (no parameters).
 In PyTorch terms, this is the "functorch" style: differentiate plain functions, not modules.
 -/
 
-@[inherit_doc Gondlin.Autodiff.Function1.Fn]
+@[inherit_doc Gondolin.Autodiff.Function1.Fn]
 abbrev Fn (σ τ : Spec.Shape) :=
-  Gondlin.Autodiff.Function1.Fn σ τ
+  Gondolin.Autodiff.Function1.Fn σ τ
 
 /-- Forward-mode Jacobian (`jacfwd`) for a pure tensor function. -/
-def jacfwd {σ τ : Spec.Shape} (f : Gondlin.Autodiff.Function1.Fn σ τ)
+def jacfwd {σ τ : Spec.Shape} (f : Gondolin.Autodiff.Function1.Fn σ τ)
     {α : Type} [Semantics.Scalar α] [DecidableEq Spec.Shape]
     (x : Spec.Tensor α σ) :
     IO (Array (Spec.Tensor α τ)) :=
-  Gondlin.Autodiff.Function1.jacfwd (α := α) f x
+  Gondolin.Autodiff.Function1.jacfwd (α := α) f x
 
 /-- Hessian for a scalar-valued function. -/
-def hessian {σ : Spec.Shape} (f : Gondlin.Autodiff.Function1.Fn σ Spec.Shape.scalar)
+def hessian {σ : Spec.Shape} (f : Gondolin.Autodiff.Function1.Fn σ Spec.Shape.scalar)
     {α : Type} [Semantics.Scalar α] [DecidableEq Spec.Shape]
     (x : Spec.Tensor α σ) :
     IO (Array (Spec.Tensor α σ)) :=
-  Gondlin.Autodiff.Function1.hessian (α := α) f x
+  Gondolin.Autodiff.Function1.hessian (α := α) f x
 
 /-- Vector-Jacobian product (VJP) for a pure function. -/
-def vjp {σ τ : Spec.Shape} (f : Gondlin.Autodiff.Function1.Fn σ τ)
+def vjp {σ τ : Spec.Shape} (f : Gondolin.Autodiff.Function1.Fn σ τ)
     {α : Type} [Semantics.Scalar α] [DecidableEq Spec.Shape]
     (x : Spec.Tensor α σ) (seedOut : Spec.Tensor α τ) :
     IO (Spec.Tensor α σ) := do
-  let params : Gondlin.TList α ([] : List Spec.Shape) := .nil
+  let params : Gondolin.TList α ([] : List Spec.Shape) := .nil
   let gxs ←
-    Gondlin.Autodiff.vjpOutInputs (α := α)
+    Gondolin.Autodiff.vjpOutInputs (α := α)
       (paramShapes := ([] : List Spec.Shape)) (inputShapes := [σ]) (τ := τ)
-      (Gondlin.Autodiff.Function1.program (σ := σ) (τ := τ) f)
+      (Gondolin.Autodiff.Function1.program (σ := σ) (τ := τ) f)
       params (tlist.mk1 x) seedOut
   pure (tlist.unpack1 gxs)
 
@@ -3856,49 +3856,49 @@ Reverse-mode Jacobian (`jacrev`) of a pure tensor function.
 
 Returns the Jacobian rows as an array of `doutput/dinput` tensors.
 -/
-def jacrev {σ τ : Spec.Shape} (f : Gondlin.Autodiff.Function1.Fn σ τ)
+def jacrev {σ τ : Spec.Shape} (f : Gondolin.Autodiff.Function1.Fn σ τ)
     {α : Type} [Semantics.Scalar α] [DecidableEq Spec.Shape]
     (x : Spec.Tensor α σ) :
     IO (Array (Spec.Tensor α σ)) := do
-  let params : Gondlin.TList α ([] : List Spec.Shape) := .nil
+  let params : Gondolin.TList α ([] : List Spec.Shape) := .nil
   let rows ←
-    Gondlin.Autodiff.jacrevOutInputs (α := α)
+    Gondolin.Autodiff.jacrevOutInputs (α := α)
       (paramShapes := ([] : List Spec.Shape)) (inputShapes := [σ]) (τ := τ)
-      (Gondlin.Autodiff.Function1.program (σ := σ) (τ := τ) f)
+      (Gondolin.Autodiff.Function1.program (σ := σ) (τ := τ) f)
       params (tlist.mk1 x)
   pure <| rows.map tlist.unpack1
 
 /-- Gradient of a scalar-valued function w.r.t. its input. -/
-def grad {σ : Spec.Shape} (f : Gondlin.Autodiff.Function1.Fn σ Spec.Shape.scalar)
+def grad {σ : Spec.Shape} (f : Gondolin.Autodiff.Function1.Fn σ Spec.Shape.scalar)
     {α : Type} [Semantics.Scalar α] [DecidableEq Spec.Shape]
     (x : Spec.Tensor α σ) :
     IO (Spec.Tensor α σ) := do
-  let params : Gondlin.TList α ([] : List Spec.Shape) := .nil
+  let params : Gondolin.TList α ([] : List Spec.Shape) := .nil
   let gxs ←
-    Gondlin.Autodiff.gradInputs (α := α)
+    Gondolin.Autodiff.gradInputs (α := α)
       (paramShapes := ([] : List Spec.Shape)) (inputShapes := [σ])
-      (Gondlin.Autodiff.Function1.program (σ := σ) (τ := Spec.Shape.scalar) f)
+      (Gondolin.Autodiff.Function1.program (σ := σ) (τ := Spec.Shape.scalar) f)
       params (tlist.mk1 x)
   pure (tlist.unpack1 gxs)
 
 /-- Return `(value, grad)` for a scalar-valued function at `x`. -/
-def valueAndGrad {σ : Spec.Shape} (f : Gondlin.Autodiff.Function1.Fn σ Spec.Shape.scalar)
+def valueAndGrad {σ : Spec.Shape} (f : Gondolin.Autodiff.Function1.Fn σ Spec.Shape.scalar)
     {α : Type} [Semantics.Scalar α] [DecidableEq Spec.Shape]
     (x : Spec.Tensor α σ) :
     IO (Spec.Tensor α Spec.Shape.scalar × Spec.Tensor α σ) := do
   let c ←
-    Gondlin.Autodiff.compileLoss (α := α)
+    Gondolin.Autodiff.compileLoss (α := α)
       (paramShapes := ([] : List Spec.Shape)) (inputShapes := [σ])
-      (Gondlin.Autodiff.Function1.program (σ := σ) (τ := Spec.Shape.scalar) f)
-  let args : Gondlin.TList α [σ] := tlist.mk1 x
+      (Gondolin.Autodiff.Function1.program (σ := σ) (τ := Spec.Shape.scalar) f)
+  let args : Gondolin.TList α [σ] := tlist.mk1 x
   let value : Spec.Tensor α Spec.Shape.scalar :=
     _root_.Runtime.Autograd.Torch.CompiledScalar.forward (α := α) (Γ := [σ]) c args
-  let gAll : Gondlin.TList α [σ] :=
+  let gAll : Gondolin.TList α [σ] :=
     _root_.Runtime.Autograd.Torch.CompiledScalar.backward (α := α) (Γ := [σ]) c args
   pure (value, tlist.unpack1 gAll)
 
 /-- `valueAndGrad`, but convert the 0-dim value tensor to a scalar `α`. -/
-def valueAndGradScalar {σ : Spec.Shape} (f : Gondlin.Autodiff.Function1.Fn σ Spec.Shape.scalar)
+def valueAndGradScalar {σ : Spec.Shape} (f : Gondolin.Autodiff.Function1.Fn σ Spec.Shape.scalar)
     {α : Type} [Semantics.Scalar α] [DecidableEq Spec.Shape]
     (x : Spec.Tensor α σ) :
     IO (α × Spec.Tensor α σ) := do

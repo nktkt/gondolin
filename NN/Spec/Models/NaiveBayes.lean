@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -19,7 +19,7 @@ Probabilities are computed in log space (via `MathFunctions.log`) to avoid under
 
 PyTorch note:
 PyTorch does not provide a Naive Bayes classifier in `torch.nn`; the closest ecosystem analogue is
-scikit-learn’s `MultinomialNB`. Gondlin keeps this file mainly as a readable reference and a
+scikit-learn’s `MultinomialNB`. Gondolin keeps this file mainly as a readable reference and a
 quick baseline for demos/tests.
 
 ## What "training" means here

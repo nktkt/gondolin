@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 
 End-to-end PPO example: train an actor-critic on a Lean-native GridWorld environment.
 -/
@@ -19,9 +19,9 @@ public import NN.Proofs.RL.Envs.GridWorld
 /-!
 # PPO on Lean-native GridWorld (Executable Demo + Formal Model)
 
-This example complements `gondlin ppo_cartpole`:
+This example complements `gondolin ppo_cartpole`:
 
-- `gondlin ppo_cartpole` uses an external Python Gymnasium environment and checks every step
+- `gondolin ppo_cartpole` uses an external Python Gymnasium environment and checks every step
   against a Lean-side trust-boundary contract (`Runtime.RL.Boundary.Contract`).
 - This example uses a **Lean-native** GridWorld and still runs the same PPO update in Lean.
 
@@ -51,9 +51,9 @@ environment or an external sampler.
 Run (from the repo root):
 
 ```bash
-lake exe gondlin ppo_gridworld
-lake build -R -K cuda=true && lake exe gondlin ppo_gridworld --cuda
-lake exe gondlin ppo_gridworld --updates 200
+lake exe gondolin ppo_gridworld
+lake build -R -K cuda=true && lake exe gondolin ppo_gridworld --cuda
+lake exe gondolin ppo_gridworld --updates 200
 ```
 
 Artifacts:
@@ -68,7 +68,7 @@ Artifacts:
 
 - Because the environment dynamics are Lean code, you can reason about its properties directly
   (e.g. determinism, Markov property w.r.t. the explicit state, bounded rewards).
-- The PPO/GAE update is implemented as Lean definitions and a Gondlin autograd program, so it is
+- The PPO/GAE update is implemented as Lean definitions and a Gondolin autograd program, so it is
   a natural target for formal proofs about the update equation.
 - As in most practical PPO code, convergence and optimality are not guaranteed by this example; it is
   tuned for inspectability and type safety, not leaderboard performance.
@@ -93,7 +93,7 @@ open NN.API
 namespace NN.Examples.Models.RL.PPOGridWorld
 
 /-- Name of this executable target (used in CLI error messages and banners). -/
-def exeName : String := "gondlin ppo_gridworld"
+def exeName : String := "gondolin ppo_gridworld"
 
 /-!
 ## Configuration
@@ -328,7 +328,7 @@ Evaluation helpers live in `NN.API.rl.eval` (runtime module `NN.Runtime.RL.Eval`
 ## Main Training Loop
 -/
 
-/-- Entry point for `lake exe gondlin ppo_gridworld`.
+/-- Entry point for `lake exe gondolin ppo_gridworld`.
 
 This executable:
 - runs PPO updates against a Lean-native GridWorld environment,
@@ -336,7 +336,7 @@ This executable:
 - writes widget-friendly JSON artifacts (training curve, greedy policy snapshot, greedy path snapshot).
 -/
 def main (args : List String) : IO UInt32 := do
-  Gondlin.Module.run exeName args
+  Gondolin.Module.run exeName args
     (.float (fun opts rest => do
       let (logPath?, rest) ← Common.orThrow exeName <| CLI.takePathFlagOnce rest "log"
       let (policyPath?, rest) ← Common.orThrow exeName <| CLI.takePathFlagOnce rest "policy"
@@ -388,12 +388,12 @@ def main (args : List String) : IO UInt32 := do
       let criticC ← nn.compileOut criticObs
 
       let modDef :=
-        API.Gondlin.RL.Autograd.ppoActorCriticScalarModuleDef (stateShape := sStateBatch)
+        API.Gondolin.RL.Autograd.ppoActorCriticScalarModuleDef (stateShape := sStateBatch)
           (batch := horizon) (nActions := nActions) actorRollout criticRollout
-      let m ← Gondlin.Module.instantiateWithOptions (α := Float) modDef id opts
+      let m ← Gondolin.Module.instantiateWithOptions (α := Float) modDef id opts
 
-      let opt := Gondlin.Optim.adam (α := Float) lr 0.9 0.999 1e-8
-      let optH ← Gondlin.Optim.handle (α := Float) m opt
+      let opt := Gondolin.Optim.adam (α := Float) lr 0.9 0.999 1e-8
+      let optH ← Gondolin.Optim.handle (α := Float) m opt
 
       let mut rngSeed : Nat := opts.seed
       let mut rngCounter : Nat := 0
@@ -409,7 +409,7 @@ def main (args : List String) : IO UInt32 := do
             env contract (resetOnDone := false)
 
       -- Evaluate + snapshot the untrained policy.
-      let psAll0 ← Gondlin.Module.params (α := Float) m
+      let psAll0 ← Gondolin.Module.params (α := Float) m
       let (psActor0, _psCritic0) :=
         rl.ppo.splitActorCriticParams actorRollout criticRollout psAll0
       let psActorObs0 : Runtime.Autograd.Torch.TList Float (nn.paramShapes actorObs) := by
@@ -437,7 +437,7 @@ def main (args : List String) : IO UInt32 := do
           (p.1.val, p.2.val))
 
       for update in [0:updates] do
-        let psAll ← Gondlin.Module.params (α := Float) m
+        let psAll ← Gondolin.Module.params (α := Float) m
         let (psActor, psCritic) :=
           rl.ppo.splitActorCriticParams actorRollout criticRollout psAll
         let psActorObs : Runtime.Autograd.Torch.TList Float (nn.paramShapes actorObs) := by
@@ -463,7 +463,7 @@ def main (args : List String) : IO UInt32 := do
           optH.step sample
 
         if update % evalEvery == 0 then
-          let psAll' ← Gondlin.Module.params (α := Float) m
+          let psAll' ← Gondolin.Module.params (α := Float) m
           let (psActor', _psCritic') :=
             rl.ppo.splitActorCriticParams actorRollout criticRollout psAll'
           let psActorObs' : Runtime.Autograd.Torch.TList Float (nn.paramShapes actorObs) := by
@@ -480,7 +480,7 @@ def main (args : List String) : IO UInt32 := do
           rngSeed := rand.nextSeed rngSeed update
 
       -- Snapshot the final greedy policy and a single episode path.
-      let psAllF ← Gondlin.Module.params (α := Float) m
+      let psAllF ← Gondolin.Module.params (α := Float) m
       let (psActorF, _psCriticF) :=
         rl.ppo.splitActorCriticParams actorRollout criticRollout psAllF
       let psActorObsF : Runtime.Autograd.Torch.TList Float (nn.paramShapes actorObs) := by
@@ -502,7 +502,7 @@ def main (args : List String) : IO UInt32 := do
 
       let trainLog : rl.train.TrainLog :=
         curve.toTrainLog
-          (title := s!"PPO GridWorld {width}x{height} (Gondlin)")
+          (title := s!"PPO GridWorld {width}x{height} (Gondolin)")
           (seriesName := "avg_return")
           (color := "#4e79a7")
           (notes := #[

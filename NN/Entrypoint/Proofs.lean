@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -52,7 +52,7 @@ public import NN.Proofs.Verification
 /-!
 # Proof entrypoint
 
-Umbrella import for Gondlin's core proof infrastructure.
+Umbrella import for Gondolin's core proof infrastructure.
 
 This is the set of proof modules that `NN.Library` considers part of the supported
 library surface area (as opposed to tests, examples, or executable workflows).

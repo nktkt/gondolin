@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -14,7 +14,7 @@ import Mathlib.Tactic.Attr.Register
 /-!
 # Floating-Point Error Bounds
 
-We collect small, compositional error bounds for Gondlin’s Flocq-style rounding model.
+We collect small, compositional error bounds for Gondolin’s Flocq-style rounding model.
 
 The lowest-level rounding interface lives in `NN/Floats/NeuralFloat/Rounding.lean`: once you have a rounding
 mode `rnd : ℝ → ℤ` that satisfies the usual “round-to-nearest” property, you get the familiar
@@ -40,9 +40,9 @@ belong in specialized files with explicit hypotheses.
 @[expose] public section
 
 
-namespace Gondlin.Floats.ErrorBounds
+namespace Gondolin.Floats.ErrorBounds
 
-open Gondlin.Floats
+open Gondolin.Floats
 
 variable {β : NeuralRadix} {fexp : ℤ → ℤ} [NeuralValidExp fexp]
 
@@ -209,4 +209,4 @@ theorem mixed_precision_accumulation_benefit
         exact this
     _ = 2 * (n * NeuralPrecision.machineEpsilon input_prec) := by ring
 
-end Gondlin.Floats.ErrorBounds
+end Gondolin.Floats.ErrorBounds

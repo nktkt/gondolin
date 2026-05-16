@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -10,9 +10,9 @@ public import NN.Floats.FP32.Core
 import Mathlib.Algebra.Order.Algebra
 
 /-!
-# Notation for Gondlin's FP32 model
+# Notation for Gondolin's FP32 model
 
-Gondlin uses a proof-oriented float32 model (`FP32`) defined by:
+Gondolin uses a proof-oriented float32 model (`FP32`) defined by:
 - a radix (`β = 2`),
 - the canonical IEEE-754 binary32 exponent function (`fexp32`), and
 - round-to-nearest, ties-to-even (`rnd32`).
@@ -22,13 +22,13 @@ This file provides small, ergonomic aliases for the corresponding real-level ope
 - `round₃₂ x` (or ASCII `round32 x`): round `x : ℝ` to the binary32 grid.
 - `ulp₃₂ x` and `eps₃₂ x`: the ULP scale (and half-ULP) associated with `x`.
 
-We keep these under `Gondlin.Floats` so they are available where float semantics are in focus,
+We keep these under `Gondolin.Floats` so they are available where float semantics are in focus,
 without polluting unrelated namespaces.
 -/
 
 @[expose] public section
 
-namespace Gondlin.Floats
+namespace Gondolin.Floats
 
 noncomputable section
 
@@ -44,7 +44,7 @@ noncomputable abbrev round32 (x : ℝ) : ℝ :=
 /--
 One ULP at `x` for the canonical binary32 exponent configuration.
 
-The optional `phase` parameter matches Gondlin's mixed-precision hook:
+The optional `phase` parameter matches Gondolin's mixed-precision hook:
 `TrainingPhase.requires_high_precision` tightens the bound by one extra bit.
 -/
 noncomputable abbrev ulp32 (x : ℝ) (phase : TrainingPhase := TrainingPhase.forward) : ℝ :=
@@ -85,4 +85,4 @@ We keep the simp lemmas one-way (unicode → ASCII) to avoid accidental simp loo
 
 end
 
-end Gondlin.Floats
+end Gondolin.Floats

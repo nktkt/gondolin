@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -61,7 +61,7 @@ The caller provides:
 - `predictValue` for the current critic (returns a scalar `α`).
 
 This keeps the PPO runtime API small while still supporting the “compiled model + parameters”
-calling convention used throughout Gondlin.
+calling convention used throughout Gondolin.
 -/
 def collectRolloutSessionWith {obsShape : Shape} {nActions horizon : Nat} {Sess : Type}
     [Fact (0 < horizon)] [Fact (0 < nActions)]

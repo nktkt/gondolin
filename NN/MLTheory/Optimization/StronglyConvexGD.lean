@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -19,7 +19,7 @@ import Mathlib.Tactic.Ring
 This file contains reusable gradient-descent convergence theorems.
 
 The main theorems are stated for an operator `g : E → E` on a real inner product space. This is the
-right abstraction boundary for Gondlin:
+right abstraction boundary for Gondolin:
 
 If `g` is
 
@@ -132,7 +132,7 @@ gradient descent on the one-dimensional quadratic objective
 
 `L(x) = 1/2 * (x - target)^2`,
 
-whose gradient is `x - target`. This is the simplest executable bridge from Gondlin's optimizer
+whose gradient is `x - target`. This is the simplest executable bridge from Gondolin's optimizer
 equations to familiar convergence facts; the Hilbert-space operator theorem above is the reusable
 version for tensor/vector models.
 -/

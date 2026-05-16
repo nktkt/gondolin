@@ -1,14 +1,14 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
 
 public import NN.Runtime.RL.Core
 public import NN.Spec.Layers.Activation
-public import NN.Runtime.Autograd.Gondlin.Random
+public import NN.Runtime.Autograd.Gondolin.Random
 
 /-!
 # Policy-Gradient Objectives
@@ -223,9 +223,9 @@ Implementation note: this uses the standard cumulative-sum / inverse-CDF sampler
 def sampleCategorical {nActions : Nat} [Fact (0 < nActions)]
     (seed counter : Nat) (probs : Tensor α (.dim nActions .scalar)) :
     Nat × Fin nActions :=
-  let key := _root_.Runtime.Autograd.Gondlin.Random.keyOf seed counter
+  let key := _root_.Runtime.Autograd.Gondolin.Random.keyOf seed counter
   let u : α :=
-    Tensor.toScalar (_root_.Runtime.Autograd.Gondlin.Random.uniform (α := α) key (s := Shape.scalar))
+    Tensor.toScalar (_root_.Runtime.Autograd.Gondolin.Random.uniform (α := α) key (s := Shape.scalar))
   let default : Fin nActions :=
     ⟨nActions - 1, Nat.pred_lt (Nat.ne_of_gt (Fact.out : 0 < nActions))⟩
   Id.run do

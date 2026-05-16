@@ -1,9 +1,9 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 
-End-to-end PPO example: train an actor-critic on Atari Pong (ALE) using Gondlin.
+End-to-end PPO example: train an actor-critic on Atari Pong (ALE) using Gondolin.
 -/
 
 module
@@ -23,10 +23,10 @@ Why "RAM" observations?
   transport if you want millions of steps/hour. RAM observations (`obs_type="ram"`, shape `128`)
   keep the bridge lightweight and make this run viable as a native Lean executable.
 
-The key Gondlin interface remains the same:
+The key Gondolin interface remains the same:
 
 - **Algorithm math** (GAE, PPO clipped objective) is Lean definitions.
-- **Autograd program** (PPO loss) is a Gondlin backend-generic program (CPU or CUDA).
+- **Autograd program** (PPO loss) is a Gondolin backend-generic program (CPU or CUDA).
 - **Trust boundary** is explicit: every externally sampled transition is checked by
   `Runtime.RL.Boundary.Contract` before it can influence training.
 
@@ -51,8 +51,8 @@ Run (from the repo root):
 
 ```bash
 python3 -m pip install --user gymnasium>=1.0 ale-py
-lake exe gondlin ppo_pong_ram
-lake build -R -K cuda=true && lake exe gondlin ppo_pong_ram --cuda
+lake exe gondolin ppo_pong_ram
+lake build -R -K cuda=true && lake exe gondolin ppo_pong_ram --cuda
 ```
 
 Artifacts:
@@ -79,7 +79,7 @@ open NN.API
 namespace NN.Examples.Models.RL.PPOPongRam
 
 /-- Name of this executable target (used in CLI error messages and banners). -/
-def exeName : String := "gondlin ppo_pong_ram"
+def exeName : String := "gondolin ppo_pong_ram"
 
 /-!
 ## Configuration
@@ -148,7 +148,7 @@ def sValue1 : Shape := Shape.scalar.appendDim 1
 ## Model (Actor + Critic)
 
 We use MLPs over RAM. For pixel observations you would typically use a CNN (see
-`NN.GraphSpec.Models.Gondlin.Cnn`) and wrap the environment with Atari preprocessing.
+`NN.GraphSpec.Models.Gondolin.Cnn`) and wrap the environment with Atari preprocessing.
 -/
 
 def modelCfg : nn.models.PPOActorCriticConfig :=
@@ -186,7 +186,7 @@ def contract : rl.boundary.Contract obsShape nActions :=
 -/
 
 def main (args : List String) : IO UInt32 := do
-  Gondlin.Module.run exeName args
+  Gondolin.Module.run exeName args
     (.float (fun opts rest => do
       let (logPath?, rest) ← Common.orThrow exeName <| CLI.takePathFlagOnce rest "log"
       let (updates?, rest) ← Common.orThrow exeName <| CLI.takeNatFlagOnce rest "updates"
@@ -235,13 +235,13 @@ def main (args : List String) : IO UInt32 := do
 
         IO.eprintln "  initializing module + optimizer..."
         let modDef :=
-          API.Gondlin.RL.Autograd.ppoActorCriticScalarModuleDef (stateShape := sStateBatch)
+          API.Gondolin.RL.Autograd.ppoActorCriticScalarModuleDef (stateShape := sStateBatch)
             (batch := horizon) (nActions := nActions) actorRollout criticRollout
-        let m ← Gondlin.Module.instantiateWithOptions (α := Float) modDef id opts
+        let m ← Gondolin.Module.instantiateWithOptions (α := Float) modDef id opts
         IO.eprintln "  module ready"
 
-        let opt := Gondlin.Optim.adam (α := Float) lr 0.9 0.999 1e-8
-        let optH ← Gondlin.Optim.handle (α := Float) m opt
+        let opt := Gondolin.Optim.adam (α := Float) lr 0.9 0.999 1e-8
+        let optH ← Gondolin.Optim.handle (α := Float) m opt
         IO.eprintln "  optimizer ready"
 
         let mut rngSeed : Nat := opts.seed
@@ -257,7 +257,7 @@ def main (args : List String) : IO UInt32 := do
         -- Evaluate once before training (step=0).
         do
           IO.eprintln "  evaluating initial policy..."
-          let psAll0 ← Gondlin.Module.params (α := Float) m
+          let psAll0 ← Gondolin.Module.params (α := Float) m
           let (psActor0, _psCritic0) :=
             rl.ppo.splitActorCriticParams actorRollout criticRollout psAll0
           let psActorObs0 : Runtime.Autograd.Torch.TList Float (nn.paramShapes actorObs) := by
@@ -272,7 +272,7 @@ def main (args : List String) : IO UInt32 := do
           IO.eprintln s!"  eval(step=0) avg_return={avg0}"
 
         for update in [0:updates] do
-          let psAll ← Gondlin.Module.params (α := Float) m
+          let psAll ← Gondolin.Module.params (α := Float) m
           let (psActor, psCritic) :=
             rl.ppo.splitActorCriticParams actorRollout criticRollout psAll
           let psActorObs : Runtime.Autograd.Torch.TList Float (nn.paramShapes actorObs) := by
@@ -301,7 +301,7 @@ def main (args : List String) : IO UInt32 := do
             optH.step sample
 
           if update % evalEvery == 0 then
-            let psAll' ← Gondlin.Module.params (α := Float) m
+            let psAll' ← Gondolin.Module.params (α := Float) m
             let (psActor', _psCritic') :=
               rl.ppo.splitActorCriticParams actorRollout criticRollout psAll'
             let psActorObs' : Runtime.Autograd.Torch.TList Float (nn.paramShapes actorObs) := by
@@ -319,7 +319,7 @@ def main (args : List String) : IO UInt32 := do
 
         let trainLog : rl.train.TrainLog :=
           curve.toTrainLog
-            (title := s!"PPO {envId} (RAM, Gondlin)")
+            (title := s!"PPO {envId} (RAM, Gondolin)")
             (seriesName := "avg_return")
             (color := "#f28e2b")
             (notes := #[

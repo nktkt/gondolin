@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -41,7 +41,7 @@ verifiers:
 - `alpha-beta-CROWN` builds on `auto_LiRPA` and adds branch-and-bound and split constraints for
   complete verification workflows.
 
-In Gondlin, we aim to keep the trusted core small: theorems are stated against the Lean semantics,
+In Gondolin, we aim to keep the trusted core small: theorems are stated against the Lean semantics,
 and any external solver can be treated as an untrusted certificate producer.
 
 ## Status note

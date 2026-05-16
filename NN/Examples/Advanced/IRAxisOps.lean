@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -15,7 +15,7 @@ public import NN.Runtime.Autograd.Compiled.IRExec
 
 IR axis-ops smoke tutorial.
 
-This file is a small “regression guard” for three ops where Gondlin’s IR uses an explicit `axis`:
+This file is a small “regression guard” for three ops where Gondolin’s IR uses an explicit `axis`:
 
 - `softmax axis` (PyTorch: `torch.softmax(x, dim=axis)`)
 - `concat axis` (PyTorch: `torch.cat(xs, dim=axis)`)
@@ -35,7 +35,7 @@ Why this tutorial exists:
 
 Run:
 
-`lake exe gondlin ir_axis_ops --dtype float --backend eager`
+`lake exe gondolin ir_axis_ops --dtype float --backend eager`
 -/
 
 @[expose] public section
@@ -184,7 +184,7 @@ def runOnce
 
 def main (args : List String) : IO Unit := do
   let args := API.CLI.dropDashDash args
-  _root_.NN.API.Gondlin.Module.withRuntime args (fun {α} _ _ _ _ cast _opts rest => do
+  _root_.NN.API.Gondolin.Module.withRuntime args (fun {α} _ _ _ _ cast _opts rest => do
     API.Common.orThrow "ir_axis_ops" <| API.CLI.requireNoArgs rest
     runOnce (α := α) cast)
 

@@ -1,6 +1,6 @@
 # Floats (`NN/Floats`)
 
-This directory contains Gondlin's floating point backends and the theory that connects them.
+This directory contains Gondolin's floating point backends and the theory that connects them.
 
 - `FP32/`: a proof oriented, finite float32 model based on rounding over `ℝ`.
 - `NeuralFloat/`: generic rounding over `ℝ` (`NeuralRadix`, `NF`, rounding, ULPs, and error bounds).
@@ -15,7 +15,7 @@ Executable examples that exercise this infrastructure live under `NN/Examples/`.
 
 ## The Three Float32 Views
 
-Gondlin uses three complementary notions of float32. They have different
+Gondolin uses three complementary notions of float32. They have different
 strengths, and the bridge files let us move between them without blurring the
 trust boundary.
 

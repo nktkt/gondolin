@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -20,7 +20,7 @@ This file packages those specs into a small, uniform *module* interface:
 
 which is just a `forward` function plus lightweight metadata (`kind`, `export_func`)
 used by tooling (export/extraction) and by the runtime/IR pipeline described in
-the Gondlin paper (`arXiv:2602.22631`).
+the Gondolin paper (`arXiv:2602.22631`).
 
 We keep that metadata separate from the semantics: changing `kind`/`toPyTorch` should never change
 what `forward` means.

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -38,7 +38,7 @@ these lemmas talk only about the low-level Nat operations, not about floats.
 @[expose] public section
 
 
-namespace Gondlin.Floats.IEEE754
+namespace Gondolin.Floats.IEEE754
 
 namespace IEEE32Exec
 
@@ -185,4 +185,4 @@ lemma shiftRight_le_roundShiftRightEven_le_shiftRightCeilPow2 (n shift : Nat) :
 
 end IEEE32Exec
 
-end Gondlin.Floats.IEEE754
+end Gondolin.Floats.IEEE754

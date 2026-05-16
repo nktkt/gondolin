@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -35,7 +35,7 @@ public import NN.Floats.NeuralFloat.ErrorBounds
 /-!
 # `NN.MLTheory.API`
 
-This is the recommended entrypoint for Gondlin's formal “ML theory” layer.
+This is the recommended entrypoint for Gondolin's formal “ML theory” layer.
 
 It collects the core specifications, executable checkers, and theorems into a single import. The
 subdirectories still contain focused implementation modules, but users should not need separate
@@ -44,7 +44,7 @@ top-level umbrellas such as `NN.MLTheory.Optimization` or `NN.MLTheory.SelfSuper
 ## Optimization theory
 
 The optimization layer has three levels:
-- executable optimizer equations over Gondlin `Spec.Tensor`s;
+- executable optimizer equations over Gondolin `Spec.Tensor`s;
 - exact `ℝ` convergence theorems for gradient-descent-style operators;
 - a calculus bridge from strong convexity to strong monotonicity of `∇f`.
 

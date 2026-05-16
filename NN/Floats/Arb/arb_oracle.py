@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Arb (ball arithmetic) oracle for Gondlin.
+Arb (ball arithmetic) oracle for Gondolin.
 
 This script is called from Lean via `IO.Process.output` (see `NN/Floats/Arb/Oracle.lean`).
 

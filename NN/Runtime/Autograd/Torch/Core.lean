@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -61,7 +61,7 @@ Execution backend for the Torch-style front-end.
 
 - `.eager`: build and execute a runtime tape directly (imperative, PyTorch-like).
 - `.compiled`: record typed IR and run a compiled tape (proof-friendly path, see
-  `Torch.LinkedSession` / `Gondlin.Session`).
+  `Torch.LinkedSession` / `Gondolin.Session`).
 
 This is intentionally not a CUDA Graph selector. CUDA is controlled by `Options.device` on the
 eager backend; CUDA Graph capture/replay will require a distinct persistent-buffer backend.
@@ -98,7 +98,7 @@ structure Options where
   /--
   Global deterministic seed for demo-style randomness.
 
-  Gondlin keeps the semantic core pure and seed-threaded (JAX-style), so this is best understood
+  Gondolin keeps the semantic core pure and seed-threaded (JAX-style), so this is best understood
   as a *convenient default seed knob* that user code can thread into:
   - model initialization (per-layer init keys),
   - dataset shuffles / sampling,
@@ -133,7 +133,7 @@ structure Options where
   /--
   Strict CUDA mode (eager backend only).
 
-  Note: in CUDA eager mode Gondlin does not fall back to CPU per-op; missing CUDA ops always
+  Note: in CUDA eager mode Gondolin does not fall back to CPU per-op; missing CUDA ops always
   throw. This flag is retained for API compatibility.
   -/
   strictCuda : Bool := false
@@ -155,7 +155,7 @@ end Options
 /--
 Opaque handle to a tensor value in the current session/tape.
 
-This is the Gondlin analogue of a PyTorch `Tensor` object whose "identity" is a node/leaf id in
+This is the Gondolin analogue of a PyTorch `Tensor` object whose "identity" is a node/leaf id in
   the
 autograd tape. The phantom shape index `s` makes shape mismatches explicit at compile time.
 -/
@@ -290,7 +290,7 @@ The eager backend for the backend-generic `Ops` interface needs a small tape-bac
 thread an `IO.Ref` to the runtime tape.
 
 This is intentionally kept under `Torch.Internal.*`; the public session-style API is
-`Runtime.Autograd.Gondlin.Session`.
+`Runtime.Autograd.Gondolin.Session`.
 -/
 
 namespace Internal
@@ -338,7 +338,7 @@ instance (priority := 1000) : TensorConv Float where
 /--
 Generic CPU-preserving fallback for scalar types without a CUDA wire-format bridge.
 
-Many Gondlin sessions are scalar-polymorphic on CPU, while the eager CUDA tape stores float32
+Many Gondolin sessions are scalar-polymorphic on CPU, while the eager CUDA tape stores float32
 buffers. The fallback keeps CPU execution available for proof-oriented scalar backends and fails
 loudly if a CUDA-only conversion is actually requested. Add a higher-priority `TensorConv α`
 instance for scalar types that have a deliberate float32 wire representation.
@@ -651,7 +651,7 @@ def randUniform {α : Type} [Context α] [CudaBridge.TensorConv α]
   if Options.device s.opts == .cuda then
     let t0 ← s.cudaTape.get
     let counter := t0.size
-    let key := Runtime.Autograd.Gondlin.Random.keyOf seed counter
+    let key := Runtime.Autograd.Gondolin.Random.keyOf seed counter
     let n32 := UInt32.ofNat (Shape.size sh)
     let buf := Runtime.Autograd.Cuda.Buffer.randUniform n32 key
     let any : Runtime.Autograd.Cuda.AnyBuffer := { s := sh, buf := buf }
@@ -662,8 +662,8 @@ def randUniform {α : Type} [Context α] [CudaBridge.TensorConv α]
   else
     let t0 ← s.tape.get
     let counter := t0.size
-    let key := Runtime.Autograd.Gondlin.Random.keyOf seed counter
-    let v : Tensor α sh := Runtime.Autograd.Gondlin.Random.uniform (α := α) key (s := sh)
+    let key := Runtime.Autograd.Gondolin.Random.keyOf seed counter
+    let v : Tensor α sh := Runtime.Autograd.Gondolin.Random.uniform (α := α) key (s := sh)
     const (α := α) s (sh := sh) v (name := name)
 
 /-- Deterministic `{0,1}` mask generator (seeded) with a scalar keep-probability input. -/
@@ -678,7 +678,7 @@ def bernoulliMask {α : Type} [Context α] [CudaBridge.TensorConv α]
   if Options.device s.opts == .cuda then
     let t0 ← s.cudaTape.get
     let counter := t0.size
-    let key := Runtime.Autograd.Gondlin.Random.keyOf seed counter
+    let key := Runtime.Autograd.Gondolin.Random.keyOf seed counter
     let n32 := UInt32.ofNat (Shape.size sh)
     let keepF ← CudaBridge.TensorConv.toFloat (α := α) keepProbVal
     let buf := Runtime.Autograd.Cuda.Buffer.bernoulliMask n32 keepF key
@@ -690,8 +690,8 @@ def bernoulliMask {α : Type} [Context α] [CudaBridge.TensorConv α]
   else
     let t0 ← s.tape.get
     let counter := t0.size
-    let key := Runtime.Autograd.Gondlin.Random.keyOf seed counter
-    let v : Tensor α sh := Runtime.Autograd.Gondlin.Random.mask (α := α) key keepProbVal (s := sh)
+    let key := Runtime.Autograd.Gondolin.Random.keyOf seed counter
+    let v : Tensor α sh := Runtime.Autograd.Gondolin.Random.mask (α := α) key keepProbVal (s := sh)
     const (α := α) s (sh := sh) v (name := name)
 
 /--
@@ -870,7 +870,7 @@ Dispatch an eager op with optional CUDA support.
 
 When `Options.device = .cuda`, any op whose CUDA implementation returns `none` will throw.
 
-Gondlin's CUDA eager mode is intentionally "no per-op CPU fallback": either the op is
+Gondolin's CUDA eager mode is intentionally "no per-op CPU fallback": either the op is
 supported by CUDA, or it errors immediately.
 -/
 def dispatchCudaOpt {α β : Type} (s : EagerSession α) (opName : String)
@@ -2057,9 +2057,9 @@ def maxPool2d {α : Type} (s : EagerSession α) [Context α] [DecidableEq Shape]
       Runtime.Autograd.Cuda.Tape.unary (t := t0) "max_pool2d" x.id
         (.dim inC (.dim inH (.dim inW .scalar))) outSh
         (forward := fun xBuf =>
-          Runtime.Autograd.Cuda.gondlinMaxPool2dFwdCuda xBuf inCU32 inHU32 inWU32 kHU32 kWU32 strideU32 paddingU32)
+          Runtime.Autograd.Cuda.gondolinMaxPool2dFwdCuda xBuf inCU32 inHU32 inWU32 kHU32 kWU32 strideU32 paddingU32)
         (backward := fun xBuf dLdy =>
-          Runtime.Autograd.Cuda.gondlinMaxPool2dBwdCuda xBuf dLdy inCU32 inHU32 inWU32 kHU32 kWU32 strideU32 paddingU32)
+          Runtime.Autograd.Cuda.gondolinMaxPool2dBwdCuda xBuf dLdy inCU32 inHU32 inWU32 kHU32 kWU32 strideU32 paddingU32)
     s.cudaTape.set t1
     pure (some { id := id })
   dispatchCudaOpt (α := α) s "max_pool2d" cpu cuda
@@ -2094,9 +2094,9 @@ def maxPool2dPad {α : Type} (s : EagerSession α) [Context α] [DecidableEq Sha
       Runtime.Autograd.Cuda.Tape.unary (t := t0) "max_pool2d_pad" x.id
         (.dim inC (.dim inH (.dim inW .scalar))) outSh
         (forward := fun xBuf =>
-          Runtime.Autograd.Cuda.gondlinMaxPool2dFwdCuda xBuf inCU32 inHU32 inWU32 kHU32 kWU32 strideU32 paddingU32)
+          Runtime.Autograd.Cuda.gondolinMaxPool2dFwdCuda xBuf inCU32 inHU32 inWU32 kHU32 kWU32 strideU32 paddingU32)
         (backward := fun xBuf dLdy =>
-          Runtime.Autograd.Cuda.gondlinMaxPool2dBwdCuda xBuf dLdy inCU32 inHU32 inWU32 kHU32 kWU32 strideU32 paddingU32)
+          Runtime.Autograd.Cuda.gondolinMaxPool2dBwdCuda xBuf dLdy inCU32 inHU32 inWU32 kHU32 kWU32 strideU32 paddingU32)
     s.cudaTape.set t1
     pure (some { id := id })
   dispatchCudaOpt (α := α) s "max_pool2d_pad" cpu cuda
@@ -2328,7 +2328,7 @@ abbrev CudaAdamState := Std.HashMap Nat CudaAdamParamState
 /--
 Apply an Adam update to all parameters recorded via `use`, using CUDA device gradients.
 
-This is the CUDA analogue of the generic `Gondlin.Optim.adam` path.  It keeps Adam moments as
+This is the CUDA analogue of the generic `Gondolin.Optim.adam` path.  It keeps Adam moments as
 device buffers and keeps updated parameters in each `Param`'s CUDA mirror, so the next CUDA forward
 can reuse them without a host upload. Host tensors are synchronized later by explicit readback.
 -/
@@ -2490,7 +2490,7 @@ end Internal
 
 /-!
 Imperative sessions live in:
-- `Runtime.Autograd.Gondlin.Session` (unified eager/compiled, recommended),
+- `Runtime.Autograd.Gondolin.Session` (unified eager/compiled, recommended),
 - `Runtime.Autograd.Torch.Internal.SessionIR` (proof-linked imperative session, internal).
 
 `torch.compile`-style wrapper (cached static graph).
@@ -3003,7 +3003,7 @@ class Ops (m : Type → Type) (α : Type) [Context α] [DecidableEq Shape] where
       (.dim ((inW - 1) * stride - 2 * padding + kW) .scalar))))
 
   /-
-  Seeded RNG primitives (first-class in Gondlin graphs).
+  Seeded RNG primitives (first-class in Gondolin graphs).
 
   These are deterministic functions of:
   - the provided `seed` (user-controlled), and
@@ -3304,7 +3304,7 @@ Stable `log_softmax(x)` along the last axis.
 
 This is a backend primitive with the standard max-shifted formulation
 `x - max(x) - log(sum(exp(x - max(x))))`, matching PyTorch's numerical intent.  The optional
-`ε` parameter is kept for source compatibility with existing Gondlin callers and is intentionally
+`ε` parameter is kept for source compatibility with existing Gondolin callers and is intentionally
 ignored; callers that need an epsilon-smoothed logarithm should use `safeLog` explicitly.
 -/
 def logSoftmax {s : Shape} (x : Ref (m := m) (α := α) s) (ε : α := Numbers.epsilon) :

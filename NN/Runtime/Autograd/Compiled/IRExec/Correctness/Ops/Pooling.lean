@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -13,7 +13,7 @@ public import NN.Runtime.Autograd.Compiled.IRExec.Correctness.Common
 
 Pooling correctness lemmas for the IR → compiled runtime bridge.
 
-Gondlin models pooling on rank-3 image tensors `C × H × W` (and batched variants upstream in the
+Gondolin models pooling on rank-3 image tensors `C × H × W` (and batched variants upstream in the
 runtime), matching the usual PyTorch max-pooling convention:
 `torch.nn.functional.max_pool2d` / `torch.nn.MaxPool2d`.
 

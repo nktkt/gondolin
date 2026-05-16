@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -15,7 +15,7 @@ public import NN.Spec.RL.FiniteStochasticMDP
 /-!
 # Finite Stochastic MDP Proofs
 
-This module proves the key discounted Bellman facts for Gondlin's finite stochastic MDP layer:
+This module proves the key discounted Bellman facts for Gondolin's finite stochastic MDP layer:
 
 - monotonicity of Bellman expectation and Bellman optimality,
 - Bellman expectation is a contraction in the sup metric,

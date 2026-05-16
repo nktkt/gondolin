@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -12,7 +12,7 @@ public import NN.Spec.Core.TensorReductionShape
 # BugZoo: KV-cache contracts
 
 LLM inference-engine bug reports include cache-shift bugs, RoPE/position mismatches, shape mistakes, and
-resource/configuration errors. Gondlin does not verify a full serving engine, paged
+resource/configuration errors. Gondolin does not verify a full serving engine, paged
 attention allocator, or multi-GPU scheduler. The useful first step is still precise: represent the
 cache update as a typed tensor operation and prove the append invariant we rely on.
 

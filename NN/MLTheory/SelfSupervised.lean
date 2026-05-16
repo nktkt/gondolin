@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -15,7 +15,7 @@ public import NN.MLTheory.SelfSupervised.VICReg
 /-!
 # Self-supervised learning theory
 
-This is the umbrella import for Gondlin's finite self-supervised objective semantics.
+This is the umbrella import for Gondolin's finite self-supervised objective semantics.
 
 The chapter contains:
 - masking primitives for patch/token objectives;

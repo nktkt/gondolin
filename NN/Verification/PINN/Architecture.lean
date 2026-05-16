@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -11,7 +11,7 @@ public import NN.MLTheory.CROWN.Graph
 /-!
 # Sequential PINN Architecture
 
-Sequential fully-connected PINN architecture helpers for Gondlin verification.
+Sequential fully-connected PINN architecture helpers for Gondolin verification.
 
 This module covers the PINN architecture class used by the verification pipeline:
 fully-connected feed-forward networks with one shared hidden activation between linear layers.
@@ -82,7 +82,7 @@ def activationOpKind : HiddenActivation → OpKind
 /--
 Internal: worker for `buildGraph`.
 
-Implementation note: Gondlin enables the `backward.privateInPublic` check, so exported
+Implementation note: Gondolin enables the `backward.privateInPublic` check, so exported
 definitions should not depend on `private` helpers.
 -/
 def buildNodesAux

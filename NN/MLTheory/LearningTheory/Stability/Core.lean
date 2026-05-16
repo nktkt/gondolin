@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -38,7 +38,7 @@ We represent a dataset of size `n` as a **length-`n` spec tensor**
 
   `Dataset n Z := Spec.Tensor Z (.dim n .scalar)`.
 
-  This integrates the learning-theory layer with Gondlin’s core, shape-indexed tensor datatype
+  This integrates the learning-theory layer with Gondolin’s core, shape-indexed tensor datatype
   (`NN.Spec.Core.Tensor.Core`) and keeps the “dataset has exactly `n` elements” invariant enforced
   by the type.
 - Even though the underlying tensor representation is functional (`Fin n → ...`), we treat datasets
@@ -89,7 +89,7 @@ A dataset of size `n` with examples in `Z`.
 
 We model datasets as **vector tensors** `Spec.Tensor Z (.dim n .scalar)`.
 
-This matches the rest of Gondlin’s codebase, where “a length-`n` vector” is represented as a
+This matches the rest of Gondolin’s codebase, where “a length-`n` vector” is represented as a
 shape-indexed tensor.
 -/
 abbrev Dataset (n : Nat) (Z : Type) : Type :=
@@ -315,7 +315,7 @@ def uniformStabilityRange {n : Nat} [DecidableEq (Fin n)]
 /--
 Boundedness side condition for uniform-stability suprema.
 
-The standard literature often assumes bounded losses up front. Gondlin keeps this as an explicit
+The standard literature often assumes bounded losses up front. Gondolin keeps this as an explicit
 predicate so downstream theorems can either prove it from a bounded-loss hypothesis or carry it as a
 transparent assumption.
 -/

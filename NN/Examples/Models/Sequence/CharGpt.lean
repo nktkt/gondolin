@@ -1,14 +1,14 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
 
 public import NN
 public import NN.API.Models.Gpt2
-public import NN.Runtime.Autograd.Gondlin.NN
+public import NN.Runtime.Autograd.Gondolin.NN
 public import NN.API.Runtime
 
 /-!
@@ -22,7 +22,7 @@ by Andrej Karpathy's minGPT/nanoGPT teaching material:
 - train a small causal Transformer to predict the next character,
 - sample text continuations from a prompt.
 
-It uses Gondlin's one-hot token interface (`batch × seqLen × vocab`) so the whole demo stays in
+It uses Gondolin's one-hot token interface (`batch × seqLen × vocab`) so the whole demo stays in
 the same typed tensor world as the rest of the codebase.
 
 Implementation note: training draws a fresh deterministic random window each step (minGPT-style
@@ -30,8 +30,8 @@ Implementation note: training draws a fresh deterministic random window each ste
 how many windows are precomputed.
 
 ```bash
-lake build -R -K cuda=true gondlin:exe
-lake exe gondlin chargpt --cuda --tiny-shakespeare --steps 500 \
+lake build -R -K cuda=true gondolin:exe
+lake exe gondolin chargpt --cuda --tiny-shakespeare --steps 500 \
   --prompt \"First Citizen:\" --generate 200
 ```
 -/
@@ -43,7 +43,7 @@ open NN.API
 
 namespace NN.Examples.Models.Sequence.CharGpt
 
-def exeName : String := "gondlin chargpt"
+def exeName : String := "gondolin chargpt"
 
 def tinyShakespearePath : System.FilePath :=
   "data/real/text/tiny_shakespeare.txt"
@@ -174,7 +174,7 @@ partial def generateSampledFromIds
     (batch seqLen vocab : Nat)
     (opts : Runtime.Autograd.Torch.Options)
     (model : nn.Sequential (shape![batch, seqLen, vocab]) (shape![batch, seqLen, vocab]))
-    (params : Gondlin.ParamList Float (nn.paramShapes model))
+    (params : Gondolin.ParamList Float (nn.paramShapes model))
     (promptIds : List Nat)
     (steps : Nat) (temperature : Float) (topK seed repeatWindow : Nat)
     (repeatPenalty : Float) (allowId : Nat → Bool := fun _ => true)
@@ -237,7 +237,7 @@ partial def generateSampledFromIds
 
 def main (args : List String) : IO UInt32 := do
   if args.contains "--cuda" || CLI.hasFlagValue args "log" then
-    Gondlin.Module.run exeName args
+    Gondolin.Module.run exeName args
       (.float (fun opts rest => do
         let (corpus, rest) ← takeInputText rest
         let (train, rest) ← Common.orThrow exeName <| parseTrainOptions opts rest
@@ -287,28 +287,28 @@ def main (args : List String) : IO UInt32 := do
 
         nn.withModel mkModel fun model => do
           let modDef := nn.crossEntropyOneHotScalarModuleDef model (reduction := .mean)
-          let m ← Gondlin.Module.instantiateWithOptions (α := Float) modDef id opts
+          let m ← Gondolin.Module.instantiateWithOptions (α := Float) modDef id opts
           match train.loadParams? with
           | none => pure ()
           | some path =>
-              Gondlin.ParamIO.loadModuleParamsBits (paramShapes := nn.paramShapes model) (inputShapes := [σ, τ])
+              Gondolin.ParamIO.loadModuleParamsBits (paramShapes := nn.paramShapes model) (inputShapes := [σ, τ])
                 m path
-          let loss0 ← Gondlin.Module.forward (α := Float) m firstSample
+          let loss0 ← Gondolin.Module.forward (α := Float) m firstSample
           let L0 := Tensor.toScalar loss0
 
           if train.steps != 0 then
-            let opt := Gondlin.Optim.adam (α := Float)
+            let opt := Gondolin.Optim.adam (α := Float)
               (paramShapes := nn.paramShapes model)
               (lr := train.lr)
               (beta1 := 0.9)
               (beta2 := 0.999)
               (epsilon := 1e-8)
-            let optH ← Gondlin.Optim.handle (α := Float) m opt
+            let optH ← Gondolin.Optim.handle (α := Float) m opt
             for step in [0:train.steps] do
               let sample := mkBatchSample step
               optH.step sample
 
-          let loss1 ← Gondlin.Module.forward (α := Float) m firstSample
+          let loss1 ← Gondolin.Module.forward (α := Float) m firstSample
           let L1 := Tensor.toScalar loss1
 
           let promptIds := tok.encode train.prompt
@@ -333,7 +333,7 @@ def main (args : List String) : IO UInt32 := do
           match train.saveParams? with
           | none => pure ()
           | some path =>
-              Gondlin.ParamIO.saveModuleParamsBits (paramShapes := nn.paramShapes model) (inputShapes := [σ, τ])
+              Gondolin.ParamIO.saveModuleParamsBits (paramShapes := nn.paramShapes model) (inputShapes := [σ, τ])
                 m path
               IO.println s!"  wrote params: {path}"
       ))
@@ -341,7 +341,7 @@ def main (args : List String) : IO UInt32 := do
           s!"{exeName}: char-level GPT training (device={if opts.useGpu then "cuda" else "cpu"})")
         printOk := true }
   else
-    Gondlin.Module.run exeName args
+    Gondolin.Module.run exeName args
       (.float (fun _ _ => do
         throw <| IO.userError s!"{exeName}: use --cuda (CPU char-gpt is extremely slow in eager mode)"
       ))

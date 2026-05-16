@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -15,7 +15,7 @@ public import NN.MLTheory.Proofs.ReLU.Bridge.ReLUMlpBridge
 
 This entrypoint collects the ReLU-specific proof layer. It includes:
 
-- exact algebraic bridges between Gondlin's two-layer MLP spec and affine/ReLU expressions;
+- exact algebraic bridges between Gondolin's two-layer MLP spec and affine/ReLU expressions;
 - multiplication approximation on boxes by ReLU networks; and
 - compact-set approximation by coordinate-polynomial density plus ReLU realizations.
 

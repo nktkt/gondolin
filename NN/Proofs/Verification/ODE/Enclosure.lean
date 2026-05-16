@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -298,7 +298,7 @@ Local unclamping theorem.
 Once the local enclosure proves `uL(t) ≤ u(t) ≤ uU(t)`, the clamp is definitionally equal to `u(t)`.
 So a solution of the clamped ODE is not merely enclosed; it also solves the original ODE on the
 same interval. This is the exact real-analysis contract that interval/PINN certificate producers
-must establish before Gondlin can claim a verified ODE solve.
+must establish before Gondolin can claim a verified ODE solve.
 -/
 theorem localSolutionEnclosed_fromClampedDynamics
     {T : ℝ} (hT : 0 ≤ T) {f : ℝ → ℝ → ℝ}

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -14,7 +14,7 @@ public import NN.Spec.RL.Environment
 /-!
 # Finite Discounted MDPs
 
-This module gives Gondlin a small, proof-friendly finite-state discounted MDP layer.
+This module gives Gondolin a small, proof-friendly finite-state discounted MDP layer.
 
 Design choices:
 

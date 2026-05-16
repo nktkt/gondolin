@@ -1,30 +1,30 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
 
 public import NN
 public import NN.Runtime.PyTorch.Export.IRPyTorch
-public import NN.Verification.Gondlin.Compile
+public import NN.Verification.Gondolin.Compile
 
 /-!
-# Gondlin IR to PyTorch
+# Gondolin IR to PyTorch
 
-Tutorial: Gondlin → IR (`NN.IR.Graph`) → emitted PyTorch code.
+Tutorial: Gondolin → IR (`NN.IR.Graph`) → emitted PyTorch code.
 
 Run:
-  `lake exe gondlin torch_ir_pytorch --arch linear > exported_model.py`
-  `lake exe gondlin torch_ir_pytorch --arch mlp > exported_model.py`
-  `lake exe gondlin torch_ir_pytorch --arch sum > exported_model.py`
-  `lake exe gondlin torch_ir_pytorch --arch autoencoder > exported_model.py`
-  `lake exe gondlin torch_ir_pytorch --arch cnn > exported_model.py`
-  `lake exe gondlin torch_ir_pytorch --arch conv-mlp > exported_model.py`
-  `lake exe gondlin torch_ir_pytorch --arch mha > exported_model.py`
-  `lake exe gondlin torch_ir_pytorch --arch mha-mask > exported_model.py`
-  `lake exe gondlin torch_ir_pytorch --arch transformer > exported_model.py`
+  `lake exe gondolin torch_ir_pytorch --arch linear > exported_model.py`
+  `lake exe gondolin torch_ir_pytorch --arch mlp > exported_model.py`
+  `lake exe gondolin torch_ir_pytorch --arch sum > exported_model.py`
+  `lake exe gondolin torch_ir_pytorch --arch autoencoder > exported_model.py`
+  `lake exe gondolin torch_ir_pytorch --arch cnn > exported_model.py`
+  `lake exe gondolin torch_ir_pytorch --arch conv-mlp > exported_model.py`
+  `lake exe gondolin torch_ir_pytorch --arch mha > exported_model.py`
+  `lake exe gondolin torch_ir_pytorch --arch mha-mask > exported_model.py`
+  `lake exe gondolin torch_ir_pytorch --arch transformer > exported_model.py`
 Then:
   `python3 exported_model.py`
 -/
@@ -109,19 +109,19 @@ def archTransformer :
 
 def usage : String :=
   String.intercalate "\n"
-    [ "Gondlin → IR → PyTorch exporter"
+    [ "Gondolin → IR → PyTorch exporter"
     , ""
     , "Usage:"
-    , "  lake exe gondlin torch_ir_pytorch --arch linear > exported_model.py"
-    , "  lake exe gondlin torch_ir_pytorch --arch mlp > exported_model.py"
-    , "  lake exe gondlin torch_ir_pytorch --arch mlp --seed 123 > exported_model.py"
-    , "  lake exe gondlin torch_ir_pytorch --arch sum > exported_model.py"
-    , "  lake exe gondlin torch_ir_pytorch --arch autoencoder > exported_model.py"
-    , "  lake exe gondlin torch_ir_pytorch --arch cnn > exported_model.py"
-    , "  lake exe gondlin torch_ir_pytorch --arch conv-mlp > exported_model.py"
-    , "  lake exe gondlin torch_ir_pytorch --arch mha > exported_model.py"
-    , "  lake exe gondlin torch_ir_pytorch --arch mha-mask > exported_model.py"
-    , "  lake exe gondlin torch_ir_pytorch --arch transformer > exported_model.py"
+    , "  lake exe gondolin torch_ir_pytorch --arch linear > exported_model.py"
+    , "  lake exe gondolin torch_ir_pytorch --arch mlp > exported_model.py"
+    , "  lake exe gondolin torch_ir_pytorch --arch mlp --seed 123 > exported_model.py"
+    , "  lake exe gondolin torch_ir_pytorch --arch sum > exported_model.py"
+    , "  lake exe gondolin torch_ir_pytorch --arch autoencoder > exported_model.py"
+    , "  lake exe gondolin torch_ir_pytorch --arch cnn > exported_model.py"
+    , "  lake exe gondolin torch_ir_pytorch --arch conv-mlp > exported_model.py"
+    , "  lake exe gondolin torch_ir_pytorch --arch mha > exported_model.py"
+    , "  lake exe gondolin torch_ir_pytorch --arch mha-mask > exported_model.py"
+    , "  lake exe gondolin torch_ir_pytorch --arch transformer > exported_model.py"
     , ""
     , "Then: python3 exported_model.py"
     ]
@@ -130,11 +130,11 @@ def usage : String :=
 
 def emitSeq {σ τ : Spec.Shape} (className : String) (model : nn.Sequential σ τ) : IO Unit := do
   let ps := nn.paramShapes model
-  let prog : Gondlin.Program Float (ps ++ [σ]) τ :=
+  let prog : Gondolin.Program Float (ps ++ [σ]) τ :=
     nn.program (model := model) (α := Float)
   let params := nn.initParams (m := model)
   let compiled ←
-    match NN.Verification.Gondlin.compileForward1
+    match NN.Verification.Gondolin.compileForward1
         (α := Float) (paramShapes := ps) (inShape := σ) (outShape := τ)
         (model := prog) (params := params) with
     | .error e => throw <| IO.userError e
@@ -161,23 +161,23 @@ def main (args : List String) : IO Unit := do
     Common.orThrow "TorchIRPyTorch" <| CLI.requireNoArgs rest
     let arch := arch?.getD "mlp"
     if arch == "linear" then
-      emitSeq (className := "GondlinLinear") (nn.build seed archLinear)
+      emitSeq (className := "GondolinLinear") (nn.build seed archLinear)
     else if arch == "mlp" then
-      emitSeq (className := "GondlinMLP") (nn.build seed archMLP)
+      emitSeq (className := "GondolinMLP") (nn.build seed archMLP)
     else if arch == "sum" then
-      emitSeq (className := "GondlinSumReduce") (nn.build seed archSumReduce)
+      emitSeq (className := "GondolinSumReduce") (nn.build seed archSumReduce)
     else if arch == "autoencoder" then
-      emitSeq (className := "GondlinAutoencoder") (nn.build seed archAutoencoder)
+      emitSeq (className := "GondolinAutoencoder") (nn.build seed archAutoencoder)
     else if arch == "cnn" then
-      emitSeq (className := "GondlinCNN") (nn.build seed archCNN)
+      emitSeq (className := "GondolinCNN") (nn.build seed archCNN)
     else if arch == "conv-mlp" then
-      emitSeq (className := "GondlinConvMLP") (nn.build seed archConvMLP)
+      emitSeq (className := "GondolinConvMLP") (nn.build seed archConvMLP)
     else if arch == "mha" then
-      emitSeq (className := "GondlinMHA") (nn.build seed archMHA)
+      emitSeq (className := "GondolinMHA") (nn.build seed archMHA)
     else if arch == "mha-mask" then
-      emitSeq (className := "GondlinMHAMasked") (nn.build seed archMHAMasked)
+      emitSeq (className := "GondolinMHAMasked") (nn.build seed archMHAMasked)
     else if arch == "transformer" then
-      emitSeq (className := "GondlinTransformerBlock") (nn.build seed archTransformer)
+      emitSeq (className := "GondolinTransformerBlock") (nn.build seed archTransformer)
     else
       throw <| IO.userError
         (s!"unknown --arch {arch} (supported: linear | mlp | sum | autoencoder | " ++

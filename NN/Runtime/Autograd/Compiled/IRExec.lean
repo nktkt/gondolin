@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -432,21 +432,21 @@ def buildFrom
       | .randUniform seed =>
           match n.parents with
           | [] =>
-              let key := Runtime.Autograd.Gondlin.Random.keyOf seed i
-              let t : Tensor α τ := Runtime.Autograd.Gondlin.Random.uniform (α := α) key (s := τ)
+              let key := Runtime.Autograd.Gondolin.Random.keyOf seed i
+              let t : Tensor α τ := Runtime.Autograd.Gondolin.Random.uniform (α := α) key (s := τ)
               pure <| mkFwdNode (α := α) (Γ := [inShape] ++ ss) (τ := τ) (fun _ctx => t)
           | _ => throw s!"IRExec: node {i}: rand_uniform expects 0 parents ({n.summary})"
       | .bernoulliMask seed =>
           match n.parents with
           | [pId] =>
               let ip ← parentIdx pId Shape.scalar
-              let key := Runtime.Autograd.Gondlin.Random.keyOf seed i
+              let key := Runtime.Autograd.Gondolin.Random.keyOf seed i
               let forward := fun ctx : TList α ([inShape] ++ ss) =>
                 let kpT := getIdx (α := α) (xs := ctx) ip
                 let kp : α :=
                   match kpT with
                   | Tensor.scalar v => v
-                Runtime.Autograd.Gondlin.Random.mask (α := α) key kp (s := τ)
+                Runtime.Autograd.Gondolin.Random.mask (α := α) key kp (s := τ)
               pure <| mkFwdNode (α := α) (Γ := [inShape] ++ ss) (τ := τ) forward
           | _ => throw s!"IRExec: node {i}: bernoulli_mask expects 1 parent ({n.summary})"
       | .add =>

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -568,7 +568,7 @@ theorem buildFrom_denoteAllFrom_cos
 /--
 Semantic-preservation lemma for `.softmax axis` lowering.
 
-Implementation note: Gondlin's compiled softmax operator supports the last axis.
+Implementation note: Gondolin's compiled softmax operator supports the last axis.
 This is reflected by an explicit guard in `buildFrom`:
 `axis + 1 = Shape.rank outShape` (equivalently, `axis = rank-1`).
 -/

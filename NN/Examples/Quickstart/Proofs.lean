@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -9,9 +9,9 @@ module
 public import NN
 
 /-!
-# Quickstart: Proving Small Gondlin Facts
+# Quickstart: Proving Small Gondolin Facts
 
-Gondlin examples are not only executable scripts. Many guarantees are ordinary Lean theorems:
+Gondolin examples are not only executable scripts. Many guarantees are ordinary Lean theorems:
 shape round-trips, typed tensor construction, activation identities, and later full verification
 statements.
 
@@ -45,7 +45,7 @@ def twoVector : Spec.Tensor Float (shape![2]) :=
   tensor! [1.0, 2.0]
 
 /--
-Runtime dimension lists can still be related back to static Gondlin shapes.
+Runtime dimension lists can still be related back to static Gondolin shapes.
 
 This is the small theorem behind many JSON/CLI/data-loader paths: parse dimensions dynamically,
 then recover the precise `Shape` used by the typed tensor API.

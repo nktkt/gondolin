@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -26,7 +26,7 @@ one mathematical spine:
 - an `n`-dimensional Stone-Weierstrass bridge through coordinate polynomials.
 
 The point is not only that a ReLU MLP exists. We also record how the exact real-valued construction
-connects to Gondlin's spec-level MLP and to executable binary32 arithmetic.
+connects to Gondolin's spec-level MLP and to executable binary32 arithmetic.
 
 References:
 - Cybenko, "Approximation by superpositions of a sigmoidal function", 1989.

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -12,7 +12,7 @@ public import NN.Runtime.Training.Log
 /-!
 # RL CLI Helpers (API)
 
-Gondlin's runnable RL examples (`NN/Examples/Models/RL/*`) intentionally share one CLI shape:
+Gondolin's runnable RL examples (`NN/Examples/Models/RL/*`) intentionally share one CLI shape:
 
 - `--updates <n>`: how many update iterations to run,
 - `--eval-every <n>`: evaluate every `n` updates,

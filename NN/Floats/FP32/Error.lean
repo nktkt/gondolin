@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -16,7 +16,7 @@ Proofs about numerical code should not have to expand the definition of “float
 time they use `+` or `exp`. This file provides reusable rewrite theorems for FP32
 rounding-error reasoning.
 
-We collect those lemmas for Gondlin’s `FP32` model:
+We collect those lemmas for Gondolin’s `FP32` model:
 
 - each primitive op is interpreted as “compute in `ℝ`, then round to the binary32 grid”, and
 - the rounding step has a standard **half-ULP** absolute error bound.
@@ -50,10 +50,10 @@ bounds typically combine these with:
 
 This module works with a proof-friendly float32 semantics ("real operation + one rounding step").
 Relating this abstraction to specific hardware/libm behavior is a separate, target-specific trust
-boundary handled elsewhere in Gondlin.
+boundary handled elsewhere in Gondolin.
 -/
 
-namespace Gondlin.Floats
+namespace Gondolin.Floats
 namespace FP32
 
 
@@ -233,4 +233,4 @@ theorem abs_abs_error (a : FP32) :
     (round_abs_error (x := |a.val|))
 
 end FP32
-end Gondlin.Floats
+end Gondolin.Floats

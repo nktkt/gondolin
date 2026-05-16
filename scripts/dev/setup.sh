@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Developer setup for the Gondlin Lean 4 project.
+# Developer setup for the Gondolin Lean 4 project.
 #
 # Companion to .devcontainer/post-create.sh for developers who are NOT using
 # the devcontainer (e.g. a native macOS or Linux checkout). Idempotent: safe
@@ -43,7 +43,7 @@ log "Repository root: $SCRIPT_DIR"
 # ---------------------------------------------------------------------------
 if [[ ! -f lean-toolchain ]]; then
   err "lean-toolchain file not found at $SCRIPT_DIR/lean-toolchain"
-  err "This script must be run inside a Gondlin checkout."
+  err "This script must be run inside a Gondolin checkout."
   exit 2
 fi
 
@@ -131,12 +131,12 @@ fi
 cat <<'BANNER'
 
 ------------------------------------------------------------
- Gondlin developer setup complete.
+ Gondolin developer setup complete.
 
  Suggested next steps:
 
    lake build NN.Library
-   lake exe gondlin --help
+   lake exe gondolin --help
    lake exe verify -- list
 
  Tip: elan was sourced only inside this script. To use Lean

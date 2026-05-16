@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -45,9 +45,9 @@ References / background (for the rounding model itself, not this AST wrapper):
 @[expose] public section
 
 
-namespace Gondlin.Floats.IEEE754
+namespace Gondolin.Floats.IEEE754
 
-open Gondlin.Floats
+open Gondolin.Floats
 
 namespace IEEE32Exec
 
@@ -56,7 +56,7 @@ noncomputable section
 /-!
 ## A small scalar expression language
 
-`Expr` is a small, scalar-only AST. Gondlin's main IRs live elsewhere; this wrapper exists to
+`Expr` is a small, scalar-only AST. Gondolin's main IRs live elsewhere; this wrapper exists to
 state expression-level refinement theorems for straight-line float32 computations.
 -/
 
@@ -297,4 +297,4 @@ end
 
 end IEEE32Exec
 
-end Gondlin.Floats.IEEE754
+end Gondolin.Floats.IEEE754

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -48,7 +48,7 @@ over a list of tools.
 /--
 A single entry in the unified verification CLI.
 
-Each `Tool` corresponds to one command name (e.g. `gondlin-ibp`) and a handler
+Each `Tool` corresponds to one command name (e.g. `gondolin-ibp`) and a handler
 `run : List String → IO Unit`.
 
 Design notes:
@@ -152,31 +152,31 @@ def otherTools : List Tool :=
       description := "logit-margin certificate check (bounds ⇒ certified label)"
       defaultArg := some "NN/Examples/Verification/Robustness/digits_linear_margin_cert.json"
       run := fun args => NN.Examples.Verification.Robustness.VerifyMarginCert.run args }
-  , { name := "gondlin-robustness"
-      description := "Gondlin → IR margin certification workflow"
+  , { name := "gondolin-robustness"
+      description := "Gondolin → IR margin certification workflow"
       includeInAll := false
       run := fun args =>
-        NN.Examples.Verification.Robustness.GondlinRobustness.main args }
-  , { name := "gondlin-ibp"
-      description := "Gondlin → IR → IBP workflow (MLP)"
+        NN.Examples.Verification.Robustness.GondolinRobustness.main args }
+  , { name := "gondolin-ibp"
+      description := "Gondolin → IR → IBP workflow (MLP)"
       includeInAll := false
       run := fun args =>
-        NN.Examples.Verification.Gondlin.GondlinIBP.main args }
-  , { name := "gondlin-transformer-ibp"
-      description := "Gondlin → IR → IBP workflow (attention/encoder; optional --with-crown)"
+        NN.Examples.Verification.Gondolin.GondolinIBP.main args }
+  , { name := "gondolin-transformer-ibp"
+      description := "Gondolin → IR → IBP workflow (attention/encoder; optional --with-crown)"
       includeInAll := false
       run := fun args =>
-        NN.Examples.Verification.Gondlin.GondlinTransformerIBP.main args }
-  , { name := "gondlin-crown-ops"
-      description := "Gondlin → IR → IBP+CROWN workflow (softmax/mse_loss ops)"
+        NN.Examples.Verification.Gondolin.GondolinTransformerIBP.main args }
+  , { name := "gondolin-crown-ops"
+      description := "Gondolin → IR → IBP+CROWN workflow (softmax/mse_loss ops)"
       includeInAll := false
       run := fun args =>
-        NN.Examples.Verification.Gondlin.GondlinCrownOps.main args }
-  , { name := "gondlin-mlp-workflow"
-      description := "Gondlin MLP: train with compiled backend, then run IBP+CROWN"
+        NN.Examples.Verification.Gondolin.GondolinCrownOps.main args }
+  , { name := "gondolin-mlp-workflow"
+      description := "Gondolin MLP: train with compiled backend, then run IBP+CROWN"
       includeInAll := false
       run := fun args =>
-        NN.Examples.Verification.Gondlin.GondlinMlpWorkflow.main args }
+        NN.Examples.Verification.Gondolin.GondolinMlpWorkflow.main args }
   , { name := "pinn-dataset-check"
       description := "PINN dataset pointwise interval containment check"
       defaultArg := some "NN/Examples/Verification/PINN/sample_dataset_1d.json"

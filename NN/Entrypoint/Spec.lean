@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -20,7 +20,7 @@ public import NN.Entrypoint.Tensor
 /-!
 # Spec entrypoint
 
-This is the one-stop import for Gondlin’s *spec* layer: shapes, tensors, layers, modules, and
+This is the one-stop import for Gondolin’s *spec* layer: shapes, tensors, layers, modules, and
 model constructors.
 
 If you're writing specs or proofs, this is usually the right place to start. If you're trying to

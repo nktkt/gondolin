@@ -1,6 +1,6 @@
 # `NN.Tensor`
 
-This folder is the user facing tensor API for Gondlin. It provides small constructors and helpers
+This folder is the user facing tensor API for Gondolin. It provides small constructors and helpers
 for examples, tests, and small models while keeping Lean's shape and dtype checks.
 
 For public use, prefer the curated library import or the tensor entrypoint:

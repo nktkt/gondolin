@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -11,9 +11,9 @@ public import NN.Runtime.Optim.Optimizers
 /-!
 # Runtime Optimizer Equations
 
-Small executable theorems about Gondlin's optimizer equations.
+Small executable theorems about Gondolin's optimizer equations.
 
-These are intentionally modest. They prove properties of the update rules that Gondlin actually
+These are intentionally modest. They prove properties of the update rules that Gondolin actually
 executes, rather than broad convergence claims that would require assumptions about convexity,
 smoothness, stochastic gradients, and floating-point error. Larger optimization theory can build on
 these equations.
@@ -93,7 +93,7 @@ theorem update_weight_decay_zero_params_eq_adam_real {s : Shape}
              m := state.m, v := state.v, t := state.t } : Adam.State ℝ s)
           params grads).2 := by
   -- `Context` gives operators; to simplify the decoupled decay term we use `ℝ`'s algebraic laws
-  -- together with structural recursion on Gondlin spec tensors.
+  -- together with structural recursion on Gondolin spec tensors.
   --
   -- Helper lemmas: scaling by `0` yields the all-zero tensor, and subtracting that yields identity.
   have scaleSpec_zero : ∀ {s : Shape} (t : Tensor ℝ s), scaleSpec t (0 : ℝ) = fill 0 s := by

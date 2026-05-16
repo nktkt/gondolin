@@ -1,13 +1,13 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
 
 public import NN.Runtime.RL.Core
-public import NN.Runtime.Autograd.Gondlin.Metrics
+public import NN.Runtime.Autograd.Gondolin.Metrics
 public import NN.Spec.Layers.Activation
 
 /-!
@@ -70,7 +70,7 @@ def PreferenceState.init {nActions : Nat} : PreferenceState α nActions :=
 
 /-- Greedy action under the current estimates, if the action space is nonempty. -/
 def greedyAction? {nActions : Nat} (state : ValueState α nActions) : Option (Fin nActions) :=
-  Runtime.Autograd.Gondlin.Metrics.argmax? (α := α) (n := nActions) state.values
+  Runtime.Autograd.Gondolin.Metrics.argmax? (α := α) (n := nActions) state.values
 
 /-- Epsilon-greedy action selection with explicit exploration draw and fallback action.
 
@@ -121,7 +121,7 @@ def ucb1Scores {nActions : Nat} (state : ValueState α nActions) (exploration : 
 /-- Best action under UCB1 scores, if the action space is nonempty. -/
 def ucb1Action? {nActions : Nat} (state : ValueState α nActions) (exploration : α := Numbers.two) :
     Option (Fin nActions) :=
-  Runtime.Autograd.Gondlin.Metrics.argmax? (α := α) (n := nActions)
+  Runtime.Autograd.Gondolin.Metrics.argmax? (α := α) (n := nActions)
     (ucb1Scores (α := α) state exploration)
 
 /-- Softmax policy used by the gradient-bandit algorithm. -/

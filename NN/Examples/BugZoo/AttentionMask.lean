@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -14,7 +14,7 @@ public import Mathlib.Analysis.SpecialFunctions.Log.ERealExp
 
 Attention code has its own failure modes: mask polarity, head reshaping, Q/K/V layout, and KV-cache
 mismatches are easy to get wrong and hard to notice from accuracy tests alone. This file focuses on the
-mask part, because Gondlin already has a precise theorem stack for it.
+mask part, because Gondolin already has a precise theorem stack for it.
 
 Here is the bug-shaped PyTorch pattern we want to rule out:
 
@@ -35,7 +35,7 @@ assert weights[i, j] == 0.0 for all j > i
 
 Lean's ordinary `ℝ` does not contain a literal `-∞`, but mathlib does provide extended reals
 `EReal`, where `⊥` is negative infinity and `EReal.exp ⊥ = 0`. We record that exact `-∞` fact
-first. Gondlin's ordinary tensor softmax then uses the computationally convenient equivalent:
+first. Gondolin's ordinary tensor softmax then uses the computationally convenient equivalent:
 blocked logits get zero numerator before normalization. Both views lead to the exact theorem below.
 
 References:
@@ -95,7 +95,7 @@ theorem exactCausalMaskedScore_future_eq_bot
 /--
 Therefore, the strict-future numerator is exactly zero.
 
-This is why Gondlin's attention spec writes this zero numerator directly.
+This is why Gondolin's attention spec writes this zero numerator directly.
 -/
 theorem exactCausalMaskedScore_future_exp_zero
     {n : Nat}
@@ -108,7 +108,7 @@ theorem exactCausalMaskedScore_future_exp_zero
 True-`-∞` causal attention gets the exact zero-weight theorem.
 
 This is the statement we want for formal output-causality arguments: every strict-future key has
-zero attention mass for the current query row. In Gondlin this is represented by
+zero attention mass for the current query row. In Gondolin this is represented by
 `hardMaskedSoftmaxSpec`, not by a finite real sentinel treated as `-∞`.
 -/
 theorem trueInfinityMask_future_attention_weight_zero

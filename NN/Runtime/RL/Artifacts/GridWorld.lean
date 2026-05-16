@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -13,7 +13,7 @@ public import NN.Runtime.RL.Artifacts.GridWorld.Path
 /-!
 # GridWorld Run Artifacts (Umbrella)
 
-Stable import for small GridWorld JSON artifacts used by Gondlin RL workflows and widgets. The
+Stable import for small GridWorld JSON artifacts used by Gondolin RL workflows and widgets. The
 implementation is split into:
 
 - `Position`: shared `(row, col)` JSON helpers;

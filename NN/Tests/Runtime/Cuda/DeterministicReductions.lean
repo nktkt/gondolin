@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -15,7 +15,7 @@ public import Std
 /-!
 # CUDA Deterministic Reductions Mode
 
-These tests exercise Gondlin's opt-in "deterministic reductions" mode.
+These tests exercise Gondolin's opt-in "deterministic reductions" mode.
 
 Goal: when deterministic mode is enabled, kernels that would otherwise accumulate using `atomicAdd`
 must become bit-stable across runs (same input, same output, exact float equality).
@@ -92,8 +92,8 @@ def runAvgPool2dBwdTwice : IO Unit := do
   let outElems : UInt32 := UInt32.ofNat (inC.toNat * outH * outW)
 
   let gradOutput := Buffer.randUniform outElems 12345
-  let y1 := gondlinAvgPool2dBwdCuda gradOutput inC inH inW kH kW stride padding
-  let y2 := gondlinAvgPool2dBwdCuda gradOutput inC inH inW kH kW stride padding
+  let y1 := gondolinAvgPool2dBwdCuda gradOutput inC inH inW kH kW stride padding
+  let y2 := gondolinAvgPool2dBwdCuda gradOutput inC inH inW kH kW stride padding
 
   assertFloatArrayEq "avgpool2d_bwd deterministic run1 vs run2"
     (Buffer.toFloatArray y1) (Buffer.toFloatArray y2)

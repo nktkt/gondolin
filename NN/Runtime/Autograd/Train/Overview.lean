@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -10,12 +10,12 @@ module
 # `NN.Runtime.Autograd.Train`: Training Utilities Overview
 
 This directory contains lightweight, mostly-pure utilities for writing training loops on top of
-Gondlin's runtime autograd tape.
+Gondolin's runtime autograd tape.
 
 The goal is familiarity (a recognizable workflow) while keeping the code:
 - deterministic (pure shuffles; explicit seeds),
 - small (easy to audit),
-- and compatible with both eager and compiled backends (via the shared tape/`Gondlin.Session`).
+- and compatible with both eager and compiled backends (via the shared tape/`Gondolin.Session`).
 
 The modules here are narrow in scope: they provide the reusable training infrastructure, while
 architecture-specific math and constructors stay in `NN.GraphSpec.Models.*`, `NN.API.Models.*`, or

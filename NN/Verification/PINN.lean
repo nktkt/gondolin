@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -18,7 +18,7 @@ public import NN.Verification.PINN.ResidualAffine
 /-!
 # PINN Verification
 
-Reusable Gondlin support for physics-informed neural network verification.
+Reusable Gondolin support for physics-informed neural network verification.
 
 The files under this namespace are library code: graph construction, PDE expression parsing,
 residual-bound helpers, certificate checking, and dataset-backed interval containment checks.

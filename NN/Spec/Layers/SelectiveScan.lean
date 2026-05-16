@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -24,7 +24,7 @@ Affine maps compose associatively.  A recurrent scan can therefore be implemente
 left-to-right recurrence or by a parallel prefix scan over affine summaries.  The scalar definitions
 below are intentionally compact so that `NN/MLTheory/Proofs/StateSpace/Scan.lean` can prove the algebra
 without depending on a particular runtime backend.  The diagonal tensor definitions are the direct
-Gondlin spec analogue used by the model and CUDA contracts.
+Gondolin spec analogue used by the model and CUDA contracts.
 
 References:
 - Gu, Goel, Ré. "Efficiently Modeling Long Sequences with Structured State Spaces" (S4), ICLR 2022.

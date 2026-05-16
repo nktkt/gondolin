@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -141,7 +141,7 @@ theorem vectorMaeMask_visible_get_eq_input (batch dataDim period offset : Nat)
 Build a compact MAE training sample from a vector batch.
 
 The model sees the masked vector and reconstructs the original vector.  This is represented using
-Gondlin's existing supervised sample type because the "label" is derived from the input.
+Gondolin's existing supervised sample type because the "label" is derived from the input.
 -/
 def vectorMaeSample (batch dataDim period offset : Nat)
     (x : Spec.Tensor Float (NN.Tensor.Shape.Mat batch dataDim)) :

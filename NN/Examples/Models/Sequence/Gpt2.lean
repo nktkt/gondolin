@@ -1,24 +1,24 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 
 Device-agnostic example:
-  lake exe gondlin gpt2 --cpu
-  lake build -R -K cuda=true && lake exe gondlin gpt2 --cuda
-  lake exe gondlin gpt2 --cuda --tiny-shakespeare --prompt "First Citizen:" --steps 200 \
+  lake exe gondolin gpt2 --cpu
+  lake build -R -K cuda=true && lake exe gondolin gpt2 --cuda
+  lake exe gondolin gpt2 --cuda --tiny-shakespeare --prompt "First Citizen:" --steps 200 \
     --generate 80 --temperature 0.85 --top-k 12 --sample-seed 7
-  lake exe gondlin gpt2 --cuda --fast-kernels --tiny-shakespeare --steps 200 \
+  lake exe gondolin gpt2 --cuda --fast-kernels --tiny-shakespeare --steps 200 \
     --save-params data/model_zoo/gpt2_shakespeare.params.json
-  lake exe gondlin gpt2_saved --cuda --fast-kernels --params data/model_zoo/gpt2_shakespeare.params.json \
+  lake exe gondolin gpt2_saved --cuda --fast-kernels --params data/model_zoo/gpt2_shakespeare.params.json \
     --prompt "First Citizen:" --generate 160
 
 Dataset example:
   mkdir -p data/real/text
   curl -L https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt \
     -o data/real/text/tiny_shakespeare.txt
-  lake exe gondlin gpt2 --cuda --data-file data/real/text/tiny_shakespeare.txt --steps 100
-  lake exe gondlin gpt2 --cuda --fast-kernels --data-file data/real/text/tiny_shakespeare.txt \
+  lake exe gondolin gpt2 --cuda --data-file data/real/text/tiny_shakespeare.txt --steps 100
+  lake exe gondolin gpt2 --cuda --fast-kernels --data-file data/real/text/tiny_shakespeare.txt \
     --steps 100
 
 This is a small GPT2-style *causal* language-model walkthrough (byte-level tokens).
@@ -41,22 +41,22 @@ module
 
 public import NN
 public import NN.API.Models.Gpt2
-public import NN.Runtime.Autograd.Gondlin.NN
+public import NN.Runtime.Autograd.Gondolin.NN
 public import NN.API.Runtime
 
 /-!
 # GPT-2-Style Causal Language Model Example
 
-Runnable `gondlin gpt2` example. It builds a small GPT-2-style causal transformer over
+Runnable `gondolin gpt2` example. It builds a small GPT-2-style causal transformer over
 byte-level tokens, with optional real text input from tiny-shakespeare or `--data-file PATH`.
 
 If you are looking for the simplest "Karpathy-style single text file" path, start with
-`gondlin chargpt` (character-level tokenizer). This `gpt2` example is byte-level and is meant to
+`gondolin chargpt` (character-level tokenizer). This `gpt2` example is byte-level and is meant to
 show the Transformer block wiring and save/reload loop.
 
 ```bash
 python3 scripts/datasets/download_example_data.py --tiny-shakespeare
-lake build -R -K cuda=true && lake exe gondlin gpt2 --cuda --tiny-shakespeare --steps 100
+lake build -R -K cuda=true && lake exe gondolin gpt2 --cuda --tiny-shakespeare --steps 100
 ```
 -/
 
@@ -67,14 +67,14 @@ open NN.API
 
 namespace NN.Examples.Models.Sequence.Gpt2
 
-def exeName : String := "gondlin gpt2"
+def exeName : String := "gondolin gpt2"
 def defaultLogJson : System.FilePath := "data/model_zoo/gpt2_trainlog.json"
 
 /--
 Small batch size.
 
 The executable intentionally overfits a small real-text slice rather than presenting it as a full pretraining run: it shows the
-full Gondlin stack can run a causal Transformer, update parameters, and decode logits back to
+full Gondolin stack can run a causal Transformer, update parameters, and decode logits back to
 text.
 -/
 def batch : Nat := 2
@@ -358,7 +358,7 @@ mutual
 
 partial def generateSampledFromIds
     (opts : Runtime.Autograd.Torch.Options) (model : nn.Sequential σ τ)
-    (params : Gondlin.ParamList Float (nn.paramShapes model))
+    (params : Gondolin.ParamList Float (nn.paramShapes model))
     (promptIds : List Nat) (steps : Nat) (temperature : Float) (topK seed repeatWindow : Nat)
     (repeatPenalty : Float) (asciiOnly : Bool) : IO (List Nat) := do
   let rec loop (ids : List Nat) : Nat → IO (List Nat)
@@ -386,7 +386,7 @@ partial def generateSampledFromIds
 
 partial def generateSampled
     (opts : Runtime.Autograd.Torch.Options) (model : nn.Sequential σ τ)
-    (params : Gondlin.ParamList Float (nn.paramShapes model))
+    (params : Gondolin.ParamList Float (nn.paramShapes model))
     (prompt : String) (steps : Nat) (temperature : Float) (topK seed repeatWindow : Nat)
     (repeatPenalty : Float) (asciiOnly : Bool) : IO (List Nat) := do
   let init := text.Tokenizer.byte.encode prompt
@@ -413,7 +413,7 @@ def firstSample (samples : Array (API.sample.Supervised Float σ τ)) :
 
 def meanLossOnSamples
     (model : nn.Sequential σ τ)
-    (m : Gondlin.Module.ScalarModule Float (nn.paramShapes model) [σ, τ])
+    (m : Gondolin.Module.ScalarModule Float (nn.paramShapes model) [σ, τ])
     (samples : Array (API.sample.Supervised Float σ τ)) : IO Float := do
   -- Reporting loss over every training window is surprisingly expensive on eager CUDA because each
   -- scalar forward builds temporary tape state. A fixed probe subset keeps the metric stable enough
@@ -422,7 +422,7 @@ def meanLossOnSamples
   let mut total := 0.0
   for i in [0:evalCount] do
     let sample := samples.getD i (firstSample samples)
-    let loss ← Gondlin.Module.forward (α := Float) m sample
+    let loss ← Gondolin.Module.forward (α := Float) m sample
     total := total + Tensor.toScalar loss
   pure (total / Float.ofNat (Nat.max 1 evalCount))
 
@@ -434,7 +434,7 @@ window, and the model prints the per-position argmax prediction for that window.
 -/
 partial def interactiveLoopFloat
     (opts : Runtime.Autograd.Torch.Options) (model : nn.Sequential σ τ)
-    (m : Gondlin.Module.ScalarModule Float (Gondlin.NN.Seq.paramShapes model) [σ, τ])
+    (m : Gondolin.Module.ScalarModule Float (Gondolin.NN.Seq.paramShapes model) [σ, τ])
     (train : TrainOptions) :
     IO Unit := do
   IO.println s!"  interactive: enter text; :q exits, :clear resets, :show prints context (window={seqLen} bytes)"
@@ -468,25 +468,25 @@ def unitTrainSteps {α : Type} [Semantics.Scalar α] [DecidableEq Shape] [ToStri
   nn.withModel mkModel fun model => do
     let sample := mkSample (α := α) (input := input)
     let modDef := nn.crossEntropyOneHotScalarModuleDef model (reduction := .mean)
-    let m ← Gondlin.Module.instantiateWithOptions (α := α) modDef cast opts
-    let loss0 ← Gondlin.Module.forward (α := α) m sample
+    let m ← Gondolin.Module.instantiateWithOptions (α := α) modDef cast opts
+    let loss0 ← Gondolin.Module.forward (α := α) m sample
     let L0 := Tensor.toScalar loss0
 
     if steps = 0 then
       IO.println s!"  steps=0 loss0={L0}"
       pure (L0, L0)
     else
-      let opt := Gondlin.Optim.adam (α := α)
+      let opt := Gondolin.Optim.adam (α := α)
         (paramShapes := nn.paramShapes model)
         (lr := Runtime.ofFloat (α := α) 1e-4)
         (beta1 := Runtime.ofFloat (α := α) 0.9)
         (beta2 := Runtime.ofFloat (α := α) 0.999)
         (epsilon := Runtime.ofFloat (α := α) 1e-8)
-      let optH ← Gondlin.Optim.handle (α := α) m opt
+      let optH ← Gondolin.Optim.handle (α := α) m opt
       for _ in [0:steps] do
         optH.step sample
 
-      let loss1 ← Gondlin.Module.forward (α := α) m sample
+      let loss1 ← Gondolin.Module.forward (α := α) m sample
       let L1 := Tensor.toScalar loss1
       IO.println s!"  steps={steps} loss0={L0} loss1={L1}"
       pure (L0, L1)
@@ -504,11 +504,11 @@ def unitTrainStepsFloat (opts : Runtime.Autograd.Torch.Options) (input : String)
     let samples := samplesFromCorpus input train.prompt train.windows
     let probeSample := mkSample (α := Float) (input := train.prompt)
     let modDef := nn.crossEntropyOneHotScalarModuleDef model (reduction := .mean)
-    let m ← Gondlin.Module.instantiateWithOptions (α := Float) modDef id opts
+    let m ← Gondolin.Module.instantiateWithOptions (α := Float) modDef id opts
     match train.loadParams? with
     | none => pure ()
     | some path =>
-        Gondlin.ParamIO.loadModuleParamsBits (paramShapes := nn.paramShapes model) (inputShapes := [σ, τ])
+        Gondolin.ParamIO.loadModuleParamsBits (paramShapes := nn.paramShapes model) (inputShapes := [σ, τ])
           m path
     let logits0 ← nn.eval1 (α := Float) opts model
       m.trainer.params
@@ -534,18 +534,18 @@ def unitTrainStepsFloat (opts : Runtime.Autograd.Torch.Options) (input : String)
       match train.saveParams? with
       | none => pure ()
       | some path =>
-          Gondlin.ParamIO.saveModuleParamsBits (paramShapes := nn.paramShapes model) (inputShapes := [σ, τ])
+          Gondolin.ParamIO.saveModuleParamsBits (paramShapes := nn.paramShapes model) (inputShapes := [σ, τ])
             m path
           IO.println s!"  wrote params: {path}"
       pure (L0, L0, generated)
     else
-      let opt := Gondlin.Optim.adam (α := Float)
+      let opt := Gondolin.Optim.adam (α := Float)
         (paramShapes := nn.paramShapes model)
         (lr := train.lr)
         (beta1 := 0.9)
         (beta2 := 0.999)
         (epsilon := 1e-8)
-      let optH ← Gondlin.Optim.handle (α := Float) m opt
+      let optH ← Gondolin.Optim.handle (α := Float) m opt
       for step in [0:train.steps] do
         let sample := samples.getD (step % Nat.max 1 samples.size) (firstSample samples)
         optH.step sample
@@ -576,14 +576,14 @@ def unitTrainStepsFloat (opts : Runtime.Autograd.Torch.Options) (input : String)
       match train.saveParams? with
       | none => pure ()
       | some path =>
-          Gondlin.ParamIO.saveModuleParamsBits (paramShapes := nn.paramShapes model) (inputShapes := [σ, τ])
+          Gondolin.ParamIO.saveModuleParamsBits (paramShapes := nn.paramShapes model) (inputShapes := [σ, τ])
             m path
           IO.println s!"  wrote params: {path}"
       pure (L0, L1, generated)
 
 def main (args : List String) : IO UInt32 := do
   if args.contains "--cuda" || CLI.hasFlagValue args "log" then
-    Gondlin.Module.run exeName args
+    Gondolin.Module.run exeName args
       (.float (fun opts rest => do
         let (input, rest) ← takeInputText rest
         let (train, rest) ← Common.orThrow exeName <| parseTrainOptions opts rest
@@ -594,7 +594,7 @@ def main (args : List String) : IO UInt32 := do
           s!"{exeName}: causal LM training (device={if opts.useGpu then "cuda" else "cpu"})")
         printOk := true }
   else
-    Gondlin.Module.run exeName args
+    Gondolin.Module.run exeName args
       (.any (fun {α} _ _ _ _ cast opts rest => do
         let (input, rest) ← takeInputText rest
         let (train, rest) ← Common.orThrow exeName <| parseTrainOptions opts rest

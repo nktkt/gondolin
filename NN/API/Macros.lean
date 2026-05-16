@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -12,10 +12,10 @@ public import Lean
 # Small Convenience Macros
 
 This file contains only **general-purpose** syntactic sugar:
-- `seq! a, b, c` for composing Gondlin `Seq` models without chaining `>>>` manually.
-- `tlist! x, y, ...` for building `Gondlin.TList` values without `.cons ... .nil` boilerplate.
+- `seq! a, b, c` for composing Gondolin `Seq` models without chaining `>>>` manually.
+- `tlist! x, y, ...` for building `Gondolin.TList` values without `.cons ... .nil` boilerplate.
 
-Both macros expand to fully-qualified names under `NN.API.Gondlin.*`, so in practice you will
+Both macros expand to fully-qualified names under `NN.API.Gondolin.*`, so in practice you will
 usually import `NN.API.Public` (or at least `NN.API.Runtime`) alongside this module.
 
 We avoid layer-specific "proof-eliding" macros here; prefer the named-field APIs in `NN.API.Public`
@@ -34,7 +34,7 @@ syntax (name := seqLit) "seq!" term,+ : term
 /-!
 ## Sequential Literals
 
-Gondlin sequential models are *shape-indexed* (`Seq σ τ`), so we cannot use a plain `List` of
+Gondolin sequential models are *shape-indexed* (`Seq σ τ`), so we cannot use a plain `List` of
 layers like PyTorch does (a `List` would require every element to have the same type).
 
 Instead we provide macros that expand to ordinary `Seq` composition while still letting users
@@ -64,18 +64,18 @@ macro_rules (kind := nnSequentialBangLitLower)
 
 macro_rules (kind := nnSequentialBangLit)
   | `(nn.Sequential![$a:term]) =>
-      let f := mkGlobalIdent `NN.API.Gondlin.NN.AsSeqK.asSeq
+      let f := mkGlobalIdent `NN.API.Gondolin.NN.AsSeqK.asSeq
       `(do
         let a ← ($a)
         pure ($f a))
   | `(nn.Sequential![$a:term, $b:term]) =>
-      let f := mkGlobalIdent `NN.API.Gondlin.NN.compAny
+      let f := mkGlobalIdent `NN.API.Gondolin.NN.compAny
       `(do
         let a ← ($a)
         let b ← ($b)
         pure ($f a b))
   | `(nn.Sequential![$a:term, $b:term, $rest:term,*]) =>
-      let f := mkGlobalIdent `NN.API.Gondlin.NN.compAny
+      let f := mkGlobalIdent `NN.API.Gondolin.NN.compAny
       `(do
         let a ← ($a)
         let bc ← (nn.Sequential![$b, $rest,*])
@@ -84,14 +84,14 @@ macro_rules (kind := nnSequentialBangLit)
 macro_rules (kind := seqLit)
   | `(seq! $a:term) => `($a)
   | `(seq! $a:term, $b:term) =>
-      let f := mkGlobalIdent `NN.API.Gondlin.NN.compAny
+      let f := mkGlobalIdent `NN.API.Gondolin.NN.compAny
       `($f $a $b)
   | `(seq! $a:term, $b:term, $rest:term,*) =>
-      let f := mkGlobalIdent `NN.API.Gondlin.NN.compAny
+      let f := mkGlobalIdent `NN.API.Gondolin.NN.compAny
       `($f $a (seq! $b, $rest,*))
 
 /--
-Build a `Gondlin.TList` from comma-separated tensors (avoids `.cons ... .nil` boilerplate).
+Build a `Gondolin.TList` from comma-separated tensors (avoids `.cons ... .nil` boilerplate).
 
 This stays compact: it is just a syntactic convenience for examples and small programs.
 -/
@@ -100,10 +100,10 @@ syntax (name := tlistLit) "tlist!" term,+ : term
 
 macro_rules (kind := tlistLit)
   | `(tlist! $x:term) =>
-      let f := mkGlobalIdent `NN.API.Gondlin.tlist1
+      let f := mkGlobalIdent `NN.API.Gondolin.tlist1
       `($f $x)
   | `(tlist! $x:term, $y:term) =>
-      let f := mkGlobalIdent `NN.API.Gondlin.tlist2
+      let f := mkGlobalIdent `NN.API.Gondolin.tlist2
       `($f $x $y)
   | `(tlist! $x:term, $y:term, $rest:term,*) => `(.cons $x (tlist! $y, $rest,*))
 

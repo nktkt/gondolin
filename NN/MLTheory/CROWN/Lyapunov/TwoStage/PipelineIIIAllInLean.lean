@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -11,31 +11,31 @@ public import NN.MLTheory.CROWN.Core
 public import NN.MLTheory.CROWN.Graph
 public import NN.MLTheory.CROWN.Lyapunov.TwoStage.Core
 public import NN.MLTheory.CROWN.Lyapunov.TwoStage.ExecUtils
-public import NN.Runtime.Autograd.Gondlin.Autodiff
-public import NN.Runtime.Autograd.Gondlin.Backend
-public import NN.Runtime.Autograd.Gondlin.Module
-public import NN.Verification.Gondlin.Compile
+public import NN.Runtime.Autograd.Gondolin.Autodiff
+public import NN.Runtime.Autograd.Gondolin.Backend
+public import NN.Runtime.Autograd.Gondolin.Module
+public import NN.Verification.Gondolin.Compile
 
 /-!
 # Pipeline (iii): All-in-Lean TwoStage refinement + IBP/CROWN check
 
-This file corresponds to **Figure 7 (iii)** in the Gondlin paper (`arXiv:2602.22631`).
+This file corresponds to **Figure 7 (iii)** in the Gondolin paper (`arXiv:2602.22631`).
 
 Everything runs *inside Lean*:
 - Stage 1: sample training points in a box and train parameters (SGD) under exact `IEEE32Exec`.
 - Stage 2: for each round, run a small PGD loop on the input `x` to find “counterexample-ish”
   points, then train on them (CEGIS flavor).
-- Final: compile the same Gondlin loss program to the shared verifier IR and run in-repo IBP/CROWN
+- Final: compile the same Gondolin loss program to the shared verifier IR and run in-repo IBP/CROWN
   bound propagation to sanity-check the loss on a small box around the origin.
 
 Notes:
-- This workflow uses the in-repo IBP/CROWN engine, so its bounds are meant to exercise Gondlin's
+- This workflow uses the in-repo IBP/CROWN engine, so its bounds are meant to exercise Gondolin's
   own verifier stack rather than reproduce every optimization used by external α/β-CROWN systems.
 - The point is the *trust boundary*: the whole compute path, including float32 semantics, is inside
   Lean, and external tooling is not required to run the end-to-end pipeline.
 
 Run:
-`lake exe verify -- twostage-gondlin-cegis-van`
+`lake exe verify -- twostage-gondolin-cegis-van`
 -/
 
 @[expose] public section
@@ -46,7 +46,7 @@ open Tensor
 
 namespace NN.MLTheory.CROWN.Lyapunov.TwoStage.PipelineIII.AllInLean
 
-open _root_.Gondlin.Floats.IEEE754
+open _root_.Gondolin.Floats.IEEE754
 open Runtime
 open Runtime.Autograd
 open NN.MLTheory.CROWN.Graph
@@ -83,10 +83,10 @@ def epsCheck : α := ExecUtils.defaultEpsCheck
 
 def lossProg (width : Nat) :
     ∀ {β : Type}, [Context β] → [DecidableEq Shape] →
-      Gondlin.Program β (paramShapes width ++ [xShape]) Shape.scalar :=
+      Gondolin.Program β (paramShapes width ++ [xShape]) Shape.scalar :=
   Core.lossProgram width
 
-def initParamsF (width : Nat) : Gondlin.TList Float (paramShapes width) :=
+def initParamsF (width : Nat) : Gondolin.TList Float (paramShapes width) :=
   let wC : Tensor Float (.dim uDim (.dim xDim .scalar)) :=
     _root_.Runtime.Autograd.Torch.Init.xavierW uDim xDim (seed := 0)
   let bC : Tensor Float (.dim uDim .scalar) :=
@@ -101,7 +101,7 @@ def initParamsF (width : Nat) : Gondlin.TList Float (paramShapes width) :=
     _root_.Runtime.Autograd.Torch.Init.tensor (s := .dim 1 .scalar) (sch := .zeros) (seed := 5)
   .cons wC (.cons bC (.cons w1 (.cons b1 (.cons w2 (.cons b2 .nil)))))
 
-def moduleDef (width : Nat) : Gondlin.Module.ScalarModuleDef (paramShapes width) [xShape]
+def moduleDef (width : Nat) : Gondolin.Module.ScalarModuleDef (paramShapes width) [xShape]
   :=
   { initParams := initParamsF width
     loss := Core.lossProgram width }
@@ -117,14 +117,14 @@ then clamp to the training box `[-rad, rad]^2`.
 def pgdStepCompiled
     (width : Nat)
     (cLoss : _root_.Runtime.Autograd.Torch.CompiledScalar α (lossΓ width))
-    (params : Gondlin.TList α (paramShapes width))
+    (params : Gondolin.TList α (paramShapes width))
     (x : Tensor α xShape) : Tensor α xShape :=
-  let args : Gondlin.TList α (lossΓ width) :=
+  let args : Gondolin.TList α (lossΓ width) :=
     _root_.Runtime.Autograd.Torch.Proofs.Autograd.Algebra.TList.append (α := α)
       (ss₁ := paramShapes width) (ss₂ := [xShape]) params (.cons x .nil)
-  let gAll : Gondlin.TList α (lossΓ width) :=
+  let gAll : Gondolin.TList α (lossΓ width) :=
     _root_.Runtime.Autograd.Torch.CompiledScalar.backward (α := α) (Γ := lossΓ width) cLoss args
-  let gx : Gondlin.TList α [xShape] :=
+  let gx : Gondolin.TList α [xShape] :=
     (_root_.Runtime.Autograd.Torch.Proofs.Autograd.Algebra.TList.splitAppend (α := α)
       (ss₁ := paramShapes width) (ss₂ := [xShape]) gAll).2
   let .cons g .nil := gx
@@ -132,14 +132,14 @@ def pgdStepCompiled
   clampVec2 (-rad) rad x'
 
 /--
-Final post-check: compile the Gondlin loss to the shared verifier IR, then run IBP and CROWN
+Final post-check: compile the Gondolin loss to the shared verifier IR, then run IBP and CROWN
 over a small box around the origin.
 -/
-def checkBox (width : Nat) (params : Gondlin.TList α (paramShapes width)) (eps : α :=
+def checkBox (width : Nat) (params : Gondolin.TList α (paramShapes width)) (eps : α :=
   epsCheck) : IO Unit := do
   IO.println "Stage 2 check: IBP + CROWN on the scalar loss over a small box"
   let compiled ←
-    match NN.Verification.Gondlin.compileForward1
+    match NN.Verification.Gondolin.compileForward1
           (α := α) (paramShapes := paramShapes width) (inShape := xShape) (outShape := Shape.scalar)
           (lossProg width (β := α)) params with
     | .ok c => pure c
@@ -188,14 +188,14 @@ def run (width : Nat) (args : List String) : IO Unit := do
   let stage2Rounds : Nat := (if longRun then 10 else if paperRun then 10 else 1)
   let pgdSteps : Nat := (if longRun then 20 else if paperRun then 10 else 1)
 
-  IO.println "== TwoStage Gondlin CEGIS workflow (IEEE32Exec) =="
+  IO.println "== TwoStage Gondolin CEGIS workflow (IEEE32Exec) =="
   IO.println
     s!"width={width} stage1Steps={stage1Steps} stage2Rounds={stage2Rounds} pgdSteps={pgdSteps}"
 
-  let mod ← Gondlin.Module.ScalarModuleDef.instantiate (α := α) (moduleDef width)
+  let mod ← Gondolin.Module.ScalarModuleDef.instantiate (α := α) (moduleDef width)
     IEEE32Exec.ofFloat .compiled
   let tr := mod.trainer
-  let cLoss ← Gondlin.Autodiff.compileLoss
+  let cLoss ← Gondolin.Autodiff.compileLoss
     (α := α) (paramShapes := paramShapes width) (inputShapes := [xShape]) (lossProg width)
 
   -- Stage 1: quick warmup on random x in [-rad, rad]^2
@@ -203,7 +203,7 @@ def run (width : Nat) (args : List String) : IO Unit := do
   for i in [0:stage1Steps] do
     let (seed', x) := sampleVec2 seed rad
     seed := seed'
-    let xs : Gondlin.TList α [xShape] := .cons x .nil
+    let xs : Gondolin.TList α [xShape] := .cons x .nil
     let loss0 := _root_.Runtime.Autograd.Torch.scalarOf (←
       _root_.Runtime.Autograd.Torch.ScalarTrainer.forwardT tr xs)
     _root_.Runtime.Autograd.Torch.ScalarTrainer.stepT tr lr xs
@@ -218,7 +218,7 @@ def run (width : Nat) (args : List String) : IO Unit := do
     let mut x := x0
     for _k in [0:pgdSteps] do
       x := pgdStepCompiled width cLoss params x
-    let xs : Gondlin.TList α [xShape] := .cons x .nil
+    let xs : Gondolin.TList α [xShape] := .cons x .nil
     let lossFound := _root_.Runtime.Autograd.Torch.scalarOf (←
       _root_.Runtime.Autograd.Torch.ScalarTrainer.forwardT tr xs)
     _root_.Runtime.Autograd.Torch.ScalarTrainer.stepT tr lr xs

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -55,7 +55,7 @@ open scoped ProofWidgets.Jsx
 
 namespace NN.Widgets
 
-open Gondlin.Floats.IEEE754
+open Gondolin.Floats.IEEE754
 open UI
 
 namespace Float32Internal

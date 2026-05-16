@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -24,7 +24,7 @@ import Mathlib.Tactic.Ring
 /-!
 # Smooth + Strongly Convex ⇒ Strongly Monotone Gradient (Bridge Lemma)
 
-Gondlin's GD convergence theorems are stated at the operator level:
+Gondolin's GD convergence theorems are stated at the operator level:
 
 * `g` is `μ`-strongly monotone, and
 * `g` is `L`-Lipschitz.

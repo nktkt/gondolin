@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -13,12 +13,12 @@ public import NN.Runtime.Autograd.Compiled.IRExec
 /-!
 # Compiled Autograd Runtime
 
-This is the runtime umbrella for Gondlin's compiled execution path.
+This is the runtime umbrella for Gondolin's compiled execution path.
 
 The compiled path is the middle layer between:
 
 - the low-level dynamic tape engine in `NN.Runtime.Autograd.Engine`, and
-- the user-facing Gondlin session/model API in `NN.Runtime.Autograd.Gondlin`.
+- the user-facing Gondolin session/model API in `NN.Runtime.Autograd.Gondolin`.
 
 It has three pieces:
 
@@ -37,7 +37,7 @@ umbrella so ordinary runtime imports do not have to elaborate the full semantic-
 
 `IRExec` compiles **forward** semantics. Its generated node payloads intentionally use
 sentinel JVP/VJP implementations, so training-style gradients should continue to use the
-autograd-capable `GraphM` / Gondlin compiled backend rather than the shared-IR execution bridge.
+autograd-capable `GraphM` / Gondolin compiled backend rather than the shared-IR execution bridge.
 -/
 
 @[expose] public section

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -16,7 +16,7 @@ public import NN.Proofs.RL.Floats.IEEE32Exec
 `IEEE32Exec` float32 semantics, but those theorems are intentionally stated with explicit
 `isFinite … = true` hypotheses for each intermediate.
 
-In the runtime layer, Gondlin typically enforces these hypotheses by *checked preconditions*:
+In the runtime layer, Gondolin typically enforces these hypotheses by *checked preconditions*:
 `Runtime.RL.Numerics.Float32.*Checked` returns `Except String …` and fails fast if any intermediate becomes
 NaN/Inf.
 
@@ -40,7 +40,7 @@ namespace Float32Exec
 
 open Spec.RL
 
-open Gondlin.Floats.IEEE754
+open Gondolin.Floats.IEEE754
 
 open IEEE32Exec
 
@@ -52,8 +52,8 @@ at each primitive operation.
 This is the `checked boundary ⇒ semantics theorem applies` wrapper most users want.
 -/
 theorem toReal_discountedBackupIEEE32ExecChecked_eq_fp32Round_chain
-    (reward gamma bootstrap : Gondlin.Floats.IEEE754.IEEE32Exec) (done : Bool)
-    (out : Gondlin.Floats.IEEE754.IEEE32Exec)
+    (reward gamma bootstrap : Gondolin.Floats.IEEE754.IEEE32Exec) (done : Bool)
+    (out : Gondolin.Floats.IEEE754.IEEE32Exec)
     (h : Runtime.RL.Numerics.Float32.discountedBackupIEEE32ExecChecked reward gamma bootstrap done = .ok out) :
     toReal out =
       fp32Round
@@ -61,7 +61,7 @@ theorem toReal_discountedBackupIEEE32ExecChecked_eq_fp32Round_chain
           fp32Round
             (fp32Round
                 (toReal gamma *
-                  toReal (continueMask (α := Gondlin.Floats.IEEE754.IEEE32Exec) done)) *
+                  toReal (continueMask (α := Gondolin.Floats.IEEE754.IEEE32Exec) done)) *
               toReal bootstrap)) := by
   obtain ⟨h₁, h₂, h₃, hout⟩ :=
     Runtime.RL.Numerics.Float32.discountedBackupIEEE32ExecChecked_eq_ok
@@ -81,8 +81,8 @@ primitive operation.
 This is the `checked boundary ⇒ semantics theorem applies` wrapper for TD residuals.
 -/
 theorem toReal_tdResidualIEEE32ExecChecked_eq_fp32Round_chain
-    (value reward gamma nextValue : Gondlin.Floats.IEEE754.IEEE32Exec) (done : Bool)
-    (out : Gondlin.Floats.IEEE754.IEEE32Exec)
+    (value reward gamma nextValue : Gondolin.Floats.IEEE754.IEEE32Exec) (done : Bool)
+    (out : Gondolin.Floats.IEEE754.IEEE32Exec)
     (h : Runtime.RL.Numerics.Float32.tdResidualIEEE32ExecChecked value reward gamma nextValue done = .ok out) :
     toReal out =
       fp32Round

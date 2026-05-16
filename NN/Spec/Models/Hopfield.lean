@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -77,7 +77,7 @@ abbrev State (n : Nat) : Type := Fin n → Bool
 
 /-- Hopfield state as a vector tensor `Tensor Bool (.dim n .scalar)`.
 
-This is a convenience wrapper so Hopfield models can interoperate with the rest of Gondlin's
+This is a convenience wrapper so Hopfield models can interoperate with the rest of Gondolin's
 tensor-shaped spec APIs.
 -/
 abbrev StateT (n : Nat) : Type := Tensor Bool (.dim n .scalar)
@@ -146,7 +146,7 @@ def net {α : Type} [AddCommMonoid α] [Mul α] [One α] [Neg α] {n : Nat}
     (p : Params α n) (s : State n) (u : Fin n) : α :=
   mulVec p.W (actVec (α := α) s) u
 
-/-- Tensor-shaped wrapper for `net` (useful for interop with Gondlin tensor APIs). -/
+/-- Tensor-shaped wrapper for `net` (useful for interop with Gondolin tensor APIs). -/
 def netT {α : Type} [AddCommMonoid α] [Mul α] [One α] [Neg α] {n : Nat}
     (p : ParamsT α n) (s : StateT n) (u : Fin n) : α :=
   net (α := α) (p := p.toFun) (s := s.toFun) u

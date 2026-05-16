@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -31,10 +31,10 @@ interval diagnostics).
 
 @[expose] public section
 
-namespace Gondlin.Floats.IEEE754
+namespace Gondolin.Floats.IEEE754
 namespace IEEE32Exec
 
-open Gondlin.Floats
+open Gondolin.Floats
 
 noncomputable section
 
@@ -184,4 +184,4 @@ theorem toEReal_subDown_le_sub_le_subUp_of_isFinite (x y : IEEE32Exec)
 end
 
 end IEEE32Exec
-end Gondlin.Floats.IEEE754
+end Gondolin.Floats.IEEE754

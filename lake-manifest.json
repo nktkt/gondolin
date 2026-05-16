@@ -171,5 +171,5 @@
    "inputRev": "main",
    "inherited": true,
    "configFile": "lakefile.lean"}],
- "name": "Gondlin",
+ "name": "Gondolin",
  "lakeDir": ".lake"}

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -12,7 +12,7 @@ public import NN.Floats.IEEEExec.BridgeInitFloat32
 /-!
 # CUDA float32 contract
 
-Gondlin's CUDA eager backend stores native `float` values in an opaque FFI buffer. Lean cannot
+Gondolin's CUDA eager backend stores native `float` values in an opaque FFI buffer. Lean cannot
 look inside CUDA kernels, C casts, libdevice calls, or cuBLAS, so the native backend is necessarily a
 trusted/validated implementation boundary.
 
@@ -48,8 +48,8 @@ namespace Autograd
 namespace Cuda
 namespace Float32Contract
 
-open Gondlin.Floats
-open Gondlin.Floats.IEEE754
+open Gondolin.Floats
+open Gondolin.Floats.IEEE754
 
 noncomputable section
 

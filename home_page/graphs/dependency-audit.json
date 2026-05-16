@@ -222,7 +222,7 @@
       "src": "NN.API.Core"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Dual",
+      "dst": "NN.Runtime.Autograd.Gondolin.Dual",
       "line": 12,
       "path": "NN/API/Core.lean",
       "public": true,
@@ -362,7 +362,7 @@
       "src": "NN.API.Models.Fno1d"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Fno1d",
+      "dst": "NN.Runtime.Autograd.Gondolin.Fno1d",
       "line": 10,
       "path": "NN/API/Models/Fno1d.lean",
       "public": true,
@@ -635,7 +635,7 @@
       "src": "NN.API.Rand"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Random",
+      "dst": "NN.Runtime.Autograd.Gondolin.Random",
       "line": 12,
       "path": "NN/API/Rand.lean",
       "public": true,
@@ -656,28 +656,28 @@
       "src": "NN.API.Runtime"
     },
     {
-      "dst": "NN.API.Gondlin.ParamIO",
+      "dst": "NN.API.Gondolin.ParamIO",
       "line": 13,
       "path": "NN/API/Runtime.lean",
       "public": true,
       "src": "NN.API.Runtime"
     },
     {
-      "dst": "NN.API.Gondlin.Schedulers",
+      "dst": "NN.API.Gondolin.Schedulers",
       "line": 14,
       "path": "NN/API/Runtime.lean",
       "public": true,
       "src": "NN.API.Runtime"
     },
     {
-      "dst": "NN.GraphSpec.Models.Gondlin",
+      "dst": "NN.GraphSpec.Models.Gondolin",
       "line": 15,
       "path": "NN/API/Runtime.lean",
       "public": true,
       "src": "NN.API.Runtime"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin",
+      "dst": "NN.Runtime.Autograd.Gondolin",
       "line": 16,
       "path": "NN/API/Runtime.lean",
       "public": true,
@@ -866,14 +866,14 @@
       "src": "NN.API.Text"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Metrics",
+      "dst": "NN.Runtime.Autograd.Gondolin.Metrics",
       "line": 13,
       "path": "NN/API/Text.lean",
       "public": true,
       "src": "NN.API.Text"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Random",
+      "dst": "NN.Runtime.Autograd.Gondolin.Random",
       "line": 14,
       "path": "NN/API/Text.lean",
       "public": true,
@@ -889,23 +889,23 @@
     {
       "dst": "NN.API.Runtime",
       "line": 9,
-      "path": "NN/API/Gondlin/Optimizers.lean",
+      "path": "NN/API/Gondolin/Optimizers.lean",
       "public": true,
-      "src": "NN.API.Gondlin.Optimizers"
+      "src": "NN.API.Gondolin.Optimizers"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.ParamIO",
+      "dst": "NN.Runtime.Autograd.Gondolin.ParamIO",
       "line": 9,
-      "path": "NN/API/Gondlin/ParamIO.lean",
+      "path": "NN/API/Gondolin/ParamIO.lean",
       "public": true,
-      "src": "NN.API.Gondlin.ParamIO"
+      "src": "NN.API.Gondolin.ParamIO"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Module",
+      "dst": "NN.Runtime.Autograd.Gondolin.Module",
       "line": 10,
-      "path": "NN/API/Gondlin/ParamIO.lean",
+      "path": "NN/API/Gondolin/ParamIO.lean",
       "public": true,
-      "src": "NN.API.Gondlin.ParamIO"
+      "src": "NN.API.Gondolin.ParamIO"
     },
     {
       "dst": "NN.API.Common",
@@ -992,14 +992,14 @@
       "src": "NN.CI.All"
     },
     {
-      "dst": "NN.API.Gondlin.Optimizers",
+      "dst": "NN.API.Gondolin.Optimizers",
       "line": 21,
       "path": "NN/CI/All.lean",
       "public": true,
       "src": "NN.CI.All"
     },
     {
-      "dst": "NN.API.Gondlin.Schedulers",
+      "dst": "NN.API.Gondolin.Schedulers",
       "line": 22,
       "path": "NN/CI/All.lean",
       "public": true,
@@ -1041,7 +1041,7 @@
       "src": "NN.CI.All"
     },
     {
-      "dst": "NN.Entrypoint.GondlinModels",
+      "dst": "NN.Entrypoint.GondolinModels",
       "line": 28,
       "path": "NN/CI/All.lean",
       "public": true,
@@ -2252,105 +2252,105 @@
       "src": "NN.CI.All"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin",
+      "dst": "NN.Runtime.Autograd.Gondolin",
       "line": 201,
       "path": "NN/CI/All.lean",
       "public": true,
       "src": "NN.CI.All"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Autodiff",
+      "dst": "NN.Runtime.Autograd.Gondolin.Autodiff",
       "line": 202,
       "path": "NN/CI/All.lean",
       "public": true,
       "src": "NN.CI.All"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Backend",
+      "dst": "NN.Runtime.Autograd.Gondolin.Backend",
       "line": 203,
       "path": "NN/CI/All.lean",
       "public": true,
       "src": "NN.CI.All"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.CompileExec",
+      "dst": "NN.Runtime.Autograd.Gondolin.CompileExec",
       "line": 204,
       "path": "NN/CI/All.lean",
       "public": true,
       "src": "NN.CI.All"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Dual",
+      "dst": "NN.Runtime.Autograd.Gondolin.Dual",
       "line": 205,
       "path": "NN/CI/All.lean",
       "public": true,
       "src": "NN.CI.All"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Fno1d",
+      "dst": "NN.Runtime.Autograd.Gondolin.Fno1d",
       "line": 206,
       "path": "NN/CI/All.lean",
       "public": true,
       "src": "NN.CI.All"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Functional",
+      "dst": "NN.Runtime.Autograd.Gondolin.Functional",
       "line": 207,
       "path": "NN/CI/All.lean",
       "public": true,
       "src": "NN.CI.All"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Loss",
+      "dst": "NN.Runtime.Autograd.Gondolin.Loss",
       "line": 208,
       "path": "NN/CI/All.lean",
       "public": true,
       "src": "NN.CI.All"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Metrics",
+      "dst": "NN.Runtime.Autograd.Gondolin.Metrics",
       "line": 209,
       "path": "NN/CI/All.lean",
       "public": true,
       "src": "NN.CI.All"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Module",
+      "dst": "NN.Runtime.Autograd.Gondolin.Module",
       "line": 210,
       "path": "NN/CI/All.lean",
       "public": true,
       "src": "NN.CI.All"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.NN",
+      "dst": "NN.Runtime.Autograd.Gondolin.NN",
       "line": 211,
       "path": "NN/CI/All.lean",
       "public": true,
       "src": "NN.CI.All"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Norm",
+      "dst": "NN.Runtime.Autograd.Gondolin.Norm",
       "line": 212,
       "path": "NN/CI/All.lean",
       "public": true,
       "src": "NN.CI.All"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Optim",
+      "dst": "NN.Runtime.Autograd.Gondolin.Optim",
       "line": 213,
       "path": "NN/CI/All.lean",
       "public": true,
       "src": "NN.CI.All"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Random",
+      "dst": "NN.Runtime.Autograd.Gondolin.Random",
       "line": 214,
       "path": "NN/CI/All.lean",
       "public": true,
       "src": "NN.CI.All"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Session",
+      "dst": "NN.Runtime.Autograd.Gondolin.Session",
       "line": 215,
       "path": "NN/CI/All.lean",
       "public": true,
@@ -3078,28 +3078,28 @@
       "src": "NN.CI.All"
     },
     {
-      "dst": "NN.Tests.Runtime.Floats.GondlinIRExecEquivSmoke",
+      "dst": "NN.Tests.Runtime.Floats.GondolinIRExecEquivSmoke",
       "line": 319,
       "path": "NN/CI/All.lean",
       "public": true,
       "src": "NN.CI.All"
     },
     {
-      "dst": "NN.Tests.Runtime.Floats.GondlinIndexShapeSmoke",
+      "dst": "NN.Tests.Runtime.Floats.GondolinIndexShapeSmoke",
       "line": 320,
       "path": "NN/CI/All.lean",
       "public": true,
       "src": "NN.CI.All"
     },
     {
-      "dst": "NN.Tests.Runtime.Floats.GondlinOpsSmoke",
+      "dst": "NN.Tests.Runtime.Floats.GondolinOpsSmoke",
       "line": 321,
       "path": "NN/CI/All.lean",
       "public": true,
       "src": "NN.CI.All"
     },
     {
-      "dst": "NN.Tests.Runtime.Floats.GondlinSpecMlpEquivSmoke",
+      "dst": "NN.Tests.Runtime.Floats.GondolinSpecMlpEquivSmoke",
       "line": 322,
       "path": "NN/CI/All.lean",
       "public": true,
@@ -3183,35 +3183,35 @@
       "src": "NN.CI.All"
     },
     {
-      "dst": "NN.Verification.Gondlin.Compile",
+      "dst": "NN.Verification.Gondolin.Compile",
       "line": 334,
       "path": "NN/CI/All.lean",
       "public": true,
       "src": "NN.CI.All"
     },
     {
-      "dst": "NN.Verification.Gondlin.CompileExec",
+      "dst": "NN.Verification.Gondolin.CompileExec",
       "line": 335,
       "path": "NN/CI/All.lean",
       "public": true,
       "src": "NN.CI.All"
     },
     {
-      "dst": "NN.Verification.Gondlin.Correctness",
+      "dst": "NN.Verification.Gondolin.Correctness",
       "line": 336,
       "path": "NN/CI/All.lean",
       "public": true,
       "src": "NN.CI.All"
     },
     {
-      "dst": "NN.Verification.Gondlin.Verified",
+      "dst": "NN.Verification.Gondolin.Verified",
       "line": 337,
       "path": "NN/CI/All.lean",
       "public": true,
       "src": "NN.CI.All"
     },
     {
-      "dst": "NN.Verification.Gondlin.SpecEval",
+      "dst": "NN.Verification.Gondolin.SpecEval",
       "line": 338,
       "path": "NN/CI/All.lean",
       "public": true,
@@ -3372,7 +3372,7 @@
       "src": "NN.Entrypoint.GraphSpec"
     },
     {
-      "dst": "NN.GraphSpec.ToGondlin",
+      "dst": "NN.GraphSpec.ToGondolin",
       "line": 16,
       "path": "NN/Entrypoint/GraphSpec.lean",
       "public": true,
@@ -3785,7 +3785,7 @@
       "src": "NN.Entrypoint.Runtime"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin",
+      "dst": "NN.Runtime.Autograd.Gondolin",
       "line": 20,
       "path": "NN/Entrypoint/Runtime.lean",
       "public": true,
@@ -3904,11 +3904,11 @@
       "src": "NN.Entrypoint.Tensor"
     },
     {
-      "dst": "NN.GraphSpec.Models.Gondlin",
+      "dst": "NN.GraphSpec.Models.Gondolin",
       "line": 9,
-      "path": "NN/Entrypoint/GondlinModels.lean",
+      "path": "NN/Entrypoint/GondolinModels.lean",
       "public": true,
-      "src": "NN.Entrypoint.GondlinModels"
+      "src": "NN.Entrypoint.GondolinModels"
     },
     {
       "dst": "NN.Verification.Cert",
@@ -3946,21 +3946,21 @@
       "src": "NN.Entrypoint.Verification"
     },
     {
-      "dst": "NN.Verification.Gondlin.Compile",
+      "dst": "NN.Verification.Gondolin.Compile",
       "line": 14,
       "path": "NN/Entrypoint/Verification.lean",
       "public": true,
       "src": "NN.Entrypoint.Verification"
     },
     {
-      "dst": "NN.Verification.Gondlin.CompileExec",
+      "dst": "NN.Verification.Gondolin.CompileExec",
       "line": 15,
       "path": "NN/Entrypoint/Verification.lean",
       "public": true,
       "src": "NN.Entrypoint.Verification"
     },
     {
-      "dst": "NN.Verification.Gondlin.Verified",
+      "dst": "NN.Verification.Gondolin.Verified",
       "line": 16,
       "path": "NN/Entrypoint/Verification.lean",
       "public": true,
@@ -4163,7 +4163,7 @@
       "src": "NN.Examples.Advanced.GraphSpec.Tutorial"
     },
     {
-      "dst": "NN.GraphSpec.ToGondlin",
+      "dst": "NN.GraphSpec.ToGondolin",
       "line": 11,
       "path": "NN/Examples/Advanced/GraphSpec/Tutorial.lean",
       "public": true,
@@ -4240,7 +4240,7 @@
       "src": "NN.Examples.Advanced.TorchIRPyTorch"
     },
     {
-      "dst": "NN.Verification.Gondlin.Compile",
+      "dst": "NN.Verification.Gondolin.Compile",
       "line": 11,
       "path": "NN/Examples/Advanced/TorchIRPyTorch.lean",
       "public": true,
@@ -4926,7 +4926,7 @@
       "src": "NN.Examples.Models.Generative.Diffusion"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.NN",
+      "dst": "NN.Runtime.Autograd.Gondolin.NN",
       "line": 12,
       "path": "NN/Examples/Models/Generative/Diffusion.lean",
       "public": true,
@@ -5150,7 +5150,7 @@
       "src": "NN.Examples.Models.Operators.Fno1dBurgers"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Fno1d",
+      "dst": "NN.Runtime.Autograd.Gondolin.Fno1d",
       "line": 19,
       "path": "NN/Examples/Models/Operators/Fno1dBurgers.lean",
       "public": true,
@@ -5164,7 +5164,7 @@
       "src": "NN.Examples.Models.Operators.Fno1dBurgers"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Fno1d",
+      "dst": "NN.Runtime.Autograd.Gondolin.Fno1d",
       "line": 22,
       "path": "NN/Examples/Models/Operators/Fno1dBurgers.lean",
       "public": false,
@@ -5381,7 +5381,7 @@
       "src": "NN.Examples.Models.Sequence.CharGpt"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.NN",
+      "dst": "NN.Runtime.Autograd.Gondolin.NN",
       "line": 11,
       "path": "NN/Examples/Models/Sequence/CharGpt.lean",
       "public": true,
@@ -5409,7 +5409,7 @@
       "src": "NN.Examples.Models.Sequence.Gpt2"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.NN",
+      "dst": "NN.Runtime.Autograd.Gondolin.NN",
       "line": 44,
       "path": "NN/Examples/Models/Sequence/Gpt2.lean",
       "public": true,
@@ -5465,7 +5465,7 @@
       "src": "NN.Examples.Models.Sequence.GptAdder"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.NN",
+      "dst": "NN.Runtime.Autograd.Gondolin.NN",
       "line": 20,
       "path": "NN/Examples/Models/Sequence/GptAdder.lean",
       "public": true,
@@ -5570,7 +5570,7 @@
       "src": "NN.Examples.Models.Sequence.TextGpt2"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.NN",
+      "dst": "NN.Runtime.Autograd.Gondolin.NN",
       "line": 33,
       "path": "NN/Examples/Models/Sequence/TextGpt2.lean",
       "public": true,
@@ -6181,30 +6181,30 @@
     {
       "dst": "NN",
       "line": 9,
-      "path": "NN/Examples/Verification/Robustness/GondlinRobustness.lean",
+      "path": "NN/Examples/Verification/Robustness/GondolinRobustness.lean",
       "public": true,
-      "src": "NN.Examples.Verification.Robustness.GondlinRobustness"
+      "src": "NN.Examples.Verification.Robustness.GondolinRobustness"
     },
     {
       "dst": "NN.MLTheory.CROWN.Core",
       "line": 10,
-      "path": "NN/Examples/Verification/Robustness/GondlinRobustness.lean",
+      "path": "NN/Examples/Verification/Robustness/GondolinRobustness.lean",
       "public": true,
-      "src": "NN.Examples.Verification.Robustness.GondlinRobustness"
+      "src": "NN.Examples.Verification.Robustness.GondolinRobustness"
     },
     {
       "dst": "NN.MLTheory.CROWN.Graph",
       "line": 11,
-      "path": "NN/Examples/Verification/Robustness/GondlinRobustness.lean",
+      "path": "NN/Examples/Verification/Robustness/GondolinRobustness.lean",
       "public": true,
-      "src": "NN.Examples.Verification.Robustness.GondlinRobustness"
+      "src": "NN.Examples.Verification.Robustness.GondolinRobustness"
     },
     {
-      "dst": "NN.Verification.Gondlin.Compile",
+      "dst": "NN.Verification.Gondolin.Compile",
       "line": 12,
-      "path": "NN/Examples/Verification/Robustness/GondlinRobustness.lean",
+      "path": "NN/Examples/Verification/Robustness/GondolinRobustness.lean",
       "public": true,
-      "src": "NN.Examples.Verification.Robustness.GondlinRobustness"
+      "src": "NN.Examples.Verification.Robustness.GondolinRobustness"
     },
     {
       "dst": "NN.Verification.Util.Json",
@@ -6214,7 +6214,7 @@
       "src": "NN.Examples.Verification.Robustness.VerifyMarginCert"
     },
     {
-      "dst": "NN.Examples.Verification.Robustness.GondlinRobustness",
+      "dst": "NN.Examples.Verification.Robustness.GondolinRobustness",
       "line": 9,
       "path": "NN/Examples/Verification/Robustness.lean",
       "public": true,
@@ -6258,121 +6258,121 @@
     {
       "dst": "NN",
       "line": 9,
-      "path": "NN/Examples/Verification/Gondlin/GondlinCrownOps.lean",
+      "path": "NN/Examples/Verification/Gondolin/GondolinCrownOps.lean",
       "public": true,
-      "src": "NN.Examples.Verification.Gondlin.GondlinCrownOps"
+      "src": "NN.Examples.Verification.Gondolin.GondolinCrownOps"
     },
     {
-      "dst": "NN.Verification.Gondlin.Compile",
+      "dst": "NN.Verification.Gondolin.Compile",
       "line": 10,
-      "path": "NN/Examples/Verification/Gondlin/GondlinCrownOps.lean",
+      "path": "NN/Examples/Verification/Gondolin/GondolinCrownOps.lean",
       "public": true,
-      "src": "NN.Examples.Verification.Gondlin.GondlinCrownOps"
+      "src": "NN.Examples.Verification.Gondolin.GondolinCrownOps"
     },
     {
       "dst": "NN",
       "line": 9,
-      "path": "NN/Examples/Verification/Gondlin/GondlinIBP.lean",
+      "path": "NN/Examples/Verification/Gondolin/GondolinIBP.lean",
       "public": true,
-      "src": "NN.Examples.Verification.Gondlin.GondlinIBP"
+      "src": "NN.Examples.Verification.Gondolin.GondolinIBP"
     },
     {
-      "dst": "NN.Verification.Gondlin.Compile",
+      "dst": "NN.Verification.Gondolin.Compile",
       "line": 10,
-      "path": "NN/Examples/Verification/Gondlin/GondlinIBP.lean",
+      "path": "NN/Examples/Verification/Gondolin/GondolinIBP.lean",
       "public": true,
-      "src": "NN.Examples.Verification.Gondlin.GondlinIBP"
+      "src": "NN.Examples.Verification.Gondolin.GondolinIBP"
     },
     {
       "dst": "NN",
       "line": 9,
-      "path": "NN/Examples/Verification/Gondlin/GondlinMlpWorkflow.lean",
+      "path": "NN/Examples/Verification/Gondolin/GondolinMlpWorkflow.lean",
       "public": true,
-      "src": "NN.Examples.Verification.Gondlin.GondlinMlpWorkflow"
+      "src": "NN.Examples.Verification.Gondolin.GondolinMlpWorkflow"
     },
     {
       "dst": "NN.API.Data",
       "line": 10,
-      "path": "NN/Examples/Verification/Gondlin/GondlinMlpWorkflow.lean",
+      "path": "NN/Examples/Verification/Gondolin/GondolinMlpWorkflow.lean",
       "public": true,
-      "src": "NN.Examples.Verification.Gondlin.GondlinMlpWorkflow"
+      "src": "NN.Examples.Verification.Gondolin.GondolinMlpWorkflow"
     },
     {
       "dst": "NN.API.Runtime",
       "line": 11,
-      "path": "NN/Examples/Verification/Gondlin/GondlinMlpWorkflow.lean",
+      "path": "NN/Examples/Verification/Gondolin/GondolinMlpWorkflow.lean",
       "public": true,
-      "src": "NN.Examples.Verification.Gondlin.GondlinMlpWorkflow"
+      "src": "NN.Examples.Verification.Gondolin.GondolinMlpWorkflow"
     },
     {
       "dst": "NN.API.Samples",
       "line": 12,
-      "path": "NN/Examples/Verification/Gondlin/GondlinMlpWorkflow.lean",
+      "path": "NN/Examples/Verification/Gondolin/GondolinMlpWorkflow.lean",
       "public": true,
-      "src": "NN.Examples.Verification.Gondlin.GondlinMlpWorkflow"
+      "src": "NN.Examples.Verification.Gondolin.GondolinMlpWorkflow"
     },
     {
       "dst": "NN.MLTheory.CROWN.Core",
       "line": 13,
-      "path": "NN/Examples/Verification/Gondlin/GondlinMlpWorkflow.lean",
+      "path": "NN/Examples/Verification/Gondolin/GondolinMlpWorkflow.lean",
       "public": true,
-      "src": "NN.Examples.Verification.Gondlin.GondlinMlpWorkflow"
+      "src": "NN.Examples.Verification.Gondolin.GondolinMlpWorkflow"
     },
     {
       "dst": "NN.MLTheory.CROWN.Graph",
       "line": 14,
-      "path": "NN/Examples/Verification/Gondlin/GondlinMlpWorkflow.lean",
+      "path": "NN/Examples/Verification/Gondolin/GondolinMlpWorkflow.lean",
       "public": true,
-      "src": "NN.Examples.Verification.Gondlin.GondlinMlpWorkflow"
+      "src": "NN.Examples.Verification.Gondolin.GondolinMlpWorkflow"
     },
     {
-      "dst": "NN.Verification.Gondlin.Compile",
+      "dst": "NN.Verification.Gondolin.Compile",
       "line": 15,
-      "path": "NN/Examples/Verification/Gondlin/GondlinMlpWorkflow.lean",
+      "path": "NN/Examples/Verification/Gondolin/GondolinMlpWorkflow.lean",
       "public": true,
-      "src": "NN.Examples.Verification.Gondlin.GondlinMlpWorkflow"
+      "src": "NN.Examples.Verification.Gondolin.GondolinMlpWorkflow"
     },
     {
       "dst": "NN",
       "line": 9,
-      "path": "NN/Examples/Verification/Gondlin/GondlinTransformerIBP.lean",
+      "path": "NN/Examples/Verification/Gondolin/GondolinTransformerIBP.lean",
       "public": true,
-      "src": "NN.Examples.Verification.Gondlin.GondlinTransformerIBP"
+      "src": "NN.Examples.Verification.Gondolin.GondolinTransformerIBP"
     },
     {
-      "dst": "NN.Verification.Gondlin.Compile",
+      "dst": "NN.Verification.Gondolin.Compile",
       "line": 10,
-      "path": "NN/Examples/Verification/Gondlin/GondlinTransformerIBP.lean",
+      "path": "NN/Examples/Verification/Gondolin/GondolinTransformerIBP.lean",
       "public": true,
-      "src": "NN.Examples.Verification.Gondlin.GondlinTransformerIBP"
+      "src": "NN.Examples.Verification.Gondolin.GondolinTransformerIBP"
     },
     {
-      "dst": "NN.Examples.Verification.Gondlin.GondlinCrownOps",
+      "dst": "NN.Examples.Verification.Gondolin.GondolinCrownOps",
       "line": 9,
-      "path": "NN/Examples/Verification/Gondlin.lean",
+      "path": "NN/Examples/Verification/Gondolin.lean",
       "public": true,
-      "src": "NN.Examples.Verification.Gondlin"
+      "src": "NN.Examples.Verification.Gondolin"
     },
     {
-      "dst": "NN.Examples.Verification.Gondlin.GondlinIBP",
+      "dst": "NN.Examples.Verification.Gondolin.GondolinIBP",
       "line": 10,
-      "path": "NN/Examples/Verification/Gondlin.lean",
+      "path": "NN/Examples/Verification/Gondolin.lean",
       "public": true,
-      "src": "NN.Examples.Verification.Gondlin"
+      "src": "NN.Examples.Verification.Gondolin"
     },
     {
-      "dst": "NN.Examples.Verification.Gondlin.GondlinMlpWorkflow",
+      "dst": "NN.Examples.Verification.Gondolin.GondolinMlpWorkflow",
       "line": 11,
-      "path": "NN/Examples/Verification/Gondlin.lean",
+      "path": "NN/Examples/Verification/Gondolin.lean",
       "public": true,
-      "src": "NN.Examples.Verification.Gondlin"
+      "src": "NN.Examples.Verification.Gondolin"
     },
     {
-      "dst": "NN.Examples.Verification.Gondlin.GondlinTransformerIBP",
+      "dst": "NN.Examples.Verification.Gondolin.GondolinTransformerIBP",
       "line": 12,
-      "path": "NN/Examples/Verification/Gondlin.lean",
+      "path": "NN/Examples/Verification/Gondolin.lean",
       "public": true,
-      "src": "NN.Examples.Verification.Gondlin"
+      "src": "NN.Examples.Verification.Gondolin"
     },
     {
       "dst": "NN.MLTheory.CROWN.Graph",
@@ -6424,7 +6424,7 @@
       "src": "NN.Examples.Verification"
     },
     {
-      "dst": "NN.Examples.Verification.Gondlin",
+      "dst": "NN.Examples.Verification.Gondolin",
       "line": 12,
       "path": "NN/Examples/Verification.lean",
       "public": true,
@@ -8083,7 +8083,7 @@
       "src": "NN.GraphSpec.Core"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.NN",
+      "dst": "NN.Runtime.Autograd.Gondolin.NN",
       "line": 10,
       "path": "NN/GraphSpec/Core.lean",
       "public": true,
@@ -8097,7 +8097,7 @@
       "src": "NN.GraphSpec.Core"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Backend",
+      "dst": "NN.Runtime.Autograd.Gondolin.Backend",
       "line": 9,
       "path": "NN/GraphSpec/DAG/Core.lean",
       "public": true,
@@ -8188,123 +8188,123 @@
       "src": "NN.GraphSpec.Models.Resnet18"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.NN",
+      "dst": "NN.Runtime.Autograd.Gondolin.NN",
       "line": 9,
-      "path": "NN/GraphSpec/Models/Gondlin/Autoencoder.lean",
+      "path": "NN/GraphSpec/Models/Gondolin/Autoencoder.lean",
       "public": true,
-      "src": "NN.GraphSpec.Models.Gondlin.Autoencoder"
+      "src": "NN.GraphSpec.Models.Gondolin.Autoencoder"
     },
     {
       "dst": "Mathlib.Algebra.Order.Algebra",
       "line": 10,
-      "path": "NN/GraphSpec/Models/Gondlin/Autoencoder.lean",
+      "path": "NN/GraphSpec/Models/Gondolin/Autoencoder.lean",
       "public": false,
-      "src": "NN.GraphSpec.Models.Gondlin.Autoencoder"
+      "src": "NN.GraphSpec.Models.Gondolin.Autoencoder"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.NN",
+      "dst": "NN.Runtime.Autograd.Gondolin.NN",
       "line": 9,
-      "path": "NN/GraphSpec/Models/Gondlin/Cnn.lean",
+      "path": "NN/GraphSpec/Models/Gondolin/Cnn.lean",
       "public": true,
-      "src": "NN.GraphSpec.Models.Gondlin.Cnn"
+      "src": "NN.GraphSpec.Models.Gondolin.Cnn"
     },
     {
       "dst": "Mathlib.Algebra.Order.Algebra",
       "line": 10,
-      "path": "NN/GraphSpec/Models/Gondlin/Cnn.lean",
+      "path": "NN/GraphSpec/Models/Gondolin/Cnn.lean",
       "public": false,
-      "src": "NN.GraphSpec.Models.Gondlin.Cnn"
+      "src": "NN.GraphSpec.Models.Gondolin.Cnn"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Fno1d",
+      "dst": "NN.Runtime.Autograd.Gondolin.Fno1d",
       "line": 9,
-      "path": "NN/GraphSpec/Models/Gondlin/Fno1d.lean",
+      "path": "NN/GraphSpec/Models/Gondolin/Fno1d.lean",
       "public": true,
-      "src": "NN.GraphSpec.Models.Gondlin.Fno1d"
+      "src": "NN.GraphSpec.Models.Gondolin.Fno1d"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.NN",
+      "dst": "NN.Runtime.Autograd.Gondolin.NN",
       "line": 9,
-      "path": "NN/GraphSpec/Models/Gondlin/Mlp.lean",
+      "path": "NN/GraphSpec/Models/Gondolin/Mlp.lean",
       "public": true,
-      "src": "NN.GraphSpec.Models.Gondlin.Mlp"
+      "src": "NN.GraphSpec.Models.Gondolin.Mlp"
     },
     {
       "dst": "Mathlib.Algebra.Order.Algebra",
       "line": 10,
-      "path": "NN/GraphSpec/Models/Gondlin/Mlp.lean",
+      "path": "NN/GraphSpec/Models/Gondolin/Mlp.lean",
       "public": false,
-      "src": "NN.GraphSpec.Models.Gondlin.Mlp"
+      "src": "NN.GraphSpec.Models.Gondolin.Mlp"
     },
     {
       "dst": "NN.GraphSpec.Models.Resnet18",
       "line": 9,
-      "path": "NN/GraphSpec/Models/Gondlin/Resnet18.lean",
+      "path": "NN/GraphSpec/Models/Gondolin/Resnet18.lean",
       "public": true,
-      "src": "NN.GraphSpec.Models.Gondlin.Resnet18"
+      "src": "NN.GraphSpec.Models.Gondolin.Resnet18"
     },
     {
       "dst": "Mathlib.Algebra.Order.Algebra",
       "line": 10,
-      "path": "NN/GraphSpec/Models/Gondlin/Resnet18.lean",
+      "path": "NN/GraphSpec/Models/Gondolin/Resnet18.lean",
       "public": false,
-      "src": "NN.GraphSpec.Models.Gondlin.Resnet18"
+      "src": "NN.GraphSpec.Models.Gondolin.Resnet18"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.NN",
+      "dst": "NN.Runtime.Autograd.Gondolin.NN",
       "line": 9,
-      "path": "NN/GraphSpec/Models/Gondlin/TransformerBlock.lean",
+      "path": "NN/GraphSpec/Models/Gondolin/TransformerBlock.lean",
       "public": true,
-      "src": "NN.GraphSpec.Models.Gondlin.TransformerBlock"
+      "src": "NN.GraphSpec.Models.Gondolin.TransformerBlock"
     },
     {
       "dst": "Mathlib.Algebra.Order.Algebra",
       "line": 10,
-      "path": "NN/GraphSpec/Models/Gondlin/TransformerBlock.lean",
+      "path": "NN/GraphSpec/Models/Gondolin/TransformerBlock.lean",
       "public": false,
-      "src": "NN.GraphSpec.Models.Gondlin.TransformerBlock"
+      "src": "NN.GraphSpec.Models.Gondolin.TransformerBlock"
     },
     {
-      "dst": "NN.GraphSpec.Models.Gondlin.Autoencoder",
+      "dst": "NN.GraphSpec.Models.Gondolin.Autoencoder",
       "line": 9,
-      "path": "NN/GraphSpec/Models/Gondlin.lean",
+      "path": "NN/GraphSpec/Models/Gondolin.lean",
       "public": true,
-      "src": "NN.GraphSpec.Models.Gondlin"
+      "src": "NN.GraphSpec.Models.Gondolin"
     },
     {
-      "dst": "NN.GraphSpec.Models.Gondlin.Cnn",
+      "dst": "NN.GraphSpec.Models.Gondolin.Cnn",
       "line": 10,
-      "path": "NN/GraphSpec/Models/Gondlin.lean",
+      "path": "NN/GraphSpec/Models/Gondolin.lean",
       "public": true,
-      "src": "NN.GraphSpec.Models.Gondlin"
+      "src": "NN.GraphSpec.Models.Gondolin"
     },
     {
-      "dst": "NN.GraphSpec.Models.Gondlin.Fno1d",
+      "dst": "NN.GraphSpec.Models.Gondolin.Fno1d",
       "line": 11,
-      "path": "NN/GraphSpec/Models/Gondlin.lean",
+      "path": "NN/GraphSpec/Models/Gondolin.lean",
       "public": true,
-      "src": "NN.GraphSpec.Models.Gondlin"
+      "src": "NN.GraphSpec.Models.Gondolin"
     },
     {
-      "dst": "NN.GraphSpec.Models.Gondlin.Mlp",
+      "dst": "NN.GraphSpec.Models.Gondolin.Mlp",
       "line": 12,
-      "path": "NN/GraphSpec/Models/Gondlin.lean",
+      "path": "NN/GraphSpec/Models/Gondolin.lean",
       "public": true,
-      "src": "NN.GraphSpec.Models.Gondlin"
+      "src": "NN.GraphSpec.Models.Gondolin"
     },
     {
-      "dst": "NN.GraphSpec.Models.Gondlin.Resnet18",
+      "dst": "NN.GraphSpec.Models.Gondolin.Resnet18",
       "line": 13,
-      "path": "NN/GraphSpec/Models/Gondlin.lean",
+      "path": "NN/GraphSpec/Models/Gondolin.lean",
       "public": true,
-      "src": "NN.GraphSpec.Models.Gondlin"
+      "src": "NN.GraphSpec.Models.Gondolin"
     },
     {
-      "dst": "NN.GraphSpec.Models.Gondlin.TransformerBlock",
+      "dst": "NN.GraphSpec.Models.Gondolin.TransformerBlock",
       "line": 14,
-      "path": "NN/GraphSpec/Models/Gondlin.lean",
+      "path": "NN/GraphSpec/Models/Gondolin.lean",
       "public": true,
-      "src": "NN.GraphSpec.Models.Gondlin"
+      "src": "NN.GraphSpec.Models.Gondolin"
     },
     {
       "dst": "NN.Spec.Models",
@@ -8342,7 +8342,7 @@
       "src": "NN.GraphSpec.Models"
     },
     {
-      "dst": "NN.GraphSpec.Models.Gondlin",
+      "dst": "NN.GraphSpec.Models.Gondolin",
       "line": 14,
       "path": "NN/GraphSpec/Models.lean",
       "public": true,
@@ -8386,9 +8386,9 @@
     {
       "dst": "NN.GraphSpec.Core",
       "line": 9,
-      "path": "NN/GraphSpec/ToGondlin.lean",
+      "path": "NN/GraphSpec/ToGondolin.lean",
       "public": true,
-      "src": "NN.GraphSpec.ToGondlin"
+      "src": "NN.GraphSpec.ToGondolin"
     },
     {
       "dst": "NN.IR.Infer",
@@ -8447,7 +8447,7 @@
       "src": "NN.IR.Semantics"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Random",
+      "dst": "NN.Runtime.Autograd.Gondolin.Random",
       "line": 11,
       "path": "NN/IR/Semantics.lean",
       "public": true,
@@ -8538,7 +8538,7 @@
       "src": "NN.Library"
     },
     {
-      "dst": "NN.Entrypoint.GondlinModels",
+      "dst": "NN.Entrypoint.GondolinModels",
       "line": 16,
       "path": "NN/Library.lean",
       "public": true,
@@ -9021,7 +9021,7 @@
       "src": "NN.MLTheory.CROWN.Lyapunov.TwoStage.Core"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Functional",
+      "dst": "NN.Runtime.Autograd.Gondolin.Functional",
       "line": 10,
       "path": "NN/MLTheory/CROWN/Lyapunov/TwoStage/Core.lean",
       "public": true,
@@ -9091,28 +9091,28 @@
       "src": "NN.MLTheory.CROWN.Lyapunov.TwoStage.PipelineIIHybrid"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Autodiff",
+      "dst": "NN.Runtime.Autograd.Gondolin.Autodiff",
       "line": 14,
       "path": "NN/MLTheory/CROWN/Lyapunov/TwoStage/PipelineIIHybrid.lean",
       "public": true,
       "src": "NN.MLTheory.CROWN.Lyapunov.TwoStage.PipelineIIHybrid"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Backend",
+      "dst": "NN.Runtime.Autograd.Gondolin.Backend",
       "line": 15,
       "path": "NN/MLTheory/CROWN/Lyapunov/TwoStage/PipelineIIHybrid.lean",
       "public": true,
       "src": "NN.MLTheory.CROWN.Lyapunov.TwoStage.PipelineIIHybrid"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Module",
+      "dst": "NN.Runtime.Autograd.Gondolin.Module",
       "line": 16,
       "path": "NN/MLTheory/CROWN/Lyapunov/TwoStage/PipelineIIHybrid.lean",
       "public": true,
       "src": "NN.MLTheory.CROWN.Lyapunov.TwoStage.PipelineIIHybrid"
     },
     {
-      "dst": "NN.Verification.Gondlin.Compile",
+      "dst": "NN.Verification.Gondolin.Compile",
       "line": 17,
       "path": "NN/MLTheory/CROWN/Lyapunov/TwoStage/PipelineIIHybrid.lean",
       "public": true,
@@ -9161,28 +9161,28 @@
       "src": "NN.MLTheory.CROWN.Lyapunov.TwoStage.PipelineIIIAllInLean"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Autodiff",
+      "dst": "NN.Runtime.Autograd.Gondolin.Autodiff",
       "line": 14,
       "path": "NN/MLTheory/CROWN/Lyapunov/TwoStage/PipelineIIIAllInLean.lean",
       "public": true,
       "src": "NN.MLTheory.CROWN.Lyapunov.TwoStage.PipelineIIIAllInLean"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Backend",
+      "dst": "NN.Runtime.Autograd.Gondolin.Backend",
       "line": 15,
       "path": "NN/MLTheory/CROWN/Lyapunov/TwoStage/PipelineIIIAllInLean.lean",
       "public": true,
       "src": "NN.MLTheory.CROWN.Lyapunov.TwoStage.PipelineIIIAllInLean"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Module",
+      "dst": "NN.Runtime.Autograd.Gondolin.Module",
       "line": 16,
       "path": "NN/MLTheory/CROWN/Lyapunov/TwoStage/PipelineIIIAllInLean.lean",
       "public": true,
       "src": "NN.MLTheory.CROWN.Lyapunov.TwoStage.PipelineIIIAllInLean"
     },
     {
-      "dst": "NN.Verification.Gondlin.Compile",
+      "dst": "NN.Verification.Gondolin.Compile",
       "line": 17,
       "path": "NN/MLTheory/CROWN/Lyapunov/TwoStage/PipelineIIIAllInLean.lean",
       "public": true,
@@ -11576,7 +11576,7 @@
       "src": "NN.Proofs.Analysis.FftBridge"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Fft",
+      "dst": "NN.Runtime.Autograd.Gondolin.Fft",
       "line": 10,
       "path": "NN/Proofs/Analysis/FftBridge.lean",
       "public": true,
@@ -14376,7 +14376,7 @@
       "src": "NN.Runtime.Autograd.Compiled.GraphM"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Random",
+      "dst": "NN.Runtime.Autograd.Gondolin.Random",
       "line": 11,
       "path": "NN/Runtime/Autograd/Compiled/GraphM.lean",
       "public": true,
@@ -15272,396 +15272,396 @@
       "src": "NN.Runtime.Autograd.Torch"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Backend",
+      "dst": "NN.Runtime.Autograd.Gondolin.Backend",
       "line": 9,
-      "path": "NN/Runtime/Autograd/Gondlin/Autodiff.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/Autodiff.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin.Autodiff"
+      "src": "NN.Runtime.Autograd.Gondolin.Autodiff"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Dual",
+      "dst": "NN.Runtime.Autograd.Gondolin.Dual",
       "line": 10,
-      "path": "NN/Runtime/Autograd/Gondlin/Autodiff.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/Autodiff.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin.Autodiff"
+      "src": "NN.Runtime.Autograd.Gondolin.Autodiff"
     },
     {
       "dst": "Mathlib.Algebra.Order.Algebra",
       "line": 12,
-      "path": "NN/Runtime/Autograd/Gondlin/Autodiff.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/Autodiff.lean",
       "public": false,
-      "src": "NN.Runtime.Autograd.Gondlin.Autodiff"
+      "src": "NN.Runtime.Autograd.Gondolin.Autodiff"
     },
     {
       "dst": "NN.Runtime.Autograd.Torch.Core",
       "line": 9,
-      "path": "NN/Runtime/Autograd/Gondlin/Backend.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/Backend.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin.Backend"
+      "src": "NN.Runtime.Autograd.Gondolin.Backend"
     },
     {
       "dst": "NN.Tensor.API",
       "line": 10,
-      "path": "NN/Runtime/Autograd/Gondlin/Backend.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/Backend.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin.Backend"
+      "src": "NN.Runtime.Autograd.Gondolin.Backend"
     },
     {
       "dst": "Mathlib.Algebra.Order.Algebra",
       "line": 12,
-      "path": "NN/Runtime/Autograd/Gondlin/Backend.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/Backend.lean",
       "public": false,
-      "src": "NN.Runtime.Autograd.Gondlin.Backend"
+      "src": "NN.Runtime.Autograd.Gondolin.Backend"
     },
     {
       "dst": "NN.Runtime.Autograd.Compiled.IRExec",
       "line": 9,
-      "path": "NN/Runtime/Autograd/Gondlin/CompileExec.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/CompileExec.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin.CompileExec"
+      "src": "NN.Runtime.Autograd.Gondolin.CompileExec"
     },
     {
-      "dst": "NN.Verification.Gondlin.Compile",
+      "dst": "NN.Verification.Gondolin.Compile",
       "line": 10,
-      "path": "NN/Runtime/Autograd/Gondlin/CompileExec.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/CompileExec.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin.CompileExec"
+      "src": "NN.Runtime.Autograd.Gondolin.CompileExec"
     },
     {
-      "dst": "NN.Verification.Gondlin.Correctness",
+      "dst": "NN.Verification.Gondolin.Correctness",
       "line": 11,
-      "path": "NN/Runtime/Autograd/Gondlin/CompileExec.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/CompileExec.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin.CompileExec"
+      "src": "NN.Runtime.Autograd.Gondolin.CompileExec"
     },
     {
       "dst": "NN.Proofs.Autograd.Tape.Algebra.Soundness",
       "line": 9,
-      "path": "NN/Runtime/Autograd/Gondlin/Dual.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/Dual.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin.Dual"
+      "src": "NN.Runtime.Autograd.Gondolin.Dual"
     },
     {
       "dst": "NN.Spec.Core.Utils",
       "line": 10,
-      "path": "NN/Runtime/Autograd/Gondlin/Dual.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/Dual.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin.Dual"
+      "src": "NN.Runtime.Autograd.Gondolin.Dual"
     },
     {
       "dst": "Mathlib.Algebra.Order.Algebra",
       "line": 12,
-      "path": "NN/Runtime/Autograd/Gondlin/Dual.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/Dual.lean",
       "public": false,
-      "src": "NN.Runtime.Autograd.Gondlin.Dual"
+      "src": "NN.Runtime.Autograd.Gondolin.Dual"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.NN",
+      "dst": "NN.Runtime.Autograd.Gondolin.NN",
       "line": 9,
-      "path": "NN/Runtime/Autograd/Gondlin/Fft.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/Fft.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin.Fft"
+      "src": "NN.Runtime.Autograd.Gondolin.Fft"
     },
     {
       "dst": "Mathlib.Algebra.Order.Algebra",
       "line": 11,
-      "path": "NN/Runtime/Autograd/Gondlin/Fft.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/Fft.lean",
       "public": false,
-      "src": "NN.Runtime.Autograd.Gondlin.Fft"
+      "src": "NN.Runtime.Autograd.Gondolin.Fft"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Fft",
+      "dst": "NN.Runtime.Autograd.Gondolin.Fft",
       "line": 9,
-      "path": "NN/Runtime/Autograd/Gondlin/Fno1d.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/Fno1d.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin.Fno1d"
+      "src": "NN.Runtime.Autograd.Gondolin.Fno1d"
     },
     {
       "dst": "Mathlib.Algebra.Order.Algebra",
       "line": 11,
-      "path": "NN/Runtime/Autograd/Gondlin/Fno1d.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/Fno1d.lean",
       "public": false,
-      "src": "NN.Runtime.Autograd.Gondlin.Fno1d"
+      "src": "NN.Runtime.Autograd.Gondolin.Fno1d"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Backend",
+      "dst": "NN.Runtime.Autograd.Gondolin.Backend",
       "line": 9,
-      "path": "NN/Runtime/Autograd/Gondlin/Functional.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/Functional.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin.Functional"
+      "src": "NN.Runtime.Autograd.Gondolin.Functional"
     },
     {
       "dst": "Mathlib.Algebra.Order.Algebra",
       "line": 11,
-      "path": "NN/Runtime/Autograd/Gondlin/Functional.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/Functional.lean",
       "public": false,
-      "src": "NN.Runtime.Autograd.Gondlin.Functional"
+      "src": "NN.Runtime.Autograd.Gondolin.Functional"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Functional",
+      "dst": "NN.Runtime.Autograd.Gondolin.Functional",
       "line": 9,
-      "path": "NN/Runtime/Autograd/Gondlin/Loss.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/Loss.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin.Loss"
+      "src": "NN.Runtime.Autograd.Gondolin.Loss"
     },
     {
       "dst": "Mathlib.Algebra.Order.Algebra",
       "line": 11,
-      "path": "NN/Runtime/Autograd/Gondlin/Loss.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/Loss.lean",
       "public": false,
-      "src": "NN.Runtime.Autograd.Gondlin.Loss"
+      "src": "NN.Runtime.Autograd.Gondolin.Loss"
     },
     {
       "dst": "NN.Spec.Core.Tensor.Core",
       "line": 9,
-      "path": "NN/Runtime/Autograd/Gondlin/Metrics.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/Metrics.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin.Metrics"
+      "src": "NN.Runtime.Autograd.Gondolin.Metrics"
     },
     {
       "dst": "NN.Runtime.Autograd.Torch.Utils",
       "line": 9,
-      "path": "NN/Runtime/Autograd/Gondlin/Module.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/Module.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin.Module"
+      "src": "NN.Runtime.Autograd.Gondolin.Module"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Backend",
+      "dst": "NN.Runtime.Autograd.Gondolin.Backend",
       "line": 10,
-      "path": "NN/Runtime/Autograd/Gondlin/Module.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/Module.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin.Module"
+      "src": "NN.Runtime.Autograd.Gondolin.Module"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Training",
+      "dst": "NN.Runtime.Autograd.Gondolin.Training",
       "line": 11,
-      "path": "NN/Runtime/Autograd/Gondlin/Module.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/Module.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin.Module"
+      "src": "NN.Runtime.Autograd.Gondolin.Module"
     },
     {
       "dst": "Mathlib.Algebra.Order.Algebra",
       "line": 13,
-      "path": "NN/Runtime/Autograd/Gondlin/Module.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/Module.lean",
       "public": false,
-      "src": "NN.Runtime.Autograd.Gondlin.Module"
+      "src": "NN.Runtime.Autograd.Gondolin.Module"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Autodiff",
+      "dst": "NN.Runtime.Autograd.Gondolin.Autodiff",
       "line": 9,
-      "path": "NN/Runtime/Autograd/Gondlin/NN.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/NN.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin.NN"
+      "src": "NN.Runtime.Autograd.Gondolin.NN"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Loss",
+      "dst": "NN.Runtime.Autograd.Gondolin.Loss",
       "line": 10,
-      "path": "NN/Runtime/Autograd/Gondlin/NN.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/NN.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin.NN"
+      "src": "NN.Runtime.Autograd.Gondolin.NN"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Module",
+      "dst": "NN.Runtime.Autograd.Gondolin.Module",
       "line": 11,
-      "path": "NN/Runtime/Autograd/Gondlin/NN.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/NN.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin.NN"
+      "src": "NN.Runtime.Autograd.Gondolin.NN"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Norm",
+      "dst": "NN.Runtime.Autograd.Gondolin.Norm",
       "line": 12,
-      "path": "NN/Runtime/Autograd/Gondlin/NN.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/NN.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin.NN"
+      "src": "NN.Runtime.Autograd.Gondolin.NN"
     },
     {
       "dst": "Mathlib.Algebra.Order.Algebra",
       "line": 14,
-      "path": "NN/Runtime/Autograd/Gondlin/NN.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/NN.lean",
       "public": false,
-      "src": "NN.Runtime.Autograd.Gondlin.NN"
+      "src": "NN.Runtime.Autograd.Gondolin.NN"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Functional",
+      "dst": "NN.Runtime.Autograd.Gondolin.Functional",
       "line": 9,
-      "path": "NN/Runtime/Autograd/Gondlin/Norm.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/Norm.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin.Norm"
+      "src": "NN.Runtime.Autograd.Gondolin.Norm"
     },
     {
       "dst": "Mathlib.Algebra.Order.Algebra",
       "line": 11,
-      "path": "NN/Runtime/Autograd/Gondlin/Norm.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/Norm.lean",
       "public": false,
-      "src": "NN.Runtime.Autograd.Gondlin.Norm"
+      "src": "NN.Runtime.Autograd.Gondolin.Norm"
     },
     {
       "dst": "NN.Runtime.Autograd.Torch.Core",
       "line": 9,
-      "path": "NN/Runtime/Autograd/Gondlin/Optim.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/Optim.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin.Optim"
+      "src": "NN.Runtime.Autograd.Gondolin.Optim"
     },
     {
       "dst": "NN.Runtime.Optim.Optimizers",
       "line": 10,
-      "path": "NN/Runtime/Autograd/Gondlin/Optim.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/Optim.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin.Optim"
+      "src": "NN.Runtime.Autograd.Gondolin.Optim"
     },
     {
       "dst": "Mathlib.Algebra.Order.Algebra",
       "line": 12,
-      "path": "NN/Runtime/Autograd/Gondlin/Optim.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/Optim.lean",
       "public": false,
-      "src": "NN.Runtime.Autograd.Gondlin.Optim"
+      "src": "NN.Runtime.Autograd.Gondolin.Optim"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.NN",
+      "dst": "NN.Runtime.Autograd.Gondolin.NN",
       "line": 9,
-      "path": "NN/Runtime/Autograd/Gondlin/ParamIO.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/ParamIO.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin.ParamIO"
+      "src": "NN.Runtime.Autograd.Gondolin.ParamIO"
     },
     {
       "dst": "Lean",
       "line": 10,
-      "path": "NN/Runtime/Autograd/Gondlin/ParamIO.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/ParamIO.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin.ParamIO"
+      "src": "NN.Runtime.Autograd.Gondolin.ParamIO"
     },
     {
       "dst": "NN.Spec.Core.Context",
       "line": 9,
-      "path": "NN/Runtime/Autograd/Gondlin/Random.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/Random.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin.Random"
+      "src": "NN.Runtime.Autograd.Gondolin.Random"
     },
     {
       "dst": "NN.Spec.Core.Tensor.Core",
       "line": 10,
-      "path": "NN/Runtime/Autograd/Gondlin/Random.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/Random.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin.Random"
+      "src": "NN.Runtime.Autograd.Gondolin.Random"
     },
     {
       "dst": "NN.Runtime.Autograd.Torch.LinkedSession",
       "line": 9,
-      "path": "NN/Runtime/Autograd/Gondlin/Session.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/Session.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin.Session"
+      "src": "NN.Runtime.Autograd.Gondolin.Session"
     },
     {
       "dst": "Mathlib.Algebra.Order.Algebra",
       "line": 11,
-      "path": "NN/Runtime/Autograd/Gondlin/Session.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/Session.lean",
       "public": false,
-      "src": "NN.Runtime.Autograd.Gondlin.Session"
+      "src": "NN.Runtime.Autograd.Gondolin.Session"
     },
     {
       "dst": "NN.Runtime.Autograd.Torch.Utils",
       "line": 9,
-      "path": "NN/Runtime/Autograd/Gondlin/Training.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/Training.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin.Training"
+      "src": "NN.Runtime.Autograd.Gondolin.Training"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Optim",
+      "dst": "NN.Runtime.Autograd.Gondolin.Optim",
       "line": 10,
-      "path": "NN/Runtime/Autograd/Gondlin/Training.lean",
+      "path": "NN/Runtime/Autograd/Gondolin/Training.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin.Training"
+      "src": "NN.Runtime.Autograd.Gondolin.Training"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Autodiff",
+      "dst": "NN.Runtime.Autograd.Gondolin.Autodiff",
       "line": 9,
-      "path": "NN/Runtime/Autograd/Gondlin.lean",
+      "path": "NN/Runtime/Autograd/Gondolin.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin"
+      "src": "NN.Runtime.Autograd.Gondolin"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Backend",
+      "dst": "NN.Runtime.Autograd.Gondolin.Backend",
       "line": 10,
-      "path": "NN/Runtime/Autograd/Gondlin.lean",
+      "path": "NN/Runtime/Autograd/Gondolin.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin"
+      "src": "NN.Runtime.Autograd.Gondolin"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Fft",
+      "dst": "NN.Runtime.Autograd.Gondolin.Fft",
       "line": 11,
-      "path": "NN/Runtime/Autograd/Gondlin.lean",
+      "path": "NN/Runtime/Autograd/Gondolin.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin"
+      "src": "NN.Runtime.Autograd.Gondolin"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Fno1d",
+      "dst": "NN.Runtime.Autograd.Gondolin.Fno1d",
       "line": 12,
-      "path": "NN/Runtime/Autograd/Gondlin.lean",
+      "path": "NN/Runtime/Autograd/Gondolin.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin"
+      "src": "NN.Runtime.Autograd.Gondolin"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Functional",
+      "dst": "NN.Runtime.Autograd.Gondolin.Functional",
       "line": 13,
-      "path": "NN/Runtime/Autograd/Gondlin.lean",
+      "path": "NN/Runtime/Autograd/Gondolin.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin"
+      "src": "NN.Runtime.Autograd.Gondolin"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Loss",
+      "dst": "NN.Runtime.Autograd.Gondolin.Loss",
       "line": 14,
-      "path": "NN/Runtime/Autograd/Gondlin.lean",
+      "path": "NN/Runtime/Autograd/Gondolin.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin"
+      "src": "NN.Runtime.Autograd.Gondolin"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Metrics",
+      "dst": "NN.Runtime.Autograd.Gondolin.Metrics",
       "line": 15,
-      "path": "NN/Runtime/Autograd/Gondlin.lean",
+      "path": "NN/Runtime/Autograd/Gondolin.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin"
+      "src": "NN.Runtime.Autograd.Gondolin"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Module",
+      "dst": "NN.Runtime.Autograd.Gondolin.Module",
       "line": 16,
-      "path": "NN/Runtime/Autograd/Gondlin.lean",
+      "path": "NN/Runtime/Autograd/Gondolin.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin"
+      "src": "NN.Runtime.Autograd.Gondolin"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.NN",
+      "dst": "NN.Runtime.Autograd.Gondolin.NN",
       "line": 17,
-      "path": "NN/Runtime/Autograd/Gondlin.lean",
+      "path": "NN/Runtime/Autograd/Gondolin.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin"
+      "src": "NN.Runtime.Autograd.Gondolin"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Norm",
+      "dst": "NN.Runtime.Autograd.Gondolin.Norm",
       "line": 18,
-      "path": "NN/Runtime/Autograd/Gondlin.lean",
+      "path": "NN/Runtime/Autograd/Gondolin.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin"
+      "src": "NN.Runtime.Autograd.Gondolin"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Optim",
+      "dst": "NN.Runtime.Autograd.Gondolin.Optim",
       "line": 19,
-      "path": "NN/Runtime/Autograd/Gondlin.lean",
+      "path": "NN/Runtime/Autograd/Gondolin.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin"
+      "src": "NN.Runtime.Autograd.Gondolin"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Session",
+      "dst": "NN.Runtime.Autograd.Gondolin.Session",
       "line": 20,
-      "path": "NN/Runtime/Autograd/Gondlin.lean",
+      "path": "NN/Runtime/Autograd/Gondolin.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin"
+      "src": "NN.Runtime.Autograd.Gondolin"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Training",
+      "dst": "NN.Runtime.Autograd.Gondolin.Training",
       "line": 21,
-      "path": "NN/Runtime/Autograd/Gondlin.lean",
+      "path": "NN/Runtime/Autograd/Gondolin.lean",
       "public": true,
-      "src": "NN.Runtime.Autograd.Gondlin"
+      "src": "NN.Runtime.Autograd.Gondolin"
     },
     {
       "dst": "NN.Runtime.Autograd.Engine.Core",
@@ -16140,7 +16140,7 @@
       "src": "NN.Runtime.RL.Algorithms.Bandits"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Metrics",
+      "dst": "NN.Runtime.Autograd.Gondolin.Metrics",
       "line": 10,
       "path": "NN/Runtime/RL/Algorithms/Bandits.lean",
       "public": true,
@@ -16182,7 +16182,7 @@
       "src": "NN.Runtime.RL.Algorithms.PolicyGradient"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Random",
+      "dst": "NN.Runtime.Autograd.Gondolin.Random",
       "line": 11,
       "path": "NN/Runtime/RL/Algorithms/PolicyGradient.lean",
       "public": true,
@@ -16196,7 +16196,7 @@
       "src": "NN.Runtime.RL.Algorithms.Tabular"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Metrics",
+      "dst": "NN.Runtime.Autograd.Gondolin.Metrics",
       "line": 10,
       "path": "NN/Runtime/RL/Algorithms/Tabular.lean",
       "public": true,
@@ -16217,7 +16217,7 @@
       "src": "NN.Runtime.RL.Algorithms.ValueLearning"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Metrics",
+      "dst": "NN.Runtime.Autograd.Gondolin.Metrics",
       "line": 10,
       "path": "NN/Runtime/RL/Algorithms/ValueLearning.lean",
       "public": true,
@@ -16385,7 +16385,7 @@
       "src": "NN.Runtime.RL.Eval"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Metrics",
+      "dst": "NN.Runtime.Autograd.Gondolin.Metrics",
       "line": 10,
       "path": "NN/Runtime/RL/Eval.lean",
       "public": true,
@@ -16560,7 +16560,7 @@
       "src": "NN.Runtime.RL.PPO.Rollout"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.NN",
+      "dst": "NN.Runtime.Autograd.Gondolin.NN",
       "line": 10,
       "path": "NN/Runtime/RL/PPO/Rollout.lean",
       "public": true,
@@ -16588,28 +16588,28 @@
       "src": "NN.Runtime.RL.PPO"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Functional",
+      "dst": "NN.Runtime.Autograd.Gondolin.Functional",
       "line": 9,
       "path": "NN/Runtime/RL/PolicyGradient/Autograd.lean",
       "public": true,
       "src": "NN.Runtime.RL.PolicyGradient.Autograd"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Loss",
+      "dst": "NN.Runtime.Autograd.Gondolin.Loss",
       "line": 10,
       "path": "NN/Runtime/RL/PolicyGradient/Autograd.lean",
       "public": true,
       "src": "NN.Runtime.RL.PolicyGradient.Autograd"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Module",
+      "dst": "NN.Runtime.Autograd.Gondolin.Module",
       "line": 11,
       "path": "NN/Runtime/RL/PolicyGradient/Autograd.lean",
       "public": true,
       "src": "NN.Runtime.RL.PolicyGradient.Autograd"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.NN",
+      "dst": "NN.Runtime.Autograd.Gondolin.NN",
       "line": 12,
       "path": "NN/Runtime/RL/PolicyGradient/Autograd.lean",
       "public": true,
@@ -16623,7 +16623,7 @@
       "src": "NN.Runtime.RL.Replay"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Random",
+      "dst": "NN.Runtime.Autograd.Gondolin.Random",
       "line": 10,
       "path": "NN/Runtime/RL/Replay.lean",
       "public": true,
@@ -19535,7 +19535,7 @@
       "src": "NN.Tests.Runtime.Cuda.Stress"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Random",
+      "dst": "NN.Runtime.Autograd.Gondolin.Random",
       "line": 12,
       "path": "NN/Tests/Runtime/Cuda/Stress.lean",
       "public": true,
@@ -20011,28 +20011,28 @@
       "src": "NN.Tests.Runtime.Floats.Suite"
     },
     {
-      "dst": "NN.Tests.Runtime.Floats.GondlinIRExecEquivSmoke",
+      "dst": "NN.Tests.Runtime.Floats.GondolinIRExecEquivSmoke",
       "line": 15,
       "path": "NN/Tests/Runtime/Floats/Suite.lean",
       "public": true,
       "src": "NN.Tests.Runtime.Floats.Suite"
     },
     {
-      "dst": "NN.Tests.Runtime.Floats.GondlinIndexShapeSmoke",
+      "dst": "NN.Tests.Runtime.Floats.GondolinIndexShapeSmoke",
       "line": 16,
       "path": "NN/Tests/Runtime/Floats/Suite.lean",
       "public": true,
       "src": "NN.Tests.Runtime.Floats.Suite"
     },
     {
-      "dst": "NN.Tests.Runtime.Floats.GondlinOpsSmoke",
+      "dst": "NN.Tests.Runtime.Floats.GondolinOpsSmoke",
       "line": 17,
       "path": "NN/Tests/Runtime/Floats/Suite.lean",
       "public": true,
       "src": "NN.Tests.Runtime.Floats.Suite"
     },
     {
-      "dst": "NN.Tests.Runtime.Floats.GondlinSpecMlpEquivSmoke",
+      "dst": "NN.Tests.Runtime.Floats.GondolinSpecMlpEquivSmoke",
       "line": 18,
       "path": "NN/Tests/Runtime/Floats/Suite.lean",
       "public": true,
@@ -20041,114 +20041,114 @@
     {
       "dst": "NN",
       "line": 9,
-      "path": "NN/Tests/Runtime/Floats/GondlinIRExecEquivSmoke.lean",
+      "path": "NN/Tests/Runtime/Floats/GondolinIRExecEquivSmoke.lean",
       "public": true,
-      "src": "NN.Tests.Runtime.Floats.GondlinIRExecEquivSmoke"
+      "src": "NN.Tests.Runtime.Floats.GondolinIRExecEquivSmoke"
     },
     {
       "dst": "NN.IR.Semantics",
       "line": 10,
-      "path": "NN/Tests/Runtime/Floats/GondlinIRExecEquivSmoke.lean",
+      "path": "NN/Tests/Runtime/Floats/GondolinIRExecEquivSmoke.lean",
       "public": true,
-      "src": "NN.Tests.Runtime.Floats.GondlinIRExecEquivSmoke"
+      "src": "NN.Tests.Runtime.Floats.GondolinIRExecEquivSmoke"
     },
     {
       "dst": "NN.Tests.Runtime.Floats.Utils",
       "line": 11,
-      "path": "NN/Tests/Runtime/Floats/GondlinIRExecEquivSmoke.lean",
+      "path": "NN/Tests/Runtime/Floats/GondolinIRExecEquivSmoke.lean",
       "public": true,
-      "src": "NN.Tests.Runtime.Floats.GondlinIRExecEquivSmoke"
+      "src": "NN.Tests.Runtime.Floats.GondolinIRExecEquivSmoke"
     },
     {
-      "dst": "NN.Verification.Gondlin.CompileExec",
+      "dst": "NN.Verification.Gondolin.CompileExec",
       "line": 12,
-      "path": "NN/Tests/Runtime/Floats/GondlinIRExecEquivSmoke.lean",
+      "path": "NN/Tests/Runtime/Floats/GondolinIRExecEquivSmoke.lean",
       "public": true,
-      "src": "NN.Tests.Runtime.Floats.GondlinIRExecEquivSmoke"
+      "src": "NN.Tests.Runtime.Floats.GondolinIRExecEquivSmoke"
     },
     {
       "dst": "Std",
       "line": 13,
-      "path": "NN/Tests/Runtime/Floats/GondlinIRExecEquivSmoke.lean",
+      "path": "NN/Tests/Runtime/Floats/GondolinIRExecEquivSmoke.lean",
       "public": true,
-      "src": "NN.Tests.Runtime.Floats.GondlinIRExecEquivSmoke"
+      "src": "NN.Tests.Runtime.Floats.GondolinIRExecEquivSmoke"
     },
     {
       "dst": "NN",
       "line": 9,
-      "path": "NN/Tests/Runtime/Floats/GondlinIndexShapeSmoke.lean",
+      "path": "NN/Tests/Runtime/Floats/GondolinIndexShapeSmoke.lean",
       "public": true,
-      "src": "NN.Tests.Runtime.Floats.GondlinIndexShapeSmoke"
+      "src": "NN.Tests.Runtime.Floats.GondolinIndexShapeSmoke"
     },
     {
       "dst": "NN.Tests.Runtime.Floats.Utils",
       "line": 10,
-      "path": "NN/Tests/Runtime/Floats/GondlinIndexShapeSmoke.lean",
+      "path": "NN/Tests/Runtime/Floats/GondolinIndexShapeSmoke.lean",
       "public": true,
-      "src": "NN.Tests.Runtime.Floats.GondlinIndexShapeSmoke"
+      "src": "NN.Tests.Runtime.Floats.GondolinIndexShapeSmoke"
     },
     {
       "dst": "Std",
       "line": 11,
-      "path": "NN/Tests/Runtime/Floats/GondlinIndexShapeSmoke.lean",
+      "path": "NN/Tests/Runtime/Floats/GondolinIndexShapeSmoke.lean",
       "public": true,
-      "src": "NN.Tests.Runtime.Floats.GondlinIndexShapeSmoke"
+      "src": "NN.Tests.Runtime.Floats.GondolinIndexShapeSmoke"
     },
     {
       "dst": "NN",
       "line": 9,
-      "path": "NN/Tests/Runtime/Floats/GondlinOpsSmoke.lean",
+      "path": "NN/Tests/Runtime/Floats/GondolinOpsSmoke.lean",
       "public": true,
-      "src": "NN.Tests.Runtime.Floats.GondlinOpsSmoke"
+      "src": "NN.Tests.Runtime.Floats.GondolinOpsSmoke"
     },
     {
       "dst": "NN.Spec.Core.TensorOps",
       "line": 10,
-      "path": "NN/Tests/Runtime/Floats/GondlinOpsSmoke.lean",
+      "path": "NN/Tests/Runtime/Floats/GondolinOpsSmoke.lean",
       "public": true,
-      "src": "NN.Tests.Runtime.Floats.GondlinOpsSmoke"
+      "src": "NN.Tests.Runtime.Floats.GondolinOpsSmoke"
     },
     {
       "dst": "NN.Tests.Runtime.Floats.Utils",
       "line": 11,
-      "path": "NN/Tests/Runtime/Floats/GondlinOpsSmoke.lean",
+      "path": "NN/Tests/Runtime/Floats/GondolinOpsSmoke.lean",
       "public": true,
-      "src": "NN.Tests.Runtime.Floats.GondlinOpsSmoke"
+      "src": "NN.Tests.Runtime.Floats.GondolinOpsSmoke"
     },
     {
       "dst": "Std",
       "line": 12,
-      "path": "NN/Tests/Runtime/Floats/GondlinOpsSmoke.lean",
+      "path": "NN/Tests/Runtime/Floats/GondolinOpsSmoke.lean",
       "public": true,
-      "src": "NN.Tests.Runtime.Floats.GondlinOpsSmoke"
+      "src": "NN.Tests.Runtime.Floats.GondolinOpsSmoke"
     },
     {
       "dst": "NN",
       "line": 9,
-      "path": "NN/Tests/Runtime/Floats/GondlinSpecMlpEquivSmoke.lean",
+      "path": "NN/Tests/Runtime/Floats/GondolinSpecMlpEquivSmoke.lean",
       "public": true,
-      "src": "NN.Tests.Runtime.Floats.GondlinSpecMlpEquivSmoke"
+      "src": "NN.Tests.Runtime.Floats.GondolinSpecMlpEquivSmoke"
     },
     {
       "dst": "NN.Spec.Models.Mlp",
       "line": 10,
-      "path": "NN/Tests/Runtime/Floats/GondlinSpecMlpEquivSmoke.lean",
+      "path": "NN/Tests/Runtime/Floats/GondolinSpecMlpEquivSmoke.lean",
       "public": true,
-      "src": "NN.Tests.Runtime.Floats.GondlinSpecMlpEquivSmoke"
+      "src": "NN.Tests.Runtime.Floats.GondolinSpecMlpEquivSmoke"
     },
     {
       "dst": "NN.Tests.Runtime.Floats.Utils",
       "line": 11,
-      "path": "NN/Tests/Runtime/Floats/GondlinSpecMlpEquivSmoke.lean",
+      "path": "NN/Tests/Runtime/Floats/GondolinSpecMlpEquivSmoke.lean",
       "public": true,
-      "src": "NN.Tests.Runtime.Floats.GondlinSpecMlpEquivSmoke"
+      "src": "NN.Tests.Runtime.Floats.GondolinSpecMlpEquivSmoke"
     },
     {
       "dst": "Std",
       "line": 12,
-      "path": "NN/Tests/Runtime/Floats/GondlinSpecMlpEquivSmoke.lean",
+      "path": "NN/Tests/Runtime/Floats/GondolinSpecMlpEquivSmoke.lean",
       "public": true,
-      "src": "NN.Tests.Runtime.Floats.GondlinSpecMlpEquivSmoke"
+      "src": "NN.Tests.Runtime.Floats.GondolinSpecMlpEquivSmoke"
     },
     {
       "dst": "NN.Spec.Core.Tensor",
@@ -20627,7 +20627,7 @@
       "src": "NN.Verification.ODE.Verify"
     },
     {
-      "dst": "NN.Verification.Gondlin.Compile",
+      "dst": "NN.Verification.Gondolin.Compile",
       "line": 11,
       "path": "NN/Verification/ODE/Verify.lean",
       "public": true,
@@ -20949,7 +20949,7 @@
       "src": "NN.Verification.Robustness.Digits"
     },
     {
-      "dst": "NN.Verification.Gondlin.Compile",
+      "dst": "NN.Verification.Gondolin.Compile",
       "line": 15,
       "path": "NN/Verification/Robustness/Digits.lean",
       "public": true,
@@ -21021,177 +21021,177 @@
     {
       "dst": "NN.IR.Check",
       "line": 9,
-      "path": "NN/Verification/Gondlin/Compile.lean",
+      "path": "NN/Verification/Gondolin/Compile.lean",
       "public": true,
-      "src": "NN.Verification.Gondlin.Compile"
+      "src": "NN.Verification.Gondolin.Compile"
     },
     {
       "dst": "NN.MLTheory.CROWN.Graph",
       "line": 10,
-      "path": "NN/Verification/Gondlin/Compile.lean",
+      "path": "NN/Verification/Gondolin/Compile.lean",
       "public": true,
-      "src": "NN.Verification.Gondlin.Compile"
+      "src": "NN.Verification.Gondolin.Compile"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Backend",
+      "dst": "NN.Runtime.Autograd.Gondolin.Backend",
       "line": 11,
-      "path": "NN/Verification/Gondlin/Compile.lean",
+      "path": "NN/Verification/Gondolin/Compile.lean",
       "public": true,
-      "src": "NN.Verification.Gondlin.Compile"
+      "src": "NN.Verification.Gondolin.Compile"
     },
     {
       "dst": "NN.Runtime.Autograd.Compiled.IRExec",
       "line": 9,
-      "path": "NN/Verification/Gondlin/CompileExec.lean",
+      "path": "NN/Verification/Gondolin/CompileExec.lean",
       "public": true,
-      "src": "NN.Verification.Gondlin.CompileExec"
+      "src": "NN.Verification.Gondolin.CompileExec"
     },
     {
-      "dst": "NN.Verification.Gondlin.Compile",
+      "dst": "NN.Verification.Gondolin.Compile",
       "line": 10,
-      "path": "NN/Verification/Gondlin/CompileExec.lean",
+      "path": "NN/Verification/Gondolin/CompileExec.lean",
       "public": true,
-      "src": "NN.Verification.Gondlin.CompileExec"
+      "src": "NN.Verification.Gondolin.CompileExec"
     },
     {
-      "dst": "NN.Verification.Gondlin.Correctness",
+      "dst": "NN.Verification.Gondolin.Correctness",
       "line": 11,
-      "path": "NN/Verification/Gondlin/CompileExec.lean",
+      "path": "NN/Verification/Gondolin/CompileExec.lean",
       "public": true,
-      "src": "NN.Verification.Gondlin.CompileExec"
+      "src": "NN.Verification.Gondolin.CompileExec"
     },
     {
       "dst": "NN.IR.Semantics",
       "line": 9,
-      "path": "NN/Verification/Gondlin/Correctness.lean",
+      "path": "NN/Verification/Gondolin/Correctness.lean",
       "public": true,
-      "src": "NN.Verification.Gondlin.Correctness"
+      "src": "NN.Verification.Gondolin.Correctness"
     },
     {
-      "dst": "NN.Verification.Gondlin.Compile",
+      "dst": "NN.Verification.Gondolin.Compile",
       "line": 10,
-      "path": "NN/Verification/Gondlin/Correctness.lean",
+      "path": "NN/Verification/Gondolin/Correctness.lean",
       "public": true,
-      "src": "NN.Verification.Gondlin.Correctness"
+      "src": "NN.Verification.Gondolin.Correctness"
     },
     {
       "dst": "Init.Data.Array.Lemmas",
       "line": 9,
-      "path": "NN/Verification/Gondlin/Proved.lean",
+      "path": "NN/Verification/Gondolin/Proved.lean",
       "public": true,
-      "src": "NN.Verification.Gondlin.Proved"
+      "src": "NN.Verification.Gondolin.Proved"
     },
     {
       "dst": "Init.Data.List.FinRange",
       "line": 10,
-      "path": "NN/Verification/Gondlin/Proved.lean",
+      "path": "NN/Verification/Gondolin/Proved.lean",
       "public": true,
-      "src": "NN.Verification.Gondlin.Proved"
+      "src": "NN.Verification.Gondolin.Proved"
     },
     {
       "dst": "Init.Data.List.Lemmas",
       "line": 11,
-      "path": "NN/Verification/Gondlin/Proved.lean",
+      "path": "NN/Verification/Gondolin/Proved.lean",
       "public": true,
-      "src": "NN.Verification.Gondlin.Proved"
+      "src": "NN.Verification.Gondolin.Proved"
     },
     {
       "dst": "Init.Data.Range.Lemmas",
       "line": 12,
-      "path": "NN/Verification/Gondlin/Proved.lean",
+      "path": "NN/Verification/Gondolin/Proved.lean",
       "public": true,
-      "src": "NN.Verification.Gondlin.Proved"
+      "src": "NN.Verification.Gondolin.Proved"
     },
     {
       "dst": "NN.Spec.Core.TensorReductionShape",
       "line": 13,
-      "path": "NN/Verification/Gondlin/Proved.lean",
+      "path": "NN/Verification/Gondolin/Proved.lean",
       "public": true,
-      "src": "NN.Verification.Gondlin.Proved"
+      "src": "NN.Verification.Gondolin.Proved"
     },
     {
-      "dst": "NN.Verification.Gondlin.Compile",
+      "dst": "NN.Verification.Gondolin.Compile",
       "line": 14,
-      "path": "NN/Verification/Gondlin/Proved.lean",
+      "path": "NN/Verification/Gondolin/Proved.lean",
       "public": true,
-      "src": "NN.Verification.Gondlin.Proved"
+      "src": "NN.Verification.Gondolin.Proved"
     },
     {
-      "dst": "NN.Verification.Gondlin.Correctness",
+      "dst": "NN.Verification.Gondolin.Correctness",
       "line": 15,
-      "path": "NN/Verification/Gondlin/Proved.lean",
+      "path": "NN/Verification/Gondolin/Proved.lean",
       "public": true,
-      "src": "NN.Verification.Gondlin.Proved"
+      "src": "NN.Verification.Gondolin.Proved"
     },
     {
       "dst": "Std.Data.HashMap.Lemmas",
       "line": 16,
-      "path": "NN/Verification/Gondlin/Proved.lean",
+      "path": "NN/Verification/Gondolin/Proved.lean",
       "public": true,
-      "src": "NN.Verification.Gondlin.Proved"
+      "src": "NN.Verification.Gondolin.Proved"
     },
     {
-      "dst": "NN.Runtime.Autograd.Gondlin.Backend",
+      "dst": "NN.Runtime.Autograd.Gondolin.Backend",
       "line": 9,
-      "path": "NN/Verification/Gondlin/SpecEval.lean",
+      "path": "NN/Verification/Gondolin/SpecEval.lean",
       "public": true,
-      "src": "NN.Verification.Gondlin.SpecEval"
+      "src": "NN.Verification.Gondolin.SpecEval"
     },
     {
       "dst": "NN.Spec.Core.TensorReductionShape",
       "line": 10,
-      "path": "NN/Verification/Gondlin/SpecEval.lean",
+      "path": "NN/Verification/Gondolin/SpecEval.lean",
       "public": true,
-      "src": "NN.Verification.Gondlin.SpecEval"
+      "src": "NN.Verification.Gondolin.SpecEval"
     },
     {
       "dst": "NN.Spec.Layers.Activation",
       "line": 11,
-      "path": "NN/Verification/Gondlin/SpecEval.lean",
+      "path": "NN/Verification/Gondolin/SpecEval.lean",
       "public": true,
-      "src": "NN.Verification.Gondlin.SpecEval"
+      "src": "NN.Verification.Gondolin.SpecEval"
     },
     {
       "dst": "NN.Spec.Layers.Attention",
       "line": 12,
-      "path": "NN/Verification/Gondlin/SpecEval.lean",
+      "path": "NN/Verification/Gondolin/SpecEval.lean",
       "public": true,
-      "src": "NN.Verification.Gondlin.SpecEval"
+      "src": "NN.Verification.Gondolin.SpecEval"
     },
     {
       "dst": "NN.Spec.Layers.Conv",
       "line": 13,
-      "path": "NN/Verification/Gondlin/SpecEval.lean",
+      "path": "NN/Verification/Gondolin/SpecEval.lean",
       "public": true,
-      "src": "NN.Verification.Gondlin.SpecEval"
+      "src": "NN.Verification.Gondolin.SpecEval"
     },
     {
       "dst": "NN.Spec.Layers.Loss",
       "line": 14,
-      "path": "NN/Verification/Gondlin/SpecEval.lean",
+      "path": "NN/Verification/Gondolin/SpecEval.lean",
       "public": true,
-      "src": "NN.Verification.Gondlin.SpecEval"
+      "src": "NN.Verification.Gondolin.SpecEval"
     },
     {
       "dst": "NN.Spec.Layers.Normalization",
       "line": 15,
-      "path": "NN/Verification/Gondlin/SpecEval.lean",
+      "path": "NN/Verification/Gondolin/SpecEval.lean",
       "public": true,
-      "src": "NN.Verification.Gondlin.SpecEval"
+      "src": "NN.Verification.Gondolin.SpecEval"
     },
     {
       "dst": "NN.Spec.Layers.Pooling",
       "line": 16,
-      "path": "NN/Verification/Gondlin/SpecEval.lean",
+      "path": "NN/Verification/Gondolin/SpecEval.lean",
       "public": true,
-      "src": "NN.Verification.Gondlin.SpecEval"
+      "src": "NN.Verification.Gondolin.SpecEval"
     },
     {
-      "dst": "NN.Verification.Gondlin.Proved",
+      "dst": "NN.Verification.Gondolin.Proved",
       "line": 9,
-      "path": "NN/Verification/Gondlin/Verified.lean",
+      "path": "NN/Verification/Gondolin/Verified.lean",
       "public": true,
-      "src": "NN.Verification.Gondlin.Verified"
+      "src": "NN.Verification.Gondolin.Verified"
     },
     {
       "dst": "NN.API.Json",
@@ -21245,1409 +21245,1409 @@
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch1_Introduction/API_Tour.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch1_Introduction/API_Tour.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch1_Introduction.API_Tour"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch1_Introduction.API_Tour"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch1_Introduction/API_Tour.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch1_Introduction/API_Tour.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch1_Introduction.API_Tour"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch1_Introduction.API_Tour"
     },
     {
       "dst": "NN",
       "line": 47,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch1_Introduction/API_Tour.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch1_Introduction/API_Tour.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch1_Introduction.API_Tour"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch1_Introduction.API_Tour"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch1_Introduction/Motivation.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch1_Introduction/Motivation.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch1_Introduction.Motivation"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch1_Introduction.Motivation"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch1_Introduction/Motivation.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch1_Introduction/Motivation.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch1_Introduction.Motivation"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch1_Introduction.Motivation"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch1_Introduction/Overview.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch1_Introduction/Overview.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch1_Introduction.Overview"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch1_Introduction.Overview"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch1_Introduction/Overview.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch1_Introduction/Overview.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch1_Introduction.Overview"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch1_Introduction.Overview"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch1_Introduction/RunningExample.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch1_Introduction/RunningExample.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch1_Introduction.RunningExample"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch1_Introduction.RunningExample"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch1_Introduction/RunningExample.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch1_Introduction/RunningExample.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch1_Introduction.RunningExample"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch1_Introduction.RunningExample"
     },
     {
       "dst": "NN",
       "line": 44,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch1_Introduction/RunningExample.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch1_Introduction/RunningExample.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch1_Introduction.RunningExample"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch1_Introduction.RunningExample"
     },
     {
       "dst": "NN",
       "line": 166,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch1_Introduction/RunningExample.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch1_Introduction/RunningExample.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch1_Introduction.RunningExample"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch1_Introduction.RunningExample"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch1_Introduction/TheLeanLanguage.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch1_Introduction/TheLeanLanguage.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch1_Introduction.TheLeanLanguage"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch1_Introduction.TheLeanLanguage"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch1_Introduction/TheLeanLanguage.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch1_Introduction/TheLeanLanguage.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch1_Introduction.TheLeanLanguage"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch1_Introduction.TheLeanLanguage"
     },
     {
       "dst": "NN",
       "line": 120,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch1_Introduction/TheLeanLanguage.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch1_Introduction/TheLeanLanguage.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch1_Introduction.TheLeanLanguage"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch1_Introduction.TheLeanLanguage"
     },
     {
       "dst": "NN",
       "line": 172,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch1_Introduction/TheLeanLanguage.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch1_Introduction/TheLeanLanguage.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch1_Introduction.TheLeanLanguage"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch1_Introduction.TheLeanLanguage"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch1_Introduction/GondlinVsPyTorch.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch1_Introduction/GondolinVsPyTorch.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch1_Introduction.GondlinVsPyTorch"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch1_Introduction.GondolinVsPyTorch"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch1_Introduction/GondlinVsPyTorch.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch1_Introduction/GondolinVsPyTorch.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch1_Introduction.GondlinVsPyTorch"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch1_Introduction.GondolinVsPyTorch"
     },
     {
       "dst": "NN",
       "line": 60,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch1_Introduction/GondlinVsPyTorch.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch1_Introduction/GondolinVsPyTorch.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch1_Introduction.GondlinVsPyTorch"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch1_Introduction.GondolinVsPyTorch"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch1_Introduction/WhyFunctionalProgramming.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch1_Introduction/WhyFunctionalProgramming.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch1_Introduction.WhyFunctionalProgramming"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch1_Introduction.WhyFunctionalProgramming"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch2_Frontend/AutogradWalkthrough.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch2_Frontend/AutogradWalkthrough.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch2_Frontend.AutogradWalkthrough"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch2_Frontend.AutogradWalkthrough"
     },
     {
       "dst": "NN",
       "line": 27,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch2_Frontend/AutogradWalkthrough.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch2_Frontend/AutogradWalkthrough.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch2_Frontend.AutogradWalkthrough"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch2_Frontend.AutogradWalkthrough"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch2_Frontend/BuildingModels.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch2_Frontend/BuildingModels.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch2_Frontend.BuildingModels"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch2_Frontend.BuildingModels"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch2_Frontend/BuildingModels.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch2_Frontend/BuildingModels.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch2_Frontend.BuildingModels"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch2_Frontend.BuildingModels"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch2_Frontend/DataAndLoaders.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch2_Frontend/DataAndLoaders.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch2_Frontend.DataAndLoaders"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch2_Frontend.DataAndLoaders"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch2_Frontend/DataAndLoaders.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch2_Frontend/DataAndLoaders.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch2_Frontend.DataAndLoaders"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch2_Frontend.DataAndLoaders"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch2_Frontend/ExecutionModes.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch2_Frontend/ExecutionModes.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch2_Frontend.ExecutionModes"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch2_Frontend.ExecutionModes"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch2_Frontend/PyTorchRoundtrip.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch2_Frontend/PyTorchRoundtrip.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch2_Frontend.PyTorchRoundtrip"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch2_Frontend.PyTorchRoundtrip"
     },
     {
       "dst": "torch",
       "line": 201,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch2_Frontend/PyTorchRoundtrip.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch2_Frontend/PyTorchRoundtrip.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch2_Frontend.PyTorchRoundtrip"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch2_Frontend.PyTorchRoundtrip"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch2_Frontend/RuntimeAndAutograd.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch2_Frontend/RuntimeAndAutograd.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch2_Frontend.RuntimeAndAutograd"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch2_Frontend.RuntimeAndAutograd"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch2_Frontend/RuntimeAndAutograd.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch2_Frontend/RuntimeAndAutograd.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch2_Frontend.RuntimeAndAutograd"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch2_Frontend.RuntimeAndAutograd"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch2_Frontend/TensorsAndShapes.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch2_Frontend/TensorsAndShapes.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch2_Frontend.TensorsAndShapes"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch2_Frontend.TensorsAndShapes"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch2_Frontend/TensorsAndShapes.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch2_Frontend/TensorsAndShapes.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch2_Frontend.TensorsAndShapes"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch2_Frontend.TensorsAndShapes"
     },
     {
       "dst": "torch",
       "line": 51,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch2_Frontend/TensorsAndShapes.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch2_Frontend/TensorsAndShapes.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch2_Frontend.TensorsAndShapes"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch2_Frontend.TensorsAndShapes"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch2_Frontend/GondlinAPI.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch2_Frontend/GondolinAPI.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch2_Frontend.GondlinAPI"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch2_Frontend.GondolinAPI"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch2_Frontend/GondlinAPI.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch2_Frontend/GondolinAPI.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch2_Frontend.GondlinAPI"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch2_Frontend.GondolinAPI"
     },
     {
       "dst": "NN",
       "line": 14,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch2_Frontend/GondlinAPI.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch2_Frontend/GondolinAPI.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch2_Frontend.GondlinAPI"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch2_Frontend.GondolinAPI"
     },
     {
       "dst": "NN",
       "line": 45,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch2_Frontend/GondlinAPI.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch2_Frontend/GondolinAPI.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch2_Frontend.GondlinAPI"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch2_Frontend.GondolinAPI"
     },
     {
       "dst": "NN",
       "line": 246,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch2_Frontend/GondlinAPI.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch2_Frontend/GondolinAPI.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch2_Frontend.GondlinAPI"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch2_Frontend.GondolinAPI"
     },
     {
       "dst": "NN.Entrypoint.Verification",
       "line": 252,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch2_Frontend/GondlinAPI.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch2_Frontend/GondolinAPI.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch2_Frontend.GondlinAPI"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch2_Frontend.GondolinAPI"
     },
     {
       "dst": "NN.Entrypoint.Floats",
       "line": 257,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch2_Frontend/GondlinAPI.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch2_Frontend/GondolinAPI.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch2_Frontend.GondlinAPI"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch2_Frontend.GondolinAPI"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch2_Frontend/TrainingFromScratch.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch2_Frontend/TrainingFromScratch.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch2_Frontend.TrainingFromScratch"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch2_Frontend.TrainingFromScratch"
     },
     {
       "dst": "torch",
       "line": 75,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch2_Frontend/TrainingFromScratch.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch2_Frontend/TrainingFromScratch.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch2_Frontend.TrainingFromScratch"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch2_Frontend.TrainingFromScratch"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/ExternalToolsAndFFI.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/ExternalToolsAndFFI.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.ExternalToolsAndFFI"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.ExternalToolsAndFFI"
     },
     {
       "dst": "NN.Runtime.External",
       "line": 88,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/ExternalToolsAndFFI.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/ExternalToolsAndFFI.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.ExternalToolsAndFFI"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.ExternalToolsAndFFI"
     },
     {
       "dst": "NN.Runtime.PyTorch.Export.StateDict",
       "line": 120,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/ExternalToolsAndFFI.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/ExternalToolsAndFFI.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.ExternalToolsAndFFI"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.ExternalToolsAndFFI"
     },
     {
       "dst": "NN.Runtime.PyTorch.Export.TorchExport",
       "line": 121,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/ExternalToolsAndFFI.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/ExternalToolsAndFFI.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.ExternalToolsAndFFI"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.ExternalToolsAndFFI"
     },
     {
       "dst": "NN.Runtime.PyTorch.Import.Core",
       "line": 122,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/ExternalToolsAndFFI.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/ExternalToolsAndFFI.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.ExternalToolsAndFFI"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.ExternalToolsAndFFI"
     },
     {
       "dst": "NN.Runtime.PyTorch.Import.TorchExport",
       "line": 123,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/ExternalToolsAndFFI.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/ExternalToolsAndFFI.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.ExternalToolsAndFFI"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.ExternalToolsAndFFI"
     },
     {
       "dst": "NN.Runtime.External.Julia",
       "line": 167,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/ExternalToolsAndFFI.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/ExternalToolsAndFFI.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.ExternalToolsAndFFI"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.ExternalToolsAndFFI"
     },
     {
       "dst": "NN.Floats.Arb",
       "line": 194,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/ExternalToolsAndFFI.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/ExternalToolsAndFFI.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.ExternalToolsAndFFI"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.ExternalToolsAndFFI"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/FloatingPointLiterature.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/FloatingPointLiterature.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.FloatingPointLiterature"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.FloatingPointLiterature"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/FloatingPointLiterature.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/FloatingPointLiterature.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.FloatingPointLiterature"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.FloatingPointLiterature"
     },
     {
       "dst": "NN.MLTheory.Proofs.Approximation",
       "line": 121,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/FloatingPointLiterature.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/FloatingPointLiterature.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.FloatingPointLiterature"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.FloatingPointLiterature"
     },
     {
       "dst": "NN.MLTheory.Proofs.Approximation.Universal.UniversalApproximationIEEE32Exec",
       "line": 122,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/FloatingPointLiterature.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/FloatingPointLiterature.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.FloatingPointLiterature"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.FloatingPointLiterature"
     },
     {
       "dst": "NN.MLTheory.Proofs.Approximation.Universal.UniversalApproximationIEEE32Exec",
       "line": 167,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/FloatingPointLiterature.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/FloatingPointLiterature.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.FloatingPointLiterature"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.FloatingPointLiterature"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/Floats.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/Floats.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.Floats"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.Floats"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/Floats.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/Floats.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.Floats"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.Floats"
     },
     {
       "dst": "NN.Floats.Float32",
       "line": 78,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/Floats.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/Floats.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.Floats"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.Floats"
     },
     {
       "dst": "NN.Floats.FP32",
       "line": 79,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/Floats.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/Floats.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.Floats"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.Floats"
     },
     {
       "dst": "NN.Floats.IEEEExec",
       "line": 80,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/Floats.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/Floats.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.Floats"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.Floats"
     },
     {
       "dst": "NN.Floats.IEEEExec.BridgeFP32",
       "line": 81,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/Floats.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/Floats.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.Floats"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.Floats"
     },
     {
       "dst": "NN.Floats.IEEEExec.BridgeFP32Total",
       "line": 82,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/Floats.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/Floats.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.Floats"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.Floats"
     },
     {
       "dst": "NN.Floats.IEEEExec.BridgeInitFloat32",
       "line": 83,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/Floats.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/Floats.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.Floats"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.Floats"
     },
     {
       "dst": "NN.Floats.IEEEExec.BridgeFP32",
       "line": 130,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/Floats.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/Floats.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.Floats"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.Floats"
     },
     {
       "dst": "NN.Floats.IEEEExec.BridgeFP32Total",
       "line": 131,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/Floats.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/Floats.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.Floats"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.Floats"
     },
     {
       "dst": "NN.Floats.IEEEExec.BridgeInitFloat32",
       "line": 226,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/Floats.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/Floats.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.Floats"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.Floats"
     },
     {
       "dst": "NN.Runtime.Autograd.Engine.Cuda.Float32Contract",
       "line": 245,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/Floats.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/Floats.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.Floats"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.Floats"
     },
     {
       "dst": "NN.Runtime.Autograd.Engine.Cuda.KernelSpec",
       "line": 246,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/Floats.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/Floats.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.Floats"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.Floats"
     },
     {
       "dst": "NN.Floats.IEEEExec.Exec32",
       "line": 267,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/Floats.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/Floats.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.Floats"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.Floats"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/GPUAndCUDA.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/GPUAndCUDA.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.GPUAndCUDA"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.GPUAndCUDA"
     },
     {
       "dst": "NN.Runtime.Autograd.Engine.Cuda.Float32Contract",
       "line": 154,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/GPUAndCUDA.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/GPUAndCUDA.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.GPUAndCUDA"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.GPUAndCUDA"
     },
     {
       "dst": "NN.Runtime.Autograd.Engine.Cuda.KernelSpec",
       "line": 155,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/GPUAndCUDA.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/GPUAndCUDA.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.GPUAndCUDA"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.GPUAndCUDA"
     },
     {
       "dst": "NN.Runtime.Autograd.Engine.Cuda.NativeSources",
       "line": 156,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/GPUAndCUDA.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/GPUAndCUDA.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.GPUAndCUDA"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.GPUAndCUDA"
     },
     {
       "dst": "NN.Runtime.Autograd.Engine.Cuda.Float32Contract",
       "line": 198,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/GPUAndCUDA.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/GPUAndCUDA.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.GPUAndCUDA"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.GPUAndCUDA"
     },
     {
       "dst": "NN.Spec.Layers.FlashAttention",
       "line": 372,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/GPUAndCUDA.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/GPUAndCUDA.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.GPUAndCUDA"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.GPUAndCUDA"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/GraphSpec.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/GraphSpec.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.GraphSpec"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.GraphSpec"
     },
     {
       "dst": "NN.Entrypoint.GraphSpec",
       "line": 172,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/GraphSpec.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/GraphSpec.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.GraphSpec"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.GraphSpec"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/GraphsAndIR.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/GraphsAndIR.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.GraphsAndIR"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.GraphsAndIR"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/GraphsAndIR.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/GraphsAndIR.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.GraphsAndIR"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.GraphsAndIR"
     },
     {
       "dst": "NN",
       "line": 313,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/GraphsAndIR.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/GraphsAndIR.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.GraphsAndIR"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.GraphsAndIR"
     },
     {
       "dst": "NN.Entrypoint.IR",
       "line": 314,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/GraphsAndIR.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/GraphsAndIR.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.GraphsAndIR"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.GraphsAndIR"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/SpecLayer.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/SpecLayer.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.SpecLayer"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.SpecLayer"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/SpecLayer.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/SpecLayer.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.SpecLayer"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.SpecLayer"
     },
     {
       "dst": "NN",
       "line": 65,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/SpecLayer.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/SpecLayer.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.SpecLayer"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.SpecLayer"
     },
     {
       "dst": "NN",
       "line": 182,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch3_Backend/SpecLayer.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch3_Backend/SpecLayer.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch3_Backend.SpecLayer"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch3_Backend.SpecLayer"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/ApproximationTheory.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/ApproximationTheory.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.ApproximationTheory"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.ApproximationTheory"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/ApproximationTheory.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/ApproximationTheory.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.ApproximationTheory"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.ApproximationTheory"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/AutogradProofs.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/AutogradProofs.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.AutogradProofs"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.AutogradProofs"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/AutogradProofs.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/AutogradProofs.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.AutogradProofs"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.AutogradProofs"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/Certificates.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/Certificates.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.Certificates"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.Certificates"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/Certificates.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/Certificates.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.Certificates"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.Certificates"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/ClassicalMLProofs.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/ClassicalMLProofs.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.ClassicalMLProofs"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.ClassicalMLProofs"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/ClassicalMLProofs.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/ClassicalMLProofs.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.ClassicalMLProofs"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.ClassicalMLProofs"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/FP32Soundness.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/FP32Soundness.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.FP32Soundness"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.FP32Soundness"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/FP32Soundness.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/FP32Soundness.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.FP32Soundness"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.FP32Soundness"
     },
     {
       "dst": "NN.Proofs.RuntimeApprox.FP32.Layers",
       "line": 144,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/FP32Soundness.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/FP32Soundness.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.FP32Soundness"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.FP32Soundness"
     },
     {
       "dst": "NN.Proofs.RuntimeApprox.FP32.MLP",
       "line": 145,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/FP32Soundness.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/FP32Soundness.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.FP32Soundness"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.FP32Soundness"
     },
     {
       "dst": "NN.Proofs.RuntimeApprox.FP32.CROWN",
       "line": 146,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/FP32Soundness.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/FP32Soundness.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.FP32Soundness"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.FP32Soundness"
     },
     {
       "dst": "NN.Proofs.RuntimeApprox.FP32.Layers",
       "line": 222,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/FP32Soundness.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/FP32Soundness.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.FP32Soundness"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.FP32Soundness"
     },
     {
       "dst": "NN.Proofs.RuntimeApprox.FP32.Layers",
       "line": 249,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/FP32Soundness.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/FP32Soundness.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.FP32Soundness"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.FP32Soundness"
     },
     {
       "dst": "NN.Proofs.RuntimeApprox.FP32.MLP",
       "line": 260,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/FP32Soundness.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/FP32Soundness.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.FP32Soundness"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.FP32Soundness"
     },
     {
       "dst": "NN.Proofs.RuntimeApprox.FP32.CROWN",
       "line": 273,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/FP32Soundness.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/FP32Soundness.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.FP32Soundness"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.FP32Soundness"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/LearningTheory.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/LearningTheory.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.LearningTheory"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.LearningTheory"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/LearningTheory.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/LearningTheory.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.LearningTheory"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.LearningTheory"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/OptimizationTheory.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/OptimizationTheory.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.OptimizationTheory"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.OptimizationTheory"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/OptimizationTheory.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/OptimizationTheory.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.OptimizationTheory"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.OptimizationTheory"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/ProbabilityAndGradients.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/ProbabilityAndGradients.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.ProbabilityAndGradients"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.ProbabilityAndGradients"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/ProbabilityAndGradients.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/ProbabilityAndGradients.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.ProbabilityAndGradients"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.ProbabilityAndGradients"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/ProofSystems.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/ProofSystems.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.ProofSystems"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.ProofSystems"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/ProofSystems.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/ProofSystems.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.ProofSystems"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.ProofSystems"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/RuntimeApproximation.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/RuntimeApproximation.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.RuntimeApproximation"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.RuntimeApproximation"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/RuntimeApproximation.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/RuntimeApproximation.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.RuntimeApproximation"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.RuntimeApproximation"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/ScientificMLVerification.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/ScientificMLVerification.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.ScientificMLVerification"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.ScientificMLVerification"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/ScientificMLVerification.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/ScientificMLVerification.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.ScientificMLVerification"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.ScientificMLVerification"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/SelfSupervisedTheory.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/SelfSupervisedTheory.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.SelfSupervisedTheory"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.SelfSupervisedTheory"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/SelfSupervisedTheory.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/SelfSupervisedTheory.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.SelfSupervisedTheory"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.SelfSupervisedTheory"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/TwoStageWorkflows.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/TwoStageWorkflows.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.TwoStageWorkflows"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.TwoStageWorkflows"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/TwoStageWorkflows.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/TwoStageWorkflows.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.TwoStageWorkflows"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.TwoStageWorkflows"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/Verification.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/Verification.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.Verification"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.Verification"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/Verification.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/Verification.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.Verification"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.Verification"
     },
     {
       "dst": "NN",
       "line": 333,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/Verification.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/Verification.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.Verification"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.Verification"
     },
     {
-      "dst": "NN.Verification.Gondlin.Compile",
+      "dst": "NN.Verification.Gondolin.Compile",
       "line": 334,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch4_Verification/Verification.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch4_Verification/Verification.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch4_Verification.Verification"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch4_Verification.Verification"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch5_Advanced/BugZooCatalog.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch5_Advanced/BugZooCatalog.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch5_Advanced.BugZooCatalog"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch5_Advanced.BugZooCatalog"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch5_Advanced/BugZooCatalog.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch5_Advanced/BugZooCatalog.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch5_Advanced.BugZooCatalog"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch5_Advanced.BugZooCatalog"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch5_Advanced/CLI.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch5_Advanced/CLI.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch5_Advanced.CLI"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch5_Advanced.CLI"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch5_Advanced/Examples.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch5_Advanced/Examples.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch5_Advanced.Examples"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch5_Advanced.Examples"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch5_Advanced/Examples.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch5_Advanced/Examples.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch5_Advanced.Examples"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch5_Advanced.Examples"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch5_Advanced/GenerativeModels.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch5_Advanced/GenerativeModels.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch5_Advanced.GenerativeModels"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch5_Advanced.GenerativeModels"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch5_Advanced/GenerativeModels.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch5_Advanced/GenerativeModels.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch5_Advanced.GenerativeModels"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch5_Advanced.GenerativeModels"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch5_Advanced/ModelZooDeepDive.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch5_Advanced/ModelZooDeepDive.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch5_Advanced.ModelZooDeepDive"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch5_Advanced.ModelZooDeepDive"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch5_Advanced/ModelZooDeepDive.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch5_Advanced/ModelZooDeepDive.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch5_Advanced.ModelZooDeepDive"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch5_Advanced.ModelZooDeepDive"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch5_Advanced/ModernModels.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch5_Advanced/ModernModels.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch5_Advanced.ModernModels"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch5_Advanced.ModernModels"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch5_Advanced/ModernModels.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch5_Advanced/ModernModels.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch5_Advanced.ModernModels"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch5_Advanced.ModernModels"
     },
     {
       "dst": "NN",
       "line": 94,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch5_Advanced/ModernModels.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch5_Advanced/ModernModels.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch5_Advanced.ModernModels"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch5_Advanced.ModernModels"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch5_Advanced/ReinforcementLearning.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch5_Advanced/ReinforcementLearning.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch5_Advanced.ReinforcementLearning"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch5_Advanced.ReinforcementLearning"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch5_Advanced/ReinforcementLearning.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch5_Advanced/ReinforcementLearning.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch5_Advanced.ReinforcementLearning"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch5_Advanced.ReinforcementLearning"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch5_Advanced/Widgets.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch5_Advanced/Widgets.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch5_Advanced.Widgets"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch5_Advanced.Widgets"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch5_Advanced/Widgets.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch5_Advanced/Widgets.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch5_Advanced.Widgets"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch5_Advanced.Widgets"
     },
     {
       "dst": "NN.Entrypoint.Widgets",
       "line": 3,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch5_Advanced/Widgets.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch5_Advanced/Widgets.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch5_Advanced.Widgets"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch5_Advanced.Widgets"
     },
     {
       "dst": "NN.Spec.Core.Tensor.Core",
       "line": 4,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch5_Advanced/Widgets.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch5_Advanced/Widgets.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch5_Advanced.Widgets"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch5_Advanced.Widgets"
     },
     {
       "dst": "NN.IR.Graph",
       "line": 5,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch5_Advanced/Widgets.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch5_Advanced/Widgets.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch5_Advanced.Widgets"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch5_Advanced.Widgets"
     },
     {
       "dst": "NN.IR.Semantics",
       "line": 6,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch5_Advanced/Widgets.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch5_Advanced/Widgets.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch5_Advanced.Widgets"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch5_Advanced.Widgets"
     },
     {
       "dst": "NN.Floats.IEEEExec.Exec32",
       "line": 7,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch5_Advanced/Widgets.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch5_Advanced/Widgets.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch5_Advanced.Widgets"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch5_Advanced.Widgets"
     },
     {
       "dst": "NN.MLTheory.CROWN.Graph",
       "line": 8,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch5_Advanced/Widgets.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch5_Advanced/Widgets.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch5_Advanced.Widgets"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch5_Advanced.Widgets"
     },
     {
       "dst": "NN.Runtime.Autograd.Engine.Core",
       "line": 9,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch5_Advanced/Widgets.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch5_Advanced/Widgets.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch5_Advanced.Widgets"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch5_Advanced.Widgets"
     },
     {
       "dst": "NN.Runtime.Training.Log",
       "line": 10,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch5_Advanced/Widgets.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch5_Advanced/Widgets.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch5_Advanced.Widgets"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch5_Advanced.Widgets"
     },
     {
       "dst": "NN.Runtime.Context",
       "line": 11,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch5_Advanced/Widgets.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch5_Advanced/Widgets.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch5_Advanced.Widgets"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch5_Advanced.Widgets"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch6_Conclusion/Conclusion.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch6_Conclusion/Conclusion.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch6_Conclusion.Conclusion"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch6_Conclusion.Conclusion"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide/Ch6_Conclusion/Conclusion.lean",
+      "path": "blueprint/GondolinBlueprint/Guide/Ch6_Conclusion/Conclusion.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide.Ch6_Conclusion.Conclusion"
+      "src": "blueprint.GondolinBlueprint.Guide.Ch6_Conclusion.Conclusion"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
       "dst": "VersoBlueprint",
       "line": 2,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch1_Introduction.Overview",
+      "dst": "GondolinBlueprint.Guide.Ch1_Introduction.Overview",
       "line": 3,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch1_Introduction.Motivation",
+      "dst": "GondolinBlueprint.Guide.Ch1_Introduction.Motivation",
       "line": 4,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch1_Introduction.API_Tour",
+      "dst": "GondolinBlueprint.Guide.Ch1_Introduction.API_Tour",
       "line": 5,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch1_Introduction.WhyFunctionalProgramming",
+      "dst": "GondolinBlueprint.Guide.Ch1_Introduction.WhyFunctionalProgramming",
       "line": 6,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch1_Introduction.TheLeanLanguage",
+      "dst": "GondolinBlueprint.Guide.Ch1_Introduction.TheLeanLanguage",
       "line": 7,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch1_Introduction.GondlinVsPyTorch",
+      "dst": "GondolinBlueprint.Guide.Ch1_Introduction.GondolinVsPyTorch",
       "line": 8,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch1_Introduction.RunningExample",
+      "dst": "GondolinBlueprint.Guide.Ch1_Introduction.RunningExample",
       "line": 9,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch2_Frontend.TensorsAndShapes",
+      "dst": "GondolinBlueprint.Guide.Ch2_Frontend.TensorsAndShapes",
       "line": 10,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch2_Frontend.BuildingModels",
+      "dst": "GondolinBlueprint.Guide.Ch2_Frontend.BuildingModels",
       "line": 11,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch2_Frontend.DataAndLoaders",
+      "dst": "GondolinBlueprint.Guide.Ch2_Frontend.DataAndLoaders",
       "line": 12,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch2_Frontend.TrainingFromScratch",
+      "dst": "GondolinBlueprint.Guide.Ch2_Frontend.TrainingFromScratch",
       "line": 13,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch2_Frontend.GondlinAPI",
+      "dst": "GondolinBlueprint.Guide.Ch2_Frontend.GondolinAPI",
       "line": 14,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch2_Frontend.ExecutionModes",
+      "dst": "GondolinBlueprint.Guide.Ch2_Frontend.ExecutionModes",
       "line": 15,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch2_Frontend.AutogradWalkthrough",
+      "dst": "GondolinBlueprint.Guide.Ch2_Frontend.AutogradWalkthrough",
       "line": 16,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch2_Frontend.RuntimeAndAutograd",
+      "dst": "GondolinBlueprint.Guide.Ch2_Frontend.RuntimeAndAutograd",
       "line": 17,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch2_Frontend.PyTorchRoundtrip",
+      "dst": "GondolinBlueprint.Guide.Ch2_Frontend.PyTorchRoundtrip",
       "line": 18,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch3_Backend.GraphsAndIR",
+      "dst": "GondolinBlueprint.Guide.Ch3_Backend.GraphsAndIR",
       "line": 19,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch3_Backend.SpecLayer",
+      "dst": "GondolinBlueprint.Guide.Ch3_Backend.SpecLayer",
       "line": 20,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch3_Backend.GraphSpec",
+      "dst": "GondolinBlueprint.Guide.Ch3_Backend.GraphSpec",
       "line": 21,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch3_Backend.Floats",
+      "dst": "GondolinBlueprint.Guide.Ch3_Backend.Floats",
       "line": 22,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch3_Backend.FloatingPointLiterature",
+      "dst": "GondolinBlueprint.Guide.Ch3_Backend.FloatingPointLiterature",
       "line": 23,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch3_Backend.GPUAndCUDA",
+      "dst": "GondolinBlueprint.Guide.Ch3_Backend.GPUAndCUDA",
       "line": 24,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch3_Backend.ExternalToolsAndFFI",
+      "dst": "GondolinBlueprint.Guide.Ch3_Backend.ExternalToolsAndFFI",
       "line": 25,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch4_Verification.Verification",
+      "dst": "GondolinBlueprint.Guide.Ch4_Verification.Verification",
       "line": 26,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch4_Verification.ProofSystems",
+      "dst": "GondolinBlueprint.Guide.Ch4_Verification.ProofSystems",
       "line": 27,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch4_Verification.AutogradProofs",
+      "dst": "GondolinBlueprint.Guide.Ch4_Verification.AutogradProofs",
       "line": 28,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch4_Verification.RuntimeApproximation",
+      "dst": "GondolinBlueprint.Guide.Ch4_Verification.RuntimeApproximation",
       "line": 29,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch4_Verification.LearningTheory",
+      "dst": "GondolinBlueprint.Guide.Ch4_Verification.LearningTheory",
       "line": 30,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch4_Verification.OptimizationTheory",
+      "dst": "GondolinBlueprint.Guide.Ch4_Verification.OptimizationTheory",
       "line": 31,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch4_Verification.SelfSupervisedTheory",
+      "dst": "GondolinBlueprint.Guide.Ch4_Verification.SelfSupervisedTheory",
       "line": 32,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch4_Verification.ApproximationTheory",
+      "dst": "GondolinBlueprint.Guide.Ch4_Verification.ApproximationTheory",
       "line": 33,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch4_Verification.ClassicalMLProofs",
+      "dst": "GondolinBlueprint.Guide.Ch4_Verification.ClassicalMLProofs",
       "line": 34,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch4_Verification.ProbabilityAndGradients",
+      "dst": "GondolinBlueprint.Guide.Ch4_Verification.ProbabilityAndGradients",
       "line": 35,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch4_Verification.ScientificMLVerification",
+      "dst": "GondolinBlueprint.Guide.Ch4_Verification.ScientificMLVerification",
       "line": 36,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch4_Verification.Certificates",
+      "dst": "GondolinBlueprint.Guide.Ch4_Verification.Certificates",
       "line": 37,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch4_Verification.FP32Soundness",
+      "dst": "GondolinBlueprint.Guide.Ch4_Verification.FP32Soundness",
       "line": 38,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch4_Verification.TwoStageWorkflows",
+      "dst": "GondolinBlueprint.Guide.Ch4_Verification.TwoStageWorkflows",
       "line": 39,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch5_Advanced.ModernModels",
+      "dst": "GondolinBlueprint.Guide.Ch5_Advanced.ModernModels",
       "line": 40,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch5_Advanced.ModelZooDeepDive",
+      "dst": "GondolinBlueprint.Guide.Ch5_Advanced.ModelZooDeepDive",
       "line": 41,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch5_Advanced.GenerativeModels",
+      "dst": "GondolinBlueprint.Guide.Ch5_Advanced.GenerativeModels",
       "line": 42,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch5_Advanced.ReinforcementLearning",
+      "dst": "GondolinBlueprint.Guide.Ch5_Advanced.ReinforcementLearning",
       "line": 43,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch5_Advanced.Widgets",
+      "dst": "GondolinBlueprint.Guide.Ch5_Advanced.Widgets",
       "line": 44,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch5_Advanced.BugZooCatalog",
+      "dst": "GondolinBlueprint.Guide.Ch5_Advanced.BugZooCatalog",
       "line": 45,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch5_Advanced.Examples",
+      "dst": "GondolinBlueprint.Guide.Ch5_Advanced.Examples",
       "line": 46,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch5_Advanced.CLI",
+      "dst": "GondolinBlueprint.Guide.Ch5_Advanced.CLI",
       "line": 47,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide.Ch6_Conclusion.Conclusion",
+      "dst": "GondolinBlueprint.Guide.Ch6_Conclusion.Conclusion",
       "line": 48,
-      "path": "blueprint/GondlinBlueprint/Guide.lean",
+      "path": "blueprint/GondolinBlueprint/Guide.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint.Guide"
+      "src": "blueprint.GondolinBlueprint.Guide"
     },
     {
-      "dst": "GondlinBlueprint.Guide",
+      "dst": "GondolinBlueprint.Guide",
       "line": 1,
-      "path": "blueprint/GondlinBlueprint.lean",
+      "path": "blueprint/GondolinBlueprint.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprint"
+      "src": "blueprint.GondolinBlueprint"
     },
     {
       "dst": "VersoManual",
       "line": 1,
-      "path": "blueprint/GondlinBlueprintMain.lean",
+      "path": "blueprint/GondolinBlueprintMain.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprintMain"
+      "src": "blueprint.GondolinBlueprintMain"
     },
     {
       "dst": "VersoBlueprint.PreviewManifest",
       "line": 2,
-      "path": "blueprint/GondlinBlueprintMain.lean",
+      "path": "blueprint/GondolinBlueprintMain.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprintMain"
+      "src": "blueprint.GondolinBlueprintMain"
     },
     {
-      "dst": "GondlinBlueprint.Guide",
+      "dst": "GondolinBlueprint.Guide",
       "line": 3,
-      "path": "blueprint/GondlinBlueprintMain.lean",
+      "path": "blueprint/GondolinBlueprintMain.lean",
       "public": false,
-      "src": "blueprint.GondlinBlueprintMain"
+      "src": "blueprint.GondolinBlueprintMain"
     },
     {
       "dst": "Lake",
@@ -23408,7 +23408,7 @@
     "NN.API.Runtime": [
       "NN",
       "API",
-      "Gondlin",
+      "Gondolin",
       "RefList",
       "F",
       "Loss",
@@ -23484,22 +23484,22 @@
       "text",
       "Unicode"
     ],
-    "NN.API.Gondlin.Optimizers": [
+    "NN.API.Gondolin.Optimizers": [
       "NN",
       "API",
-      "Gondlin",
+      "Gondolin",
       "Optimizers"
     ],
-    "NN.API.Gondlin.ParamIO": [
+    "NN.API.Gondolin.ParamIO": [
       "NN",
       "API",
-      "Gondlin",
+      "Gondolin",
       "ParamIO"
     ],
-    "NN.API.Gondlin.Schedulers": [
+    "NN.API.Gondolin.Schedulers": [
       "NN",
       "API",
-      "Gondlin",
+      "Gondolin",
       "Schedulers"
     ],
     "NN.CI.All": [],
@@ -23518,15 +23518,15 @@
     "NN.Entrypoint.Runtime": [],
     "NN.Entrypoint.Spec": [],
     "NN.Entrypoint.Tensor": [],
-    "NN.Entrypoint.GondlinModels": [
+    "NN.Entrypoint.GondolinModels": [
       "NN",
-      "GondlinModels"
+      "GondolinModels"
     ],
     "NN.Entrypoint.Verification": [],
     "NN.Entrypoint.Widgets": [],
     "NN.Examples.Advanced": [],
     "NN.Examples.Advanced.Floats.ArbIEEEExecCompare": [
-      "Gondlin.Floats.Interval.ComparisonTutorial",
+      "Gondolin.Floats.Interval.ComparisonTutorial",
       "NN.Examples.Advanced.Floats.ArbIEEEExecCompare"
     ],
     "NN.Examples.Advanced.Floats.Float32Modes": [
@@ -23796,8 +23796,8 @@
       "NN.Examples.Verification.LiRPA.TransformerEncoderVerify"
     ],
     "NN.Examples.Verification.Robustness": [],
-    "NN.Examples.Verification.Robustness.GondlinRobustness": [
-      "NN.Examples.Verification.Robustness.GondlinRobustness"
+    "NN.Examples.Verification.Robustness.GondolinRobustness": [
+      "NN.Examples.Verification.Robustness.GondolinRobustness"
     ],
     "NN.Examples.Verification.Robustness.VerifyMarginCert": [
       "NN.Examples.Verification.Robustness.VerifyMarginCert"
@@ -23806,18 +23806,18 @@
     "NN.Examples.Verification.Splines.PiecewiseLinearVerify": [
       "NN.Examples.Verification.Splines.PiecewiseLinearVerify"
     ],
-    "NN.Examples.Verification.Gondlin": [],
-    "NN.Examples.Verification.Gondlin.GondlinCrownOps": [
-      "NN.Examples.Verification.Gondlin.GondlinCrownOps"
+    "NN.Examples.Verification.Gondolin": [],
+    "NN.Examples.Verification.Gondolin.GondolinCrownOps": [
+      "NN.Examples.Verification.Gondolin.GondolinCrownOps"
     ],
-    "NN.Examples.Verification.Gondlin.GondlinIBP": [
-      "NN.Examples.Verification.Gondlin.GondlinIBP"
+    "NN.Examples.Verification.Gondolin.GondolinIBP": [
+      "NN.Examples.Verification.Gondolin.GondolinIBP"
     ],
-    "NN.Examples.Verification.Gondlin.GondlinMlpWorkflow": [
-      "NN.Examples.Verification.Gondlin.GondlinMlpWorkflow"
+    "NN.Examples.Verification.Gondolin.GondolinMlpWorkflow": [
+      "NN.Examples.Verification.Gondolin.GondolinMlpWorkflow"
     ],
-    "NN.Examples.Verification.Gondlin.GondlinTransformerIBP": [
-      "NN.Examples.Verification.Gondlin.GondlinTransformerIBP"
+    "NN.Examples.Verification.Gondolin.GondolinTransformerIBP": [
+      "NN.Examples.Verification.Gondolin.GondolinTransformerIBP"
     ],
     "NN.Examples.Verification.VNNComp": [],
     "NN.Examples.Verification.VNNComp.MnistFcVerify": [
@@ -23826,212 +23826,212 @@
     "NN.Examples.Zoo": [],
     "NN.Floats.Arb": [],
     "NN.Floats.Arb.Oracle": [
-      "Gondlin.Floats.Arb"
+      "Gondolin.Floats.Arb"
     ],
     "NN.Floats.FP32": [],
     "NN.Floats.FP32.Core": [
-      "Gondlin.Floats",
+      "Gondolin.Floats",
       "FP32"
     ],
     "NN.Floats.FP32.Error": [
-      "Gondlin.Floats",
+      "Gondolin.Floats",
       "FP32"
     ],
     "NN.Floats.FP32.Notation": [
-      "Gondlin.Floats"
+      "Gondolin.Floats"
     ],
     "NN.Floats.FP32.RuntimeApprox": [
-      "Gondlin.Floats",
+      "Gondolin.Floats",
       "FP32"
     ],
     "NN.Floats.Float32": [
-      "Gondlin.Floats"
+      "Gondolin.Floats"
     ],
     "NN.Floats.IEEEExec": [],
     "NN.Floats.IEEEExec.BridgeERealTotal": [
-      "Gondlin.Floats.IEEE754",
+      "Gondolin.Floats.IEEE754",
       "IEEE32Exec"
     ],
     "NN.Floats.IEEEExec.BridgeFP32": [
-      "Gondlin.Floats.IEEE754",
+      "Gondolin.Floats.IEEE754",
       "IEEE32Exec"
     ],
     "NN.Floats.IEEEExec.BridgeFP32Expr": [
-      "Gondlin.Floats.IEEE754",
+      "Gondolin.Floats.IEEE754",
       "IEEE32Exec",
       "FiniteEval"
     ],
     "NN.Floats.IEEEExec.BridgeFP32Total": [
-      "Gondlin.Floats.IEEE754",
+      "Gondolin.Floats.IEEE754",
       "IEEE32Exec"
     ],
     "NN.Floats.IEEEExec.BridgeInitFloat32": [
-      "Gondlin.Floats.IEEE754",
+      "Gondolin.Floats.IEEE754",
       "Float32Bridge",
       "RuntimeFloat32MatchesIEEE32Exec"
     ],
     "NN.Floats.IEEEExec.DirectedRoundingSoundness": [
-      "Gondlin.Floats.IEEE754",
+      "Gondolin.Floats.IEEE754",
       "IEEE32Exec"
     ],
     "NN.Floats.IEEEExec.DivDirectedRoundingSoundness": [
-      "Gondlin.Floats.IEEE754",
+      "Gondolin.Floats.IEEE754",
       "IEEE32Exec"
     ],
     "NN.Floats.IEEEExec.ERealSemantics": [
-      "Gondlin.Floats.IEEE754",
+      "Gondolin.Floats.IEEE754",
       "IEEE32Exec"
     ],
     "NN.Floats.IEEEExec.ErrorBounds": [
-      "Gondlin.Floats.IEEE754",
+      "Gondolin.Floats.IEEE754",
       "IEEE32Exec"
     ],
     "NN.Floats.IEEEExec.Exec32": [
-      "Gondlin.Floats.IEEE754",
+      "Gondolin.Floats.IEEE754",
       "IEEE32Exec",
       "Transcendentals",
       "Trig"
     ],
     "NN.Floats.IEEEExec.MinMaxERealSoundness": [
-      "Gondlin.Floats.IEEE754",
+      "Gondolin.Floats.IEEE754",
       "IEEE32Exec"
     ],
     "NN.Floats.IEEEExec.MkBitsToDyadic": [
-      "Gondlin.Floats.IEEE754",
+      "Gondolin.Floats.IEEE754",
       "IEEE32Exec"
     ],
     "NN.Floats.IEEEExec.MkBitsToReal": [
-      "Gondlin.Floats.IEEE754",
+      "Gondolin.Floats.IEEE754",
       "IEEE32Exec"
     ],
     "NN.Floats.IEEEExec.NatLemmas": [
-      "Gondlin.Floats.IEEE754",
+      "Gondolin.Floats.IEEE754",
       "IEEE32Exec"
     ],
     "NN.Floats.IEEEExec.Negation": [
-      "Gondlin.Floats.IEEE754",
+      "Gondolin.Floats.IEEE754",
       "IEEE32Exec"
     ],
     "NN.Floats.IEEEExec.Notation": [
-      "Gondlin.Floats.IEEE754",
+      "Gondolin.Floats.IEEE754",
       "IEEE32Exec"
     ],
     "NN.Floats.IEEEExec.OpSandwich": [
-      "Gondlin.Floats.IEEE754",
+      "Gondolin.Floats.IEEE754",
       "IEEE32Exec"
     ],
     "NN.Floats.IEEEExec.RatScaling": [
-      "Gondlin.Floats.IEEE754",
+      "Gondolin.Floats.IEEE754",
       "IEEE32Exec"
     ],
     "NN.Floats.IEEEExec.RealSemantics": [
-      "Gondlin.Floats.IEEE754",
+      "Gondolin.Floats.IEEE754",
       "IEEE32Exec"
     ],
     "NN.Floats.IEEEExec.Reductions": [
-      "Gondlin.Floats.IEEE754",
+      "Gondolin.Floats.IEEE754",
       "SumTree",
       "ReductionBound",
       "IEEE32Exec"
     ],
     "NN.Floats.IEEEExec.RoundDyadicToIEEE32Bounds": [
-      "Gondlin.Floats.IEEE754",
+      "Gondolin.Floats.IEEE754",
       "IEEE32Exec"
     ],
     "NN.Floats.IEEEExec.RoundQuotEvenBounds": [
-      "Gondlin.Floats.IEEE754",
+      "Gondolin.Floats.IEEE754",
       "IEEE32Exec"
     ],
     "NN.Floats.IEEEExec.RoundShiftRightEven": [
-      "Gondlin.Floats.IEEE754",
+      "Gondolin.Floats.IEEE754",
       "IEEE32Exec"
     ],
     "NN.Floats.IEEEExec.SpecialRules": [
-      "Gondlin.Floats.IEEE754",
+      "Gondolin.Floats.IEEE754",
       "IEEE32Exec"
     ],
     "NN.Floats.IEEEExec.TranscendentalRules": [
-      "Gondlin.Floats.IEEE754",
+      "Gondolin.Floats.IEEE754",
       "IEEE32Exec"
     ],
     "NN.Floats.IEEEExec.TrigBounds": [
-      "Gondlin.Floats.IEEE754",
+      "Gondolin.Floats.IEEE754",
       "IEEE32Exec"
     ],
     "NN.Floats.IEEEExec.TrigRules": [
-      "Gondlin.Floats.IEEE754",
+      "Gondolin.Floats.IEEE754",
       "IEEE32Exec"
     ],
     "NN.Floats.Interval": [],
     "NN.Floats.Interval.Comparison": [
-      "Gondlin.Floats.Interval.Comparison",
+      "Gondolin.Floats.Interval.Comparison",
       "Float32Interval",
       "IntervalF32",
       "RealInterval",
       "IntervalRat"
     ],
     "NN.Floats.Interval.ERealCoercions": [
-      "Gondlin.Floats.Interval"
+      "Gondolin.Floats.Interval"
     ],
     "NN.Floats.Interval.FP32": [
-      "Gondlin.Floats",
+      "Gondolin.Floats",
       "FP32"
     ],
     "NN.Floats.Interval.IEEEExec32": [
-      "Gondlin.Floats.IEEE754",
+      "Gondolin.Floats.IEEE754",
       "IEEE32Exec",
       "Interval32"
     ],
     "NN.Floats.Interval.IEEEExec32AddSoundness": [
-      "Gondlin.Floats.IEEE754",
+      "Gondolin.Floats.IEEE754",
       "IEEE32Exec",
       "Interval32"
     ],
     "NN.Floats.Interval.IEEEExec32ArbTrans": [
       "Rat",
-      "Gondlin.Floats.IEEE754",
+      "Gondolin.Floats.IEEE754",
       "IEEE32Exec",
       "Interval32"
     ],
     "NN.Floats.Interval.IEEEExec32DivSoundness": [
-      "Gondlin.Floats.IEEE754",
+      "Gondolin.Floats.IEEE754",
       "IEEE32Exec",
       "Interval32"
     ],
     "NN.Floats.Interval.IEEEExec32MinMaxSoundness": [
-      "Gondlin.Floats.IEEE754",
+      "Gondolin.Floats.IEEE754",
       "IEEE32Exec",
       "Interval32"
     ],
     "NN.Floats.Interval.IEEEExec32MulSoundness": [
-      "Gondlin.Floats.IEEE754",
+      "Gondolin.Floats.IEEE754",
       "IEEE32Exec",
       "Interval32"
     ],
     "NN.Floats.Interval.IEEEExec32NoNaN": [
-      "Gondlin.Floats.IEEE754",
+      "Gondolin.Floats.IEEE754",
       "IEEE32Exec",
       "Interval32"
     ],
     "NN.Floats.Interval.IEEEExec32Soundness": [],
     "NN.Floats.Interval.Quantized": [
-      "Gondlin.Floats.Interval",
+      "Gondolin.Floats.Interval",
       "RInterval",
       "EInterval",
       "RInterval"
     ],
     "NN.Floats.Interval.RealBounds": [
-      "Gondlin.Floats.Interval"
+      "Gondolin.Floats.Interval"
     ],
     "NN.Floats.Interval.Rounders": [
-      "Gondlin.Floats.Interval"
+      "Gondolin.Floats.Interval"
     ],
     "NN.Floats.NeuralFloat": [],
     "NN.Floats.NeuralFloat.Conversion": [
-      "Gondlin.Floats.Conversion"
+      "Gondolin.Floats.Conversion"
     ],
     "NN.Floats.NeuralFloat.Core": [
-      "Gondlin.Floats",
+      "Gondolin.Floats",
       "NeuralRadix",
       "NeuralFloat",
       "neuralBpow",
@@ -24039,26 +24039,26 @@
       "neuralUlp"
     ],
     "NN.Floats.NeuralFloat.ErrorBounds": [
-      "Gondlin.Floats.ErrorBounds"
+      "Gondolin.Floats.ErrorBounds"
     ],
     "NN.Floats.NeuralFloat.Formats": [
-      "Gondlin.Floats"
+      "Gondolin.Floats"
     ],
     "NN.Floats.NeuralFloat.Metadata": [
-      "Gondlin.Floats",
+      "Gondolin.Floats",
       "TrainingPhase",
       "NeuralPrecision"
     ],
     "NN.Floats.NeuralFloat.NF": [
-      "Gondlin.Floats",
+      "Gondolin.Floats",
       "NF"
     ],
     "NN.Floats.NeuralFloat.NNOps": [
-      "Gondlin.Floats",
+      "Gondolin.Floats",
       "NNOps"
     ],
     "NN.Floats.NeuralFloat.Rounding": [
-      "Gondlin.Floats"
+      "Gondolin.Floats"
     ],
     "NN.GraphSpec.Core": [
       "NN",
@@ -24115,47 +24115,47 @@
       "Models",
       "ResNet18"
     ],
-    "NN.GraphSpec.Models.Gondlin": [
+    "NN.GraphSpec.Models.Gondolin": [
       "NN",
       "GraphSpec",
       "Models",
-      "Gondlin"
+      "Gondolin"
     ],
-    "NN.GraphSpec.Models.Gondlin.Autoencoder": [
+    "NN.GraphSpec.Models.Gondolin.Autoencoder": [
       "NN",
       "GraphSpec",
       "Models",
-      "Gondlin"
+      "Gondolin"
     ],
-    "NN.GraphSpec.Models.Gondlin.Cnn": [
+    "NN.GraphSpec.Models.Gondolin.Cnn": [
       "NN",
       "GraphSpec",
       "Models",
-      "Gondlin"
+      "Gondolin"
     ],
-    "NN.GraphSpec.Models.Gondlin.Fno1d": [
+    "NN.GraphSpec.Models.Gondolin.Fno1d": [
       "NN",
       "GraphSpec",
       "Models",
-      "Gondlin"
+      "Gondolin"
     ],
-    "NN.GraphSpec.Models.Gondlin.Mlp": [
+    "NN.GraphSpec.Models.Gondolin.Mlp": [
       "NN",
       "GraphSpec",
       "Models",
-      "Gondlin"
+      "Gondolin"
     ],
-    "NN.GraphSpec.Models.Gondlin.Resnet18": [
+    "NN.GraphSpec.Models.Gondolin.Resnet18": [
       "NN",
       "GraphSpec",
       "Models",
-      "Gondlin"
+      "Gondolin"
     ],
-    "NN.GraphSpec.Models.Gondlin.TransformerBlock": [
+    "NN.GraphSpec.Models.Gondolin.TransformerBlock": [
       "NN",
       "GraphSpec",
       "Models",
-      "Gondlin"
+      "Gondolin"
     ],
     "NN.GraphSpec.Primitives": [],
     "NN.GraphSpec.Primitives.Embedding": [
@@ -24169,10 +24169,10 @@
       "Primitive",
       "Graph"
     ],
-    "NN.GraphSpec.ToGondlin": [
+    "NN.GraphSpec.ToGondolin": [
       "NN",
       "GraphSpec",
-      "ToGondlin"
+      "ToGondolin"
     ],
     "NN.IR.Check": [
       "NN.IR",
@@ -25315,133 +25315,133 @@
       "Samples",
       "ScalarTrainer"
     ],
-    "NN.Runtime.Autograd.Gondlin": [
+    "NN.Runtime.Autograd.Gondolin": [
       "Runtime",
       "Autograd",
-      "Gondlin",
+      "Gondolin",
       "Init",
       "Samples",
       "ScalarTrainer"
     ],
-    "NN.Runtime.Autograd.Gondlin.Autodiff": [
+    "NN.Runtime.Autograd.Gondolin.Autodiff": [
       "Runtime",
       "Autograd",
-      "Gondlin",
+      "Gondolin",
       "Autodiff",
       "Internal"
     ],
-    "NN.Runtime.Autograd.Gondlin.Backend": [
+    "NN.Runtime.Autograd.Gondolin.Backend": [
       "Runtime",
       "Autograd",
-      "Gondlin",
+      "Gondolin",
       "Curried",
       "CurriedRef",
       "RefList",
       "Private"
     ],
-    "NN.Runtime.Autograd.Gondlin.CompileExec": [
+    "NN.Runtime.Autograd.Gondolin.CompileExec": [
       "Runtime",
       "Autograd",
-      "Gondlin",
+      "Gondolin",
       "Autodiff"
     ],
-    "NN.Runtime.Autograd.Gondlin.Dual": [
+    "NN.Runtime.Autograd.Gondolin.Dual": [
       "Runtime",
       "Autograd",
-      "Gondlin",
+      "Gondolin",
       "Dual",
       "Dual",
       "DualTensor"
     ],
-    "NN.Runtime.Autograd.Gondlin.Fft": [
+    "NN.Runtime.Autograd.Gondolin.Fft": [
       "Runtime",
       "Autograd",
-      "Gondlin",
+      "Gondolin",
       "NN",
       "FFT1D",
       "Internal"
     ],
-    "NN.Runtime.Autograd.Gondlin.Fno1d": [
+    "NN.Runtime.Autograd.Gondolin.Fno1d": [
       "Runtime",
       "Autograd",
-      "Gondlin",
+      "Gondolin",
       "NN",
       "FNO1D",
       "Real"
     ],
-    "NN.Runtime.Autograd.Gondlin.Functional": [
+    "NN.Runtime.Autograd.Gondolin.Functional": [
       "Runtime",
       "Autograd",
-      "Gondlin",
+      "Gondolin",
       "F",
       "Einsum",
       "Internal"
     ],
-    "NN.Runtime.Autograd.Gondlin.Loss": [
+    "NN.Runtime.Autograd.Gondolin.Loss": [
       "Runtime",
       "Autograd",
-      "Gondlin",
+      "Gondolin",
       "Loss"
     ],
-    "NN.Runtime.Autograd.Gondlin.Metrics": [
+    "NN.Runtime.Autograd.Gondolin.Metrics": [
       "Runtime",
       "Autograd",
-      "Gondlin",
+      "Gondolin",
       "Metrics"
     ],
-    "NN.Runtime.Autograd.Gondlin.Module": [
+    "NN.Runtime.Autograd.Gondolin.Module": [
       "Runtime",
       "Autograd",
-      "Gondlin",
+      "Gondolin",
       "Module",
       "ScalarModule",
       "ScalarModuleDef"
     ],
-    "NN.Runtime.Autograd.Gondlin.NN": [
+    "NN.Runtime.Autograd.Gondolin.NN": [
       "Runtime",
       "Autograd",
-      "Gondlin",
+      "Gondolin",
       "NN",
       "LayerDef",
       "Seq"
     ],
-    "NN.Runtime.Autograd.Gondlin.Norm": [
+    "NN.Runtime.Autograd.Gondolin.Norm": [
       "Runtime",
       "Autograd",
-      "Gondlin",
+      "Gondolin",
       "Norm"
     ],
-    "NN.Runtime.Autograd.Gondlin.Optim": [
+    "NN.Runtime.Autograd.Gondolin.Optim": [
       "Runtime",
       "Autograd",
-      "Gondlin",
+      "Gondolin",
       "Optim",
       "Private"
     ],
-    "NN.Runtime.Autograd.Gondlin.ParamIO": [
+    "NN.Runtime.Autograd.Gondolin.ParamIO": [
       "Runtime",
       "Autograd",
-      "Gondlin",
+      "Gondolin",
       "ParamIO"
     ],
-    "NN.Runtime.Autograd.Gondlin.Random": [
+    "NN.Runtime.Autograd.Gondolin.Random": [
       "Runtime",
       "Autograd",
-      "Gondlin",
+      "Gondolin",
       "Random"
     ],
-    "NN.Runtime.Autograd.Gondlin.Session": [
+    "NN.Runtime.Autograd.Gondolin.Session": [
       "Runtime",
       "Autograd",
-      "Gondlin",
+      "Gondolin",
       "EagerSession",
       "Session",
       "Internal"
     ],
-    "NN.Runtime.Autograd.Gondlin.Training": [
+    "NN.Runtime.Autograd.Gondolin.Training": [
       "Runtime",
       "Autograd",
-      "Gondlin"
+      "Gondolin"
     ],
     "NN.Runtime.Autograd.Train": [],
     "NN.Runtime.Autograd.Train.Core": [
@@ -25757,7 +25757,7 @@
     ],
     "NN.Spec.Core": [],
     "NN.Spec.Core.Complex": [
-      "Gondlin",
+      "Gondolin",
       "Complex",
       "Internal"
     ],
@@ -26263,25 +26263,25 @@
       "Tests",
       "Floats"
     ],
-    "NN.Tests.Runtime.Floats.GondlinIRExecEquivSmoke": [
+    "NN.Tests.Runtime.Floats.GondolinIRExecEquivSmoke": [
       "Tests",
       "Floats",
-      "GondlinIRExecEquivSmoke"
+      "GondolinIRExecEquivSmoke"
     ],
-    "NN.Tests.Runtime.Floats.GondlinIndexShapeSmoke": [
+    "NN.Tests.Runtime.Floats.GondolinIndexShapeSmoke": [
       "Tests",
       "Floats",
-      "GondlinIndexShapeSmoke"
+      "GondolinIndexShapeSmoke"
     ],
-    "NN.Tests.Runtime.Floats.GondlinOpsSmoke": [
+    "NN.Tests.Runtime.Floats.GondolinOpsSmoke": [
       "Tests",
       "Floats",
-      "GondlinOpsSmoke"
+      "GondolinOpsSmoke"
     ],
-    "NN.Tests.Runtime.Floats.GondlinSpecMlpEquivSmoke": [
+    "NN.Tests.Runtime.Floats.GondolinSpecMlpEquivSmoke": [
       "Tests",
       "Floats",
-      "GondlinSpecMLPEquivSmoke"
+      "GondolinSpecMLPEquivSmoke"
     ],
     "NN.Tests.Runtime.Floats.Utils": [
       "Tests",
@@ -26400,25 +26400,25 @@
       "NN.Verification.Splines.PiecewisePolyCert",
       "Internal"
     ],
-    "NN.Verification.Gondlin.Compile": [
-      "NN.Verification.Gondlin"
+    "NN.Verification.Gondolin.Compile": [
+      "NN.Verification.Gondolin"
     ],
-    "NN.Verification.Gondlin.CompileExec": [
-      "NN.Verification.Gondlin"
+    "NN.Verification.Gondolin.CompileExec": [
+      "NN.Verification.Gondolin"
     ],
-    "NN.Verification.Gondlin.Correctness": [
-      "NN.Verification.Gondlin"
+    "NN.Verification.Gondolin.Correctness": [
+      "NN.Verification.Gondolin"
     ],
-    "NN.Verification.Gondlin.Proved": [
-      "NN.Verification.Gondlin.Proved",
+    "NN.Verification.Gondolin.Proved": [
+      "NN.Verification.Gondolin.Proved",
       "Idx",
       "Correctness"
     ],
-    "NN.Verification.Gondlin.SpecEval": [
-      "NN.Verification.Gondlin"
+    "NN.Verification.Gondolin.SpecEval": [
+      "NN.Verification.Gondolin"
     ],
-    "NN.Verification.Gondlin.Verified": [
-      "NN.Verification.Gondlin.Verified"
+    "NN.Verification.Gondolin.Verified": [
+      "NN.Verification.Gondolin.Verified"
     ],
     "NN.Verification.Util.FloatApprox": [
       "NN.Verification.Util"
@@ -26494,25 +26494,25 @@
     "NN.Widgets.Verification.CROWN": [
       "NN.Widgets"
     ],
-    "blueprint.GondlinBlueprint": [],
-    "blueprint.GondlinBlueprint.Guide": [],
-    "blueprint.GondlinBlueprint.Guide.Ch1_Introduction.API_Tour": [],
-    "blueprint.GondlinBlueprint.Guide.Ch1_Introduction.Motivation": [],
-    "blueprint.GondlinBlueprint.Guide.Ch1_Introduction.Overview": [],
-    "blueprint.GondlinBlueprint.Guide.Ch1_Introduction.RunningExample": [],
-    "blueprint.GondlinBlueprint.Guide.Ch1_Introduction.TheLeanLanguage": [],
-    "blueprint.GondlinBlueprint.Guide.Ch1_Introduction.GondlinVsPyTorch": [],
-    "blueprint.GondlinBlueprint.Guide.Ch1_Introduction.WhyFunctionalProgramming": [],
-    "blueprint.GondlinBlueprint.Guide.Ch2_Frontend.AutogradWalkthrough": [],
-    "blueprint.GondlinBlueprint.Guide.Ch2_Frontend.BuildingModels": [],
-    "blueprint.GondlinBlueprint.Guide.Ch2_Frontend.DataAndLoaders": [],
-    "blueprint.GondlinBlueprint.Guide.Ch2_Frontend.ExecutionModes": [],
-    "blueprint.GondlinBlueprint.Guide.Ch2_Frontend.PyTorchRoundtrip": [],
-    "blueprint.GondlinBlueprint.Guide.Ch2_Frontend.RuntimeAndAutograd": [],
-    "blueprint.GondlinBlueprint.Guide.Ch2_Frontend.TensorsAndShapes": [],
-    "blueprint.GondlinBlueprint.Guide.Ch2_Frontend.GondlinAPI": [],
-    "blueprint.GondlinBlueprint.Guide.Ch2_Frontend.TrainingFromScratch": [],
-    "blueprint.GondlinBlueprint.Guide.Ch3_Backend.ExternalToolsAndFFI": [
+    "blueprint.GondolinBlueprint": [],
+    "blueprint.GondolinBlueprint.Guide": [],
+    "blueprint.GondolinBlueprint.Guide.Ch1_Introduction.API_Tour": [],
+    "blueprint.GondolinBlueprint.Guide.Ch1_Introduction.Motivation": [],
+    "blueprint.GondolinBlueprint.Guide.Ch1_Introduction.Overview": [],
+    "blueprint.GondolinBlueprint.Guide.Ch1_Introduction.RunningExample": [],
+    "blueprint.GondolinBlueprint.Guide.Ch1_Introduction.TheLeanLanguage": [],
+    "blueprint.GondolinBlueprint.Guide.Ch1_Introduction.GondolinVsPyTorch": [],
+    "blueprint.GondolinBlueprint.Guide.Ch1_Introduction.WhyFunctionalProgramming": [],
+    "blueprint.GondolinBlueprint.Guide.Ch2_Frontend.AutogradWalkthrough": [],
+    "blueprint.GondolinBlueprint.Guide.Ch2_Frontend.BuildingModels": [],
+    "blueprint.GondolinBlueprint.Guide.Ch2_Frontend.DataAndLoaders": [],
+    "blueprint.GondolinBlueprint.Guide.Ch2_Frontend.ExecutionModes": [],
+    "blueprint.GondolinBlueprint.Guide.Ch2_Frontend.PyTorchRoundtrip": [],
+    "blueprint.GondolinBlueprint.Guide.Ch2_Frontend.RuntimeAndAutograd": [],
+    "blueprint.GondolinBlueprint.Guide.Ch2_Frontend.TensorsAndShapes": [],
+    "blueprint.GondolinBlueprint.Guide.Ch2_Frontend.GondolinAPI": [],
+    "blueprint.GondolinBlueprint.Guide.Ch2_Frontend.TrainingFromScratch": [],
+    "blueprint.GondolinBlueprint.Guide.Ch3_Backend.ExternalToolsAndFFI": [
       "Runtime.External.Process",
       "Runtime.External.Julia",
       "Export.PyTorch.StateDict",
@@ -26520,47 +26520,47 @@
       "Import.PyTorch",
       "Import.PyTorch.TorchExport",
       "Runtime.External.Julia",
-      "Gondlin.Floats.Arb"
+      "Gondolin.Floats.Arb"
     ],
-    "blueprint.GondlinBlueprint.Guide.Ch3_Backend.FloatingPointLiterature": [],
-    "blueprint.GondlinBlueprint.Guide.Ch3_Backend.Floats": [],
-    "blueprint.GondlinBlueprint.Guide.Ch3_Backend.GPUAndCUDA": [
+    "blueprint.GondolinBlueprint.Guide.Ch3_Backend.FloatingPointLiterature": [],
+    "blueprint.GondolinBlueprint.Guide.Ch3_Backend.Floats": [],
+    "blueprint.GondolinBlueprint.Guide.Ch3_Backend.GPUAndCUDA": [
       "Runtime.Autograd.Cuda.Float32Contract",
       "Runtime.Autograd.Cuda.KernelSpec",
       "Runtime.Autograd.Cuda.Float32Contract",
       "Spec"
     ],
-    "blueprint.GondlinBlueprint.Guide.Ch3_Backend.GraphSpec": [],
-    "blueprint.GondlinBlueprint.Guide.Ch3_Backend.GraphsAndIR": [],
-    "blueprint.GondlinBlueprint.Guide.Ch3_Backend.SpecLayer": [],
-    "blueprint.GondlinBlueprint.Guide.Ch4_Verification.ApproximationTheory": [],
-    "blueprint.GondlinBlueprint.Guide.Ch4_Verification.AutogradProofs": [],
-    "blueprint.GondlinBlueprint.Guide.Ch4_Verification.Certificates": [],
-    "blueprint.GondlinBlueprint.Guide.Ch4_Verification.ClassicalMLProofs": [],
-    "blueprint.GondlinBlueprint.Guide.Ch4_Verification.FP32Soundness": [],
-    "blueprint.GondlinBlueprint.Guide.Ch4_Verification.LearningTheory": [],
-    "blueprint.GondlinBlueprint.Guide.Ch4_Verification.OptimizationTheory": [],
-    "blueprint.GondlinBlueprint.Guide.Ch4_Verification.ProbabilityAndGradients": [],
-    "blueprint.GondlinBlueprint.Guide.Ch4_Verification.ProofSystems": [],
-    "blueprint.GondlinBlueprint.Guide.Ch4_Verification.RuntimeApproximation": [],
-    "blueprint.GondlinBlueprint.Guide.Ch4_Verification.ScientificMLVerification": [],
-    "blueprint.GondlinBlueprint.Guide.Ch4_Verification.SelfSupervisedTheory": [],
-    "blueprint.GondlinBlueprint.Guide.Ch4_Verification.TwoStageWorkflows": [],
-    "blueprint.GondlinBlueprint.Guide.Ch4_Verification.Verification": [],
-    "blueprint.GondlinBlueprint.Guide.Ch5_Advanced.BugZooCatalog": [],
-    "blueprint.GondlinBlueprint.Guide.Ch5_Advanced.CLI": [],
-    "blueprint.GondlinBlueprint.Guide.Ch5_Advanced.Examples": [],
-    "blueprint.GondlinBlueprint.Guide.Ch5_Advanced.GenerativeModels": [],
-    "blueprint.GondlinBlueprint.Guide.Ch5_Advanced.ModelZooDeepDive": [],
-    "blueprint.GondlinBlueprint.Guide.Ch5_Advanced.ModernModels": [],
-    "blueprint.GondlinBlueprint.Guide.Ch5_Advanced.ReinforcementLearning": [],
-    "blueprint.GondlinBlueprint.Guide.Ch5_Advanced.Widgets": [
+    "blueprint.GondolinBlueprint.Guide.Ch3_Backend.GraphSpec": [],
+    "blueprint.GondolinBlueprint.Guide.Ch3_Backend.GraphsAndIR": [],
+    "blueprint.GondolinBlueprint.Guide.Ch3_Backend.SpecLayer": [],
+    "blueprint.GondolinBlueprint.Guide.Ch4_Verification.ApproximationTheory": [],
+    "blueprint.GondolinBlueprint.Guide.Ch4_Verification.AutogradProofs": [],
+    "blueprint.GondolinBlueprint.Guide.Ch4_Verification.Certificates": [],
+    "blueprint.GondolinBlueprint.Guide.Ch4_Verification.ClassicalMLProofs": [],
+    "blueprint.GondolinBlueprint.Guide.Ch4_Verification.FP32Soundness": [],
+    "blueprint.GondolinBlueprint.Guide.Ch4_Verification.LearningTheory": [],
+    "blueprint.GondolinBlueprint.Guide.Ch4_Verification.OptimizationTheory": [],
+    "blueprint.GondolinBlueprint.Guide.Ch4_Verification.ProbabilityAndGradients": [],
+    "blueprint.GondolinBlueprint.Guide.Ch4_Verification.ProofSystems": [],
+    "blueprint.GondolinBlueprint.Guide.Ch4_Verification.RuntimeApproximation": [],
+    "blueprint.GondolinBlueprint.Guide.Ch4_Verification.ScientificMLVerification": [],
+    "blueprint.GondolinBlueprint.Guide.Ch4_Verification.SelfSupervisedTheory": [],
+    "blueprint.GondolinBlueprint.Guide.Ch4_Verification.TwoStageWorkflows": [],
+    "blueprint.GondolinBlueprint.Guide.Ch4_Verification.Verification": [],
+    "blueprint.GondolinBlueprint.Guide.Ch5_Advanced.BugZooCatalog": [],
+    "blueprint.GondolinBlueprint.Guide.Ch5_Advanced.CLI": [],
+    "blueprint.GondolinBlueprint.Guide.Ch5_Advanced.Examples": [],
+    "blueprint.GondolinBlueprint.Guide.Ch5_Advanced.GenerativeModels": [],
+    "blueprint.GondolinBlueprint.Guide.Ch5_Advanced.ModelZooDeepDive": [],
+    "blueprint.GondolinBlueprint.Guide.Ch5_Advanced.ModernModels": [],
+    "blueprint.GondolinBlueprint.Guide.Ch5_Advanced.ReinforcementLearning": [],
+    "blueprint.GondolinBlueprint.Guide.Ch5_Advanced.Widgets": [
       "Float32Demo"
     ],
-    "blueprint.GondlinBlueprint.Guide.Ch6_Conclusion.Conclusion": [],
-    "blueprint.GondlinBlueprintMain": [],
+    "blueprint.GondolinBlueprint.Guide.Ch6_Conclusion.Conclusion": [],
+    "blueprint.GondolinBlueprintMain": [],
     "lakefile": [],
-    "scripts.checks.GondlinLint": []
+    "scripts.checks.GondolinLint": []
   },
   "paper_citation": {
     "arxiv": "2604.24797",
@@ -26668,11 +26668,11 @@
     },
     {
       "count": 17,
-      "module": "NN.Verification.Gondlin.Compile"
+      "module": "NN.Verification.Gondolin.Compile"
     },
     {
       "count": 16,
-      "module": "NN.Runtime.Autograd.Gondlin.NN"
+      "module": "NN.Runtime.Autograd.Gondolin.NN"
     },
     {
       "count": 15,
@@ -26758,7 +26758,7 @@
     },
     {
       "count": 13,
-      "module": "NN.Runtime.Autograd.Gondlin"
+      "module": "NN.Runtime.Autograd.Gondolin"
     },
     {
       "count": 12,

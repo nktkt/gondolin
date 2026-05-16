@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -37,7 +37,7 @@ open Spec
 `Expr` is an AST for ODE right-hand sides `f(t,u)`.
 
 We cover the arithmetic and elementary functions needed by the ODE certificate format used in
-Gondlin: constants, the independent variable `t`, the state variable `u`, field arithmetic, and
+Gondolin: constants, the independent variable `t`, the state variable `u`, field arithmetic, and
 the common scalar functions `sin`, `cos`, `exp`, and `log`.  Keeping this language explicit makes
 the checker easier to inspect while still covering the benchmark equations we want to verify.
 -/

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -31,7 +31,7 @@ direct `Interval32` statement used at the low-level rounded-target boundary, whi
 
 namespace NN.MLTheory.Proofs.UniversalApproximation
 
-open Gondlin.Floats.IEEE754
+open Gondolin.Floats.IEEE754
 
 namespace FloatIntervalApprox.ConstantTarget
 

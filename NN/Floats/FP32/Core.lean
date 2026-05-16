@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -11,7 +11,7 @@ public import NN.Floats.NeuralFloat.NF
 import Mathlib.Algebra.Order.Algebra
 
 /-!
-# `FP32`: Gondlin's proof-oriented float32 semantics
+# `FP32`: Gondolin's proof-oriented float32 semantics
 
 `FP32` is a proof-oriented float32 semantics: it models float computations as real-number operations
 (`ℝ`) followed by rounding to a fixed binary32 grid after each primitive operation. This
@@ -32,7 +32,7 @@ back to `FP32` on the finite/no-overflow fragment.
 @[expose] public section
 
 
-namespace Gondlin.Floats
+namespace Gondolin.Floats
 
 /-! ## Canonical IEEE-754 binary32 configuration -/
 
@@ -104,4 +104,4 @@ noncomputable def minNormal : ℝ :=
 
 end FP32
 
-end Gondlin.Floats
+end Gondolin.Floats

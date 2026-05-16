@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -35,7 +35,7 @@ namespace NN.Examples.Models.Sequence.SimpleText
 
 /-- Configuration for a small real-text sequence training example. -/
 structure RunnerConfig (σ τ : Shape) where
-  /-- CLI subcommand name, e.g. `gondlin rnn`. -/
+  /-- CLI subcommand name, e.g. `gondolin rnn`. -/
   exeName : String
   /-- Default JSON log path. -/
   defaultLogJson : System.FilePath
@@ -66,17 +66,17 @@ def unitTrainSteps {σ τ : Shape} {α : Type}
     IO (α × α) := do
   nn.withModel cfg.mkModel fun model => do
     let modDef := nn.mseScalarModuleDef model
-    let m ← Gondlin.Module.instantiateWithOptions (α := α) modDef cast opts
+    let m ← Gondolin.Module.instantiateWithOptions (α := α) modDef cast opts
     let sample := cfg.mkSample (α := α) input
-    let loss0 ← Gondlin.Module.forward (α := α) m sample
+    let loss0 ← Gondolin.Module.forward (α := α) m sample
     let L0 := Tensor.toScalar loss0
     let opt :=
-      Gondlin.Optim.sgd (α := α) (paramShapes := nn.paramShapes model)
+      Gondolin.Optim.sgd (α := α) (paramShapes := nn.paramShapes model)
         (lr := Runtime.ofFloat (α := α) cfg.lr)
-    let optH ← Gondlin.Optim.handle (α := α) m opt
+    let optH ← Gondolin.Optim.handle (α := α) m opt
     for _ in [0:steps] do
       optH.step sample
-    let loss1 ← Gondlin.Module.forward (α := α) m sample
+    let loss1 ← Gondolin.Module.forward (α := α) m sample
     let L1 := Tensor.toScalar loss1
     IO.println s!"  steps={steps} loss0={L0} loss1={L1}"
     pure (L0, L1)
@@ -86,7 +86,7 @@ def main {σ τ : Shape} (cfg : RunnerConfig σ τ) (args : List String) : IO UI
   let banner := fun (opts : Runtime.Autograd.Torch.Options) =>
     s!"{cfg.exeName}: {cfg.modelName} text example (device={if opts.useGpu then "cuda" else "cpu"})"
   let runAny :=
-    Gondlin.Module.run cfg.exeName args
+    Gondolin.Module.run cfg.exeName args
       (.any (fun {α} _ _ _ _ cast opts rest => do
         let (path, rest) ← Common.orThrow cfg.exeName <| RealData.parseTextFlags rest
         let (steps, rest) ← Common.orThrow cfg.exeName <| CLI.takeStepsOrEpochs rest 1
@@ -101,7 +101,7 @@ def main {σ τ : Shape} (cfg : RunnerConfig σ τ) (args : List String) : IO UI
   if args.contains "--cuda" || CLI.hasFlagValue args "log" then
     -- CUDA eager supports `Float` upload/download. We route logging through the
     -- Float path for the same reason: JSON logs need concrete scalar values.
-    Gondlin.Module.run cfg.exeName args
+    Gondolin.Module.run cfg.exeName args
       (.float (fun opts rest => do
         let (path, rest) ← Common.orThrow cfg.exeName <| RealData.parseTextFlags rest
         let (log?, rest) ← Common.orThrow cfg.exeName <| CLI.takePathFlagOnce rest "log"

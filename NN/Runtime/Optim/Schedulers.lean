@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -11,14 +11,14 @@ public import NN.Spec.Core.Context
 /-!
 # Schedulers
 
-Learning-rate schedulers for Gondlin runtime training.
+Learning-rate schedulers for Gondolin runtime training.
 
 Schedulers are small deterministic state machines that answer:
 
 - “what learning rate should we use *at this step*?”
 - “how do we advance to the next step?”
 
-Gondlin keeps schedulers explicit and pure so:
+Gondolin keeps schedulers explicit and pure so:
 - runtime code can store scheduler state in a record (or serialize it),
 - proofs and specs can refer to the exact schedule that was used.
 
@@ -30,7 +30,7 @@ PyTorch analogy: these mirror common `torch.optim.lr_scheduler.*` schedules, but
 simple Lean structures with `getLr` and `step`.
 
 Organization:
-- the first section defines Gondlin-native schedules with total, easy-to-reason-about behavior;
+- the first section defines Gondolin-native schedules with total, easy-to-reason-about behavior;
 - the later `*LR` section defines PyTorch-compatible variants when PyTorch's exact phase and
   step-count conventions matter;
 - the `create*` names are constructor aliases, not duplicate formulas. They exist so config-heavy
@@ -242,7 +242,7 @@ omit [DecidableRel ((· > ·) : α → α → Prop)] in
 /--
 The totalized `step_size = 0` case is constant.
 
-PyTorch would reject this configuration; Gondlin keeps scheduler evaluation total so configs can
+PyTorch would reject this configuration; Gondolin keeps scheduler evaluation total so configs can
 be validated separately from pure schedule semantics.
 -/
 theorem StepDecayScheduler.getLr_zero_stepSize
@@ -713,7 +713,7 @@ abbrev createLrFinder := @lrFinder
 /-! ## PyTorch-compatible scheduler variants -/
 
 /-!
-Gondlin already provides a set of small, pure schedulers above.
+Gondolin already provides a set of small, pure schedulers above.
 
 This section adds *additional* schedulers whose formulas and step-count conventions are chosen to
 match PyTorch's `torch.optim.lr_scheduler.*` semantics more directly.
@@ -786,7 +786,7 @@ abbrev createStepLr := @stepLR
 /--
 PyTorch-compatible `CosineAnnealingLR`.
 
-Key behavior difference from Gondlin's `CosineAnnealingScheduler` above:
+Key behavior difference from Gondolin's `CosineAnnealingScheduler` above:
 - PyTorch's `CosineAnnealingLR` continues the cosine curve past `T_max` (it is periodic with period
   `2*T_max`), rather than clamping to `eta_min`.
 
@@ -837,7 +837,7 @@ PyTorch-compatible `OneCycleLR` (LR-only).
 
 Notes:
 - This mirrors PyTorch's `OneCycleLR` *learning-rate* schedule only. PyTorch can also cycle momentum
-  (or Adam's `beta1`); Gondlin keeps this scheduler pure and LR-only.
+  (or Adam's `beta1`); Gondolin keeps this scheduler pure and LR-only.
 - PyTorch defines:
   - `initial_lr = max_lr / div_factor`
   - `min_lr = initial_lr / final_div_factor`

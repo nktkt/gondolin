@@ -6,7 +6,7 @@ cd "$ROOT"
 
 lake update
 lake exe blueprint-gen --output ../_out/blueprint
-if [ -d GondlinBlueprint/Guide/Assets ]; then
+if [ -d GondolinBlueprint/Guide/Assets ]; then
   mkdir -p ../_out/blueprint/html-multi/Guide/Assets
-  cp -r GondlinBlueprint/Guide/Assets/* ../_out/blueprint/html-multi/Guide/Assets/
+  cp -r GondolinBlueprint/Guide/Assets/* ../_out/blueprint/html-multi/Guide/Assets/
 fi

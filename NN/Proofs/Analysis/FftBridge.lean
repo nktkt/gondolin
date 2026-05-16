@@ -1,29 +1,29 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
 
 public import NN.Proofs.Analysis.Fft
-public import NN.Runtime.Autograd.Gondlin.Fft
+public import NN.Runtime.Autograd.Gondolin.Fft
 public import Mathlib.Analysis.RCLike.Sqrt
 
 /-!
 # Runtime FFT transport lemmas (`NN.Runtime.*.Fft` → mathlib `ℂ`)
 
-`NN.Runtime.Autograd.Gondlin.Fft` defines FFT/IFFT matrices using “twiddle factors” written as
-`cos θ ± i sin θ` so the definitions work for Gondlin’s runtime complex scalar
-`Gondlin.Complex β`.
+`NN.Runtime.Autograd.Gondolin.Fft` defines FFT/IFFT matrices using “twiddle factors” written as
+`cos θ ± i sin θ` so the definitions work for Gondolin’s runtime complex scalar
+`Gondolin.Complex β`.
 
 For the **exact** DFT inversion proof we instead worked in mathlib’s `ℂ` using primitive roots of
 unity (`ωₙ = exp(-2πi/n)`), since that is where the classical algebraic facts live.
 
 This file bridges the two views:
 
-- on `ℂ`, Gondlin’s `twiddle` factor is exactly `ωₙ^(j*k)`,
-- on `ℂ`, Gondlin’s `twiddleInv` factor is exactly `ζₙ^(j*k)`,
+- on `ℂ`, Gondolin’s `twiddle` factor is exactly `ωₙ^(j*k)`,
+- on `ℂ`, Gondolin’s `twiddleInv` factor is exactly `ζₙ^(j*k)`,
 - therefore the runtime DFT/IDFT *matrices* (viewed entrywise) coincide with the matrices in
   `NN.Proofs.Analysis.Fft`.
 
@@ -32,7 +32,7 @@ order) and is irrelevant to FFT; it exists only to instantiate the scalar-polymo
 definitions at `α := ℂ`.
 
 Why this is not merged into `Fft.lean`: `Fft.lean` is pure Fourier algebra over mathlib matrices.
-This file imports the Gondlin runtime FFT definitions and therefore sits at the boundary between
+This file imports the Gondolin runtime FFT definitions and therefore sits at the boundary between
 runtime code and the exact theorem. The separation keeps the core inversion theorem lightweight and
 lets downstream proofs import only the pure DFT facts when they do not need runtime transport.
 -/
@@ -111,7 +111,7 @@ noncomputable local instance : Numbers ℂ where
   neg_thousand := (-1000 : ℂ)
 
 /- Local-only `Context ℂ`: the ordering is not mathematically meaningful for complex numbers.
-It is present solely because the generic Gondlin runtime context class includes order-dependent
+It is present solely because the generic Gondolin runtime context class includes order-dependent
 operations used by other tensor code. The FFT bridge below never relies on that order.
 -/
 local instance : Context ℂ := {
@@ -122,24 +122,24 @@ local instance : Context ℂ := {
 -- Twiddle factors on `ℂ`.
 -- ---------------------------------------------------------------------------
 
-open Runtime.Autograd.Gondlin.NN
+open Runtime.Autograd.Gondolin.NN
 
 /--
-Gondlin's runtime FFT uses `sqrt(-1)` as its scalar-polymorphic imaginary unit.
+Gondolin's runtime FFT uses `sqrt(-1)` as its scalar-polymorphic imaginary unit.
 
 When we instantiate the runtime definitions at mathlib `ℂ`, that value is the usual
 `Complex.I`.
 -/
 private lemma FFT1D_I_eq :
-    Runtime.Autograd.Gondlin.NN.FFT1D.I (α := ℂ) = (Complex.I : ℂ) := by
+    Runtime.Autograd.Gondolin.NN.FFT1D.I (α := ℂ) = (Complex.I : ℂ) := by
   -- `FFT1D.I` is defined as `sqrt(-1)`.
-  simpa [Runtime.Autograd.Gondlin.NN.FFT1D.I, Numbers.neg_one] using (Complex.sqrt_neg_one)
+  simpa [Runtime.Autograd.Gondolin.NN.FFT1D.I, Numbers.neg_one] using (Complex.sqrt_neg_one)
 
 /--
 Runtime forward twiddle factors match the negative-frequency root powers from the exact DFT
 development.
 
-Gondlin runtime definition:
+Gondolin runtime definition:
 
 `cos θ - I * sin θ`
 
@@ -150,7 +150,7 @@ Exact DFT definition:
 The proof is just Euler's formula plus scalar normalization of the exponent.
 -/
 theorem twiddle_eq_omega_pow (n j k : Nat) (hn : n ≠ 0) :
-    Runtime.Autograd.Gondlin.NN.FFT1D.twiddle (α := ℂ) n j k =
+    Runtime.Autograd.Gondolin.NN.FFT1D.twiddle (α := ℂ) n j k =
       Proofs.Fft.ω n ^ (j * k) := by
   have hn0 : (n : ℂ) ≠ 0 := by exact_mod_cast hn
   set θ : ℂ := (Numbers.two : ℂ) * MathFunctions.pi * (j : ℂ) * (k : ℂ) / (n : ℂ)
@@ -171,10 +171,10 @@ theorem twiddle_eq_omega_pow (n j k : Nat) (hn : n ≠ 0) :
             rfl
 
   have htw :
-      Runtime.Autograd.Gondlin.NN.FFT1D.twiddle (α := ℂ) n j k =
+      Runtime.Autograd.Gondolin.NN.FFT1D.twiddle (α := ℂ) n j k =
         Complex.exp (-(θ * Complex.I)) := by
     -- Unfold `twiddle` and rewrite `I` as `Complex.I`.
-    simp [Runtime.Autograd.Gondlin.NN.FFT1D.twiddle, θ, FFT1D_I_eq, hEuler]
+    simp [Runtime.Autograd.Gondolin.NN.FFT1D.twiddle, θ, FFT1D_I_eq, hEuler]
 
   have hω : Proofs.Fft.ω n = Complex.exp (-(2 * Real.pi * Complex.I / (n : ℂ))) := by
     simp [Proofs.Fft.ω, Proofs.Fft.ζ, Complex.exp_neg]
@@ -203,7 +203,7 @@ theorem twiddle_eq_omega_pow (n j k : Nat) (hn : n ≠ 0) :
       _ = (j * k : ℕ) * (-(2 * Real.pi * Complex.I / (n : ℂ))) := by rfl
 
   calc
-    Runtime.Autograd.Gondlin.NN.FFT1D.twiddle (α := ℂ) n j k
+    Runtime.Autograd.Gondolin.NN.FFT1D.twiddle (α := ℂ) n j k
         = Complex.exp (-(θ * Complex.I)) := htw
     _ = Complex.exp (-θ * Complex.I) := by
           simp [neg_mul]
@@ -220,7 +220,7 @@ This is the inverse-direction analogue of `twiddle_eq_omega_pow`: the runtime
 `cos θ + I * sin θ` term is `ζₙ^(j*k)`.
 -/
 theorem twiddleInv_eq_zeta_pow (n j k : Nat) (hn : n ≠ 0) :
-    Runtime.Autograd.Gondlin.NN.FFT1D.twiddleInv (α := ℂ) n j k =
+    Runtime.Autograd.Gondolin.NN.FFT1D.twiddleInv (α := ℂ) n j k =
       Proofs.Fft.ζ n ^ (j * k) := by
   have hn0 : (n : ℂ) ≠ 0 := by exact_mod_cast hn
   set θ : ℂ := (Numbers.two : ℂ) * MathFunctions.pi * (j : ℂ) * (k : ℂ) / (n : ℂ)
@@ -237,9 +237,9 @@ theorem twiddleInv_eq_zeta_pow (n j k : Nat) (hn : n ≠ 0) :
         rfl
 
   have htw :
-      Runtime.Autograd.Gondlin.NN.FFT1D.twiddleInv (α := ℂ) n j k =
+      Runtime.Autograd.Gondolin.NN.FFT1D.twiddleInv (α := ℂ) n j k =
         Complex.exp (θ * Complex.I) := by
-    simp [Runtime.Autograd.Gondlin.NN.FFT1D.twiddleInv, θ, FFT1D_I_eq, hEuler]
+    simp [Runtime.Autograd.Gondolin.NN.FFT1D.twiddleInv, θ, FFT1D_I_eq, hEuler]
 
   have hζ : Proofs.Fft.ζ n = Complex.exp (2 * Real.pi * Complex.I / (n : ℂ)) := by
     simp [Proofs.Fft.ζ]
@@ -266,7 +266,7 @@ theorem twiddleInv_eq_zeta_pow (n j k : Nat) (hn : n ≠ 0) :
       _ = (j * k : ℕ) * (2 * Real.pi * Complex.I / (n : ℂ)) := by rfl
 
   calc
-    Runtime.Autograd.Gondlin.NN.FFT1D.twiddleInv (α := ℂ) n j k
+    Runtime.Autograd.Gondolin.NN.FFT1D.twiddleInv (α := ℂ) n j k
         = Complex.exp (θ * Complex.I) := htw
     _ = Complex.exp ((j * k : ℕ) * (2 * Real.pi * Complex.I / (n : ℂ))) := by
           simp [hexp]
@@ -280,15 +280,15 @@ theorem twiddleInv_eq_zeta_pow (n j k : Nat) (hn : n ≠ 0) :
 /--
 Entrywise bridge from the runtime tensor DFT matrix to the exact mathlib DFT matrix.
 
-This is the first point where we leave pure root-of-unity algebra and connect to Gondlin's
+This is the first point where we leave pure root-of-unity algebra and connect to Gondolin's
 shape-indexed tensor representation.
 -/
 theorem dftMatrix_entry_eq (n : Nat) (hn : n ≠ 0) (k j : Fin n) :
-    Spec.get2 (Runtime.Autograd.Gondlin.NN.FFT1D.dftMatrix (α := ℂ) n) k j =
+    Spec.get2 (Runtime.Autograd.Gondolin.NN.FFT1D.dftMatrix (α := ℂ) n) k j =
       Proofs.Fft.dftMatrix n k j := by
   -- `get2` reduces the tensor constructor and exposes `twiddle`.
   simp [Spec.get2, Spec.get, Spec.getAtSpec,
-    Runtime.Autograd.Gondlin.NN.FFT1D.dftMatrix, Proofs.Fft.dftMatrix,
+    Runtime.Autograd.Gondolin.NN.FFT1D.dftMatrix, Proofs.Fft.dftMatrix,
     twiddle_eq_omega_pow (n := n) (j := j.val) (k := k.val) hn]
 
 /--
@@ -298,11 +298,11 @@ Together with `dftMatrix_entry_eq`, this is the transport layer needed to reuse 
 inversion theorem for runtime FFT matrix definitions.
 -/
 theorem idftMatrix_entry_eq (n : Nat) (hn : n ≠ 0) (j k : Fin n) :
-    Spec.get2 (Runtime.Autograd.Gondlin.NN.FFT1D.idftMatrix (α := ℂ) n) j k =
+    Spec.get2 (Runtime.Autograd.Gondolin.NN.FFT1D.idftMatrix (α := ℂ) n) j k =
       Proofs.Fft.idftMatrix n j k := by
   -- `get2` reduces the tensor constructor and exposes `twiddleInv`.
   simp [Spec.get2, Spec.get, Spec.getAtSpec,
-    Runtime.Autograd.Gondlin.NN.FFT1D.idftMatrix, Proofs.Fft.idftMatrix,
+    Runtime.Autograd.Gondolin.NN.FFT1D.idftMatrix, Proofs.Fft.idftMatrix,
     twiddleInv_eq_zeta_pow (n := n) (j := j.val) (k := k.val) hn]
 
 end ComplexContext

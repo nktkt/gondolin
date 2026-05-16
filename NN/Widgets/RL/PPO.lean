@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -26,7 +26,7 @@ This module provides a small infoview widget for visualizing PPO rollouts as cur
 - `return_t` (lambda-returns computed from GAE),
 - `advantage_t` (GAE(λ) advantages).
 
-Implementation note: we intentionally reuse Gondlin's generic training-log widget
+Implementation note: we intentionally reuse Gondolin's generic training-log widget
 (`NN.Widgets.Runtime.Training.trainLogHtml`) so we do not duplicate plotting/sparkline code.
 
 References:
@@ -84,8 +84,8 @@ class ToVizFloat (α : Type) where
   toVizFloat : α → Float
 
 instance : ToVizFloat Float := ⟨fun x => x⟩
-instance : ToVizFloat Gondlin.Floats.IEEE754.IEEE32Exec :=
-  ⟨Gondlin.Floats.IEEE754.IEEE32Exec.toFloat⟩
+instance : ToVizFloat Gondolin.Floats.IEEE754.IEEE32Exec :=
+  ⟨Gondolin.Floats.IEEE754.IEEE32Exec.toFloat⟩
 
 /--
 Convert a length-`n` scalar vector tensor to an `Array Float` for plotting.

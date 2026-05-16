@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -14,7 +14,7 @@ public import Mathlib.Algebra.Order.BigOperators.Group.Finset
 # VQ-VAE theory
 
 VQ-VAE has one mathematically delicate implementation choice: nearest-neighbor code assignment.
-Gondlin's spec keeps that assignment explicit as a `Fin numCodes`, so the core codebook semantics
+Gondolin's spec keeps that assignment explicit as a `Fin numCodes`, so the core codebook semantics
 are total and easy to audit.  Runtime code may compute the index using a CUDA, Python, or Lean
 argmin; once the index is supplied, the following facts are definitional.
 

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -11,10 +11,10 @@ public import NN.Spec.Core.Shape
 /-!
 # IR Graph
 
-`NN.IR.Graph` is Gondlin’s canonical *op-tagged* DAG IR.
+`NN.IR.Graph` is Gondolin’s canonical *op-tagged* DAG IR.
 
 Today it is used as the shared target for:
-- Gondlin → verifier compilation (`NN/Verification/Gondlin/Compile.lean`),
+- Gondolin → verifier compilation (`NN/Verification/Gondolin/Compile.lean`),
 - bound-propagation / verification tooling (CROWN/LiRPA) (`NN/MLTheory/CROWN/Graph.lean`),
 - IR → PyTorch emission (`NN/Runtime/PyTorch/Export/IRPyTorch.lean`),
 - small tutorial graphs (e.g. `NN/Examples/Advanced/GraphSpec/Tutorial.lean`).
@@ -34,7 +34,7 @@ keeps one graph format usable across:
 
 If you are coming from PyTorch: the mental model is similar to a PyTorch FX graph or TorchScript IR:
 nodes are ops, edges are “data dependencies”, and execution is in topological order. The difference
-is that Gondlin attaches explicit *shape* metadata at every node, since our verification and
+is that Gondolin attaches explicit *shape* metadata at every node, since our verification and
 proof tooling needs shape information to be first-class.
 
 References / related systems:
@@ -46,7 +46,7 @@ References / related systems:
 
 - **Topo order**: a node only references parents with smaller ids.
 - **Id discipline**: in most builders, `node.id` is expected to equal its index in `Graph.nodes`.
-  (E.g. the Gondlin compiler uses `freshId := nodes.size` and then appends.)
+  (E.g. the Gondolin compiler uses `freshId := nodes.size` and then appends.)
 - **External parameters**:
   - `OpKind.const` stores its `valueShape` here, but the constant value is stored externally
     (e.g. in a verifier `ParamStore` keyed by node id).

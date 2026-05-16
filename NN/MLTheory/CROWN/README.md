@@ -1,6 +1,6 @@
-# CROWN / LiRPA in Gondlin (folder guide)
+# CROWN / LiRPA in Gondolin (folder guide)
 
-This folder contains Gondlin's CROWN/LiRPA style bound propagation code and related certificate
+This folder contains Gondolin's CROWN/LiRPA style bound propagation code and related certificate
 checkers.
 
 ## Where To Start
@@ -33,4 +33,4 @@ checkers.
 - `Extras/interval_lemmas.lean`: basic interval-arithmetic lemmas over `ℝ`.
 - `Extras/alpha_config.lean`: data structures for alpha optimized relaxations (alpha CROWN style).
 - `Extras/FloatIntegration.lean`: experiments integrating bound propagation with explicit rounding.
-- `Extras/fp32.lean`: convenience wrappers specializing the graph engine to `Gondlin.Floats.FP32`.
+- `Extras/fp32.lean`: convenience wrappers specializing the graph engine to `Gondolin.Floats.FP32`.

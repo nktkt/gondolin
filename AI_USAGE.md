@@ -1,6 +1,6 @@
 # AI Usage Disclosure
 
-Gondlin has been developed and formalized primarily by hand over an extended
+Gondolin has been developed and formalized primarily by hand over an extended
 period of work. The core definitions, architecture, theorem statements, proof
 decisions, runtime boundaries, examples, and release choices were made and
 reviewed by the maintainers. We used AI assistance only as a limited support

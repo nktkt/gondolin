@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -23,7 +23,7 @@ In PyTorch you'll often see two layers:
 - a low-level, elementwise loss (e.g. `smooth_l1_loss` / "Huber"),
 - plus a reduction (`mean` or `sum`).
 
-Gondlin's spec layer mirrors that idea: most definitions are written as an elementwise formula
+Gondolin's spec layer mirrors that idea: most definitions are written as an elementwise formula
 followed by a global mean over the shape.
 -/
 

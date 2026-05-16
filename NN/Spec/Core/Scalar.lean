@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -18,7 +18,7 @@ The spec layer fixes its scalar to `ℝ` for mathematical reasoning. Runtime sca
 remain `Float`/`NeuralFloat` and are handled separately.
 
 References / context:
-- Gondlin paper (overall scalar-polymorphic architecture and trust boundary discussion):
+- Gondolin paper (overall scalar-polymorphic architecture and trust boundary discussion):
   arXiv:2602.22631.
 - IEEE 754-2019 is the reference point for the executable Float32 model (`IEEE32Exec`) used in the
   runtime/numerics layers (not this file).

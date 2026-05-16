@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -12,7 +12,7 @@ public import NN.MLTheory.Generative.Diffusion.Samplers
 /-!
 # Diffusion theory
 
-This entrypoint collects the diffusion-theory facts that connect Gondlin's executable sampler
+This entrypoint collects the diffusion-theory facts that connect Gondolin's executable sampler
 specifications to the mathematical language used in diffusion and score-based generative modeling.
 
 This entrypoint contains two stable pieces of the theory surface:

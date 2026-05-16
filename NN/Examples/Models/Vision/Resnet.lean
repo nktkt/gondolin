@@ -1,12 +1,12 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 
 Device-agnostic real-data example:
   python3 scripts/datasets/download_example_data.py --cifar10
-  lake exe gondlin resnet --cpu
-  lake build -R -K cuda=true && lake exe gondlin resnet --cuda
+  lake exe gondolin resnet --cpu
+  lake build -R -K cuda=true && lake exe gondolin resnet --cuda
 
 This runs a medium ResNet-style model built from `API.nn.resnetBasicBlock` (Conv+BN+residual).
 -/
@@ -21,7 +21,7 @@ public import NN.Examples.Models.Common.RealData
 /-!
 # ResNet Real-Data Example
 
-Runnable `gondlin resnet` example. It trains a compact ResNet-style classifier built from
+Runnable `gondolin resnet` example. It trains a compact ResNet-style classifier built from
 `API.nn.resnetBasicBlock` on a prepared CIFAR-10 minibatch.
 
 The reusable model wiring lives in `NN.API.Models.Resnet` (`nn.models.resnet`). This file is the
@@ -29,14 +29,14 @@ runnable wrapper (CIFAR loader construction + multi-epoch training loop).
 
 ```bash
 python3 scripts/datasets/download_example_data.py --cifar10
-lake build -R -K cuda=true && lake exe gondlin resnet --cuda --n-total 200 --steps 1
+lake build -R -K cuda=true && lake exe gondolin resnet --cuda --n-total 200 --steps 1
 ```
 
 Tip: the defaults are set for a quick sanity run. For a longer run:
 
 ```bash
 lake build -R -K cuda=true
-lake exe gondlin resnet --cuda --fast-kernels --n-total 5000 --steps 200
+lake exe gondolin resnet --cuda --fast-kernels --n-total 5000 --steps 200
 ```
 -/
 
@@ -47,7 +47,7 @@ open NN.API
 
 namespace NN.Examples.Models.Vision.Resnet
 
-def exeName : String := "gondlin resnet"
+def exeName : String := "gondolin resnet"
 def defaultLogJson : System.FilePath := "data/model_zoo/resnet_trainlog.json"
 
 def batch : Nat := 2
@@ -93,7 +93,7 @@ def main (args : List String) : IO UInt32 := do
         -- Build a standard image-classification loop: cross-entropy module, Adam optimizer,
         -- before/after loader evaluation, and a multi-epoch fit call.
         let modDef := nn.crossEntropyOneHotScalarModuleDef model (reduction := .mean)
-        let module ← Gondlin.Module.instantiateWithOptions (α := α) modDef cast opts
+        let module ← Gondolin.Module.instantiateWithOptions (α := α) modDef cast opts
         let opt := Common.adamOptimizer (α := α) cast (nn.paramShapes model) trainCfg.lr
         let hooks : train.Callbacks α :=
           (train.onTrainStart (α := α) do
@@ -113,7 +113,7 @@ def main (args : List String) : IO UInt32 := do
       nn.withModel mkModel fun model => do
         -- The Float branch records the same training signal as a TrainLog curve for the website.
         let modDef := nn.crossEntropyOneHotScalarModuleDef model (reduction := .mean)
-        let module ← Gondlin.Module.instantiateWithOptions (α := Float) modDef id opts
+        let module ← Gondolin.Module.instantiateWithOptions (α := Float) modDef id opts
         let opt := Common.adamOptimizer (α := Float) id (nn.paramShapes model) trainCfg.lr
         let curveRef ← IO.mkRef ({} : _root_.Runtime.Training.Curve)
         let hooks : train.Callbacks Float :=

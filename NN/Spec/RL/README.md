@@ -1,6 +1,6 @@
 # Reinforcement-Learning Specs
 
-This folder contains Gondlin's pure RL semantics. The intent is to keep the mathematical contract
+This folder contains Gondolin's pure RL semantics. The intent is to keep the mathematical contract
 small and auditable, while runtime training, collectors, CUDA, logging, and optimizer state live
 under `NN/Runtime`.
 

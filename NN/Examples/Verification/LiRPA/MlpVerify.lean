@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -12,7 +12,7 @@ public import NN.Verification.Cert.IBPCert
 # LiRPA MLP certificate checker
 
 This module is a compact end-to-end example of *checking* an IBP certificate for a
-compact MLP in Gondlin's graph-based verifier.
+compact MLP in Gondolin's graph-based verifier.
 
 It does three things:
 1. Defines a compact graph (`buildGraph`),

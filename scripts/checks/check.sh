@@ -5,7 +5,7 @@ usage() {
   cat <<'EOF'
 Usage: scripts/checks/check.sh [options]
 
-Run Gondlin's local verification gate.
+Run Gondolin's local verification gate.
 
 Default:
   lake build
@@ -85,7 +85,7 @@ done
 LAKE="${LAKE:-lake}"
 lake_flags=()
 
-# CUDA builds need both Lake's runtime flag (`-R`) and the Gondlin package
+# CUDA builds need both Lake's runtime flag (`-R`) and the Gondolin package
 # option selecting native CUDA externs. `--cuda-home` is passed separately so
 # local toolkits do not need to live in a global default location.
 if [[ "$cuda" == true ]]; then
@@ -123,4 +123,4 @@ if [[ "$run_lint" == true ]]; then
   run "lint" "$LAKE" lint "${lake_flags[@]}"
 fi
 
-printf '\nGondlin local check passed.\n'
+printf '\nGondolin local check passed.\n'

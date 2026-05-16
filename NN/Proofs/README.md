@@ -1,6 +1,6 @@
 # NN/Proofs
 
-This directory contains Gondlin's proof library.
+This directory contains Gondolin's proof library.
 
 The proofs here connect:
 

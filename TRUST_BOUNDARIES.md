@@ -1,6 +1,6 @@
-# Gondlin Trust Boundaries
+# Gondolin Trust Boundaries
 
-Gondlin uses Lean to state and check mathematical claims about neural-network artifacts. Some
+Gondolin uses Lean to state and check mathematical claims about neural-network artifacts. Some
 parts of the system are inside Lean's proof kernel; others are executable tools, native runtimes, or
 external producers whose outputs may be checked by Lean.
 
@@ -50,7 +50,7 @@ make those assumptions visible.
 
 Important examples include:
 
-- `Gondlin.Floats.IEEE754.Float32Bridge.RuntimeFloat32MatchesIEEE32Exec`, the runtime contract
+- `Gondolin.Floats.IEEE754.Float32Bridge.RuntimeFloat32MatchesIEEE32Exec`, the runtime contract
   that Lean `Float32` primitives match the executable IEEE32 model at the bit level.
 - `NN.MLTheory.CROWN.CrownTransferSound`, the transfer-rule soundness assumption used by
   graph-CROWN certificate theorems for backend/oracle-dependent relaxations.
@@ -69,26 +69,26 @@ Important examples include:
 
 - Files under `csrc/cuda/` are trusted FFI code. Lean checks shape metadata around calls, but kernel
   memory safety, launch behavior, and numerical behavior are outside Lean's proof kernel.
-- `csrc/cuda/tensor/gondlin_cuda_tensor.cu` stores CUDA buffers as float32 and converts Lean `Float`
+- `csrc/cuda/tensor/gondolin_cuda_tensor.cu` stores CUDA buffers as float32 and converts Lean `Float`
   values to/from float32 at the buffer boundary.
-- CUDA buffer finalizers free device memory through `cudaFree`. This is safe for Gondlin's current
+- CUDA buffer finalizers free device memory through `cudaFree`. This is safe for Gondolin's current
   default-stream runtime, where launches and host copies are ordered through the default stream. If
   future backends introduce user streams or asynchronous graph replay, finalizer/free ordering must
   be revisited explicitly.
 - GPU matmul supports two explicit precision paths:
   - FP32: `NN/Runtime/Autograd/Engine/Cuda/Kernels.lean` uses `Cuda.Buffer.bmm`, backed by
-    `cublasSgemmStridedBatched` in `csrc/cuda/kernels/gondlin_cuda_kernels.cu`.
-  - FP64: `NN/Runtime/Autograd/Engine/Cuda/DGemm.lean` uses `gondlinDgemmCuda`, backed by
-    `cublasDgemm` in `csrc/cuda/blas/gondlin_dgemm_cuda.cu`.
+    `cublasSgemmStridedBatched` in `csrc/cuda/kernels/gondolin_cuda_kernels.cu`.
+  - FP64: `NN/Runtime/Autograd/Engine/Cuda/DGemm.lean` uses `gondolinDgemmCuda`, backed by
+    `cublasDgemm` in `csrc/cuda/blas/gondolin_dgemm_cuda.cu`.
 - The fast-kernel Float dispatcher makes this choice explicit via `GpuMatmulPrecision`.
 - Several CUDA backward/reduction paths use `atomicAdd`. These are mathematically standard for
   accumulation but are not bit-deterministic across schedules because float32 addition is not
   associative.
-- Gondlin provides an opt-in deterministic reductions mode that replaces the `atomicAdd`-based
+- Gondolin provides an opt-in deterministic reductions mode that replaces the `atomicAdd`-based
   accumulation paths with fixed-order algorithms (slower, but bit-stable across runs on the same
   GPU). You can enable it either:
   - from Lean (recommended): `let _ := Runtime.Autograd.Cuda.Buffer.setDeterministicReductionsChecked true`
-  - via env var: `GONDLIN_CUDA_DETERMINISTIC_REDUCTIONS=1` (or compatibility alias `GONDLIN_DETERMINISTIC_REDUCTIONS=1`)
+  - via env var: `GONDOLIN_CUDA_DETERMINISTIC_REDUCTIONS=1` (or compatibility alias `GONDOLIN_DETERMINISTIC_REDUCTIONS=1`)
   Coverage includes:
   - reductions: `Buffer.reduceSum`, `Buffer.reduceMean`, `reduceFromBroadcastTo`, `reduceSumAxis`
   - gather/scatter backprop: `scatterAdd`, `scatterAddRows`
@@ -97,24 +97,24 @@ Important examples include:
   - nondeterminism from RNG (use seeded RNG ops, or manage seeds/counters explicitly)
   - numerically different results across GPU architectures, CUDA toolkit versions, or driver versions
   - kernels that are not on the deterministic-reductions allowlist (only the atomic-accumulation paths above)
-- CUDA max-pooling follows the Gondlin spec, which models PyTorch-style negative-infinity padding
+- CUDA max-pooling follows the Gondolin spec, which models PyTorch-style negative-infinity padding
   by ignoring padded cells outside the domain when selecting the max. Backward tie-breaking is
-  Gondlin-spec row-major deterministic when deterministic reductions are enabled, while external
+  Gondolin-spec row-major deterministic when deterministic reductions are enabled, while external
   runtimes may choose different tie-breaking policies.
 - FlashAttention has a fused-operator denotation for proofs in
   `NN/Spec/Layers/FlashAttention.lean`: over the spec semantics it denotes the same masked scaled
   dot-product attention as the standard `QKᵀ -> mask -> softmax -> PV` graph. The CUDA eager
   multi-head attention path can use native fused runtime kernels exposed through
   `NN/Runtime/Autograd/Engine/Cuda/Kernels.lean` and implemented in
-  `csrc/cuda/kernels/gondlin_cuda_kernels.cu`. Those kernels favor clarity and correctness: fused
+  `csrc/cuda/kernels/gondolin_cuda_kernels.cu`. Those kernels favor clarity and correctness: fused
   forward/VJP kernels over already-split heads, not a production clone of Dao-AILab's tiled
   implementation. The Lean equalities are definitional denotation checks, not proofs of a tiled
   online-softmax recurrence. CUDA memory behavior and float32 arithmetic remain an FFI trust
-  boundary; Gondlin regression-tests them against the composed attention path, but does not claim
+  boundary; Gondolin regression-tests them against the composed attention path, but does not claim
   to verify CUDA machine code. References: FlashAttention (arXiv:2205.14135), FlashAttention-2
   (arXiv:2307.08691), FlashAttention-3 (arXiv:2407.08608), and the Dao-AILab `flash-attention`
   implementation.
-- Attention masks use Gondlin's finite big-negative mask-fill convention (`-1000`) in the spec and
+- Attention masks use Gondolin's finite big-negative mask-fill convention (`-1000`) in the spec and
   CUDA fused kernels, rather than PyTorch SDPA's conceptual `-inf` masking. In float32 this normally
   underflows masked probabilities to zero after max-subtraction, but it is a documented semantic
   convention rather than a theorem of bit-identical PyTorch masking.
@@ -139,10 +139,10 @@ Important examples include:
   is useful for producing high-quality interval evidence, but an Arb response is still an oracle
   result unless the relevant certificate is independently checked in Lean.
 - PyTorch import/export scripts and training helpers are external producers of weights, examples,
-  or JSON artifacts. Gondlin can parse and replay those artifacts, but PyTorch training itself is
+  or JSON artifacts. Gondolin can parse and replay those artifacts, but PyTorch training itself is
   not part of Lean's trusted kernel.
 - The optional Julia wrapper `NN/Runtime/External/Julia.lean` follows the same pattern. It resolves
-  `GONDLIN_JULIA` when set, otherwise falls back to `julia` on `PATH`, and compiles even when Julia
+  `GONDOLIN_JULIA` when set, otherwise falls back to `julia` on `PATH`, and compiles even when Julia
   is not installed. It is intended for “untrusted producer, Lean checker” workflows such as the
   piecewise-polynomial spline certificate workflow (producer scripts under `scripts/verification/splines/`,
   bundled fixtures under `NN/Examples/Verification/Splines/`).

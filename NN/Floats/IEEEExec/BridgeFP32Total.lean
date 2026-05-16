@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -21,7 +21,7 @@ The key end-user view is `toReal?`:
 - `toReal? x = none` for NaN/Inf,
 - `toReal? x = some r` for finite values, with `r : ℝ`.
 
-In most of Gondlin, the finite path is treated as real arithmetic + float32 rounding while
+In most of Gondolin, the finite path is treated as real arithmetic + float32 rounding while
 special-value behavior is kept explicit. This file packages that split in one place.
 
 The per-op lemmas are phrased in the style:
@@ -40,9 +40,9 @@ Background references (for float32 rounding/special values):
 @[expose] public section
 
 
-namespace Gondlin.Floats.IEEE754
+namespace Gondolin.Floats.IEEE754
 
-open Gondlin.Floats
+open Gondolin.Floats
 
 namespace IEEE32Exec
 
@@ -1441,4 +1441,4 @@ end
 
 end IEEE32Exec
 
-end Gondlin.Floats.IEEE754
+end Gondolin.Floats.IEEE754

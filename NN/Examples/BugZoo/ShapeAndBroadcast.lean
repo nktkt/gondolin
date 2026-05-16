@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -11,7 +11,7 @@ public import NN.Spec.Core.TensorReductionShape
 /-!
 # BugZoo: shape and broadcasting boundaries
 
-This file records the Gondlin response to a very common bug class: tensor shape mistakes that
+This file records the Gondolin response to a very common bug class: tensor shape mistakes that
 would normally appear only at runtime, or worse, silently broadcast to the wrong expression.
 
 The empirical motivation is concrete. Wu, Shen, and Chen build SFData, a corpus of 146 crashing
@@ -27,7 +27,7 @@ loss:
 - Wang et al., “An Empirical Study on Numerical Bugs in Deep Learning Programs”, ASE NIER 2022.
   https://conf.researchr.org/details/ase-2022/ase-2022-nier-track/18/An-Empirical-Study-on-Numerical-Bugs-in-Deep-Learning-Programs
 
-Gondlin makes this case explicit: ordinary elementwise ops require the same shape, and
+Gondolin makes this case explicit: ordinary elementwise ops require the same shape, and
 broadcasting requires `Shape.CanBroadcastTo` evidence. The examples below show the intended
 workflow. A missing batch dimension is not silently accepted; we write the singleton batch
 insertion. A reduced vector is not silently expanded back into a matrix; we carry the broadcast
@@ -45,7 +45,7 @@ row_sum = x.sum(dim=0)          # [3], not [1, 3]
 loss = ((x - row_sum) ** 2).sum()
 ```
 
-Gondlin equivalent:
+Gondolin equivalent:
 
 ```lean
 def batched := addSingletonBatch image
@@ -73,7 +73,7 @@ abbrev SingletonBatchImageShape : Spec.Shape :=
 /--
 Insert an explicit singleton batch dimension.
 
-This is the Gondlin version of the fix for the classic “forgot the batch axis” bug: we do not let
+This is the Gondolin version of the fix for the classic “forgot the batch axis” bug: we do not let
 `Tensor α [100,100,3]` masquerade as `Tensor α [1,100,100,3]`; the user has to name the reshape.
 -/
 def addSingletonBatch {α : Type} (x : Spec.Tensor α ImageShape) :
@@ -100,7 +100,7 @@ def reduceRows {α : Type} [Add α] [Zero α] (x : Spec.Tensor α MatrixShape) :
 /--
 Evidence that a row vector can be broadcast back across the outer dimension of a `2 × 3` matrix.
 
-This is exactly the piece Gondlin wants users and proof scripts to make visible: if a reduction
+This is exactly the piece Gondolin wants users and proof scripts to make visible: if a reduction
 dropped a dimension, any later expansion is an explicit broadcast, not an accidental side effect.
 -/
 def rowBroadcastToMatrix : Spec.Shape.CanBroadcastTo RowShape MatrixShape :=

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -78,7 +78,7 @@ def docPanel (declName typeStr docStr : String) : ProofWidgets.Html :=
     "background": "var(--vscode-editor-background, #fff)"
   }}>
     <div style={json% {"display": "flex", "flex-wrap": "wrap", "gap": "8px", "align-items": "center"}}>
-      {pill "Gondlin docs"} {monospace declName}
+      {pill "Gondolin docs"} {monospace declName}
     </div>
     <div style={json% {"margin-top": "10px"}}>
       <details «open»={true}>

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -16,7 +16,7 @@ import Mathlib.Data.Nat.Init
 
 `Shape` is the type-level “shape descriptor” for tensors in the spec layer.
 
-Gondlin uses *shape-indexed tensors*:
+Gondolin uses *shape-indexed tensors*:
 
 `Tensor α s`
 

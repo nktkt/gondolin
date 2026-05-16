@@ -1,5 +1,5 @@
 {
-  "name": "Gondlin (Lean 4)",
+  "name": "Gondolin (Lean 4)",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu-22.04",
   "features": {
     "ghcr.io/devcontainers/features/common-utils:2": {
@@ -13,8 +13,8 @@
       "installTools": false
     }
   },
-  "workspaceFolder": "/workspaces/gondlin",
-  "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/gondlin,type=bind,consistency=cached",
+  "workspaceFolder": "/workspaces/gondolin",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/gondolin,type=bind,consistency=cached",
   "remoteUser": "vscode",
   "onCreateCommand": "sudo apt-get update && sudo apt-get install -y --no-install-recommends curl git build-essential ca-certificates && sudo rm -rf /var/lib/apt/lists/*",
   "postCreateCommand": "bash .devcontainer/post-create.sh",
@@ -36,7 +36,7 @@
     "PATH": "/home/vscode/.elan/bin:${containerEnv:PATH}"
   },
   "remoteEnv": {
-    "GONDLIN_CUDA_DETERMINISTIC_REDUCTIONS": "${localEnv:GONDLIN_CUDA_DETERMINISTIC_REDUCTIONS}"
+    "GONDOLIN_CUDA_DETERMINISTIC_REDUCTIONS": "${localEnv:GONDOLIN_CUDA_DETERMINISTIC_REDUCTIONS}"
   },
   "forwardPorts": []
 }

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -13,7 +13,7 @@ public import NN.Verification.ODE.Verify
 /-!
 # ODE Verification
 
-Public umbrella import for Gondlin's ODE corridor verification stack:
+Public umbrella import for Gondolin's ODE corridor verification stack:
 
 - a small ODE expression AST,
 - parsers and JSON loaders for certificate artifacts, and

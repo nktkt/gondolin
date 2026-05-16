@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -14,7 +14,7 @@ public import NN.Spec.Core.TensorOps
 /-!
 # CROWN Core
 
-CROWN core definitions for Gondlin.
+CROWN core definitions for Gondolin.
 
 This file defines:
 - Box: element-wise lower/upper bounds (intervals) on tensors

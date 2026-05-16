@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -43,7 +43,7 @@ This module ties the per-op correctness lemmas together into the recursive prese
   style makes regressions easier to diagnose when new ops are added.
 - Heartbeat limits are explicit because elaboration cost here is dominated by large dependent
   pattern matches and branch-specific simp normalizations.
-- This is one of the slower proof modules in Gondlin. The theorem recursively walks an IR graph,
+- This is one of the slower proof modules in Gondolin. The theorem recursively walks an IR graph,
   dispatches every supported node kind, and maintains equality between an untyped IR value table and
   a typed compiled context. Even simple operator branches can become expensive once shape equality,
   `Except` success/failure paths, and cast proof irrelevance all appear in the same goal.

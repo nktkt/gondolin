@@ -31,7 +31,7 @@ rationale = "The external CUDA/stub runtime can construct values of the opaque `
 # assumptions visible.
 
 [[prop_contract]]
-name = "Gondlin.Floats.IEEE754.Float32Bridge.RuntimeFloat32MatchesIEEE32Exec"
+name = "Gondolin.Floats.IEEE754.Float32Bridge.RuntimeFloat32MatchesIEEE32Exec"
 purpose = "Runtime Float32 primitives match the executable IEEE32 model at the bit level."
 
 [[prop_contract]]
@@ -67,7 +67,7 @@ Files under `csrc/cuda/` are trusted FFI code. Lean checks shape metadata
 around calls, but kernel memory safety, launch behavior, and numerical
 behavior are outside Lean's proof kernel. CUDA buffers store float32 and Lean
 `Float` values are converted to/from float32 at the buffer boundary in
-`csrc/cuda/tensor/gondlin_cuda_tensor.cu`. Buffer finalizers free device
+`csrc/cuda/tensor/gondolin_cuda_tensor.cu`. Buffer finalizers free device
 memory through `cudaFree`; this is safe under the current default-stream
 runtime where launches and host copies are ordered through the default
 stream. Future user streams or async graph replay would require revisiting
@@ -78,18 +78,18 @@ finalizer/free ordering.
 name = "fp32"
 lean_file = "NN/Runtime/Autograd/Engine/Cuda/Kernels.lean"
 backend = "cublasSgemmStridedBatched"
-csrc_file = "csrc/cuda/kernels/gondlin_cuda_kernels.cu"
+csrc_file = "csrc/cuda/kernels/gondolin_cuda_kernels.cu"
 
 [[cuda.precision_path]]
 name = "fp64"
 lean_file = "NN/Runtime/Autograd/Engine/Cuda/DGemm.lean"
 backend = "cublasDgemm"
-csrc_file = "csrc/cuda/blas/gondlin_dgemm_cuda.cu"
+csrc_file = "csrc/cuda/blas/gondolin_dgemm_cuda.cu"
 
 [cuda.deterministic_reductions]
 description = "Opt-in mode that replaces atomicAdd-based accumulation paths with fixed-order algorithms (slower, bit-stable across runs on the same GPU)."
 lean_enable = "let _ := Runtime.Autograd.Cuda.Buffer.setDeterministicReductionsChecked true"
-env_vars = ["GONDLIN_CUDA_DETERMINISTIC_REDUCTIONS", "GONDLIN_DETERMINISTIC_REDUCTIONS"]
+env_vars = ["GONDOLIN_CUDA_DETERMINISTIC_REDUCTIONS", "GONDOLIN_DETERMINISTIC_REDUCTIONS"]
 covers = [
   "Buffer.reduceSum",
   "Buffer.reduceMean",
@@ -108,12 +108,12 @@ does_not_cover = [
 ]
 
 [cuda.max_pooling]
-notes = "Follows Gondlin spec (PyTorch-style -inf padding, ignore padded cells). Backward tie-breaking is Gondlin-spec row-major deterministic when deterministic reductions are enabled; external runtimes may choose different policies."
+notes = "Follows Gondolin spec (PyTorch-style -inf padding, ignore padded cells). Backward tie-breaking is Gondolin-spec row-major deterministic when deterministic reductions are enabled; external runtimes may choose different policies."
 
 [cuda.flash_attention]
 spec_file = "NN/Spec/Layers/FlashAttention.lean"
 runtime_file = "NN/Runtime/Autograd/Engine/Cuda/Kernels.lean"
-csrc_file = "csrc/cuda/kernels/gondlin_cuda_kernels.cu"
+csrc_file = "csrc/cuda/kernels/gondolin_cuda_kernels.cu"
 denotation = "Over the spec semantics, the fused-operator denotation matches the standard `QK^T -> mask -> softmax -> PV` graph."
 notes = """
 Fused forward/VJP kernels operate over already-split heads and favor clarity
@@ -175,13 +175,13 @@ notes = "External subprocess backend. Useful for high-quality interval evidence,
 [[external_oracle]]
 name = "PyTorch import/export scripts"
 trust_kind = "external_producer"
-notes = "External producers of weights, examples, or JSON artifacts. Gondlin can parse and replay those artifacts, but PyTorch training itself is not part of Lean's trusted kernel."
+notes = "External producers of weights, examples, or JSON artifacts. Gondolin can parse and replay those artifacts, but PyTorch training itself is not part of Lean's trusted kernel."
 
 [[external_oracle]]
 name = "Julia wrapper"
 trust_kind = "external_producer"
 lean_file = "NN/Runtime/External/Julia.lean"
-env_var = "GONDLIN_JULIA"
+env_var = "GONDOLIN_JULIA"
 fallback = "julia on PATH"
 producer_scripts = "scripts/verification/splines/"
 fixtures = "NN/Examples/Verification/Splines/"

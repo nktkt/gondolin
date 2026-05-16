@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -12,7 +12,7 @@ public import NN.Examples.Data.ToyPaths
 /-!
 # Minibatch MLP training (batching is implicit)
 
-This next-step file shows the intended "PyTorch-like" minibatch path in Gondlin:
+This next-step file shows the intended "PyTorch-like" minibatch path in Gondolin:
 
 1. Keep the dataset per-sample (`x : Vec inDim`, `y : Vec outDim`).
 2. Use `Data.batchLoader` to collate minibatches.
@@ -21,7 +21,7 @@ This next-step file shows the intended "PyTorch-like" minibatch path in Gondlin:
 
 Run the loader tutorial instead when possible:
 
-- `lake exe gondlin data_csv --epochs 1 --batch 5 --dtype float --backend eager`
+- `lake exe gondolin data_csv --epochs 1 --batch 5 --dtype float --backend eager`
 
 Build this comparison module directly with:
 

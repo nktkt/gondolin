@@ -31,7 +31,7 @@
     ]
   },
   "meta": {
-    "format": "Gondlin.MLP",
+    "format": "Gondolin.MLP",
     "pytorch_keys": "layers.*",
     "dtype": "float32"
   }

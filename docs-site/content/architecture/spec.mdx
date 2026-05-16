@@ -15,7 +15,7 @@ tensors, ops, layers, and models that the rest of the project reuses for:
 The practical goal is to avoid a gap between the network we run and the network we
 reason about: define it once, then reuse the same definition everywhere.
 
-This layout mirrors the Gondlin paper (`arXiv:2602.22631`): focused `NN.Spec.*` modules,
+This layout mirrors the Gondolin paper (`arXiv:2602.22631`): focused `NN.Spec.*` modules,
 runtime entrypoints, and verification entrypoints stay separate but are kept aligned by
 building on the same core semantics. The public spec doorway is `NN.Entrypoint.Spec`,
 or `import NN` / `import NN.Library` for downstream users.

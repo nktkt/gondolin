@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -12,7 +12,7 @@ public import NN.MLTheory.Proofs.Approximation.Universal
 /-!
 # Approximation proofs
 
-This entrypoint collects Gondlin's approximation-theory proof chapter. We separate the two main
+This entrypoint collects Gondolin's approximation-theory proof chapter. We separate the two main
 threads while keeping them importable together:
 
 - constructive ReLU universal approximation over real semantics, with quantitative and

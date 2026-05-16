@@ -1,6 +1,6 @@
 # PyTorch Interop (Runtime)
 
-This folder contains Gondlin's bridge layer to and from PyTorch.
+This folder contains Gondolin's bridge layer to and from PyTorch.
 
 We use PyTorch for two practical reasons:
 
@@ -17,10 +17,10 @@ We use PyTorch for two practical reasons:
 - `Export/IRPyTorch.lean` is the general model code path: it exports an `NN.IR.Graph` plus a
   parameter store into a standalone PyTorch module.
 - `Export/StateDict.lean` emits a Python adapter that converts a PyTorch checkpoint
-  (`torch.save(model.state_dict(), ...)`, or common checkpoint wrappers) into Gondlin's
+  (`torch.save(model.state_dict(), ...)`, or common checkpoint wrappers) into Gondolin's
   shape checkable JSON format.
 - `Export/TorchExport.lean` emits a Python adapter that captures a PyTorch `nn.Module` with
-  `torch.export`/FX and writes Gondlin IR JSON for the supported op subset.
+  `torch.export`/FX and writes Gondolin IR JSON for the supported op subset.
 
 Reading map:
 
@@ -28,12 +28,12 @@ Reading map:
 - Use `Export/StateDict.lean` when you already have PyTorch weights and need a model agnostic
   bridge into Lean readable JSON.
 - Use `Export/TorchExport.lean` when you already have a PyTorch `nn.Module` and want to capture
-  its tensor program into a Gondlin graph artifact.
+  its tensor program into a Gondolin graph artifact.
 - Use `Export/IRPyTorch.lean` when you want a general `NN.IR.Graph` lowering path.
 
 ## Import
 
-`Import/` parses JSON encoded weights and graphs into Gondlin artifacts.
+`Import/` parses JSON encoded weights and graphs into Gondolin artifacts.
 
 Why JSON? Python can write it directly, and Lean can parse it without depending on Python pickle
 formats.
@@ -41,7 +41,7 @@ formats.
 - `Import/Core.lean` defines `parseTensor`, which turns nested JSON arrays into a `Tensor Float s` when the JSON shape matches `s`.
   It also provides small error reporting wrappers (`loadWeightsE`, `getTensorE`) for debugging missing keys and shape mismatches.
 - `Import/CrownParamstore.lean` bridges loaded tensors into the graph backend's `ParamStore` when a workflow needs node id keyed parameters.
-- `Import/TorchExport.lean` parses Gondlin IR JSON from the generated graph capture adapter and
+- `Import/TorchExport.lean` parses Gondolin IR JSON from the generated graph capture adapter and
   accepts only graphs that pass the shared IR validators.
 
 Reading map:
@@ -59,15 +59,15 @@ share.
 
 ## What Users Can Do Today
 
-- Export PyTorch weights to Gondlin readable JSON through the generated state dict adapter.
+- Export PyTorch weights to Gondolin readable JSON through the generated state dict adapter.
 - Parse those JSON tensors in Lean with exact shape checks.
-- Capture supported PyTorch `nn.Module` graphs as Gondlin IR JSON and validate them in Lean.
+- Capture supported PyTorch `nn.Module` graphs as Gondolin IR JSON and validate them in Lean.
 - Load supported verification model families such as PINNs/FNOs through the example interop loaders.
-- Emit readable PyTorch code from a Gondlin `NN.IR.Graph` and `ParamStore`.
+- Emit readable PyTorch code from a Gondolin `NN.IR.Graph` and `ParamStore`.
 
 What is deliberately not claimed: Lean does not prove PyTorch or CUDA kernels correct, and it does
 not parse `.pt`/`.pth` pickle/zip checkpoints directly. PyTorch is the external loader for those
-files; Gondlin checks the JSON artifact it receives.
+files; Gondolin checks the JSON artifact it receives.
 
 ## Reference (PyTorch)
 

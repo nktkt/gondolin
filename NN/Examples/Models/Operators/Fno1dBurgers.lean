@@ -1,13 +1,13 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 
-Native Gondlin 1D FNO on the Burgers operator:
+Native Gondolin 1D FNO on the Burgers operator:
 
   python3 NN/Examples/Data/prepare_fno1d_burgers.py --download --grid 32 --ntrain 128 --ntest 32
   lake build -R -K cuda=true
-  lake exe gondlin fno1d_burgers --cuda --fast-kernels --steps 700 --lr 0.003 \
+  lake exe gondolin fno1d_burgers --cuda --fast-kernels --steps 700 --lr 0.003 \
     --plot-csv data/real/fno/predictions.csv --log data/real/fno/trainlog.json
   python3 NN/Examples/Data/plot_fno1d_burgers.py --csv data/real/fno/predictions.csv
 -/
@@ -16,19 +16,19 @@ module
 
 public import NN
 public import NN.API.Models.Fno1d
-public import NN.Runtime.Autograd.Gondlin.Fno1d
+public import NN.Runtime.Autograd.Gondolin.Fno1d
 public import NN.Runtime.Training.Log
 
-import NN.Runtime.Autograd.Gondlin.Fno1d
+import NN.Runtime.Autograd.Gondolin.Fno1d
 public import NN.Runtime.Autograd.Engine.Cuda.Fno1dRfftFused
 
 /-!
-# Native Gondlin FNO1D Burgers
+# Native Gondolin FNO1D Burgers
 
 This file is the operator-learning tutorial we want people to read after the basic CNN/MLP
 examples. The Python helpers do the two jobs Lean should not own here: download/reshape the public
 `burgers_data_R10.mat` file, then plot the prediction CSV. The model, loss, optimizer, and training
-loop stay in Gondlin.
+loop stay in Gondolin.
 
 Why we use the real-split FNO path in this executable:
 - `NN.FNO1D.model` is the mathematically clean complex-domain implementation.
@@ -40,7 +40,7 @@ Why we use the real-split FNO path in this executable:
 
 The training task follows the standard FNO Burgers setup: learn the operator
 `u₀(x) ↦ u(x,T)` on a fixed periodic grid. We keep the default grid and row counts modest because
-the first run should answer one question quickly: "is my Gondlin/CUDA path wired correctly?" Once
+the first run should answer one question quickly: "is my Gondolin/CUDA path wired correctly?" Once
 that works, raise `--steps`, export more rows, and bump the constants below.
 
 References for the dataset/training convention:
@@ -57,7 +57,7 @@ open NN.API
 namespace NN.Examples.Models.Operators.Fno1dBurgers
 
 
-def exeName : String := "gondlin fno1d_burgers"
+def exeName : String := "gondolin fno1d_burgers"
 
 def grid : Nat := 32
 def width : Nat := 8
@@ -201,7 +201,7 @@ def trainLogNotes (spec : RunSpec) (spectralPath : String) (device : String) : A
 def writeMetricLog (path : System.FilePath) (hist : _root_.Runtime.Training.MetricHistory)
     (spec : RunSpec) (spectralPath device : String) : IO Unit := do
   let log := hist.toTrainLog
-    (title := "FNO1D Burgers (Gondlin)")
+    (title := "FNO1D Burgers (Gondolin)")
     (notes := trainLogNotes spec spectralPath device)
   _root_.Runtime.Training.TrainLog.writeJson path log
   IO.println s!"  wrote TrainLog JSON: {path}"
@@ -303,8 +303,8 @@ def runPortableDense
   -- Load the train/test arrays once, then keep the runtime loop purely over typed samples.
   let data ← loadData (α := Float) files cfg
   nn.withModel mkModel fun model => do
-    let modDef := _root_.Runtime.Autograd.Gondlin.NN.Seq.mseScalarModuleDef model
-    let m ← _root_.Runtime.Autograd.Gondlin.Module.ScalarModuleDef.instantiateWith (α := Float) modDef id opts
+    let modDef := _root_.Runtime.Autograd.Gondolin.NN.Seq.mseScalarModuleDef model
+    let m ← _root_.Runtime.Autograd.Gondolin.Module.ScalarModuleDef.instantiateWith (α := Float) modDef id opts
     let trainSamples := Data.toList data.train
     let testSamples := Data.toList data.test
     -- Evaluation uses fixed prefixes so before/after metrics are deterministic and cheap.
@@ -315,12 +315,12 @@ def runPortableDense
     let trainCycle ← Common.orThrow exeName <|
       Data.cycleListOrError trainSamples "empty Burgers training dataset"
     let opt :=
-      _root_.Runtime.Autograd.Gondlin.Optim.adam (α := Float) (paramShapes := _root_.Runtime.Autograd.Gondlin.NN.Seq.paramShapes model)
+      _root_.Runtime.Autograd.Gondolin.Optim.adam (α := Float) (paramShapes := _root_.Runtime.Autograd.Gondolin.NN.Seq.paramShapes model)
         cfg.lr 0.9 0.999 1e-8
-    let mut st ← _root_.Runtime.Autograd.Gondlin.Module.ScalarModule.initOptim m opt
+    let mut st ← _root_.Runtime.Autograd.Gondolin.Module.ScalarModule.initOptim m opt
     let evalLosses : IO (Float × Float) := do
-      let trainLoss ← _root_.Runtime.Autograd.Gondlin.Module.ScalarModule.meanLoss m reportTrainSamples
-      let testLoss ← _root_.Runtime.Autograd.Gondlin.Module.ScalarModule.meanLoss m reportTestSamples
+      let trainLoss ← _root_.Runtime.Autograd.Gondolin.Module.ScalarModule.meanLoss m reportTrainSamples
+      let testLoss ← _root_.Runtime.Autograd.Gondolin.Module.ScalarModule.meanLoss m reportTestSamples
       pure (trainLoss, testLoss)
     -- The metric history becomes the JSON training curve consumed by the website.
     let recordEval (hist : _root_.Runtime.Training.MetricHistory) (step : Nat) (tag : String) := do
@@ -329,7 +329,7 @@ def runPortableDense
       pure <| hist.push step #[trainLoss, testLoss]
     let mut hist ← recordEval metricHistory 0 "before"
     for step in [0:cfg.steps] do
-      st ← _root_.Runtime.Autograd.Gondlin.Module.ScalarModule.stepWith m opt st
+      st ← _root_.Runtime.Autograd.Gondolin.Module.ScalarModule.stepWith m opt st
         (trainCycle (cfg.seed + step))
       if cfg.logEvery != 0 && (step + 1) % cfg.logEvery == 0 then
         hist ← recordEval hist (step + 1) s!"step {step + 1}"
@@ -337,13 +337,13 @@ def runPortableDense
 
     -- Save one prediction probe so the example reports both scalar loss curves and a field-level
     -- Burgers trajectory comparison.
-    let params ← _root_.Runtime.Autograd.Gondlin.Module.ScalarModule.params m
-    let compiled ← _root_.Runtime.Autograd.Gondlin.NN.Seq.compileOut model (α := Float)
+    let params ← _root_.Runtime.Autograd.Gondolin.Module.ScalarModule.params m
+    let compiled ← _root_.Runtime.Autograd.Gondolin.NN.Seq.compileOut model (α := Float)
     match testSamples with
     | [] => pure ()
     | sample :: _ =>
         let (x, y) := sampleToInputTarget sample
-        let yhat := _root_.Runtime.Autograd.Gondlin.NN.Seq.predict1 model compiled params x
+        let yhat := _root_.Runtime.Autograd.Gondolin.NN.Seq.predict1 model compiled params x
         writePredictionProbe spec.plotCsv x y yhat
     writeMetricLog spec.logJson hist spec "portable dense DFT ops" (if opts.useGpu then "cuda" else "cpu")
 
@@ -363,7 +363,7 @@ def logRunHeader (opts : _root_.Runtime.Autograd.Torch.Options) (spec : RunSpec)
   IO.println s!"  log  ={spec.logJson}"
 
 def main (args : List String) : IO UInt32 := do
-  Gondlin.Module.run exeName args
+  Gondolin.Module.run exeName args
     (.float (fun opts rest => do
       let (spec, rest) ← Common.orThrow exeName <| parseFlags rest
       if spec.train.steps = 0 then

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -24,7 +24,7 @@ algorithms:
 - replay-minibatch DQN helpers; and
 - categorical policy-gradient / PPO objectives.
 
-These modules are "runtime" because they use Gondlin's typed tensor surface and executable scalar
+These modules are "runtime" because they use Gondolin's typed tensor surface and executable scalar
 classes, but they are still mostly pure mathematical equations. Environment IO, Gymnasium sessions,
 rollout collection, and trust-boundary checks live outside this folder.
 

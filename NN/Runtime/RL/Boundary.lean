@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -12,7 +12,7 @@ public import NN.Runtime.RL.Boundary.Json
 /-!
 # RL Trust Boundary (Umbrella)
 
-Stable import for Gondlin's RL trust-boundary layer. The implementation is split into:
+Stable import for Gondolin's RL trust-boundary layer. The implementation is split into:
 
 - `NN.Runtime.RL.Boundary.Core`: contracts, executable checkers, and Prop-level validity predicates;
 - `NN.Runtime.RL.Boundary.Json`: a small JSON rollout schema plus parser/validator for external

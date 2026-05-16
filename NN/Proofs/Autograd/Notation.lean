@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -10,7 +10,7 @@ public import Mathlib.Analysis.InnerProductSpace.Adjoint
 public import Mathlib.Analysis.InnerProductSpace.Calculus
 
 /-!
-# Notation for analytic (Fréchet) derivatives in Gondlin autograd proofs
+# Notation for analytic (Fréchet) derivatives in Gondolin autograd proofs
 
 Mathlib already provides two very useful scoped notations in this area:
 
@@ -18,7 +18,7 @@ Mathlib already provides two very useful scoped notations in this area:
   (`ContinuousLinearMap.adjoint`).
 - `open scoped Gradient` enables `∇ f x` for the gradient of a scalar function (in Hilbert spaces).
 
-Gondlin’s autograd proofs are primarily **VJP-first**: the central analytic object is the
+Gondolin’s autograd proofs are primarily **VJP-first**: the central analytic object is the
 adjoint of the Fréchet derivative `(fderiv ℝ f x)†`, which is exactly the vector-Jacobian product
 (Jacobian-transpose product) that PyTorch-style reverse-mode computes.
 

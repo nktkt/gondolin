@@ -1,4 +1,4 @@
-# Gondlin developer shortcuts.
+# Gondolin developer shortcuts.
 #
 # These targets wrap the most common `lake` / Python check invocations so
 # developers don't have to remember every flag. None of these are required
@@ -30,7 +30,7 @@ build: ## Build the curated NN.Library surface
 test: ## Run the curated test suite
 	$(LAKE) test
 
-lint: ## Run the Gondlin repo policy linter (Lean)
+lint: ## Run the Gondolin repo policy linter (Lean)
 	$(LAKE) lint
 
 checks: ## Run every Python hygiene check (mirrors CI hygiene job)

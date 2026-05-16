@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -13,7 +13,7 @@ public import NN.Runtime.RL.Artifacts.DefaultPaths
 # PPO CartPole Artifacts
 
 This file visualizes the training curve produced by
-`NN/Examples/Models/RL/PPOCartPole.lean` (`lake exe gondlin ppo_cartpole`).
+`NN/Examples/Models/RL/PPOCartPole.lean` (`lake exe gondolin ppo_cartpole`).
 
 The executable trainer stays in `Examples/Models`; this file is only the editor-side artifact
 viewer. That split keeps PPO training code in one place and avoids a duplicate "RL examples" model
@@ -24,8 +24,8 @@ Workflow:
 
 ```bash
 python3 -m pip install --user 'gymnasium>=1.0'
-lake exe gondlin ppo_cartpole
-lake build -R -K cuda=true && lake exe gondlin ppo_cartpole --cuda
+lake exe gondolin ppo_cartpole
+lake build -R -K cuda=true && lake exe gondolin ppo_cartpole --cuda
 ```
 
 2. Put the cursor on the command below in an editor. The infoview will render the saved log.
@@ -40,7 +40,7 @@ References:
   https://arxiv.org/abs/1506.02438
 -/
 
-/-- Default training-log path written by `gondlin ppo_cartpole` (override with `--log`). -/
+/-- Default training-log path written by `gondolin ppo_cartpole` (override with `--log`). -/
 def trainLogPath : System.FilePath :=
   Runtime.RL.Artifacts.DefaultPaths.ppoCartPoleTrainLog
 

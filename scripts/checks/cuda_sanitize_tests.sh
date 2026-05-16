@@ -5,7 +5,7 @@ usage() {
   cat <<'EOF'
 Usage: scripts/checks/cuda_sanitize_tests.sh [options]
 
-Build Gondlin with native CUDA externs and run the curated CUDA/Lean test suite under
+Build Gondolin with native CUDA externs and run the curated CUDA/Lean test suite under
 NVIDIA Compute Sanitizer.
 
 Default:
@@ -110,7 +110,7 @@ fi
 if [[ -z "$sanitizer" ]]; then
   # `compute-sanitizer` is NVIDIA's current correctness checker. Keep a
   # `cuda-memcheck` fallback so older CUDA installations can still run the same
-  # Gondlin gate.
+  # Gondolin gate.
   if command -v compute-sanitizer >/dev/null 2>&1; then
     sanitizer="compute-sanitizer"
   else
@@ -159,4 +159,4 @@ for tool in "${tools[@]}"; do
   run "$LAKE" env "$sanitizer" --tool "$tool" --error-exitcode 99 "$target" "${exe_args[@]}"
 done
 
-printf '\nGondlin CUDA sanitizer pass completed.\n'
+printf '\nGondolin CUDA sanitizer pass completed.\n'

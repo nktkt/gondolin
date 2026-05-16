@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -11,7 +11,7 @@ public import NN.Spec.Core.Context
 /-!
 # Executable IEEE-754 binary32 (`IEEE32Exec`)
 
-Gondlin uses two complementary ways to talk about "float32":
+Gondolin uses two complementary ways to talk about "float32":
 
 - `NN/Floats/NeuralFloat/*` and `NN/Floats/FP32/*` model rounding-on-`ℝ`. This is suited to proofs
   and for compositional "real computation + rounding error" arguments.
@@ -53,7 +53,7 @@ are **not** claimed to be correctly rounded or to match any particular hardware/
 @[expose] public section
 
 
-namespace Gondlin.Floats.IEEE754
+namespace Gondolin.Floats.IEEE754
 
 /-- Executable IEEE-754 binary32 value, stored as raw bits. -/
 structure IEEE32Exec where
@@ -2069,4 +2069,4 @@ instance : Context IEEE32Exec := {
 
 end IEEE32Exec
 
-end Gondlin.Floats.IEEE754
+end Gondolin.Floats.IEEE754

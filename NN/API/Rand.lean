@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -9,14 +9,14 @@ module
 -- shake: keep-all
 
 public import NN.API.Core
-public import NN.Runtime.Autograd.Gondlin.Random
+public import NN.Runtime.Autograd.Gondolin.Random
 
 /-!
 # API Rand
 
 Deterministic RNG helpers.
 
-Gondlin treats randomness explicitly (via seeds/keys) so examples are reproducible.
+Gondolin treats randomness explicitly (via seeds/keys) so examples are reproducible.
 
 PyTorch mapping (rough):
 - `torch.Generator` and seed management
@@ -30,7 +30,7 @@ namespace API
 
 namespace rand
 
-export _root_.Runtime.Autograd.Gondlin.Random (keyOf nextSeed uniform mask)
+export _root_.Runtime.Autograd.Gondolin.Random (keyOf nextSeed uniform mask)
 
 /-!
 Convenience wrappers for "PyTorch-like" dimension-first workflows.
@@ -60,7 +60,7 @@ def randND {α : Type} [Context α] (seed counter : Nat) (dims : List Nat) :
 /-
 Seed management note:
 
-Gondlin’s core is pure/seed-threaded (JAX-style). For ergonomic model-building (more PyTorch-like),
+Gondolin’s core is pure/seed-threaded (JAX-style). For ergonomic model-building (more PyTorch-like),
 we provide a compact “seed stream” abstraction so you can pass *one* base seed and allocate per-layer
 seeds deterministically.
 -/
@@ -87,7 +87,7 @@ abbrev init (seed : Nat) : SeedStream :=
 /--
 Draw a fresh seed and advance the stream.
 
-Implementation: we reuse `Gondlin.Random.nextSeed` as a small deterministic mixing function.
+Implementation: we reuse `Gondolin.Random.nextSeed` as a small deterministic mixing function.
 -/
 def next (s : SeedStream) : Nat × SeedStream :=
   let out := nextSeed s.seed s.counter
@@ -109,7 +109,7 @@ universe u
 /--
 State monad for deterministic seed allocation.
 
-Lean's `StateT/StateM` ties the state/result universes together, while Gondlin model definitions
+Lean's `StateT/StateM` ties the state/result universes together, while Gondolin model definitions
 (e.g. `nn.Sequential`) live above `Type 0`.
 
 So we define this seed builder directly (as a pure state monad), and run it in `Type 2`, which is

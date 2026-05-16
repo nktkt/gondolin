@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -21,9 +21,9 @@ It intentionally does **not** re-implement model math. Instead it wires together
 - PyTorch JSON importers beside the demo fixtures (`MLP/Import`, `CNN/Import`, `Transformer/Import`)
 - Spec models (`NN/Spec/Models/*`) for running a small forward pass in Lean
 
-Run via the Gondlin example runner:
+Run via the Gondolin example runner:
 
-`lake exe gondlin pytorch_roundtrip --model mlp|cnn|transformer --action export|import`
+`lake exe gondolin pytorch_roundtrip --model mlp|cnn|transformer --action export|import`
 
 Design goals:
 - keep paths/dimensions centralized (no duplicated constants across demos),
@@ -67,10 +67,10 @@ def Action.parse? (s : String) : Option Action :=
 
 private def usage : String :=
   String.intercalate "\n"
-    [ "PyTorch round-trip demo (Gondlin)"
+    [ "PyTorch round-trip demo (Gondolin)"
     , ""
     , "Usage:"
-    , "  lake exe gondlin pytorch_roundtrip --model mlp|cnn|transformer --action export|import"
+    , "  lake exe gondolin pytorch_roundtrip --model mlp|cnn|transformer --action export|import"
     , ""
     , "Notes:"
     , "  - `export` writes readable reference PyTorch modules under `NN/Examples/Interop/PyTorch/<Model>/`."

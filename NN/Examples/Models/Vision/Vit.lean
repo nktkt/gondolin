@@ -1,12 +1,12 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 
 Device-agnostic real-data example:
   python3 scripts/datasets/download_example_data.py --cifar10
-  lake exe gondlin vit --cpu
-  lake build -R -K cuda=true && lake exe gondlin vit --cuda
+  lake exe gondolin vit --cpu
+  lake build -R -K cuda=true && lake exe gondolin vit --cuda
 
 This is a real-data ViT-style CIFAR-10 minibatch run:
 - patch embedding via Conv2d,
@@ -25,7 +25,7 @@ public import NN.Examples.Models.Common.RealData
 /-!
 # ViT-Style Real-Data Example
 
-Runnable `gondlin vit` example. It trains a compact ViT-style image classifier on a
+Runnable `gondolin vit` example. It trains a compact ViT-style image classifier on a
 prepared CIFAR-10 minibatch: patch embedding by convolution, token reshape, transformer block, and
 linear head.
 
@@ -34,7 +34,7 @@ runnable wrapper (CIFAR loader construction + multi-epoch training loop).
 
 ```bash
 python3 scripts/datasets/download_example_data.py --cifar10
-lake build -R -K cuda=true && lake exe gondlin vit --cuda --n-total 200 --steps 1
+lake build -R -K cuda=true && lake exe gondolin vit --cuda --n-total 200 --steps 1
 ```
 
 Tip: the defaults are set for a quick sanity run. For a longer run, bump `--steps` and
@@ -42,7 +42,7 @@ Tip: the defaults are set for a quick sanity run. For a longer run, bump `--step
 
 ```bash
 lake build -R -K cuda=true
-lake exe gondlin vit --cuda --fast-kernels --n-total 2000 --steps 50
+lake exe gondolin vit --cuda --fast-kernels --n-total 2000 --steps 50
 ```
 -/
 
@@ -54,7 +54,7 @@ open NN.API
 
 namespace NN.Examples.Models.Vision.Vit
 
-def exeName : String := "gondlin vit"
+def exeName : String := "gondolin vit"
 def defaultLogJson : System.FilePath := "data/model_zoo/vit_trainlog.json"
 
 def batch : Nat := 2
@@ -119,7 +119,7 @@ def main (args : List String) : IO UInt32 := do
         let loader ← loadCifarLoader (α := α) xPath yPath nRows seed
         nn.withModel mkModel fun model => do
           let modDef := nn.crossEntropyOneHotScalarModuleDef model (reduction := .mean)
-          let module ← Gondlin.Module.instantiateWithOptions (α := α) modDef cast opts
+          let module ← Gondolin.Module.instantiateWithOptions (α := α) modDef cast opts
           let opt := Common.adamOptimizer (α := α) cast (nn.paramShapes model) trainCfg.lr
           let hooks : train.Callbacks α :=
             (train.onTrainStart (α := α) do
@@ -138,7 +138,7 @@ def main (args : List String) : IO UInt32 := do
         let loader ← loadCifarLoader (α := Float) xPath yPath nRows seed
         nn.withModel mkModel fun model => do
           let modDef := nn.crossEntropyOneHotScalarModuleDef model (reduction := .mean)
-          let module ← Gondlin.Module.instantiateWithOptions (α := Float) modDef id opts
+          let module ← Gondolin.Module.instantiateWithOptions (α := Float) modDef id opts
           let opt := Common.adamOptimizer (α := Float) id (nn.paramShapes model) trainCfg.lr
           let curveRef ← IO.mkRef ({} : _root_.Runtime.Training.Curve)
           let hooks : train.Callbacks Float :=

@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 -/
 
 module
@@ -19,11 +19,11 @@ public import Mathlib.Logic.Basic
 /-!
 # `Context α`: scalar interface for models + proofs
 
-Gondlin is designed to be *scalar-polymorphic*: the same model/layer definitions can be
+Gondolin is designed to be *scalar-polymorphic*: the same model/layer definitions can be
 instantiated over many numeric backends:
 
 - `Float` (fast execution; trusted runtime semantics),
-- `Gondlin.Floats.IEEE754.IEEE32Exec` (executable bit-level IEEE-754 binary32),
+- `Gondolin.Floats.IEEE754.IEEE32Exec` (executable bit-level IEEE-754 binary32),
 - interval enclosures for verification (see `NN/Floats/Interval/*`),
 - `ℝ` (proof-level mathematics).
 
@@ -224,7 +224,7 @@ instance : Coe Nat ℚ where
 models (softmax, tanh, etc.) need them when instantiated over `Float` / `ℝ` / interval scalars.
 
 For `ℚ`, most transcendental functions do not map rationals to rationals, so there is no canonical
-exact interpretation. Gondlin therefore does **not** install the rational `Context` globally.
+exact interpretation. Gondolin therefore does **not** install the rational `Context` globally.
 Purely algebraic tests can opt in explicitly with:
 
 ```lean

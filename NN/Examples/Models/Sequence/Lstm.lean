@@ -1,11 +1,11 @@
 /-
-Copyright (c) 2026 Gondlin
+Copyright (c) 2026 Gondolin
 Released under MIT license as described in the file LICENSE.
-Authors: Gondlin Team
+Authors: Gondolin Team
 
 Device-agnostic example:
-  lake exe gondlin lstm --cpu
-  lake build -R -K cuda=true && lake exe gondlin lstm --cuda
+  lake exe gondolin lstm --cpu
+  lake build -R -K cuda=true && lake exe gondolin lstm --cuda
 
 This is a real-data sequence run:
 - reads a local text corpus (default: `data/real/text/tiny_shakespeare.txt`),
@@ -22,7 +22,7 @@ public import NN.Examples.Models.Sequence.SimpleText
 /-!
 # LSTM Text Example
 
-Runnable `gondlin lstm` example. It reads a local text corpus, creates a byte-level
+Runnable `gondolin lstm` example. It reads a local text corpus, creates a byte-level
 causal-language-model window, and trains an LSTM plus time-distributed linear head.
 
 The model constructor lives in `NN.API.Models.SimpleSeq` so other examples can reuse it. This file
@@ -31,18 +31,18 @@ and train loop live in `NN.Examples.Models.Sequence.SimpleText`.
 
 ## What This Example Is (And Is Not)
 
-This is a **small layer smoke test** for the LSTM cell plus the Gondlin training loop. It uses a
+This is a **small layer smoke test** for the LSTM cell plus the Gondolin training loop. It uses a
 single fixed text window and a simple MSE-on-one-hot objective to keep runs short and predictable.
 
 If you want a real language-model tutorial (proper autoregressive loss + longer context + sampling),
 use one of:
-- `gondlin chargpt` (Karpathy-style, single-file char-level GPT),
-- `gondlin gpt2` (byte-level GPT-2-style model + save/reload),
-- `gondlin text_gpt2` (CUDA corpus trainer).
+- `gondolin chargpt` (Karpathy-style, single-file char-level GPT),
+- `gondolin gpt2` (byte-level GPT-2-style model + save/reload),
+- `gondolin text_gpt2` (CUDA corpus trainer).
 
 ```bash
 python3 scripts/datasets/download_example_data.py --tiny-shakespeare
-lake build -R -K cuda=true && lake exe gondlin lstm --cuda --tiny-shakespeare --steps 1
+lake build -R -K cuda=true && lake exe gondolin lstm --cuda --tiny-shakespeare --steps 1
 ```
 -/
 
@@ -53,7 +53,7 @@ open NN.API
 
 namespace NN.Examples.Models.Sequence.Lstm
 
-def exeName : String := "gondlin lstm"
+def exeName : String := "gondolin lstm"
 def defaultLogJson : System.FilePath := "data/model_zoo/lstm_trainlog.json"
 
 /-- Short byte-window length used for a quick gated-recurrent smoke test. -/
@@ -87,7 +87,7 @@ def mkSample {α : Type} [Semantics.Scalar α] [Runtime.Scalar α] (input : Stri
     API.sample.Supervised α σ τ :=
   RealData.textCausalSample (α := α) seqLen inputSize input
 
-/-- Shared runner configuration for `gondlin lstm`. -/
+/-- Shared runner configuration for `gondolin lstm`. -/
 def runner : SimpleText.RunnerConfig σ τ :=
   { exeName := exeName
     defaultLogJson := defaultLogJson
