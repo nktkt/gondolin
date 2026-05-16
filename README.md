@@ -1,7 +1,4 @@
-<h1 align="center">
-  <img src="home_page/assets/media/brand/gondolin-logo.png" alt="Gondolin logo" width="88" align="center">
-  Gondolin — Formalizing Neural Networks in Lean
-</h1>
+# Gondolin — Formalizing Neural Networks in Lean
 
 Gondolin is a Lean 4 framework for writing, running, inspecting, and verifying
 neural-network programs. It provides typed tensors and model APIs, a shared
